@@ -24,9 +24,6 @@ yarn-error.log*
 
 # firebase keys and config
 
-<<<<<<< HEAD
 /server/config/
 
-=======
-/server
->>>>>>> fa30d6349eb92083b6de3ce09d20b135ff6447cf
+
