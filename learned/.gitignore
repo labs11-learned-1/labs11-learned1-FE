@@ -21,17 +21,8 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-<<<<<<< HEAD
-=======
-<<<<<<< HEAD
->>>>>>> James-Ruiz
 
 # firebase keys and config
 
 /server/config/
 /src/firebase/
-
-<<<<<<< HEAD
-
-=======
->>>>>>> James-Ruiz
