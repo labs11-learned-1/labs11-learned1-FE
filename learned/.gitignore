@@ -21,4 +21,9 @@
 npm-debug.log*
 yarn-debug.log*
 yarn-error.log*
-/server/config/firebase.js
+
+# firebase keys and config
+
+/server/config/
+
+
