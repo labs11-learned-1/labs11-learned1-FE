@@ -16,7 +16,7 @@ database.collection('user').doc('88kXCz9j4hxYGdzz8TeP').get()
     console.log("Error getting document:", error);
   });
 
-  database.collection('user').get().then(function(querySnapshot) {
+  /* database.collection('user').get().then(function(querySnapshot) {
     const users = []
     querySnapshot.forEach((doc) => {
       users.push({
@@ -25,7 +25,7 @@ database.collection('user').doc('88kXCz9j4hxYGdzz8TeP').get()
       })
     })
     console.log(users)
-});
+}); */
 
 class App extends Component {
   render() {
