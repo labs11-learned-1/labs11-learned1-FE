@@ -1,5 +1,9 @@
+import LandingNav from "../components/landingNav"
+
 function Home() {
-    return <div>Welcome to next.js!</div>
+    return (
+      <LandingNav/>
+    )
   }
   
   export default Home
