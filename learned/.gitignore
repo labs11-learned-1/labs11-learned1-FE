@@ -26,4 +26,5 @@ yarn-error.log*
 # firebase keys and config
 
 /server/config/
+/src/firebase/
 
