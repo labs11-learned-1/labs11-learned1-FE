@@ -1,5 +1,6 @@
+import LandingPage from '../components/LandingPage';
 function Home() {
-    return <div>Welcome to next.js!</div>
+    return <LandingPage />
   }
   
   export default Home
