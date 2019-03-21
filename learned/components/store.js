@@ -8,6 +8,8 @@ const initialState = {
 
 function reducer(state, action) {
     switch(action.type){
+        case 'CHANGE_MESSAGE':
+            return { ...state, message:"CHANGED!!!" }
         default:
             return state;
     }
