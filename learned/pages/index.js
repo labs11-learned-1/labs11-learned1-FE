@@ -1,6 +1,7 @@
 import LandingNav from "../components/landingNav";
 import database from '../src/firebase/firebase';
 import Homepage from './Homepage';
+import {StoreProvider} from '../components/store'; //importing the store provider from store.js
 //accessing collection 'user' from firestore then calling .doc to access the document or 'id' field of each user
   //then calling .get to retrieve the data of that user
         database.collection('user').doc('88kXCz9j4hxYGdzz8TeP').get()
@@ -30,7 +31,9 @@ import Homepage from './Homepage';
 
 function Home() {
     return (
-      <LandingNav />
+      <StoreProvider>
+        <LandingNav />
+      </StoreProvider>
     )
   }
   
