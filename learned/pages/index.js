@@ -6,7 +6,25 @@ import React from 'react';
 //accessing collection 'user' from firestore then calling .doc to access the document or 'id' field of each user
   //then calling .get to retrieve the data of that user
 
+export default class Home extends React.Component {
 
+
+
+
+  render(){
+
+  
+    return (
+      <StoreProvider>
+        <LandingNav />
+      </StoreProvider>
+    )
+}
+  
+  
+ 
+
+}
         // database.collection('user').doc('88kXCz9j4hxYGdzz8TeP').get()
         // .then(function(doc) {
         //   if (doc.exists) {
@@ -32,12 +50,3 @@ import React from 'react';
           console.log(users)
       }); */
 
-function Home() {
-    return (
-      <StoreProvider>
-        <LandingNav />
-      </StoreProvider>
-    )
-  }
-  
-  export default Home
