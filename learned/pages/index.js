@@ -7,7 +7,7 @@ import config from '../src/firebase/firebase';
 import * as firebase from 'firebase'
 //accessing collection 'user' from firestore then calling .doc to access the document or 'id' field of each user
   //then calling .get to retrieve the data of that user
-firebase.initializeApp(config);
+// firebase.initializeApp(config);
 export default class Home extends React.Component {
 
 
