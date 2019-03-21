@@ -13,4 +13,4 @@ var config = {
 
   const database = firebase.firestore()
 
-  export { firebase, database as default };
+  export { config, firebase, database as default };
