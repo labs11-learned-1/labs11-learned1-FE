@@ -16,17 +16,17 @@ import database from '../src/firebase/firebase';
         });
 
         //makes a request to get all 500 users and returns an array of objects
-        /* database.collection('user').doc('88kXCz9j4hxYGdzz8TeP').get()
-          .then(function(doc) {
-            if (doc.exists) {
-                console.log("Document data:", doc.data());
-            } else {
-                console.log("No such document!");
-            }
+
+        /* database.collection('user').get().then(function(querySnapshot) {
+          const users = []
+          querySnapshot.forEach((doc) => {
+            users.push({
+              id: doc.id,
+              ...doc.data()
+            })
           })
-          .catch(function(error) {
-            console.log("Error getting document:", error);
-          }); */
+          console.log(users)
+      }); */
 
 function Home() {
     return (
