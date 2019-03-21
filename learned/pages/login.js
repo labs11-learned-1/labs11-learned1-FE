@@ -13,6 +13,7 @@ const Login = () => {
 
     const [email, setEmail] = useState("");
     const [password, setPassword] = useState("");
+    const [loginAttempts, setAttempts] = useState(0);
 
     return (
       <div className="loginPage">
