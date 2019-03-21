@@ -1,6 +1,8 @@
 {
   "version": 2,
   "name": "Learned App",
-  "builds": [{ "src": "learned/next.config.js", "use": "@now/next" },
-  {"src": "package.json", "use": "@now/next" }]
+  "builds": [{ "src": "*.js", "use": "@now/next" }
+  
+    
+  ]
 }
