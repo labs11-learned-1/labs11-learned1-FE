@@ -15,6 +15,19 @@ import Homepage from './Homepage';
           console.log("Error getting document:", error);
         });
 
+        //makes a request to get all 500 users and returns an array of objects
+
+        /* database.collection('user').get().then(function(querySnapshot) {
+          const users = []
+          querySnapshot.forEach((doc) => {
+            users.push({
+              id: doc.id,
+              ...doc.data()
+            })
+          })
+          console.log(users)
+      }); */
+
 function Home() {
     return (
       <LandingNav />
