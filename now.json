@@ -1,8 +1,8 @@
 {
   "version": 2,
   "name": "Learned App",
-  "builds": [{ "src": "learned/package.json", "use": "@now/next" }],
-  "routes": [
-    { "src": "/_next/static/(?:[^/]+/pages|chunks|runtime)/.+", "headers": { "cache-control": "immutable" } }
+  "alias": ["learned.now.sh"],
+  "builds": [
+    { "src": "learned/next.config.js", "use": "@now/next" }
   ]
 }
