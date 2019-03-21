@@ -1,8 +1,0 @@
-{
-  "version": 2,
-  "name": "Learned App",
-  "builds": [{ "src": "*.js", "use": "@now/next" }
-  
-    
-  ]
-}
