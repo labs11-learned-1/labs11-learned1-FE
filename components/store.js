@@ -4,13 +4,15 @@ export  const Store = React.createContext(); //creates context object
 
 const initialState = {
     message : "Are you working?",
-    isLoggedIn: false,
+    loggedIn: false,
 }
 
 function reducer(state, action) {
     switch(action.type){
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
+        case 'LOGGED_IN':
+            return { ...state, loggedIn: true }
         default:
             return state;
     }

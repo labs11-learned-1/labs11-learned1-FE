@@ -5,6 +5,7 @@ const Authentication = (props) => {
     let extraInfo;
     if(props.type === "login") {
         extraInfo = <div>
+            <Link href="forgotpassword"><a>Forgot your Password?</a></Link>
             <p>Don't have an account?</p>
             <Link href="/signup">
                 <a>Create account</a>
@@ -26,9 +27,8 @@ const Authentication = (props) => {
             <h2>Learned</h2>
             <p>Remember everything important.</p>
         </div>
-        <button onClick={() => {props.handleGoogle()}}>Continue with Google</button>
-        <button onClick={() => {props.handleSignOut()}}>Sign Out</button>
-        <button onClick={() => {props.startParty()}}>startParty</button>
+        <button onClick={props.handleGoogle}>Continue with Google</button>
+        <button onClick={props.handleSignOut}>Sign Out</button>
         <div>
             <span></span>
             <p>or</p>
@@ -39,7 +39,7 @@ const Authentication = (props) => {
                 props.setEmail(ev.target.value)
             }}>
             </input>
-            <input placeholder="Password"  className="passwordHandler" onChange={function(ev) {
+            <input type="password" placeholder="Password"  className="passwordHandler" onChange={function(ev) {
                 props.setPassword(ev.target.value)
             }}>
             </input>
