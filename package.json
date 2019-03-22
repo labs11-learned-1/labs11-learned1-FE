@@ -4,6 +4,7 @@
   "private": true,
   "dependencies": {
     "@material-ui/core": "^3.9.2",
+    "dotenv": "^7.0.0",
     "firebase": "^5.9.0",
     "next": "^8.0.3",
     "react": "^16.8.4",
@@ -11,11 +12,10 @@
     "react-scripts": "2.1.8"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 1738",
     "build": "next build",
     "start": "next start",
-    "export": "next export",
-    "deploy": "npm run build && npm run export"
+    "now-build": "next build"
   },
   "eslintConfig": {
     "extends": "react-app"

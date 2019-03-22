@@ -1,5 +1,5 @@
 import Link from 'next/link'
-
+import React from 'react';
 const Authentication = (props) => {
 
     let extraInfo;
@@ -26,8 +26,9 @@ const Authentication = (props) => {
             <h2>Learned</h2>
             <p>Remember everything important.</p>
         </div>
-        <button onClick={function() { props.handleGoogle()}}>Continue with Google</button>
-        <button onClick={function() { props.handleSignOut()}}>Sign Out</button>
+        <button onClick={() => {props.handleGoogle()}}>Continue with Google</button>
+        <button onClick={() => {props.handleSignOut()}}>Sign Out</button>
+        <button onClick={() => {props.startParty()}}>startParty</button>
         <div>
             <span></span>
             <p>or</p>
