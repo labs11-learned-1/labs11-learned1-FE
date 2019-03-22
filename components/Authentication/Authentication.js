@@ -26,8 +26,9 @@ const Authentication = (props) => {
             <h2>Learned</h2>
             <p>Remember everything important.</p>
         </div>
-        <button onClick={() => { props.handleGoogle()}}>Continue with Google</button>
-        <button onClick={() => { props.handleSignOut()}}>Sign Out</button>
+        <button onClick={() => {props.handleGoogle()}}>Continue with Google</button>
+        <button onClick={() => {props.handleSignOut()}}>Sign Out</button>
+        <button onClick={() => {props.startParty()}}>startParty</button>
         <div>
             <span></span>
             <p>or</p>
