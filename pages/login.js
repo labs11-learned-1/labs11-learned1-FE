@@ -1,9 +1,9 @@
 import React, { useState } from 'react';
 import Authentication from '../components/Authentication/Authentication'
 import * as firebase from 'firebase';
-import config from '../firebaseConfig/firebase.js'
 
-firebase.initializeApp(config);
+
+
 
 
 var provider = new firebase.auth.GoogleAuthProvider();
@@ -30,7 +30,7 @@ const handleSignOut = () => {
 
 const Login = () => {
 console.log("hi")
-  console.log(config)
+
 
     return (
       <div className="loginPage">

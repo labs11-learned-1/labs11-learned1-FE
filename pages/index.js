@@ -1,10 +1,12 @@
 import React from 'react';
-// import database from '../src/firebase/firebase';
+
 import Homepage from './Homepage';
  //importing the store provider from store.js
 import StoreProvider from '../components/store.js';
 import LandingNav from '../components/landingNav';
-
+import config from '../firebaseConfig/firebase.js'
+import * as firebase from 'firebase';
+firebase.initializeApp(config);
 // import config from '../src/firebase/firebase';
 // import * as firebase from 'firebase'
 //accessing collection 'user' from firestore then calling .doc to access the document or 'id' field of each user
