@@ -7,7 +7,7 @@ import { loadDB } from "../firebaseConfig/firebase.js";
 
 
 
-var provider = new firebase.auth.GoogleAuthProvider();
+
 
 const startParty = async() => {
   let myVal = await loadDB();
@@ -30,10 +30,11 @@ const startParty = async() => {
 }
 
 
-
-const handleGoogle = () => {
-  console.log('i clicekd')
-  firebase.auth().signInWithPopup(provider).then((result) => {
+var provider = new firebase.auth.GoogleAuthProvider();
+const handleGoogle = async () => {
+  let myVal = await loadDB();
+  myVal.auth().signInWithPopup(provider).then((result) => {
+    console.log('i clicekd')
     //var token = result.credential.accessToken;
     console.log('Logging in')
   }).catch((e) => {
@@ -41,8 +42,9 @@ const handleGoogle = () => {
   });
 }
 
-const handleSignOut = () => {
-  firebase.auth().signOut().then(() => {
+const handleSignOut = async () => {
+  let myVal = await loadDB();
+  myVal.auth().signOut().then(() => {
     alert('Signed out')
   }).catch((e) => {
     alert('Error signing out')
