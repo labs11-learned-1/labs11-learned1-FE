@@ -1,8 +1,10 @@
-// import LandingNav from "../components/landingNav";
+import React from 'react';
 // import database from '../src/firebase/firebase';
 import Homepage from './Homepage';
-import {StoreProvider} from '../components/store'; //importing the store provider from store.js
-import React from 'react';
+ //importing the store provider from store.js
+import StoreProvider from './components/store.js';
+import LandingNav from './components/landingNav';
+
 // import config from '../src/firebase/firebase';
 // import * as firebase from 'firebase'
 //accessing collection 'user' from firestore then calling .doc to access the document or 'id' field of each user
@@ -10,7 +12,7 @@ import React from 'react';
 // firebase.initializeApp(config);
 export default class Home extends React.Component {
 
-
+  
 
 
   render(){
@@ -19,7 +21,7 @@ export default class Home extends React.Component {
     return (
       
       <StoreProvider>
-        <LandingNav />
+        <LandingNav/>
       </StoreProvider>
     )
 }
