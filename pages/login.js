@@ -30,15 +30,16 @@ const startParty = async() => {
 }
 
 
-var provider = new firebase.auth.GoogleAuthProvider();
 const handleGoogle = async () => {
   let myVal = await loadDB();
+var provider = new firebase.auth.GoogleAuthProvider();
+  
   myVal.auth().signInWithPopup(provider).then((result) => {
     console.log('i clicekd')
     //var token = result.credential.accessToken;
     console.log('Logging in')
   }).catch((e) => {
-    console.log('Error logging in')
+    console.log('Error logging in',e)
   });
 }
 
