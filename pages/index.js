@@ -17,10 +17,10 @@ export default class Home extends React.Component {
 
   
     return (
-      <div><p>hi</p></div>
-      // <StoreProvider>
-      //   <LandingNav />
-      // </StoreProvider>
+      
+      <StoreProvider>
+        <LandingNav />
+      </StoreProvider>
     )
 }
   
