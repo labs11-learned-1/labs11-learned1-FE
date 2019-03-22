@@ -1,4 +1,5 @@
 import Link from 'next/link';
+import React from 'react';
 
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r71B6
 export default function Community() {

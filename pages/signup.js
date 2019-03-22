@@ -17,7 +17,7 @@ const SignUp = () => {
 
     return (
       <div className="signupPage">
-        <Authentication type="signup" handleGoogle={handleGoogle} submitInfo={function() { submitInfo(email, password)}} setEmail={setEmail} setPassword={setPassword}/>
+        <Authentication type="signup" handleGoogle={handleGoogle} />
       </div>
     )
   }
