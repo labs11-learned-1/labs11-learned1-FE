@@ -4,6 +4,7 @@ export  const Store = React.createContext(); //creates context object
 
 const initialState = {
     message : "Are you working?",
+    isLoggedIn: false,
 }
 
 function reducer(state, action) {

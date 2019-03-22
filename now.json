@@ -1,6 +1,6 @@
 {
   "version": 2,
-  "public": true,
+  
   "name": "Learned App",
   "builds": [{ 
      "src": "next.config.js", "use": "@now/next" }
