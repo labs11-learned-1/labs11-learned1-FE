@@ -10,9 +10,9 @@ import { loadDB } from "../firebaseConfig/firebase.js";
 var provider = new firebase.auth.GoogleAuthProvider();
 
 const startParty = async() => {
-  let firebase = await loadDB();
+  let myVal = await loadDB();
 
-  let db = firebase.firestore();
+  let db = myVal.firestore();
   console.log("this is db", db);
 
   db.collection("user").doc('2')
