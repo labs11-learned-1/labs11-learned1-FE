@@ -1,12 +1,12 @@
-import React, { useState } from 'react';
+import React  from 'react';
 import StoreProvider from '../components/store.js';
-import Login from '../components/Authentication/login'
+import PasswordAssist from '../components/Authentication/passwordAssist.js';
 
 const LoginPage = () => {
 
   return (
     <StoreProvider>
-      <Login/>
+      <PasswordAssist/>
     </StoreProvider>
   )
 }

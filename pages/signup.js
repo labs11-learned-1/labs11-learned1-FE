@@ -1,25 +1,14 @@
 import React, { useState } from 'react';
-import Authentication from '../components/Authentication/Authentication'
+import StoreProvider from '../components/store.js';
+import SignUp from '../components/Authentication/signup.js';
 
-const submitInfo = (email, password) => {
-    console.log(email, password)
+const SignupPage = () => {
+
+  return (
+    <StoreProvider>
+      <SignUp/>
+    </StoreProvider>
+  )
 }
-
-const handleGoogle = () => {
-    console.log("Google Create")
-}
-
-
-const SignUp = () => {
-
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-
-    return (
-      <div className="signupPage">
-        <Authentication type="signup" handleGoogle={handleGoogle} />
-      </div>
-    )
-  }
   
-export default SignUp;
+export default SignupPage;
