@@ -2,13 +2,16 @@ import React, { useState } from 'react';
 import Authentication from '../components/Authentication/Authentication'
 import * as firebase from 'firebase';
 
+
+
+
+
 var provider = new firebase.auth.GoogleAuthProvider();
 
-const submitInfo = (email, password) => {
-    console.log(email, password)
-}
+
 
 const handleGoogle = () => {
+  console.log('i clicekd')
   firebase.auth().signInWithPopup(provider).then((result) => {
     //var token = result.credential.accessToken;
     console.log('Logging in')
@@ -26,14 +29,12 @@ const handleSignOut = () => {
 }
 
 const Login = () => {
+console.log("hi")
 
-    const [email, setEmail] = useState("");
-    const [password, setPassword] = useState("");
-    const [loginAttempts, setAttempts] = useState(0);
 
     return (
       <div className="loginPage">
-        <Authentication type="login" handleGoogle={handleGoogle} handleSignOut={handleSignOut} submitInfo={function() { submitInfo(email, password)}} setEmail={setEmail} setPassword={setPassword}/>
+        <Authentication type="login" handleGoogle={handleGoogle} handleSignOut={handleSignOut} />
       </div>
     )
   }

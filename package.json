@@ -11,9 +11,10 @@
     "react-scripts": "2.1.8"
   },
   "scripts": {
-    "dev": "next",
+    "dev": "next -p 1738",
     "build": "next build",
-    "start": "next start"
+    "start": "next start",
+    "now-build": "next build"
   },
   "eslintConfig": {
     "extends": "react-app"

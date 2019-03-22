@@ -1,5 +1,5 @@
 import Link from 'next/link';
-
+import React from 'react';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/rE36E
 export default function Browse() {
     return (
