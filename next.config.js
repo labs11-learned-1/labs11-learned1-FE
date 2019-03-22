@@ -2,6 +2,7 @@ const webpack = require('webpack');
     require('dotenv').config();
 
     module.exports = {
+      target: 'serverless',
       webpack: config => {
         const env = Object.keys(process.env).reduce((acc, curr) => {
           acc[`process.env.${curr}`] = JSON.stringify(process.env[curr]);
@@ -12,4 +13,5 @@ const webpack = require('webpack');
 
         return config;
       }
+      
     };
