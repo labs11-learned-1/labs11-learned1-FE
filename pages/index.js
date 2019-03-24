@@ -15,14 +15,7 @@ export default class Home extends React.Component {
   
   render() {
     return (
-      
-      <StoreConsumer>
-        {({ loginStatus, updateLogin }) => (
-          <LandingNav/>
-
-        )}
-      </StoreConsumer>
-        
+      <LandingNav/>
     );
   }
 }

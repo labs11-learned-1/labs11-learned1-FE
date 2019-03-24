@@ -1,12 +1,65 @@
-import React, { useState } from 'react';
-
-import Login from '../components/Authentication/login'
+import React, { useState, useContext } from 'react';
+import Authentication from '../components/Authentication/Authentication';
+import * as firebase from 'firebase';
+import { loadDB } from "../firebaseConfig/firebase.js";
+import { StoreContext } from '../components/StoreProvider';
+import Router from "next/router";
 
 const LoginPage = () => {
 
+  const { loginStatus, updateLogin } = useContext(StoreContext);
+  const [email, setEmail] = useState("");
+  const [password, setPassword] = useState("");
+
+  const fetchUsers = async() => {
+    let myVal = await loadDB();
+  
+    let db = myVal.firestore();
+    console.log("this is db", db);
+  
+    db.collection("user").doc('2')
+      .get()
+      .then(function(doc) {
+        if (doc.exists) {
+          console.log("Document data:", doc.data());
+        } else {
+          console.log("No such document!");
+        }
+      })
+      .catch(function(error) {
+        console.log("Error getting document:", error);
+      });
+  }
+
+  const handleGoogle = async() => {
+    let myVal = await loadDB();
+    var provider = new firebase.auth.GoogleAuthProvider();
+
+    myVal.auth().signInWithPopup(provider).then((result) => {
+      updateLogin();
+      Router.push({pathname: "/homepage"});
+      //var token = result.credential.accessToken;
+      console.log('Logging in')
+    }).catch((e) => {
+      console.log('Error logging in',e)
+    });
+  }
+
+  const handleSignOut = async() => {
+    let myVal = await loadDB();
+      myVal.auth().signOut().then(() => {
+        alert('Signed out')
+      }).catch((e) => {
+        alert('Error signing out')
+      });
+  }
+
   return (
-      <Login/>
+    <div className="loginPage">
+      <Authentication type="login" handleGoogle={handleGoogle} handleSignOut={handleSignOut}setEmail={setEmail} setPassword={setPassword} fetchUsers={fetchUsers}/>
+      <p>{loginStatus.toString()}</p>
+    </div>
   )
 }
-  
+
 export default LoginPage;
