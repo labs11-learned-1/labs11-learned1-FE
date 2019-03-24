@@ -1,14 +1,11 @@
-import React  from 'react';
-import StoreProvider from '../components/store.js';
+import React, {useContext} from 'react';
 import PasswordAssist from '../components/Authentication/passwordAssist.js';
 
-const LoginPage = () => {
+const PasswordAssistPage = () => {
 
   return (
-    <StoreProvider>
       <PasswordAssist/>
-    </StoreProvider>
   )
 }
   
-export default LoginPage;
+export default PasswordAssistPage;

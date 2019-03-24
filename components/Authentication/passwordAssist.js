@@ -1,10 +1,10 @@
-import React, { useState } from 'react';
 import * as firebase from 'firebase';
-import { Store } from '../store'
+import React, {useContext, useState} from 'react';
+import { StoreConsumer, StoreContext } from '../StoreProvider'
 import Link from 'next/link'
 
-const PasswordAssist = (props) => {
-
+const PasswordAssist = () => {
+    const {loginStatus} = useContext(StoreContext);
     const [contact, setContact] = useState("");
     const [emailStatus, setEmailStatus] = useState(2);
 
@@ -28,8 +28,6 @@ const PasswordAssist = (props) => {
 
             //If it fails set emailStatus to 0
     }
-
-    const { state, dispatch } = React.useContext(Store);
 
     let statusInfo;
     if(emailStatus === 0) {
@@ -57,7 +55,7 @@ const PasswordAssist = (props) => {
             {statusInfo}
             <button onClick={submitInfo}>Send Verification Email</button>
         </div>
-        
+        <p>{loginStatus.toString()}</p>
         <Link href="/login">
             <a>Return to login</a>
         </Link>

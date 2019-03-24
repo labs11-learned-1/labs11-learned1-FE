@@ -1,13 +1,11 @@
-import React from 'react';
+import React, {useContext} from 'react';
 import Link from 'next/link'
-import { Store } from './store'
-const landingNav = props => { 
-    const changeMessage = async () => {
-        return dispatch({
-            type:'CHANGE_MESSAGE'
-        })
-    }
-    const { state, dispatch } = React.useContext(Store); // comes from Store import above to get the state and dispatch seperatly 
+import { StoreConsumer, StoreContext } from '../components/StoreProvider'
+
+const landingNav = () => { 
+    
+    const {loginStatus, updateLogin} = useContext(StoreContext)
+
     return (
         <div className="nav-container">
             <div className="nav-wrapper">
@@ -20,8 +18,8 @@ const landingNav = props => {
                     <Link href="/login">
                         <button>Log in</button>
                     </Link>
-                    <button onClick={()=>changeMessage()}>click to change message</button>
-                    <p>Message : {state.message}</p>
+                    <button onClick={updateLogin}>click to change message</button>
+                    <p>Message : {loginStatus.toString()}</p>
                 </div>
             </div>
         </div>
