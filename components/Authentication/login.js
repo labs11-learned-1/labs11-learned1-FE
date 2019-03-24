@@ -1,9 +1,8 @@
 import React, { useState } from 'react';
 import Authentication from './Authentication'
 import * as firebase from 'firebase';
-import { Store } from '../store'
 import { loadDB } from "../../firebaseConfig/firebase.js";
-
+import { StoreConsumer, StoreContext } from '../StoreProvider'
 
 
 const Login = () => {
