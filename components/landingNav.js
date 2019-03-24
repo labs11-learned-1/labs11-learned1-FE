@@ -1,6 +1,6 @@
 import React, {useContext} from 'react';
 import Link from 'next/link'
-import { StoreConsumer, StoreContext } from '../components/StoreProvider'
+import { StoreContext } from '../components/StoreProvider'
 
 const landingNav = () => { 
     
@@ -18,8 +18,6 @@ const landingNav = () => {
                     <Link href="/login">
                         <button>Log in</button>
                     </Link>
-                    <button onClick={updateLogin}>click to change message</button>
-                    <p>Message : {loginStatus.toString()}</p>
                 </div>
             </div>
         </div>

@@ -1,6 +1,10 @@
 import Link from 'next/link'
-import React from 'react';
+import React, {useContext} from 'react';
+import { StoreContext } from '../StoreProvider'
+
 const Authentication = (props) => {
+
+    const { updateLogin } = useContext(StoreContext);
 
     let extraInfo;
     if(props.type === "login") {
@@ -45,7 +49,7 @@ const Authentication = (props) => {
             }}>
             </input>
         </div>
-        <button onClick={props.submitInfo}>Continue</button>
+        <button onClick={updateLogin}>Continue</button>
         {extraInfo}
       </div>
     )
