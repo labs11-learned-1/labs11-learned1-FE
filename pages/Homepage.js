@@ -26,7 +26,11 @@ export default function Homepage() {
   };
 
  
+<<<<<<< HEAD
 
+=======
+//sign in via google auth.
+>>>>>>> f8eacf8ff51882eb1f3bb2250110a08a86ed8d2d
   const handleGoogle = async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
@@ -35,14 +39,16 @@ export default function Homepage() {
     myVal
       .auth()
       .signInWithPopup(provider)
-      .then(result => {
-        console.log("result", result);
-        // db.collection('user').doc(result.uid).set({
-        //     name: result.additionalUserInfo.profile.name,
-        //     id: result.uid,
-        //     email: result.user.email 
-        //   })
-        //var token = result.credential.accessToken;
+      .then( async result => {
+        // console.log("result", result); <--- uncomment to see what else you can grab, such as accessToken
+        // creates a doc with value of userID in user collectionthen puts fields in
+        await db.collection('user').doc(result.user.uid).set({
+            name: result.additionalUserInfo.profile.name,
+            id: result.user.uid,
+            email: result.user.email,
+            image: result.user.photoURL
+          })
+        
         return dispatch({
           type: "LOGGED_IN"
         });
