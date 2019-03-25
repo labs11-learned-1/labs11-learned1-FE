@@ -5,7 +5,7 @@ import React, { Component, useReducer } from 'react'
 let reducer = (state, action) => {
   switch (action.type) {
     case 'CHANGE':
-      return { ...state, loginStatus: !state.loginStatus};
+      return { ...state, loginStatus: !loginStatus};
     default:
       return;
   }

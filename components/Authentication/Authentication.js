@@ -29,20 +29,6 @@ const Authentication = (props) => {
             <p>or</p>
             <span></span>
         </div>
-<<<<<<< HEAD
-        <div>
-            <input placeholder="Email" className="emailHandler" onChange={function(ev) {
-                props.setEmail(ev.target.value)
-            }}>
-            </input>
-            <input type="password" placeholder="Password"  className="passwordHandler" onChange={function(ev) {
-                props.setPassword(ev.target.value)
-            }}>
-            </input>
-        </div>
-        <button onClick={updateLogin}>Continue</button>
-=======
->>>>>>> bd56c4975a9cead47f5ebc12f14372483507263d
         {extraInfo}
       </div>
     )
