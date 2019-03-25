@@ -26,11 +26,7 @@ export default function Homepage() {
   };
 
  
-<<<<<<< HEAD
-
-=======
 //sign in via google auth.
->>>>>>> f8eacf8ff51882eb1f3bb2250110a08a86ed8d2d
   const handleGoogle = async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
