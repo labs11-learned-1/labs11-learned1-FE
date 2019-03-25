@@ -29,7 +29,7 @@ function Nav(props) {
             <Toolbar variant="regular" className={classes.toolbar}>
             <img src="https://i.ibb.co/vHLKCnG/low-res.png" alt="low-res" className={classes.logo} />
             <div>
-                <Link href="/login">
+                <Link href="/Homepage">
                     <Button className={classes.Button} color="#69178A">Login / Sign Up</Button>
                 </Link>
             </div>
