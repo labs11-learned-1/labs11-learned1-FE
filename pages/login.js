@@ -7,7 +7,7 @@ import Router from "next/router";
 
 const LoginPage = () => {
 
-  const { loginStatus, updateLogin } = useContext(StoreContext);
+  const { state, dispatch } = useContext(StoreContext);
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
 
@@ -36,8 +36,9 @@ const LoginPage = () => {
     var provider = new firebase.auth.GoogleAuthProvider();
 
     myVal.auth().signInWithPopup(provider).then((result) => {
-      updateLogin();
+      
       Router.push({pathname: "/homepage"});
+      return dispatch({type: 'CHANGE'})
       //var token = result.credential.accessToken;
       console.log('Logging in')
     }).catch((e) => {
@@ -57,7 +58,8 @@ const LoginPage = () => {
   return (
     <div className="loginPage">
       <Authentication type="login" handleGoogle={handleGoogle} handleSignOut={handleSignOut}setEmail={setEmail} setPassword={setPassword} fetchUsers={fetchUsers}/>
-      <p>{loginStatus.toString()}</p>
+      <p>{state.loginStatus.toString()}</p>
+      <button onClick={() => dispatch({ type: "CHANGE" })}>CHECK</button>
     </div>
   )
 }

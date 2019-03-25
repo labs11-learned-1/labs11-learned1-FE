@@ -9,7 +9,7 @@ class MyApp extends App {
       <Container>
         {/* Then we wrap our components with the provider */}
         <StoreProvider>
-          <Component {...pageProps} />
+          <Component/>
         </StoreProvider>
       </Container>
     )
