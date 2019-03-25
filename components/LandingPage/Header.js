@@ -55,7 +55,7 @@ function Header(props){
                     Learned helps you find the perfect courses and blog posts without any hassle, all while keeping
                     you updated with your friends and follows.
                 </p>
-                <Link href="/login">
+                <Link href="/Homepage">
                     <Button className={classes.headerSignUp}>Sign Up for free</Button>
                 </Link>
             </div>
