@@ -4,7 +4,7 @@ import { StoreContext } from '../components/StoreProvider'
 
 const PassResetPage = () => {
 
-  const { loginStatus } = useContext(StoreContext);
+  const { state, dispatch } = useContext(StoreContext);
   const [newPass, setnewPass] = useState("");
   const [confirmPass, setconfirmPass] = useState("");
 

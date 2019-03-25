@@ -4,7 +4,7 @@ import { StoreContext } from '../components/StoreProvider'
 
 const landingNav = () => { 
     
-    const {loginStatus, updateLogin} = useContext(StoreContext)
+    const {state,dispatch} = useContext(StoreContext)
 
     return (
         <div className="nav-container">
@@ -20,6 +20,8 @@ const landingNav = () => {
                     </Link>
                 </div>
             </div>
+            <p>{state.loginStatus.toString()}</p>
+            <button onClick={() => dispatch({ type: "CHANGE" })}>CHECK</button>
         </div>
     );
 }

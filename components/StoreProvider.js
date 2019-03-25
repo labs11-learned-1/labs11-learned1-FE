@@ -1,35 +1,35 @@
 
-import React, { Component } from 'react'
+import React, { Component, useReducer } from 'react'
 
 /* First we will make a new context */
-export const StoreContext = React.createContext()
+let reducer = (state, action) => {
+  switch (action.type) {
+    case 'CHANGE':
+      return { ...state, loginStatus: !state.loginStatus};
+    default:
+      return;
+  }
+};
 
+const initialState = {
+  loginStatus: false
+}
+
+export const StoreContext = React.createContext(initialState)
 /* Then create a provider Component */
-class StoreProvider extends Component {
-  state = {
-    loginStatus: false
-  }
+function StoreProvider(props) {
+  const [state, dispatch] = useReducer(reducer, initialState);
 
-  updateLogin = () => {
-      this.setState({loginStatus: !this.state.loginStatus})
-  }
 
-  render () {
     return (
       <StoreContext.Provider
-        value={{
-          loginStatus: this.state.loginStatus,
-          updateLogin: this.updateLogin
-        }}
+        value={{state,dispatch}}
       >
-        {this.props.children}
+        {props.children}
       </StoreContext.Provider>
     )
-  }
 }
 
 /* then make a consumer which will surface it */
-const StoreConsumer = StoreContext.Consumer
 
 export default StoreProvider
-export { StoreConsumer }
