@@ -26,7 +26,7 @@ export default function Homepage() {
       });
   };
 
- 
+
 //sign in via google auth.
   const handleGoogle = async () => {
     let myVal = await loadDB();
