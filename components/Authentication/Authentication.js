@@ -1,10 +1,10 @@
 import Link from 'next/link'
 import React, {useContext} from 'react';
-import { StoreContext } from '../StoreProvider'
+
 
 const Authentication = (props) => {
 
-    const { updateLogin } = useContext(StoreContext);
+   
 
     let extraInfo;
         extraInfo = <div>
