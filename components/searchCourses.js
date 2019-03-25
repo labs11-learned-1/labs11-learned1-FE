@@ -2,7 +2,6 @@ import React from 'react';
 import axios from 'axios';
 
 const SearchCourses = () => {
-    console.log(process.env.UDEMY_CLIENT_ID, process.env.UDEMY_CLIENT_SECRET)
     axios({
         method: 'get',
         url: 'https://www.udemy.com/api-2.0/courses',
