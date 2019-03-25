@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Button from '@material-ui/core/Button';
+import Link from 'next/link';
 
 const styles = {
     root:{
@@ -46,7 +47,9 @@ function Header(props){
                     Learned helps you find the perfect courses and blog posts without any hassle, all while keeping
                     you updated with your friends and follows.
                 </p>
-                <Button className={classes.headerSignUp}>Sign Up for free</Button>
+                <Link href="/login">
+                    <Button className={classes.headerSignUp}>Sign Up for free</Button>
+                </Link>
             </div>
             <img className={classes.img} src="https://camo.githubusercontent.com/ff5622df209d49b0beba25976acd665fac3e0522/68747470733a2f2f696d616765732e636f6e74656e7466756c2e636f6d2f666d6a6b31386b30647979692f364a62447530327848696d4f7561307773794f7977672f36323631363466396336653363353933383366333430643237386530656330362f53637265656e5f53686f745f323031382d30312d32395f61745f31352e32342e35332e706e67" />
         </div>
