@@ -34,8 +34,16 @@ const styles = {
     },
     img : {
         height : "85%"
+    },
+    '@media(max-width: 600px)': {
+        root:{
+            flexDirection:"column"
+        },
+        img:{
+            display:"none"
+        }
     }
-};
+}
 
 function Header(props){
     const {classes} = props;
