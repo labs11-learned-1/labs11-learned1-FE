@@ -1,5 +1,5 @@
 import React from 'react';
-import Nav from '../components/LandingPage/Nav';
+import Nav from '../components/Navigation/Nav';
 import Header from '../components/LandingPage/Header';
 
 function LandingPage(){

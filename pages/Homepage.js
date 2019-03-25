@@ -4,6 +4,7 @@ import { Store } from "../components/store";
 import Authentication from "../components/Authentication/Authentication";
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";
+import Nav from '../components/Navigation/Nav'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Homepage() {
   const fetchUsers = async () => {
@@ -81,17 +82,7 @@ export default function Homepage() {
   } else {
     return (
       <div>
-        <h1>Homepage of the app</h1>
-        <Link href="/learning-lab">
-          <a>Learning Lab</a>
-        </Link>
-        <Link href="/browse">
-          <a>Browse</a>
-        </Link>
-        <Link href="/community">
-          <a>Community</a>
-        </Link>
-        <button onClick={handleSignOut}>Sign Out</button>
+        <Nav handleSignOut = {handleSignOut}/>
       </div>
     );
   }
