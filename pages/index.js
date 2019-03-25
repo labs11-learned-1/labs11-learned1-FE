@@ -15,14 +15,8 @@ export default class Home extends React.Component {
   
   render() {
     return (
-      <LandingNav/>
+      <LandingPage />
       
-<<<<<<< HEAD
-=======
-      <StoreProvider>
-        <LandingPage />
-      </StoreProvider>
->>>>>>> bd56c4975a9cead47f5ebc12f14372483507263d
     );
   }
 }
