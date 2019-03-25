@@ -1,5 +1,6 @@
 import React from 'react';
 import Link from "next/link";
+// Bringing in SearchCourses for future reference
 import SearchCourses from '../components/searchCourses';
 
 function LandingPage(){
