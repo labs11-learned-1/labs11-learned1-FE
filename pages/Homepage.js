@@ -49,7 +49,7 @@ export default function Homepage() {
     const handleSignOut = async() => {
         let myVal = await loadDB();
         myVal.auth().signOut().then(() => {
-            alert('Signed out')
+            return dispatch({type:'LOGGED_OUT'})
         }).catch((e) => {
             alert('Error signing out')
         });

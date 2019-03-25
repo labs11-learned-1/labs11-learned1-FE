@@ -13,6 +13,8 @@ function reducer(state, action) {
             return { ...state, message:"CHANGED!!!" }
         case 'LOGGED_IN':
             return { ...state, loggedIn: true }
+        case 'LOGGED_OUT':
+            return {...state, loggedIn: false}
         default:
             return state;
     }
