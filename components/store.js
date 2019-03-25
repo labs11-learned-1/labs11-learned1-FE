@@ -1,21 +1,24 @@
 import React from 'react'
 
-export const Store = React.createContext(); //creates context object
+export  const Store = React.createContext(); //creates context object
 
 const initialState = {
     message : "Are you working?",
+    loggedIn: false,
 }
 
 function reducer(state, action) {
     switch(action.type){
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
+        case 'LOGGED_IN':
+            return { ...state, loggedIn: true }
         default:
             return state;
     }
 }
 
-export function StoreProvider(props) {
+export default function StoreProvider(props) {
     const [state, dispatch] = React.useReducer(reducer, initialState);
     const value = { state, dispatch }; //creates an object from above statement that holds both the values
     return <Store.Provider value={value}>{props.children}</Store.Provider>
