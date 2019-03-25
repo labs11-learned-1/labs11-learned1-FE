@@ -14,8 +14,6 @@ const webpack = require('webpack');
         return config;
       },
       target: 'serverless',
-<<<<<<< HEAD
-=======
       env: {
         "FIREBASE_KEY": process.env.FIREBASE_KEY,
         "AUTH_DOMAIN": process.env.AUTH_DOMAIN,
@@ -26,6 +24,5 @@ const webpack = require('webpack');
         "UDEMY_CLIENT_ID": process.env.UDEMY_CLIENT_ID,
         "UDEMY_CLIENT_SECRET": process.env.UDEMY_CLIENT_SECRET
       }
->>>>>>> f8eacf8ff51882eb1f3bb2250110a08a86ed8d2d
       
     };
