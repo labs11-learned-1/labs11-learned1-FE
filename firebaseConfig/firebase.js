@@ -4,12 +4,12 @@ import '@firebase/firestore'
 export function loadDB() {
 try{
   const config = {
-    apiKey: "AIzaSyC9SaOiNqXgH1cwwvCu6-14d7y8SFd2eB0",
-    authDomain: "learned-11.firebaseapp.com",
-    databaseURL: "https://learned-11.firebaseio.com",
-    projectId: "learned-11",
-    storageBucket: "learned-11.appspot.com",
-    messagingSenderId: "114319083997"
+    apiKey: process.env.firebase_key || "@firebase-key",
+    authDomain: process.env.auth_domain || "@auth-domain",
+    databaseURL: process.env.database_url || "@database-url",
+    projectId: process.env.project_id || "@project-id",
+    storageBucket: process.env.storage_bucket || "@storage-bucket",
+    messagingSenderId: process.env.messaging_sender_id || "@messaging-sender-id"
   };
  
   firebase.initializeApp(config);
