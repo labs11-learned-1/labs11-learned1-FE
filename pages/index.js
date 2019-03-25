@@ -1,23 +1,22 @@
-import React from "react";
+import React, {useContext} from "react";
 
-import Homepage from "./Homepage";
+import LandingPage from "./LandingPage";
 //importing the store provider from store.js
-import StoreProvider from "../components/store.js";
+import { StoreConsumer, StoreContext } from '../components/StoreProvider'
 import LandingNav from "../components/landingNav";
 // import firebase from '../firebaseConfig/firebase.js'
+
 
 
 export default class Home extends React.Component {
   //first instance of the database loaded into the app
 
   // let firebase = await loadDB();
-
+  
   render() {
     return (
+      <LandingPage />
       
-      <StoreProvider>
-        <LandingNav />
-      </StoreProvider>
     );
   }
 }

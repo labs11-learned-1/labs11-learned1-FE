@@ -3,13 +3,10 @@ import Authentication from './Authentication'
 import * as firebase from 'firebase';
 import { Store } from '../store'
 import { loadDB } from "../../firebaseConfig/firebase.js";
-
+import Homepage from "../../pages/Homepage";
 
 
 const Login = () => {
-
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
 
   const fetchUsers = async() => {
     let myVal = await loadDB();
@@ -63,12 +60,16 @@ const Login = () => {
   }
 
   const { state, dispatch } = React.useContext(Store);
-  return (
-    <div className="loginPage">
-      <Authentication type="login" handleGoogle={handleGoogle} handleSignOut={handleSignOut} submitInfo={submitInfo} setEmail={setEmail} setPassword={setPassword} fetchUsers={fetchUsers}/>
-      <p>{state.loggedIn.toString()}</p>
-    </div>
-  )
+  if(!state.loggedIn){
+    return (
+      <div className="loginPage">
+        <Authentication type="login" handleGoogle={handleGoogle} handleSignOut={handleSignOut} submitInfo={submitInfo} fetchUsers={fetchUsers}/>
+        <p>{state.loggedIn.toString()}</p>
+      </div>
+    )
+  }else{
+    return <Homepage />
+  }
   }
   
 export default Login

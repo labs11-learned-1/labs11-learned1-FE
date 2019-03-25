@@ -1,6 +1,6 @@
 import React from 'react';
-import Nav from './LandingPageComponents/Nav';
-import Header from './LandingPageComponents/Header';
+import Nav from '../components/LandingPage/Nav';
+import Header from '../components/LandingPage/Header';
 
 function LandingPage(){
     return(
