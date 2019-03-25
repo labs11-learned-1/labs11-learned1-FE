@@ -20,7 +20,9 @@ const webpack = require('webpack');
         "DATABASE_URL": process.env.DATABASE_URL,
         "PROJECT_ID": process.env.PROJECT_ID,
         "STORAGE_BUCKET": process.env.STORAGE_BUCKET,
-        "MESSAGING_SENDER_ID": process.env.MESSAGING_SENDER_ID
+        "MESSAGING_SENDER_ID": process.env.MESSAGING_SENDER_ID,
+        "UDEMY_CLIENT_ID": process.env.UDEMY_CLIENT_ID,
+        "UDEMY_CLIENT_SECRET": process.env.UDEMY_CLIENT_SECRET
       }
       
     };

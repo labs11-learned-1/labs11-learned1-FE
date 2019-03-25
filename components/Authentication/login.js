@@ -14,8 +14,10 @@ const Login = () => {
   const fetchUsers = async() => {
     let myVal = await loadDB();
   
+    console.log(process.env.UDEMY_CLIENT_ID, process.env.UDEMY_CLIENT_SECRET)
     let db = myVal.firestore();
     console.log("this is db", db);
+
   
     db.collection("user").doc('2')
       .get()
