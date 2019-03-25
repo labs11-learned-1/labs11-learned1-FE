@@ -1,6 +1,6 @@
 import React, {useContext} from "react";
 
-import Homepage from "./Homepage";
+import LandingPage from "./LandingPage";
 //importing the store provider from store.js
 import { StoreConsumer, StoreContext } from '../components/StoreProvider'
 import LandingNav from "../components/landingNav";
@@ -17,6 +17,12 @@ export default class Home extends React.Component {
     return (
       <LandingNav/>
       
+<<<<<<< HEAD
+=======
+      <StoreProvider>
+        <LandingPage />
+      </StoreProvider>
+>>>>>>> bd56c4975a9cead47f5ebc12f14372483507263d
     );
   }
 }
