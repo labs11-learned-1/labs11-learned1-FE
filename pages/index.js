@@ -1,6 +1,6 @@
 import React from "react";
 
-import Homepage from "./Homepage";
+import LandingPage from "./LandingPage";
 //importing the store provider from store.js
 import StoreProvider from "../components/store.js";
 import LandingNav from "../components/landingNav";
@@ -16,7 +16,7 @@ export default class Home extends React.Component {
     return (
       
       <StoreProvider>
-        <LandingNav />
+        <LandingPage />
       </StoreProvider>
     );
   }
