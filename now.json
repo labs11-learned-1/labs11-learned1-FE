@@ -3,6 +3,21 @@
   
   "name": "Learned App",
   "alias": ["learned-app.now.sh"],
+<<<<<<< HEAD
+=======
+  "build": {
+    "env": {
+      "FIREBASE_KEY": "@firebase-key",
+      "AUTH_DOMAIN": "@auth-domain",
+      "DATABASE_URL": "@database-url",
+      "PROJECT_ID": "@project-id",
+      "STORAGE_BUCKET": "@storage-bucket",
+      "MESSAGING_SENDER_ID": "@messaging-sender-id",
+      "UDEMY_CLIENT_ID": "@udemy-client-id",
+      "UDEMY_CLIENT_SECRET": "@udemy-client-secret"
+    }
+  },
+>>>>>>> f8eacf8ff51882eb1f3bb2250110a08a86ed8d2d
   "builds": [{ 
      "src": "next.config.js", "use": "@now/next" }
    ]
