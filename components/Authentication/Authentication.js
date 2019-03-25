@@ -3,22 +3,12 @@ import React from 'react';
 const Authentication = (props) => {
 
     let extraInfo;
-    if(props.type === "login") {
-        extraInfo = <div>
-            <Link href="forgotpassword"><a>Forgot your Password?</a></Link>
-            <p>Don't have an account?</p>
-            <Link href="/signup">
-                <a>Create account</a>
-            </Link>
-        </div>
-    } else {
         extraInfo = <div>
             <p>Already have an account?</p>
             <Link href="/login">
                 <a>Sign in</a>
             </Link>
         </div>
-    }
 
     return (
       <div className="verifyPage">
@@ -35,17 +25,6 @@ const Authentication = (props) => {
             <p>or</p>
             <span></span>
         </div>
-        <div>
-            <input placeholder="Email" className="emailHandler" onChange={function(ev) {
-                props.setEmail(ev.target.value)
-            }}>
-            </input>
-            <input type="password" placeholder="Password"  className="passwordHandler" onChange={function(ev) {
-                props.setPassword(ev.target.value)
-            }}>
-            </input>
-        </div>
-        <button onClick={props.submitInfo}>Continue</button>
         {extraInfo}
       </div>
     )

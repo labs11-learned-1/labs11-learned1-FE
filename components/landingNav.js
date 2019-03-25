@@ -1,6 +1,7 @@
 import React from 'react';
 import Link from 'next/link'
 import { Store } from './store'
+
 const landingNav = props => { 
     const changeMessage = async () => {
         return dispatch({
@@ -13,10 +14,6 @@ const landingNav = props => {
             <div className="nav-wrapper">
                 <div className="logo"></div>
                 <div className="accountAccess">
-                    <Link href="/signup">
-                        <button>Sign up</button>
-                    </Link>
-                    <p>or</p>
                     <Link href="/login">
                         <button>Log in</button>
                     </Link>
