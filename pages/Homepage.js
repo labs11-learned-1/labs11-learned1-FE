@@ -5,6 +5,7 @@ import Authentication from "../components/Authentication/Authentication";
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";
 import Nav from '../components/Navigation/Nav'
+import { Home } from "../components/HomePage/homepage";
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Homepage() {
   
@@ -88,6 +89,7 @@ export default function Homepage() {
     return (
       <div>
         <Nav handleSignOut = {handleSignOut}/>
+        <Home/>
       </div>
     );
   }
