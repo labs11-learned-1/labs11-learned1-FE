@@ -8,10 +8,10 @@ import Nav from '../components/Navigation/Nav'
 import { Home } from "../components/HomePage/homepage";
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Homepage() {
+  
   const fetchUsers = async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
-    console.log("this is db", db);
     db.collection("user")
       .doc("2")
       .get()
@@ -25,6 +25,7 @@ export default function Homepage() {
       .catch(function(error) {
         console.log("Error getting document:", error);
       });
+     
   };
 
 
@@ -54,6 +55,7 @@ export default function Homepage() {
       .catch(e => {
         console.log("Error logging in", e);
       });
+      
   };
 
   const handleSignOut = async () => {
@@ -61,7 +63,8 @@ export default function Homepage() {
     myVal
       .auth()
       .signOut()
-      .then(() => {
+      .then((result) => {
+        console.log("logout success", result)
         return dispatch({ type: "LOGGED_OUT" });
       })
       .catch(e => {
