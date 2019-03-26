@@ -78,6 +78,9 @@ const Navigation  = (props) => {
             <Toolbar variant="regular" className={classes.toolbar}>
                 <img src="https://i.ibb.co/vHLKCnG/low-res.png" alt="low-res" className={classes.logo} />
                 <div className={classes.tabs}>
+                    <Link href="/Homepage">
+                        <a className={classes.links}>Home</a>
+                    </Link>
                     <Link href="/learning-lab">
                         <a className={classes.links}>Learning Lab</a>
                     </Link>
