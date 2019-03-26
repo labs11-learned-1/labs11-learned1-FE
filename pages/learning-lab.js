@@ -8,7 +8,10 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {addPost} from '../components/addPost.js'
+import {addPost, deletePost} from '../components/firebaseAPI/firebasePosts.js/index.js.js';
+import {editPost} from '../components/firebaseAPI/firebasePosts';
+import {getPost} from '../components/firebaseAPI/firebasePosts';
+import {getAllPosts} from '../components/firebaseAPI/firebasePosts';
 
 export default class LearningLab extends React.Component {
     state = {
@@ -20,10 +23,23 @@ export default class LearningLab extends React.Component {
 
 
 //this button can be placed elsewhere. It is in learning labs just as a test
-handleAdd = () => {
-    addPost();
-}
+    handleAdd = () => {
+        addPost();
+    }
+    handleGet = () => {
+        getPost();
+    }
+    handleGetAll = () => {
+        getAllPosts();
+    }
 
+    handleEdit = () => {
+        editPost()
+    }
+
+    handleDelete = () => {
+        deletePost()
+    }
 
     handleClickOpen = () => {
         this.setState({ open: true });
@@ -82,6 +98,10 @@ handleAdd = () => {
 
 
             <button onClick = {this.handleAdd}>Add post</button>
+            <button onClick = {this.handleEdit}>Edit post</button>
+            <button onClick = {this.handleGet}>Get post</button>
+            <button onClick = {this.handleDelete}>Delete post</button>
+            <button onClick = {this.handleGetAll}>Get All posts</button>
         </div>
         );
     }
