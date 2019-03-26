@@ -5,6 +5,7 @@ export  const Store = React.createContext(); //creates context object
 const initialState = {
     message : "Are you working?",
     loggedIn: false,
+    openForm:false,
 }
 
 function reducer(state, action) {
@@ -15,6 +16,8 @@ function reducer(state, action) {
             return { ...state, loggedIn: true }
         case 'LOGGED_OUT':
             return {...state, loggedIn: false}
+        case 'FORM_TOGGLE':
+            return {...state, openForm: action.payload}
         default:
             return state;
     }
