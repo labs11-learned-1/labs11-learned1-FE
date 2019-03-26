@@ -19,7 +19,6 @@
     { "src": "/Homepage", "dest": "/Homepage.js" }
   ],
   "builds": [
-    { "src": "next.config.js", "use": "@now/next" },
-    { "src": "/*.js", "use": "@now/node" }
+    { "src": "next.config.js", "use": "@now/next" }
    ]
 }
