@@ -40,7 +40,7 @@ export const editPost = async (/*value of post.id, post.title, post.content */) 
 
   //access posts collection, provide specific post to update with postID, then call update providing fields 
   db.collection("posts")
-    .doc("b6lwH7wl6w7Km472m0uJ") //< postId
+    .doc("u6TFompHBYlqTmZ10p3j") //< postId
     .update({
       /*--------JSON of things to update--------*/
       title: "Revised Test Title 3", //< post.title
