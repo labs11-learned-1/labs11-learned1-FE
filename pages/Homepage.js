@@ -24,6 +24,7 @@ export default function Homepage() {
       .catch(function(error) {
         console.log("Error getting document:", error);
       });
+     
   };
 
 
@@ -53,6 +54,7 @@ export default function Homepage() {
       .catch(e => {
         console.log("Error logging in", e);
       });
+      
   };
 
   const handleSignOut = async () => {
