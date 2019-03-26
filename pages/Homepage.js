@@ -7,10 +7,10 @@ import { loadDB } from "../firebaseConfig/firebase";
 import Nav from '../components/Navigation/Nav'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Homepage() {
+  
   const fetchUsers = async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
-    console.log("this is db", db);
     db.collection("user")
       .doc("2")
       .get()
@@ -60,7 +60,8 @@ export default function Homepage() {
     myVal
       .auth()
       .signOut()
-      .then(() => {
+      .then((result) => {
+        console.log("logout success", result)
         return dispatch({ type: "LOGGED_OUT" });
       })
       .catch(e => {

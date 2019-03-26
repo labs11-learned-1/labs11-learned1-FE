@@ -11,8 +11,10 @@ try{
     storageBucket: process.env.STORAGE_BUCKET,
     messagingSenderId: process.env.MESSAGING_SENDER_ID
   };
- 
-  firebase.initializeApp(config);
+  if (!firebase.apps.length) {
+    firebase.initializeApp(config);
+}
+  
 } catch(err){
   if(!/already exists/.test(err.message)){
     console.error("firebase init error", err.stack)
