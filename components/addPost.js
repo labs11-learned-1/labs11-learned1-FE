@@ -12,10 +12,10 @@ export const addPost = async () => {
   // add post to "posts" collection, creating a unique document/postId with .add()
   db.collection("posts")
     .add({
-      title: "Test Title 3", // <--- provide input form
-      content: "Test Content 3", //<--- provide input form
+      title: "Test Title 5", // <--- provide input form
+      content: "Test Content 5", //<--- provide input form
       createdAt: Date.now(),
-      url: "TestURL3.com",
+      url: "TestURL5.com",
       userId: "1" //<--- make dynamic with state.userId
     })
     .then(ref =>
@@ -24,7 +24,7 @@ export const addPost = async () => {
         .doc("1") // <--- make dynamic with state.userId
         .update({ posts: firebase.firestore.FieldValue.arrayUnion(ref.id) }) // <--- updates the array of postId's within user, for future reference
         .then(() => {
-          console.log("Success adding a post");
+          console.log("Success adding a post, this is the postId:  ", ref.id);
         })
         .catch(err => {
           console.log("error adding post to user array", err); // inner addition to the array failed
@@ -52,6 +52,18 @@ export const editPost = async (/*value of post.id, post.title, post.content */) 
 };
 
 // =============DELETE POST==============
+export const deletePost = async () => {
+  let result = await loadDB();
+  let db = result.firestore();
+
+  db.collection('posts').doc('hVSsZXyLaAm7SZZvQPFC')//<---make this dynamic, it is postId
+  .delete().then(res => {
+    console.log("Post successfully deleted", res)
+  }).catch(err => {
+    console.log("Unable to delete post", err)
+  })
+
+}
 
 // =============GET POST==============
 export const getPost = async (/*value of postId*/) => {
@@ -73,3 +85,25 @@ export const getPost = async (/*value of postId*/) => {
       console.log("error fetching this post", err);
     });
 };
+
+
+// =========GET ALL POSTS ================
+export const getAllPosts = async (/*value of postId*/) => {
+  let result = await loadDB();
+  let db = result.firestore();
+
+  const posts = []
+
+  //access posts collection, provide the postId that you want to get
+  db.collection("posts")
+    .get()
+    .then(postSnapshot => {
+      postSnapshot.docs.forEach(doc => {
+        posts.push(doc.data())
+      })
+    })
+    .catch(err => {
+      console.log("Error fetching posts", err);
+    });
+    console.log("posts: ", posts)
+}
