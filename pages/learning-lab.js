@@ -8,14 +8,40 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {addPost, deletePost, editPost, getPost, getAllPosts} from '../components/firebaseAPI/firebasePosts.js';
+<<<<<<< HEAD
 
+import {editPost} from '../components/firebaseAPI/firebasePosts';
+import {getPost} from '../components/firebaseAPI/firebasePosts';
+import {getAllPosts} from '../components/firebaseAPI/firebasePosts';
+
+=======
+import {addPost, deletePost, editPost, getPost, getAllPosts} from '../components/firebaseAPI/firebasePosts.js';
+import {getReview, addReview, editReview, deleteReview} from '../components/firebaseAPI/firebaseReviews.js';
+>>>>>>> b037c45dfe0d365d7bd9ce41e7e856cbeef869dc
 export default class LearningLab extends React.Component {
     state = {
         open: false,
     };
 
 //this button can be placed elsewhere. It is in learning labs just as a test
+    
+
+    handleGetReview = () => {
+        getReview();
+    }
+
+    handleAddReview = () => {
+        addReview();
+    }
+
+    handleEditReview = () => {
+        editReview();
+    }
+
+    handleDeleteReview = () => {
+        deleteReview();
+    }
+
     handleAdd = () => {
         addPost();
     }
@@ -97,6 +123,14 @@ export default class LearningLab extends React.Component {
             <button onClick = {this.handleGet}>Get post</button>
             <button onClick = {this.handleDelete}>Delete post</button>
             <button onClick = {this.handleGetAll}>Get All posts</button>
+
+            <button onClick = {this.handleGetReview}>Get review</button>
+            <button onClick = {this.handleAddReview}>Add review</button>
+            <button onClick = {this.handleEditReview}>Edit review</button>
+            <button onClick = {this.handleDeleteReview}>Delete review</button>
+
+
+
         </div>
         );
     }
