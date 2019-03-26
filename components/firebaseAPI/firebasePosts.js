@@ -107,3 +107,7 @@ export const getAllPosts = async (/*value of postId*/) => {
     });
     console.log("posts: ", posts)
 }
+
+
+
+
