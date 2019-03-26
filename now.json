@@ -15,6 +15,9 @@
       "UDEMY_CLIENT_SECRET": "@udemy-client-secret"
     }
   },
+  "routes": [
+    { "src": "/(.*)", "dest": "/$1" }
+  ],
   "builds": [{ 
      "src": "next.config.js", "use": "@now/next" }
    ]

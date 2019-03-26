@@ -13,6 +13,7 @@ const webpack = require('webpack');
 
         return config;
       },
+      target: 'serverless',
       env: {
         "FIREBASE_KEY": process.env.FIREBASE_KEY,
         "AUTH_DOMAIN": process.env.AUTH_DOMAIN,
