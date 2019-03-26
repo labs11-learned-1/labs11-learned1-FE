@@ -6,6 +6,7 @@ const initialState = {
     message : "Are you working?",
     loggedIn: false,
     openForm:false,
+    posts : [],
 }
 
 function reducer(state, action) {
