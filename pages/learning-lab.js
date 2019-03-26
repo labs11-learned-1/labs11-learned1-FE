@@ -9,16 +9,15 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {addPost, deletePost, editPost, getPost, getAllPosts} from '../components/firebaseAPI/firebasePosts.js';
+<<<<<<< HEAD
 
+=======
+>>>>>>> f38c8681c13c581e7569c82de65234b2a3c20588
 
 export default class LearningLab extends React.Component {
     state = {
         open: false,
     };
-
-
-
-
 
 //this button can be placed elsewhere. It is in learning labs just as a test
     
@@ -27,9 +26,11 @@ export default class LearningLab extends React.Component {
     handleAdd = () => {
         addPost();
     }
+
     handleGet = () => {
         getPost();
     }
+
     handleGetAll = () => {
         getAllPosts();
     }
