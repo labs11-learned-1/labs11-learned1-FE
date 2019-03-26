@@ -2,7 +2,7 @@ import React from 'react';
 import axios from 'axios';
 
 const SearchCourses = () => {
-    axios({
+    /* axios({
         method: 'get',
         url: 'https://www.udemy.com/api-2.0/courses',
         auth: {
@@ -11,7 +11,7 @@ const SearchCourses = () => {
         }
     })
     .then(res => console.log('Authorized', res))
-    .catch(err => console.log(err))
+    .catch(err => console.log(err)) */
 
     return (
         <div>
