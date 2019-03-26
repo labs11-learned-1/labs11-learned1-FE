@@ -8,7 +8,9 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {addPost} from '../components/addPost.js'
+import {addPost} from '../components/addPost.js';
+import {editPost} from '../components/addPost';
+import {getPost} from '../components/addPost';
 
 export default class LearningLab extends React.Component {
     state = {
@@ -20,10 +22,16 @@ export default class LearningLab extends React.Component {
 
 
 //this button can be placed elsewhere. It is in learning labs just as a test
-handleAdd = () => {
-    addPost();
-}
+    handleAdd = () => {
+        addPost();
+    }
+    handleGet = () => {
+        getPost();
+    }
 
+    handleEdit = () => {
+        editPost()
+    }
 
     handleClickOpen = () => {
         this.setState({ open: true });
@@ -82,6 +90,8 @@ handleAdd = () => {
 
 
             <button onClick = {this.handleAdd}>Add post</button>
+            <button onClick = {this.handleEdit}>Edit post</button>
+            <button onClick = {this.handleGet}>Get post</button>
         </div>
         );
     }
