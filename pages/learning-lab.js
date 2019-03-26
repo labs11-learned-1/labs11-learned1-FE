@@ -2,24 +2,14 @@ import React from 'react';
 import Link from "next/link";
 // Bringing in SearchCourses for future reference
 import SearchCourses from '../components/searchCourses';
+import Nav from '../components/Navigation/Nav'
 
 function LandingPage(){
     return(
         <div>
             {/* These links will be placed into a navbar component at some point */}
-            <Link href="/Homepage">
-                <a>Home</a>
-            </Link>
-            <Link href="/learning-lab">
-                <a>Learning Lab</a>
-            </Link>
-            <Link href="/browse">
-                <a>Browse</a>
-            </Link>
-            <Link href="/community">
-                <a>Community</a>
-            </Link>
-
+            
+            <Nav />
             <h1>Current Courses</h1>
             <div className="thisIsWhereCoursesCardsWillGo">
 
