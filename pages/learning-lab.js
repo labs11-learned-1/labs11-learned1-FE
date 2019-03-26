@@ -9,11 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {addPost, deletePost, editPost, getPost, getAllPosts} from '../components/firebaseAPI/firebasePosts.js';
-<<<<<<< HEAD
-
-=======
->>>>>>> f38c8681c13c581e7569c82de65234b2a3c20588
-
+import {getReview, addReview} from '../components/firebaseAPI/firebaseReviews.js';
 export default class LearningLab extends React.Component {
     state = {
         open: false,
@@ -22,6 +18,13 @@ export default class LearningLab extends React.Component {
 //this button can be placed elsewhere. It is in learning labs just as a test
     
 
+    handleGetReview = () => {
+        getReview();
+    }
+
+    handleAddReview = () => {
+        addReview();
+    }
 
     handleAdd = () => {
         addPost();
@@ -104,6 +107,9 @@ export default class LearningLab extends React.Component {
             <button onClick = {this.handleGet}>Get post</button>
             <button onClick = {this.handleDelete}>Delete post</button>
             <button onClick = {this.handleGetAll}>Get All posts</button>
+
+            <button onClick = {this.handleGetReview}>Get review</button>
+            <button onClick = {this.handleAddReview}>Add review</button>
 
         </div>
         );
