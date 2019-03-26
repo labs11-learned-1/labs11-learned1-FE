@@ -16,7 +16,7 @@
     }
   },
   "routes": [
-    { "src": "/(.*)", "dest": "/$1" }
+    { "src": "(.*)", "dest": "$1" }
   ],
   "builds": [{ 
      "src": "next.config.js", "use": "@now/next" }
