@@ -42,22 +42,23 @@ export default function Community() {
           .catch(err => {
             console.log("Error fetching posts", err);
           });
-          console.log("posts: ", posts)
+          
       }
       
       
     React.useEffect(() => getAllPosts(), []);
-    
+    console.log("posts: ", state.newsfeed)
     return(
             <div className="community">
                 <Nav />
                 <div className="community-content">
                     <h1>News Feed</h1>
-                    <div className="cards">
-                        {state.newsfeed.map((index,post) => {
-                            <h1>{post.title}</h1>
-                            {/*<Postcard content={post} key={index}/>*/}
-                        })}
+                    <div className='cards'>
+                        {console.log(state.newsfeed)}
+                        {   
+                            state.newsfeed.map((post, index) =>                             
+                                    <Postcard content={post} key={index}/>     
+                        )}
                         
                     </div>
                 </div>
