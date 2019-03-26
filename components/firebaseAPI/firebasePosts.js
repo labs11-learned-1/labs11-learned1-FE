@@ -1,7 +1,9 @@
 import { loadDB } from "../../firebaseConfig/firebase";
 import { Store } from "../store";
+import {useContext} from 'react';
 // make sure to import * from firebase so that array updates work correctly
 import * as firebase from "firebase";
+
 
 //// =============ADD POST==============
 export const addPost = async () => {
@@ -88,7 +90,8 @@ export const getPost = async (/*value of postId*/) => {
 
 
 // =========GET ALL POSTS ================
-export const getAllPosts = async (/*value of postId*/) => {
+export const getAllPosts = async ( ) => {
+  const {store,dispatch} = useContext(Store)
   let result = await loadDB();
   let db = result.firestore();
 
@@ -100,6 +103,10 @@ export const getAllPosts = async (/*value of postId*/) => {
     .then(postSnapshot => {
       postSnapshot.docs.forEach(doc => {
         posts.push(doc.data())
+      })
+      return dispatch({
+        type: 'SET_POSTS',
+        payload: posts
       })
     })
     .catch(err => {

@@ -6,6 +6,7 @@ const initialState = {
     message : "Are you working?",
     loggedIn: false,
     openForm:false,
+    newsfeed: [],
 }
 
 function reducer(state, action) {
@@ -18,6 +19,8 @@ function reducer(state, action) {
             return {...state, loggedIn: false}
         case 'FORM_TOGGLE':
             return {...state, openForm: action.payload}
+        case 'SET_POSTS':
+            return {...state, newsfeed: action.payload}
         default:
             return state;
     }

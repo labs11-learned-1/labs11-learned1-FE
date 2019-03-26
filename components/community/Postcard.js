@@ -42,7 +42,7 @@ class Postcard extends React.Component {
             {/* Replace with users google image */}
             <CardHeader 
                 avatar={<Avatar aria-label="Recipe" className={classes.avatar}>D</Avatar>}
-                title="Drew's favorite blog"
+                title={this.props.content.title}
                 subheader="March 26, 2019"
             />
             {/* Replace image url if present to one inputted in text */}
