@@ -10,10 +10,18 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import PostForm from '../Posts/postForm';
 import ReviewForm from '../Reviews/reviewForm';
+import axios from 'axios';
 
 export default class LearningLab extends React.Component {
     state = {
         open: false,
+        link: "",
+        metaData : {
+            title : "",
+            description: "",
+            author: "",
+            img: "",
+        }
     };
 
     handleClickOpen = () => {
@@ -23,6 +31,24 @@ export default class LearningLab extends React.Component {
     handleClose = () => {
         this.setState({ open: false });
     };
+
+    onChangeHandler = e => {
+        this.setState({...this.state.link, link : e.target.value})
+        console.log(this.state.link);
+    }
+
+    handleSubmit = () => {
+        axios.post('https://getmetatag.herokuapp.com/get-meta', {url:this.state.link})
+        .then(res => {
+            const { title, description, author, image } = res.data;
+            this.setState({metaData : {title : title, description : description, author : author, img : image}})
+            console.log(this.state.metaData);
+        })
+        .catch(err => {
+            alert("ERROR");
+        })
+        this.handleClose();
+    }
 
     render() {
         return (
@@ -56,6 +82,8 @@ export default class LearningLab extends React.Component {
                     id="name"
                     label="Link"
                     fullWidth
+                    multiline
+                    onChange={this.onChangeHandler}
                     />
                 </DialogContent>
 
@@ -64,7 +92,7 @@ export default class LearningLab extends React.Component {
                     Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button onClick={this.handleClose} color="primary">
+                    <Button onClick={this.handleSubmit} color="primary">
                     Add
                     </Button>
                 </DialogActions>
