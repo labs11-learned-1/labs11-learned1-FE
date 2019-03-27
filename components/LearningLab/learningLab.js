@@ -8,29 +8,13 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import {getReview, addReview, editReview, deleteReview} from '../firebaseAPI/firebaseReviews.js';
 import PostForm from '../Posts/postForm';
+import ReviewForm from '../Reviews/reviewForm';
 
 export default class LearningLab extends React.Component {
     state = {
         open: false,
     };
-
-    handleGetReview = () => {
-        getReview();
-    }
-
-    handleAddReview = () => {
-        addReview();
-    }
-
-    handleEditReview = () => {
-        editReview();
-    }
-
-    handleDeleteReview = () => {
-        deleteReview();
-    }
 
     handleClickOpen = () => {
         this.setState({ open: true });
@@ -87,10 +71,7 @@ export default class LearningLab extends React.Component {
 
             </Dialog>
             <PostForm />
-            <button onClick = {this.handleGetReview}>Get review</button>
-            <button onClick = {this.handleAddReview}>Add review</button>
-            <button onClick = {this.handleEditReview}>Edit review</button>
-            <button onClick = {this.handleDeleteReview}>Delete review</button>
+            <ReviewForm />
         </div>
         );
     }
