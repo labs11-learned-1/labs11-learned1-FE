@@ -67,7 +67,7 @@ export const deletePost = async () => {
 
 }
 
-// =============GET POST==============
+// =============GET POST by postId==============
 export const getPost = async (/*value of postId*/) => {
   let result = await loadDB();
   let db = result.firestore();
@@ -87,6 +87,12 @@ export const getPost = async (/*value of postId*/) => {
       console.log("error fetching this post", err);
     });
 };
+
+// ========= GET POST by userId ==============
+
+
+
+
 
 
 // =========GET ALL POSTS ================
