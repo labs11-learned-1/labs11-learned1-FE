@@ -9,7 +9,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {addPost, deletePost, editPost, getPost, getAllPosts} from '../components/firebaseAPI/firebasePosts.js';
-import {getReview, addReview} from '../components/firebaseAPI/firebaseReviews.js';
+import {getReview, addReview, editReview, deleteReview} from '../components/firebaseAPI/firebaseReviews.js';
 export default class LearningLab extends React.Component {
     state = {
         open: false,
@@ -24,6 +24,14 @@ export default class LearningLab extends React.Component {
 
     handleAddReview = () => {
         addReview();
+    }
+
+    handleEditReview = () => {
+        editReview();
+    }
+
+    handleDeleteReview = () => {
+        deleteReview();
     }
 
     handleAdd = () => {
@@ -110,6 +118,10 @@ export default class LearningLab extends React.Component {
 
             <button onClick = {this.handleGetReview}>Get review</button>
             <button onClick = {this.handleAddReview}>Add review</button>
+            <button onClick = {this.handleEditReview}>Edit review</button>
+            <button onClick = {this.handleDeleteReview}>Delete review</button>
+
+
 
         </div>
         );

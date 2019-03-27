@@ -66,4 +66,28 @@ export const addReview = async () => {
 
 //// =============EDIT REVIEW==============
 
+export const editReview = async () => {
+  let result = await loadDB();
+  let db = result.firestore();
+
+  db.collection('reviews').doc('4s493CU0cz68KqTNJDVS') // <--this is the reviewId on state
+  .update({
+    comment: 'New commdadentsssss',
+    title: 'Adding titlasdfadssss',
+    rating: 4
+  })
+  .then(res => console.log('Success updating review', res))
+  .catch(err => console.log('Failed to update review', err))
+}
+
 //// =============DELETE REVIEW============
+
+export const deleteReview = async () => {
+  let result = await loadDB();
+  let db = result.firestore();
+
+  db.collection('reviews').doc('xStOJP3IVYk2sFKq22TS') //<--- this id should be the reviewId of the review you want to delete. on state
+  .delete()
+  .then(res => console.log('Success deleting:', res))
+  .catch(err => console.log('Failed to delete review', err))
+}
