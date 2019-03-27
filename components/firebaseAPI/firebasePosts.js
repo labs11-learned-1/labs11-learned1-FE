@@ -1,7 +1,9 @@
 import { loadDB } from "../../firebaseConfig/firebase";
 import { Store } from "../store";
+import {useContext} from 'react';
 // make sure to import * from firebase so that array updates work correctly
 import * as firebase from "firebase";
+
 
 //// =============ADD POST==============
 export const addPost = async () => {
@@ -40,7 +42,7 @@ export const editPost = async (/*value of post.id, post.title, post.content */) 
 
   //access posts collection, provide specific post to update with postID, then call update providing fields 
   db.collection("posts")
-    .doc("b6lwH7wl6w7Km472m0uJ") //< postId
+    .doc("u6TFompHBYlqTmZ10p3j") //< postId
     .update({
       /*--------JSON of things to update--------*/
       title: "Revised Test Title 3", //< post.title
@@ -88,7 +90,8 @@ export const getPost = async (/*value of postId*/) => {
 
 
 // =========GET ALL POSTS ================
-export const getAllPosts = async (/*value of postId*/) => {
+export const getAllPosts = async ( ) => {
+  //const {store, dispatch} = useContext(Store)
   let result = await loadDB();
   let db = result.firestore();
 
@@ -101,9 +104,17 @@ export const getAllPosts = async (/*value of postId*/) => {
       postSnapshot.docs.forEach(doc => {
         posts.push(doc.data())
       })
+      /* return dispatch({
+        type: 'SET_POSTS',
+        payload: posts
+      }) */
     })
     .catch(err => {
       console.log("Error fetching posts", err);
     });
     console.log("posts: ", posts)
 }
+
+
+
+
