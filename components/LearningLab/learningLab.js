@@ -57,12 +57,16 @@ export default class LearningLab extends React.Component {
     
 
     handleSubmit = () => {
+        // sending link to web scraping backend that returns meta tags
         axios.post('https://getmetatag.herokuapp.com/get-meta', {url:this.state.link})
         .then(res => {
+            // saves useful meta tags to local state
             const { title, description, author, image } = res.data;
             this.setState({metaData : {title : title, description : description, author : author, img : image}})
-            console.log(this.state.metaData);
-            this.addContent(this.state.metaData.title, this.state.metaData.author, this.state.metaData.img, this.state.metaData.description)
+            // console.log(this.state.metaData);
+            const metaData = this.state.metaData;
+            // sends meta links and info to the firebase backend to be saved
+            this.addContent(metaData.title, metaData.author, metaData.img, metaData.description)
         })
         .catch(err => {
             alert("ERROR");
