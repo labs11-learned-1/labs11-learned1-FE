@@ -7,19 +7,22 @@ const initialState = {
     loggedIn: false,
     userId: "",
     openForm:false,
-    newsfeed: [],
-    profilePic: "",
-
+    userID: "",
+    displayName: "",
+    userImage: "",
 }
 
 function reducer(state, action) {
+    console.log(action.payload.uid)
+    console.log(action.payload.displayName)
+    console.log(action.payload.photoURL)
     switch(action.type){
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
         case 'LOGGED_IN':
-            return { ...state, loggedIn: true }
+            return { ...state, loggedIn: true, userID: action.payload.uid, displayName: action.payload.displayName, userImage: action.payload.photoURL}
         case 'LOGGED_OUT':
-            return {...state, loggedIn: false}
+            return {...state, loggedIn: false, }
         case 'FORM_TOGGLE':
             return {...state, openForm: action.payload}
         case 'SET_POSTS':
