@@ -5,10 +5,12 @@ export  const Store = React.createContext(); //creates context object
 const initialState = {
     message : "Are you working?",
     loggedIn: false,
+    userId: "",
     openForm:false,
     userID: "",
     displayName: "",
     userImage: "",
+
 }
 
 function reducer(state, action) {
