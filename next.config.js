@@ -1,40 +1,6 @@
 const webpack = require('webpack');
 require('dotenv').config();
 
-const withAssetRelocator = (nextConfig = {}) => {
-  return Object.assign({}, nextConfig, {
-    webpack(config, options) {
-      const { isServer } = options
-
-      if (isServer) {
-        config.node = Object.assign({}, config.node, {
-          __dirname: false,
-          __filename: false,
-        })
-
-        config.module.rules.unshift({
-          test: /\.(m?js|node)$/,
-          parser: { amd: false },
-          use: {
-            loader: '@zeit/webpack-asset-relocator-loader',
-            options: {
-              outputAssetBase: 'assets',
-              existingAssetNames: [],
-              wrapperCompatibility: true,
-              escapeNonAnalyzableRequires: true,
-            },
-          },
-        })
-      }
-
-      if (typeof nextConfig.webpack === 'function') {
-        return nextConfig.webpack(config, options)
-      }
-      return config
-    },
-  })
-}
-
 module.exports = {
   webpack: config => {
     const env = Object.keys(process.env).reduce((acc, curr) => {
@@ -57,6 +23,6 @@ module.exports = {
     "MESSAGING_SENDER_ID": process.env.MESSAGING_SENDER_ID,
     "UDEMY_CLIENT_ID": process.env.UDEMY_CLIENT_ID,
     "UDEMY_CLIENT_SECRET": process.env.UDEMY_CLIENT_SECRET
-  },
-  withAssetRelocator()
+  }
+  
 };
