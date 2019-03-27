@@ -58,6 +58,8 @@ export const getContentByUserId = async () => {
         let array = data.myList
         console.log("Array: ", array)
         return array
+        // array = ["ps4oztUhbI8jEU1AKxLk", otherContentId]
+        // db.collection('content-collection').doc('array[0]...array[i]').get()
     })
     .catch(err => {
         console.log("error retrieving myList array from user", err)
