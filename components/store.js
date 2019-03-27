@@ -7,6 +7,7 @@ const initialState = {
     loggedIn: false,
     openForm:false,
     newsfeed: [],
+    profilePic: "",
 }
 
 function reducer(state, action) {
