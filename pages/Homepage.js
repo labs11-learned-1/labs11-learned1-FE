@@ -70,7 +70,7 @@ const {classes} = props;
   } else {
     return (
       <div>
-        <Nav handleSignOut = {handleSignOut}/>
+        <Nav/>
         <Home/>
         <button onClick={handleAddContent}>Add Content</button>
         <button onClick={handleGetContentByUserId}>Get Content by user id</button>
