@@ -91,7 +91,7 @@ export const getPost = async (/*value of postId*/) => {
 
 // =========GET ALL POSTS ================
 export const getAllPosts = async ( ) => {
-  const {store,dispatch} = useContext(Store)
+  //const {store, dispatch} = useContext(Store)
   let result = await loadDB();
   let db = result.firestore();
 
@@ -104,10 +104,10 @@ export const getAllPosts = async ( ) => {
       postSnapshot.docs.forEach(doc => {
         posts.push(doc.data())
       })
-      return dispatch({
+      /* return dispatch({
         type: 'SET_POSTS',
         payload: posts
-      })
+      }) */
     })
     .catch(err => {
       console.log("Error fetching posts", err);
