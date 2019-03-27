@@ -11,6 +11,8 @@ import DialogTitle from '@material-ui/core/DialogTitle';
 import PostForm from '../Posts/postForm';
 import ReviewForm from '../Reviews/reviewForm';
 import axios from 'axios';
+import * as firebase from "firebase";
+import { loadDB } from "../../firebaseConfig/firebase";
 
 export default class LearningLab extends React.Component {
     state = {
@@ -37,12 +39,30 @@ export default class LearningLab extends React.Component {
         console.log(this.state.link);
     }
 
+    addContent = async (title, author, photo, description) => {
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection('content-collection').add({
+            title: title,
+            author: author,
+            photoUrl: photo,
+            description: description
+        }).then((ref) => {
+            console.log("Added content to the db", ref.id)
+            db.collection('user').doc("450").update({ myList: firebase.firestore.FieldValue.arrayUnion(ref.id)})
+        }).catch((err) => {
+            console.log("error adding content to the db", err);
+        });
+    }
+    
+
     handleSubmit = () => {
         axios.post('https://getmetatag.herokuapp.com/get-meta', {url:this.state.link})
         .then(res => {
             const { title, description, author, image } = res.data;
             this.setState({metaData : {title : title, description : description, author : author, img : image}})
             console.log(this.state.metaData);
+            this.addContent(this.state.metaData.title, this.state.metaData.author, this.state.metaData.img, this.state.metaData.description)
         })
         .catch(err => {
             alert("ERROR");
