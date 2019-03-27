@@ -58,20 +58,6 @@ export default function Homepage() {
       
   };
 
-  const handleSignOut = async () => {
-    let myVal = await loadDB();
-    myVal
-      .auth()
-      .signOut()
-      .then((result) => {
-        console.log("logout success", result)
-        return dispatch({ type: "LOGGED_OUT" });
-      })
-      .catch(e => {
-        alert("Error signing out");
-      });
-  };
-
   const { state, dispatch } = React.useContext(Store);
   if (!state.loggedIn) {
     return (
@@ -79,7 +65,6 @@ export default function Homepage() {
         <Authentication
           type="login"
           handleGoogle={handleGoogle}
-          handleSignOut={handleSignOut}
           fetchUsers={fetchUsers}
         />
         <p>{state.loggedIn.toString()}</p>
@@ -88,7 +73,7 @@ export default function Homepage() {
   } else {
     return (
       <div>
-        <Nav handleSignOut = {handleSignOut}/>
+        <Nav/>
         <Home/>
       </div>
     );

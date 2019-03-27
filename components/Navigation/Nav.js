@@ -100,9 +100,6 @@ const Navigation  = (props) => {
                     <Link href="/learning-lab">
                         <a className={classes.links}>Learning Lab</a>
                     </Link>
-                    <Link href="/browse">
-                        <a className={classes.links}>Browse</a>
-                    </Link>
                     <Link href="/community">
                         <a className={classes.links}>Community</a>
                     </Link>
@@ -127,7 +124,7 @@ const Navigation  = (props) => {
                                 <Paper>
                                 <ClickAwayListener onClickAway={handleClose}>
                                     <MenuList>
-                                        <Link href='/setting'>
+                                        <Link href='/settings'>
                                             <MenuItem onClick={handleClose}>Settings</MenuItem>
                                         </Link>
                                         <MenuItem onClick={handleSignOut}>SignOut</MenuItem>

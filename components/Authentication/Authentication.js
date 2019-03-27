@@ -21,7 +21,6 @@ const Authentication = (props) => {
             <p>Remember everything important.</p>
         </div>
         <button onClick={props.handleGoogle}>Continue with Google</button>
-        <button onClick={props.handleSignOut}>Sign Out</button>
         <button onClick={props.fetchUsers}>Fetch User</button>
         <div>
             <span></span>
