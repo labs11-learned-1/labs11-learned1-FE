@@ -11,6 +11,8 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+import * as firebase from "firebase";
+import { loadDB } from '../../firebaseConfig/firebase';
 
 const styles = theme => ({
     nav : {
@@ -44,6 +46,20 @@ const Navigation  = (props) => {
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
+
+    const handleSignOut = async () => {
+        let myVal = await loadDB();
+        myVal
+          .auth()
+          .signOut()
+          .then((result) => {
+            console.log("logout success", result)
+            return dispatch({ type: "LOGGED_OUT" });
+          })
+          .catch(e => {
+            alert("Error signing out");
+          });
+      };
 
     const handleToggle = () => {
         setOpen(!open);
@@ -114,7 +130,7 @@ const Navigation  = (props) => {
                                         <Link href='/setting'>
                                             <MenuItem onClick={handleClose}>Settings</MenuItem>
                                         </Link>
-                                        <MenuItem onClick={props.handleSignOut}>SignOut</MenuItem>
+                                        <MenuItem onClick={handleSignOut}>SignOut</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>

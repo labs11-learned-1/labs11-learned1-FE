@@ -1,4 +1,5 @@
 import React from 'react';
+<<<<<<< HEAD
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Nav from '../components/Navigation/Nav'
@@ -144,7 +145,16 @@ export default class LearningLab extends React.Component {
 
 
 
+=======
+import LearningLab from '../components/LearningLab/learningLab'
+
+function LearningLabPage(){
+    return(
+        <div>
+            <LearningLab />
+>>>>>>> 7b85ab718a93f0d8cfb782494e4cba4c4ce7a7ff
         </div>
-        );
-    }
+    );
 }
+
+export default LearningLabPage;
