@@ -10,10 +10,15 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import {addPost, deletePost, editPost, getPost, getAllPosts} from '../components/firebaseAPI/firebasePosts.js';
 import {getReview, addReview, editReview, deleteReview} from '../components/firebaseAPI/firebaseReviews.js';
+import axios from 'axios';
 export default class LearningLab extends React.Component {
-    state = {
-        open: false,
-    };
+    constructor(){
+        super();
+        this.state = {
+            open: false,
+            link: '',
+        };
+    }
 
 //this button can be placed elsewhere. It is in learning labs just as a test
     
@@ -62,6 +67,21 @@ export default class LearningLab extends React.Component {
         this.setState({ open: false });
     };
 
+    handleChange = e => {
+        this.setState({link : e.target.value })
+        console.log(this.state.link);
+    }
+
+    fetchUrlData = () => {
+        axios.get('https://medium.freecodecamp.org/the-ultimate-guide-to-web-scraping-with-node-js-daa2027dcd3')
+        .then((response) => {
+            if(response.status === 200) {
+                const html = response.data;
+                console.log(html);
+            }
+        }, (error) => console.log(error) );
+    }
+
     render() {
         return (
         <div>
@@ -94,6 +114,7 @@ export default class LearningLab extends React.Component {
                     id="name"
                     label="Link"
                     fullWidth
+                    onChange={this.handleChange}
                     />
                 </DialogContent>
 
@@ -102,7 +123,7 @@ export default class LearningLab extends React.Component {
                     Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button onClick={this.handleClose} color="primary">
+                    <Button onClick={()=>this.fetchUrlData()} color="primary">
                     Add
                     </Button>
                 </DialogActions>
