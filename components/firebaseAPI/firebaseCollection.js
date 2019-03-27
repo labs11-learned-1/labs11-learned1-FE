@@ -44,21 +44,12 @@ export const getContentById = async () => {
     }).catch(err => {
         console.log("Error getting content", err)
     });
-    
+
 }
 
 export const getContentByUserId = async () => {
     let result = await loadDB();
     let db = result.firestore();
-    /* db.collection('content-collection').where("userList", "==", "450" ).get().then(function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-            // doc.data() is never undefined for query doc snapshots
-            console.log(doc.id, " => ", doc.data());
-        });
-    })
-    .catch(function(error) {
-        console.log("Error getting documents: ", error);
-    }); */
     db.collection("content-collection").where("userId", "array-contains", "450")
     .get()
     .then(function(querySnapshot) {
@@ -70,40 +61,18 @@ export const getContentByUserId = async () => {
     .catch(function(error) {
         console.log("Error getting documents: ", error);
     });
-
-
-        
-    /* db.collection('user').doc('450').get()
-    .then((res) =>{
-        console.log("res.data(): ", res.data())
-        let data =  res.data()
-        let array = data.myList
-        console.log("Array: ", array)
-        // array = ["ps4oztUhbI8jEU1AKxLk", otherContentId]
-        //create a loop that calls a .where for the length of the array
-        array.forEach(() => {
-            db.collection('content-collection')
-            .where("id", "==", "userId")
-            .get()
-            .then(querySnapshot => console.log(res))
-            .catch(err => console.log(err))
-        })
-    })
-    .catch(err => {
-        console.log("error retrieving myList array from user", err)
-    }) */
 }
 
 // ===== DELETE CONTENT by contentId in content-collection =====
 
-export const deleteContent = async () => {
+/* export const deleteContent = async () => {
     let result = await loadDB();
     let db = result.firestore();
 
-    
+    db.collection('user').doc("450").update({myList: FieldValue.de})
+    .then(() => {
+        db.collection('content-collection').doc('vTUfZsjTezKIynDHOqkJ').where("userId", "array-contains", "450").remove()
+    })
+    .catch(err => console.log('Cant remove'))
 }
 
-
-
-
-// ===== 
