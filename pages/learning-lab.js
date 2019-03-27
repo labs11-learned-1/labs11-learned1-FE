@@ -8,16 +8,8 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-<<<<<<< HEAD
-
-import {editPost} from '../components/firebaseAPI/firebasePosts';
-import {getPost} from '../components/firebaseAPI/firebasePosts';
-import {getAllPosts} from '../components/firebaseAPI/firebasePosts';
-
-=======
 import {addPost, deletePost, editPost, getPost, getAllPosts} from '../components/firebaseAPI/firebasePosts.js';
 import {getReview, addReview, editReview, deleteReview} from '../components/firebaseAPI/firebaseReviews.js';
->>>>>>> b037c45dfe0d365d7bd9ce41e7e856cbeef869dc
 export default class LearningLab extends React.Component {
     state = {
         open: false,
