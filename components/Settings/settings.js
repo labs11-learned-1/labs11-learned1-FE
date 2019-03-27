@@ -28,14 +28,16 @@ const styles = {
 }
 
 const Settings = (props) => {
-    const [imagePopup, setImagePopup] = useState(false);
-    const [editDisplay, setEditDisplay] = useState(false);
-    const [newDisplay, setNewDisplay] = useState("");
 
     const { state, dispatch } = React.useContext(Store);
+
+    const [imagePopup, setImagePopup] = useState(false);
+    const [editDisplay, setEditDisplay] = useState(true);
+    const [newDisplay, setNewDisplay] = useState(state.displayName);
+
+    
     const { classes } = props;
     //FOR NOW HAS VERY UGLY LOOKING SETUP IN ORDER TO PRESENT THE IDEA OF FUNCTIONALITY
-
 
     const handleSignOut = async () => {
         let myVal = await loadDB();
@@ -55,6 +57,10 @@ const Settings = (props) => {
         setNewDisplay(ev.target.value);
     }
 
+    const uploadDisplayName = () => {
+        //Send a put to the server to update the display name of the user and update global state.
+    }
+
     let selectImage;
     let editDisplayName;
     let imageStyle = {
@@ -71,15 +77,7 @@ const Settings = (props) => {
     }
 
     //This might be a popup, otherwise it would be beteer to hide the change button in displayname div.
-    if(editDisplay) {
-        editDisplayName = <div>
-            <input type="text" onChange={handleInputChanges}></input>
-            <button onClick={()=>setEditDisplay(false)}>SUBMIT</button>
-        </div>
-    } else {
-        editDisplayName = null;
-    }
-
+    console.log(editDisplay.toString());
     return (
         
       <div className={classes.settingsWrapper}>
@@ -96,9 +94,16 @@ const Settings = (props) => {
             {selectImage}
             <div className='displayname'>
                 <span>Your Username</span>
-
-                <button onClick={() => setEditDisplay(true)}>CHANGE</button>
-                {editDisplayName}
+                <input type ="text" onChange={handleInputChanges} value={newDisplay} disabled= {(editDisplay) ? 'disabled': ''}/>
+                <button onClick={() => setEditDisplay(false)}>Edit Username</button>
+                <button onClick={() => {
+                    setEditDisplay(true)
+                    uploadDisplayName()
+                    }}>SAVE</button>
+                <button onClick={() => {
+                    setEditDisplay(true)
+                    setNewDisplay(state.displayName)
+                }}>CANCEL</button>
             </div>
         </div>
         <div className={classes.connections}>
