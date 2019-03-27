@@ -18,7 +18,7 @@ import * as firebase from "firebase";
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Community() {
 
-    const { state, dispatch } = React.useContext(Store);
+    const [newsfeed, setNewsFeed] = React.useState([]);
 
     const getAllPosts = async ( ) => {
         
@@ -34,10 +34,7 @@ export default function Community() {
             postSnapshot.docs.forEach(doc => {
               posts.push(doc.data())
             })
-            return dispatch({
-              type: 'SET_POSTS',
-              payload: posts
-            })
+            setNewsFeed(posts)
           })
           .catch(err => {
             console.log("Error fetching posts", err);
@@ -46,17 +43,16 @@ export default function Community() {
       }
       
       
-    React.useEffect(() => getAllPosts(), []);
-    console.log("posts: ", state.newsfeed)
+    React.useEffect(() => {getAllPosts()}, []);
     return(
             <div className="community">
                 <Nav />
                 <div className="community-content">
                     <h1>News Feed</h1>
                     <div className='cards'>
-                        {console.log(state.newsfeed)}
+                        {console.log(newsfeed)}
                         {   
-                            state.newsfeed.map((post, index) =>                             
+                            newsfeed.map((post, index) =>                             
                                     <Postcard content={post} key={index}/>     
                         )}
                         
