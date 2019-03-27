@@ -18,6 +18,7 @@ export const BlogCard = (props) => {
             <div>
                 <p>{props.datePosted}</p>
                 <span>RATING IN STARS</span>
+                <span>({props.rating})</span> {/*Rating in number format*/}
             </div>
         </div>
       </div>
