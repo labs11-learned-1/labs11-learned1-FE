@@ -14,69 +14,61 @@ import axios from 'axios';
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 
-export default class LearningLab extends React.Component {
-    state = {
-        open: false,
-        link: "",
-        metaData : {
-            title : "",
-            description: "",
-            author: "",
-            img: "",
-        }
-    };
+const LearningLab = () => {
+    const [open, setOpen] = React.useState(false);
+    const [link, setLink] = React.useState("");
+    const [metaData, setMetaData] = React.useState({});
 
-    handleClickOpen = () => {
-        this.setState({ open: true });
-    };
-
-    handleClose = () => {
-        this.setState({ open: false });
-    };
-
-    onChangeHandler = e => {
-        this.setState({...this.state.link, link : e.target.value})
-        console.log(this.state.link);
+    const onChangeHandler = ev => {
+        setLink(ev.target.value)
     }
 
-    addContent = async (title, author, photo, description, link) => {
+    const addContent = async () => {
+        const {title, description, author, img} = metaData;
         let result = await loadDB();
         let db = result.firestore();
         db.collection('content-collection').doc().set({
             title: title,
             author: author,
-            photoUrl: photo,
+            photoUrl: img,
             description: description,
             link: link
         }).then((ref) => {
             console.log("Added content to the db", ref.id)
             db.collection('user').doc("450").update({ myList: firebase.firestore.FieldValue.arrayUnion(ref.id)})
+            setMetaData({})
         }).catch((err) => {
             console.log("error adding content to the db", err);
         });
     }
     
 
-    handleSubmit = () => {
+    const handleSubmit = () => {
         // sending link to web scraping backend that returns meta tags
-        axios.post('https://getmetatag.herokuapp.com/get-meta', {url:this.state.link})
-        .then(res => {
+        axios.post('https://getmetatag.herokuapp.com/get-meta', {url:link})
+        .then((res) => {
             // saves useful meta tags to local state
             const { title, description, author, image } = res.data;
-            this.setState({metaData : {title : title, description : description, author : author, img : image}})
-            // console.log(this.state.metaData);
-            const metaData = this.state.metaData;
+            setMetaData({title : title, description : description, author : author, img : image});  
             // sends meta links and info to the firebase backend to be saved
-            this.addContent(metaData.title, metaData.author, metaData.img, metaData.description)
         })
         .catch(err => {
             alert("ERROR");
         })
-        this.handleClose();
+        setOpen(false);
     }
 
-    render() {
-        return (
+    React.useEffect(
+        () => {
+          if (metaData.title) {
+            addContent()
+          }
+        },
+        [metaData.title]
+      );
+
+    
+    return (
         <div>
             <Navigation />
 
@@ -88,14 +80,14 @@ export default class LearningLab extends React.Component {
             <div className="IDKWTFThisIs">
             {/* I still have no Idea what this is */}
             </div>
-            <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
+            <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
                 <AddIcon />
             </Fab>
 
             {/* Modul starts here */}
             <Dialog
-            open={this.state.open}
-            onClose={this.handleClose}
+            open={open}
+            onClose={() => setOpen(false)}
             aria-labelledby="form-dialog-title"
             >
                 <DialogTitle id="form-dialog-title">Enter Link to Blog/Course</DialogTitle>
@@ -108,16 +100,16 @@ export default class LearningLab extends React.Component {
                     label="Link"
                     fullWidth
                     multiline
-                    onChange={this.onChangeHandler}
+                    onChange={onChangeHandler}
                     />
                 </DialogContent>
 
                 <DialogActions>
-                    <Button onClick={this.handleClose} color="primary">
+                    <Button onClick={() => setOpen(false)} color="primary">
                     Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button onClick={this.handleSubmit} color="primary">
+                    <Button onClick={handleSubmit} color="primary">
                     Add
                     </Button>
                 </DialogActions>
@@ -126,6 +118,7 @@ export default class LearningLab extends React.Component {
             <PostForm />
             <ReviewForm />
         </div>
-        );
-    }
+    );
 }
+
+export default LearningLab;
