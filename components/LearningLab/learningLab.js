@@ -52,23 +52,42 @@ class LearningLab extends React.Component {
     addContent = async (userId,title, author, photo, description, link) => {
         let result = await loadDB();
         let db = result.firestore();
-        let back = "/"
         let newLink = link.split("//").pop().replace(/[/]/g, "-");
         console.log('newLink:  ', newLink)
-        db.collection('content-collection').doc(newLink).update({
-            title: title,
-            author: author,
-            photoUrl: photo,
-            description: description,
-            link: link,
-            // Pseudo code make a real array
-            userList: firebase.firestore.FieldValue.arrayUnion(userId)
-        }).then(() => {
-            console.log("Added content to the db", )
-            db.collection('user').doc(userId).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
-        }).catch((err) => {
-            console.log("error adding content to the db", err);
-        });
+        const contentRef = db.collection('content-collection');
+        //do a call on a doc where new link is
+        contentRef.doc(newLink).get().then((docSnapshot)=> {
+        //see if it exists
+            if(docSnapshot.exists){
+                //if it exists, just update the array with the userId
+                contentRef.doc(newLink).update({userList: firebase.firestore.FieldValue.arrayUnion(userId)}).then(()=>{
+                    db.collection('user').doc(userId).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+                }).catch(err => {
+                    console.log("Error adding newLink to myList in user docs", err)
+                });
+
+        } else {
+            //else create the whole new document
+            contentRef.doc(newLink).set({
+                title: title,
+                author: author,
+                photoUrl: photo,
+                description: description,
+                link: link,
+                // Pseudo code make a real array
+                userList: firebase.firestore.FieldValue.arrayUnion(userId)
+            }).then(() => {
+                console.log("Added content to the db", )
+                db.collection('user').doc(userId).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+            }).catch((err) => {
+                console.log("error adding content to the db", err);
+            });
+        }
+    }).catch((err) => {
+        console.log("Error with getting the stuff. try a db call here if it is going to this catch", err)
+    })
+    
+        
     }
     
     getContentByUserId = async (userId) => {
@@ -122,7 +141,7 @@ class LearningLab extends React.Component {
                 {/* This is where user courses will show up */}
                 </div>
                 <h1>My List</h1>
-                <div className="IDKWTFThisIs">
+                <div className="my-list">
                     {console.log(this.state.list)}
                 </div>
                 <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
