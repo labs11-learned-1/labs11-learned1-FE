@@ -39,14 +39,15 @@ export default class LearningLab extends React.Component {
         console.log(this.state.link);
     }
 
-    addContent = async (title, author, photo, description) => {
+    addContent = async (title, author, photo, description, link) => {
         let result = await loadDB();
         let db = result.firestore();
-        db.collection('content-collection').add({
+        db.collection('content-collection').doc().set({
             title: title,
             author: author,
             photoUrl: photo,
-            description: description
+            description: description,
+            link: link
         }).then((ref) => {
             console.log("Added content to the db", ref.id)
             db.collection('user').doc("450").update({ myList: firebase.firestore.FieldValue.arrayUnion(ref.id)})

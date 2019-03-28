@@ -13,7 +13,7 @@ export const addContent = async () => {
     let db = result.firestore();
 
  //if (/*state.url = db.collection("content-collection").doc("existingDoc.id")*/ ) {
-    db.collection('content-collection').doc(/*existingDocId */).update({userList: firebase.firestore.FieldValue.arrayUnion(state.userId)})
+    db.collection('content-collection').doc('vTUfZsm5bzKIynDHOqkJ').update({userList: firebase.firestore.FieldValue.arrayUnion(state.userId)})
 // db.collection('user').doc(/*state.userId*/).update({ myList: firebase.firestore.FieldValue.arrayUnion(/*existingDoc.id*/)}) 
 
  //} else {
@@ -65,14 +65,21 @@ export const getContentByUserId = async () => {
 
 // ===== DELETE CONTENT by contentId in content-collection =====
 
-/* export const deleteContent = async () => {
+ export const deleteContent = async () => {
     let result = await loadDB();
     let db = result.firestore();
 
-    db.collection('user').doc("450").update({myList: firebase.firestore.FieldValue.arrayRemove("contentId")})
+    db.collection('user').doc("450").update({myList: firebase.firestore.FieldValue.arrayRemove('vTUfZsjTezKIynDHOqkJ')})
     .then(() => {
-        db.collection('content-collection').doc('vTUfZsjTezKIynDHOqkJ').where("userId", "array-contains", "450").remove()
+        db.collection('content-collection').doc('vTUfZsjTezKIynDHOqkJ').update({userId: firebase.firestore.FieldValue.arrayRemove("450")})
+        .then(() => {
+            console.log('Success')
+        })
+        .catch(err => {
+            console.log("error removing userid from content array")
+        })
+        // make edge case, above function wont remove from userId if it the last index in the array
     })
     .catch(err => console.log('Cant remove'))
-} */
+}
 
