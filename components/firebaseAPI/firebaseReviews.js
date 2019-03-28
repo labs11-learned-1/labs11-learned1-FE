@@ -19,7 +19,7 @@ export const getReview = async () => {
 
 //// =============ADD REVIEW==============
 
-export const addReview = async () => {
+export const addReview = async (rating, comment, title, userId, collectionId) => {
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
@@ -27,11 +27,11 @@ export const addReview = async () => {
   db.collection("reviews")
     .add({
       // adding a new review in 'reviews' collection
-      rating: 0, //<---- firestore review system (drew's resource that he posted)
-      comment: "",
-      title: "",
-      userId: "88kXCz9j4hxYGdzz8TeP", //<--- id of user who left review, in this case is state.userId
-      contentCollectionId: "ps4oztUhbI8jEU1AKxLk" // id of content that is being reviewed, should be accsesed through state that has content-collection in it. state.contentId
+      rating: rating, //<---- firestore review system (drew's resource that he posted)
+      comment: comment,
+      title: title,
+      userId: userId, //<--- id of user who left review, in this case is state.userId
+      contentCollectionId: collectionId // id of content that is being reviewed, should be accsesed through state that has content-collection in it. state.contentId
     })
     .then(ref => {
       db.collection("user")

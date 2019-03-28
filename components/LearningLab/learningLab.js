@@ -1,26 +1,101 @@
 import React from 'react';
+
+//REACT
+import PostForm from '../Posts/postForm';
+import ReviewForm from '../Reviews/reviewForm';
+import axios from 'axios';
+import PropTypes from 'prop-types';
+import Navigation from '../Navigation/Nav';
+
+//FIREBASE
+import * as firebase from "firebase";
+import { loadDB } from "../../firebaseConfig/firebase";
+import {addReview, getReview} from '../firebaseAPI/firebaseReviews';
+
+//MaterialUI
+import { withStyles } from '@material-ui/core/styles';
+import { Store } from "../store";
+import ClickAwayListener from '@material-ui/core/ClickAwayListener';
+import Grow from '@material-ui/core/Grow';
+import Paper from '@material-ui/core/Paper';
+import Popper from '@material-ui/core/Popper';
+import MenuItem from '@material-ui/core/MenuItem';
+import MenuList from '@material-ui/core/MenuList';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
-import Navigation from '../Navigation/Nav';
 import Button from '@material-ui/core/Button';
 import TextField from '@material-ui/core/TextField';
 import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
-import PostForm from '../Posts/postForm';
-import ReviewForm from '../Reviews/reviewForm';
-import axios from 'axios';
-import * as firebase from "firebase";
-import { loadDB } from "../../firebaseConfig/firebase";
 
-const LearningLab = () => {
+const styles = theme => ({
+    reviewDialog: {
+        width: '548px',
+        margin: '0',
+        backgroundColor: '#3f51b5',
+        '& h2': {
+            color: 'white',
+            fontWeight: 'bold'
+        },
+    },
+    textField: {
+        width: '100%',
+        marginTop: '30px',
+        '& div': {
+            backgroundColor: 'white',
+            padding: '0 0 0 0',
+            '&:hover': {
+                backgroundColor: 'white',
+            }
+        },
+        '% label': {
+            padding: '0',
+            tranform : ''
+        }
+    },
+    reviewButtons: {
+        display: 'flex',
+        justifyContent: 'flex-end',
+        width: '100%'
+    },
+    toolbar : {
+        padding:0,
+        margin:"0 auto",
+        width:"48%",
+        display: 'flex',
+        justifyContent: "space-between",
+    },
+    menu: {
+        borderRadius: '50%',
+        fontWeight: 'bold',
+        fontSize: '20px'
+    }
+});
+
+const LearningLab = (props) => {
+
+    //Might just use one big state, but don't want it to look too much like normal setState so
+    // I don't really want to.
+    const { classes } = props;
+    const {state, dispatch} = React.useContext(Store)
     const [open, setOpen] = React.useState(false);
+    const [openReview, setOpenReview] = React.useState(false);
     const [link, setLink] = React.useState("");
     const [metaData, setMetaData] = React.useState({});
+    const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: ''})
+    const [openMenu, setOpenMenu] = React.useState(false);
+    const [menuType, setMenuType] = React.useState('');
 
     const onChangeHandler = ev => {
         setLink(ev.target.value)
+    }
+
+
+    //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
+    const reviewChange = ev => {
+        setReviewContent({...reviewContent, [ev.target.name]: ev.target.value})
     }
 
     const addContent = async () => {
@@ -40,6 +115,23 @@ const LearningLab = () => {
         }).catch((err) => {
             console.log("error adding content to the db", err);
         });
+    }
+
+    //MAKES THE CALL TO API TO ADD THE REVIEW, STILL NEEDS POST ID
+    const postReview = () => {
+        const {rating, content, title, postId} = reviewContent;
+        addReview(rating, content, title, state.userID, /*SOME POST ID*/)
+        setOpenReview(false)
+    }
+
+    const retrieveReview = () => {
+
+    }
+
+    const prepareReview = (ev) => {
+        setReviewContent({...reviewContent, postId: ev.target.id /*Whatever id it's supposed to be*/})
+        setOpenReview(true)
+        setOpenMenu(false)
     }
     
 
@@ -67,7 +159,7 @@ const LearningLab = () => {
         [metaData.title]
       );
 
-    
+    console.log(reviewContent);
     return (
         <div>
             <Navigation />
@@ -84,7 +176,8 @@ const LearningLab = () => {
                 <AddIcon />
             </Fab>
 
-            {/* Modul starts here */}
+
+            {/* COMPONENT FOR ADDING AN ITEM TO 'MY LIST' */}
             <Dialog
             open={open}
             onClose={() => setOpen(false)}
@@ -115,10 +208,93 @@ const LearningLab = () => {
                 </DialogActions>
 
             </Dialog>
-            <PostForm />
-            <ReviewForm />
+
+
+            {/* THIS IS THE REVIEW POSTING POPUP COMPONENT*/}
+            <Dialog  open={openReview}  onClose={() => setOpenReview(false)} aria-labelledby="simple-dialog-title">
+                <DialogTitle className={classes.reviewDialog}id="simple-dialog-title">Post Review</DialogTitle>
+                <DialogContent>
+                   
+                    <TextField
+                    autoFocus
+                    margin="dense"
+                    id="name"
+                    name="title"
+                    placeholder='Title'
+                    className={classes.textField}
+                    fullWidth
+                    onChange={reviewChange}
+                    />
+
+                    <TextField
+                        id="filled-multiline-static"
+                        multiline
+                        rows="10"
+                        name="content"
+                        placeholder="Write your review here..."
+                        className={classes.textField}
+                        margin="normal"
+                        variant="filled"
+                        onChange={reviewChange}
+                    />
+                    <div className={classes.reviewButtons}>
+                        <button style={{backgroundColor: reviewContent.rating >= 1 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 1})}></button>
+                        <button style={{backgroundColor: reviewContent.rating >= 2 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 2})}></button>
+                        <button style={{backgroundColor: reviewContent.rating >= 3 ? 'yellow' : ''}}onClick={() => setReviewContent({...reviewContent, rating: 3})}></button>
+                        <button style={{backgroundColor: reviewContent.rating >= 4 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 4})}></button>
+                        <button style={{backgroundColor: reviewContent.rating >= 5 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 5})}></button>
+                        <Button onClick={() => postReview()} color="primary">
+                            POST
+                        </Button>
+                        <Button onClick={() => setOpenReview(false)} color="primary">
+                            CANCEL
+                        </Button>
+                    </div>
+                    
+
+                </DialogContent>
+            </Dialog>
+
+
+            {/* COMPONENT THAT WILL BE PLACED WITH EVERY ITEM IN 'MY LIST' TO ALLOW USER TO REVIEW*/}
+            <div>
+                <Button
+                    buttonRef={node => {
+                    Button.anchorEl = node;
+                    }}
+                    aria-owns={openMenu ? 'menu-list-grow' : undefined}
+                    aria-haspopup="true"
+                    onClick={() => setOpenMenu(!openMenu)}
+                    className={classes.menu}
+                >
+                    . . .
+                </Button>
+                <Popper open={openMenu} anchorEl={Popper.anchorEl} transition disablePortal>
+                    {({ TransitionProps, placement }) => (
+                    <Grow
+                        {...TransitionProps}
+                        id="menu-list-grow"
+                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                    >
+                        <Paper>
+                        <ClickAwayListener onClickAway={() => setOpenMenu(false)}>
+                            <MenuList>
+                                    <MenuItem id={450} onClick={prepareReview}>Add Review</MenuItem>
+                            </MenuList>
+                        </ClickAwayListener>
+                        </Paper>
+                    </Grow>
+                    )}
+                </Popper>
+            </div>
+                
+            
         </div>
     );
 }
 
-export default LearningLab;
+LearningLab.propTypes = {
+    classes: PropTypes.object.isRequired,
+};
+
+export default withStyles(styles)(LearningLab);
