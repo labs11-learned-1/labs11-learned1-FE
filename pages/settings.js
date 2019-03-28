@@ -6,9 +6,9 @@ import Nav from '../components/Navigation/Nav'
 const SettingsPage = () => {
 
     return (
-      <div>
+      <div>   
         <Nav/>
-        <Settings/>
+        <Settings/>  
       </div>
     );
 }

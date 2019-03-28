@@ -17,6 +17,8 @@ import MenuList from '@material-ui/core/MenuList';
 const styles = theme => ({
     nav : {
         width:"100%",
+        borderBottom: '1px solid rgba(0,0,0,.1)',
+        boxShadow: '0 5px 6px -6px black'
     },
     toolbar : {
         padding:0,
@@ -26,7 +28,11 @@ const styles = theme => ({
         justifyContent: "space-between",
     },
     logo : {
-        height: '150px',
+        height: '100px',
+        width: '150px',
+        backgroundImage: `url(https://i.ibb.co/vHLKCnG/low-res.png)`, 
+        backgroundSize: 'cover',
+        backgroundPosition: 'center'
     },
     tabs: {
         display: 'flex',
@@ -75,12 +81,12 @@ const Navigation  = (props) => {
       //test comment
 
     const { classes } = props;
-    
+
     if (!state.loggedIn) {
         return (
             <div className={classes.nav}>
                 <Toolbar variant="regular" className={classes.toolbar}>
-                    <img src="https://i.ibb.co/vHLKCnG/low-res.png" alt="low-res" className={classes.logo} />
+                    <div className={classes.logo}/>
                     <div>
                         <Link href="/Homepage">
                             <Button className={classes.Button} color="#69178A">Login / Sign Up</Button>
@@ -93,7 +99,7 @@ const Navigation  = (props) => {
         return (
           <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
-                <img src="https://i.ibb.co/vHLKCnG/low-res.png" alt="low-res" className={classes.logo} />
+                <div className={classes.logo}/>
                 <div className={classes.tabs}>
                     <Link href="/Homepage">
                         <a className={classes.links}>Home</a>
