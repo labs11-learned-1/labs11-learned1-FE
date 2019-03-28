@@ -15,6 +15,7 @@ import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import Card from './card'
 
 const styles = {
     homepageWrapper:{
@@ -74,7 +75,7 @@ class LearningLab extends React.Component {
         let arr = [];
         let result = await loadDB();
         let db = result.firestore();
-        db.collection("content-collection").where("userId", "array-contains", userId)
+        db.collection("content-collection").where("userList", "array-contains", userId)
         .get()
         .then(function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
@@ -87,6 +88,7 @@ class LearningLab extends React.Component {
             console.log("Error getting documents: ", error);
         });
         this.setState({list : arr})
+        console.log("state.list ::" , this.state.list);
     }
 
     handleSubmit = (userId, link) => {
@@ -105,7 +107,7 @@ class LearningLab extends React.Component {
         .catch(err => {
             alert("ERROR");
         })
-        this.getContentByUserId(userId);
+        // this.getContentByUserId(userId, link);
         this.handleClose();
     }
 
@@ -114,20 +116,14 @@ class LearningLab extends React.Component {
         <div>
             <Navigation />
             <div>
+                <button onClick={()=>this.getContentByUserId(this.props.userId)}>refresh</button>
                 <h1>Current Courses</h1>
                 <div className="thisIsWhereCoursesCardsWillGo">
                 {/* This is where user courses will show up */}
                 </div>
                 <h1>My List</h1>
                 <div className="IDKWTFThisIs">
-                    {this.state.list.map(item => {
-                        return(
-                            <div>
-                                <h1>hello</h1>
-                                <h1>{item.title}</h1>
-                                <p>{item.url}</p>
-                            </div>)
-                    })}
+                    {console.log(this.state.list)}
                 </div>
                 <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
                     <AddIcon />
