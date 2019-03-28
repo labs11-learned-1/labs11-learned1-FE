@@ -7,7 +7,6 @@ import PropTypes from 'prop-types';
 //firebase imports
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";
-import {addContent, getContentById, getContentByUserId, deleteContent} from '../components/firebaseAPI/firebaseCollection';
 
 //component imports
 import Nav from '../components/Navigation/Nav'
@@ -16,7 +15,7 @@ import Authentication from "../components/Authentication/Authentication";
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
-
+import ContentCollection from "../components/ContentCollection/contentCollection";
 
 
 const styles = {
@@ -25,24 +24,9 @@ const styles = {
     justifyContent: "center",
     alignContent: "center",
   }
-
 }
 
- function Homepage(props) {
-  
-const handleAddContent = () => {
- addContent();
-}
-const handleGetContentByUserId = () => {
-  getContentByUserId();
-}
-const handlegetContentById = () => {
-  getContentById();
-}
-const handleDeleteContent = () => {
-  deleteContent();
- }
-
+function Homepage(props) {
 
   const handleSignOut = async () => {
     let myVal = await loadDB();
@@ -57,32 +41,28 @@ const handleDeleteContent = () => {
         alert("Error signing out");
       });
   };
-const {classes} = props;
-  const { state, dispatch } = React.useContext(Store);
-  if (!state.loggedIn) {
-    return (
-      <div className={classes.authContainer}>
-        <Authentication
-          type="login"
-      
-        />
-        
-        
-      </div>
-    );
-  } else {
-    return (
-      <div>
-        <Nav/>
-        <Home/>
-        <button onClick={handleAddContent}>Add Content</button>
-        <button onClick={handleGetContentByUserId}>Get Content by user id</button>
-        <button onClick={handlegetContentById}>Get Content by id</button>
-        <button onClick={handleDeleteContent}>Delete Content</button>
-      </div>
-    );
+
+  const {classes} = props;
+    const { state, dispatch } = React.useContext(Store);
+    if (!state.loggedIn) {
+      return (
+        <div className={classes.authContainer}>
+          <Authentication
+            type="login"
+          />
+        </div>
+      )
+    } else {
+      return (
+        <div>
+          <Nav/>
+          <Home/>
+          <ContentCollection />
+        </div>
+      );
+    }
   }
-}
+
 Homepage.propTypes = {
   classes: PropTypes.object.isRequired,
 }
