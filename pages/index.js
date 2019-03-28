@@ -6,7 +6,9 @@ export default class Home extends React.Component {
   // let firebase = await loadDB();
   render() {
     return (
+      <div>
       <LandingPage />
+      </div>
     );
   }
 }

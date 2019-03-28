@@ -45,6 +45,7 @@ export default function Community() {
       
     React.useEffect(() => {getAllPosts()}, []);
     return(
+      
             <div className="community">
                 <Nav />
                 <div className="community-content">

@@ -13,9 +13,6 @@ const initialState = {
 }
 
 function reducer(state, action) {
-    console.log(action.payload.uid)
-    console.log(action.payload.displayName)
-    console.log(action.payload.photoURL)
     switch(action.type){
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
