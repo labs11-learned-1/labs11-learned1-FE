@@ -13,8 +13,17 @@ import ReviewForm from '../Reviews/reviewForm';
 import axios from 'axios';
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 
-export default class LearningLab extends React.Component {
+const styles = {
+    homepageWrapper:{
+        width:"80%",
+        marginLeft:"26%"
+    },
+}
+
+class LearningLab extends React.Component {
     state = {
         open: false,
         link: "",
@@ -71,6 +80,7 @@ export default class LearningLab extends React.Component {
         .catch(err => {
             alert("ERROR");
         })
+        
         this.handleClose();
     }
 
@@ -78,18 +88,19 @@ export default class LearningLab extends React.Component {
         return (
         <div>
             <Navigation />
-
-            <h1>Current Courses</h1>
-            <div className="thisIsWhereCoursesCardsWillGo">
-            {/* This is where user courses will show up */}
+            <div>
+                <h1>Current Courses</h1>
+                <div className="thisIsWhereCoursesCardsWillGo">
+                {/* This is where user courses will show up */}
+                </div>
+                <h1>My List</h1>
+                <div className="IDKWTFThisIs">
+                {/* I still have no Idea what this is */}
+                </div>
+                <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
+                    <AddIcon />
+                </Fab>
             </div>
-            <h1>My List</h1>
-            <div className="IDKWTFThisIs">
-            {/* I still have no Idea what this is */}
-            </div>
-            <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                <AddIcon />
-            </Fab>
 
             {/* Modul starts here */}
             <Dialog
@@ -128,3 +139,9 @@ export default class LearningLab extends React.Component {
         );
     }
 }
+
+LearningLab.propTypes = {
+    classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(LearningLab);
