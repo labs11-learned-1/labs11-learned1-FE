@@ -7,7 +7,7 @@ import PropTypes from 'prop-types';
 //firebase imports
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";
-import {addContent, getContentById, getContentByUserId} from '../components/firebaseAPI/firebaseCollection';
+import {addContent, getContentById, getContentByUserId, deleteContent} from '../components/firebaseAPI/firebaseCollection';
 
 //component imports
 import Nav from '../components/Navigation/Nav'
@@ -39,6 +39,9 @@ const handleGetContentByUserId = () => {
 const handlegetContentById = () => {
   getContentById();
 }
+const handleDeleteContent = () => {
+  deleteContent();
+ }
 
 
   const handleSignOut = async () => {
@@ -75,6 +78,7 @@ const {classes} = props;
         <button onClick={handleAddContent}>Add Content</button>
         <button onClick={handleGetContentByUserId}>Get Content by user id</button>
         <button onClick={handlegetContentById}>Get Content by id</button>
+        <button onClick={handleDeleteContent}>Delete Content</button>
       </div>
     );
   }
