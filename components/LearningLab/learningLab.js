@@ -13,8 +13,18 @@ import ReviewForm from '../Reviews/reviewForm';
 import axios from 'axios';
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
+import Card from './card'
 
-export default class LearningLab extends React.Component {
+const styles = {
+    homepageWrapper:{
+        width:"80%",
+        marginLeft:"26%"
+    },
+}
+
+class LearningLab extends React.Component {
     state = {
         open: false,
         link: "",
@@ -23,7 +33,8 @@ export default class LearningLab extends React.Component {
             description: "",
             author: "",
             img: "",
-        }
+        },
+        list: []
     };
 
     handleClickOpen = () => {
@@ -36,28 +47,71 @@ export default class LearningLab extends React.Component {
 
     onChangeHandler = e => {
         this.setState({...this.state.link, link : e.target.value})
-        console.log(this.state.link);
     }
 
-    addContent = async (title, author, photo, description, link) => {
+    addContent = async (userId,title, author, photo, description, link) => {
         let result = await loadDB();
         let db = result.firestore();
-        db.collection('content-collection').doc().set({
-            title: title,
-            author: author,
-            photoUrl: photo,
-            description: description,
-            link: link
-        }).then((ref) => {
-            console.log("Added content to the db", ref.id)
-            db.collection('user').doc("450").update({ myList: firebase.firestore.FieldValue.arrayUnion(ref.id)})
-        }).catch((err) => {
-            console.log("error adding content to the db", err);
-        });
+        let newLink = link.split("//").pop().replace(/[/]/g, "-");
+        console.log('newLink:  ', newLink)
+        const contentRef = db.collection('content-collection');
+        //do a call on a doc where new link is
+        contentRef.doc(newLink).get().then((docSnapshot)=> {
+        //see if it exists
+            if(docSnapshot.exists){
+                //if it exists, just update the array with the userId
+                contentRef.doc(newLink).update({userList: firebase.firestore.FieldValue.arrayUnion(userId)}).then(()=>{
+                    db.collection('user').doc(userId).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+                }).catch(err => {
+                    console.log("Error adding newLink to myList in user docs", err)
+                });
+
+        } else {
+            //else create the whole new document
+            contentRef.doc(newLink).set({
+                title: title,
+                author: author,
+                photoUrl: photo,
+                description: description,
+                link: link,
+                // Pseudo code make a real array
+                userList: firebase.firestore.FieldValue.arrayUnion(userId)
+            }).then(() => {
+                console.log("Added content to the db", )
+                db.collection('user').doc(userId).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+            }).catch((err) => {
+                console.log("error adding content to the db", err);
+            });
+        }
+    }).catch((err) => {
+        console.log("Error with getting the stuff. try a db call here if it is going to this catch", err)
+    })
+    
+        
     }
     
+    getContentByUserId = async (userId) => {
+        let arr = [];
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection("content-collection").where("userList", "array-contains", userId)
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                const result = doc.data()
+                arr.push(result);
+                console.log(doc.id,"=>",result)
+            });
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+        this.setState({list : arr})
+        console.log("state.list ::" , this.state.list);
+    }
 
-    handleSubmit = () => {
+    handleSubmit = (userId, link) => {
+        console.log("This is the user id", userId);
         // sending link to web scraping backend that returns meta tags
         axios.post('https://getmetatag.herokuapp.com/get-meta', {url:this.state.link})
         .then(res => {
@@ -67,11 +121,12 @@ export default class LearningLab extends React.Component {
             // console.log(this.state.metaData);
             const metaData = this.state.metaData;
             // sends meta links and info to the firebase backend to be saved
-            this.addContent(metaData.title, metaData.author, metaData.img, metaData.description)
+            this.addContent(userId, metaData.title, metaData.author, metaData.img, metaData.description, link)
         })
         .catch(err => {
             alert("ERROR");
         })
+        // this.getContentByUserId(userId, link);
         this.handleClose();
     }
 
@@ -79,18 +134,20 @@ export default class LearningLab extends React.Component {
         return (
         <div>
             <Navigation />
-
-            <h1>Current Courses</h1>
-            <div className="thisIsWhereCoursesCardsWillGo">
-            {/* This is where user courses will show up */}
+            <div>
+                <button onClick={()=>this.getContentByUserId(this.props.userId)}>refresh</button>
+                <h1>Current Courses</h1>
+                <div className="thisIsWhereCoursesCardsWillGo">
+                {/* This is where user courses will show up */}
+                </div>
+                <h1>My List</h1>
+                <div className="my-list">
+                    {console.log(this.state.list)}
+                </div>
+                <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
+                    <AddIcon />
+                </Fab>
             </div>
-            <h1>My List</h1>
-            <div className="IDKWTFThisIs">
-            {/* I still have no Idea what this is */}
-            </div>
-            <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
-                <AddIcon />
-            </Fab>
 
             {/* Modul starts here */}
             <Dialog
@@ -117,7 +174,7 @@ export default class LearningLab extends React.Component {
                     Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button onClick={this.handleSubmit} color="primary">
+                    <Button onClick={()=>this.handleSubmit(this.props.userId, this.state.link)} color="primary">
                     Add
                     </Button>
                 </DialogActions>
@@ -129,3 +186,9 @@ export default class LearningLab extends React.Component {
         );
     }
 }
+
+LearningLab.propTypes = {
+    classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(LearningLab);

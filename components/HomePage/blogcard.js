@@ -5,7 +5,7 @@ import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
-export const BlogCard = (props) => {
+const BlogCard = (props) => {
 
     return (
       <div className='blogCard-wrapper' onClick={() => {window.location.href = props.url}}>
@@ -24,3 +24,5 @@ export const BlogCard = (props) => {
       </div>
     );
 }
+
+export default BlogCard;

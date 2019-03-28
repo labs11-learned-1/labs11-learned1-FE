@@ -1,10 +1,12 @@
 import React from 'react';
 import LearningLab from '../components/LearningLab/learningLab'
+import { Store } from "../components/store";
 
 function LearningLabPage(){
+    const { state } = React.useContext(Store);
     return(
         <div>
-            <LearningLab />
+            <LearningLab userId={state.userID}/>
         </div>
     );
 }

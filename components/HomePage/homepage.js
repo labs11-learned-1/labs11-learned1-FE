@@ -4,9 +4,17 @@ import { Store } from "../store";
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 import BlogCard from './blogcard';
+import { withStyles } from '@material-ui/core/styles';
+import PropTypes from 'prop-types';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
-
-export const Home = () => {
+const styles = {
+    homepageWrapper:{
+        width:"80%",
+        marginLeft:"26%"
+    },
+}
+const Home = (props) => {
+    const {classes} = props
     const [topBlogs, setTopBlogs] = useState([]);
     const [recCourses, setRecCourses] = useState([]);
 
@@ -34,11 +42,10 @@ export const Home = () => {
             //allowing them to reload on click
     }
 
-
   const { state, dispatch } = React.useContext(Store);
     return (
-      <div className='homepage-content-wrapper'>
-        <div className='popularBlogs-wrapper'>
+      <div className={classes.homepageWrapper}>
+        <div className={classes.popularBlogsWrapper}>
             <h2>Popular Blog Posts</h2>
             {topBlogs.map(blog => {
                 return (
@@ -46,7 +53,7 @@ export const Home = () => {
                 )
             })}
         </div>
-        <div className='recommendedBlog-wrapper'>
+        <div className='recommendedBlogWrapper'>
             <h2>Recommended Courses For You</h2>
             {recCourses.map(course => {
                 return (
@@ -57,3 +64,9 @@ export const Home = () => {
       </div>
     );
 }
+
+Home.propTypes = {
+    classes: PropTypes.object.isRequired,
+}
+
+export default withStyles(styles)(Home);
