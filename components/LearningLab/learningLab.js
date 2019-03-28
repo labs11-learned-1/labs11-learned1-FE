@@ -32,7 +32,8 @@ class LearningLab extends React.Component {
             description: "",
             author: "",
             img: "",
-        }
+        },
+        list: []
     };
 
     handleClickOpen = () => {
@@ -45,27 +46,50 @@ class LearningLab extends React.Component {
 
     onChangeHandler = e => {
         this.setState({...this.state.link, link : e.target.value})
-        console.log(this.state.link);
     }
 
-    addContent = async (title, author, photo, description) => {
+    addContent = async (userId,title, author, photo, description, link) => {
         let result = await loadDB();
         let db = result.firestore();
-        db.collection('content-collection').add({
+        let back = "/"
+        let newLink = link.split("//").pop().replace(/[/]/g, "-");
+        console.log('newLink:  ', newLink)
+        db.collection('content-collection').doc(newLink).set({
             title: title,
             author: author,
             photoUrl: photo,
-            description: description
-        }).then((ref) => {
-            console.log("Added content to the db", ref.id)
-            db.collection('user').doc("450").update({ myList: firebase.firestore.FieldValue.arrayUnion(ref.id)})
+            description: description,
+            link: link,
+            // Pseudo code make a real array
+            userList: firebase.firestore.FieldValue.arrayUnion(userId)
+        }).then(() => {
+            console.log("Added content to the db", )
+            db.collection('user').doc(userId).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
         }).catch((err) => {
             console.log("error adding content to the db", err);
         });
     }
     
+    getContentByUserId = async (userId) => {
+        let arr = [];
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection("content-collection").where("userId", "array-contains", userId)
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                const result = doc.data()
+                arr.push(result);
+                console.log(doc.id,"=>",result)
+            });
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+        this.setState({list : arr})
+    }
 
-    handleSubmit = () => {
+    handleSubmit = (userId, link) => {
         // sending link to web scraping backend that returns meta tags
         axios.post('https://getmetatag.herokuapp.com/get-meta', {url:this.state.link})
         .then(res => {
@@ -75,12 +99,12 @@ class LearningLab extends React.Component {
             // console.log(this.state.metaData);
             const metaData = this.state.metaData;
             // sends meta links and info to the firebase backend to be saved
-            this.addContent(metaData.title, metaData.author, metaData.img, metaData.description)
+            this.addContent(userId, metaData.title, metaData.author, metaData.img, metaData.description, link)
         })
         .catch(err => {
             alert("ERROR");
         })
-        
+        this.getContentByUserId(userId);
         this.handleClose();
     }
 
@@ -95,7 +119,14 @@ class LearningLab extends React.Component {
                 </div>
                 <h1>My List</h1>
                 <div className="IDKWTFThisIs">
-                {/* I still have no Idea what this is */}
+                    {this.state.list.map(item => {
+                        return(
+                            <div>
+                                <h1>hello</h1>
+                                <h1>{item.title}</h1>
+                                <p>{item.url}</p>
+                            </div>)
+                    })}
                 </div>
                 <Fab color="primary" aria-label="Add" onClick={this.handleClickOpen}>
                     <AddIcon />
@@ -127,7 +158,7 @@ class LearningLab extends React.Component {
                     Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button onClick={this.handleSubmit} color="primary">
+                    <Button onClick={()=>this.handleSubmit(this.props.userId, this.state.link)} color="primary">
                     Add
                     </Button>
                 </DialogActions>
