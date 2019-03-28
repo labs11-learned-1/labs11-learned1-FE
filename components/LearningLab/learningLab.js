@@ -125,7 +125,7 @@ const LearningLab = (props) => {
     }
 
     const retrieveReview = () => {
-
+        
     }
 
     const prepareReview = (ev) => {
