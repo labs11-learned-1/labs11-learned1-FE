@@ -1,7 +1,7 @@
 import { loadDB } from "../../firebaseConfig/firebase";
-import { Store } from "../store";
-import {useContext} from 'react';
-import axios from 'axios';
+//import { Store } from "../store";
+//import {useContext} from 'react';
+//import axios from 'axios';
 // make sure to import * from firebase so that array updates work correctly
 import * as firebase from "firebase";
 
@@ -69,10 +69,10 @@ export const getContentByUserId = async () => {
     let result = await loadDB();
     let db = result.firestore();
 
-    db.collection('user').doc("450").update({myList: FieldValue.de})
+    db.collection('user').doc("450").update({myList: firebase.firestore.FieldValue.arrayRemove("contentId")})
     .then(() => {
         db.collection('content-collection').doc('vTUfZsjTezKIynDHOqkJ').where("userId", "array-contains", "450").remove()
     })
     .catch(err => console.log('Cant remove'))
-}
+} */
 
