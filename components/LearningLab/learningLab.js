@@ -54,7 +54,7 @@ class LearningLab extends React.Component {
         let back = "/"
         let newLink = link.split("//").pop().replace(/[/]/g, "-");
         console.log('newLink:  ', newLink)
-        db.collection('content-collection').doc(newLink).set({
+        db.collection('content-collection').doc(newLink).update({
             title: title,
             author: author,
             photoUrl: photo,
@@ -90,6 +90,7 @@ class LearningLab extends React.Component {
     }
 
     handleSubmit = (userId, link) => {
+        console.log("This is the user id", userId);
         // sending link to web scraping backend that returns meta tags
         axios.post('https://getmetatag.herokuapp.com/get-meta', {url:this.state.link})
         .then(res => {
