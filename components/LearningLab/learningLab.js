@@ -6,6 +6,8 @@ import ReviewForm from '../Reviews/reviewForm';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Navigation from '../Navigation/Nav';
+import Card from './card';
+
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -71,7 +73,11 @@ const styles = theme => ({
         borderRadius: '50%',
         fontWeight: 'bold',
         fontSize: '20px'
-    }
+    },
+    homepageWrapper:{
+        width:"80%",
+        marginLeft:"26%"
+    },
 });
 
 const LearningLab = (props) => {
@@ -87,11 +93,11 @@ const LearningLab = (props) => {
     const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: ''})
     const [openMenu, setOpenMenu] = React.useState(false);
     const [menuType, setMenuType] = React.useState('');
+    const [list, setList] = React.useState([]);
 
     const onChangeHandler = ev => {
         setLink(ev.target.value)
     }
-
 
     //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
     const reviewChange = ev => {
@@ -99,22 +105,45 @@ const LearningLab = (props) => {
     }
 
     const addContent = async () => {
-        const {title, description, author, img} = metaData;
+        console.log(metaData)
         let result = await loadDB();
         let db = result.firestore();
-        db.collection('content-collection').doc().set({
-            title: title,
-            author: author,
-            photoUrl: img,
-            description: description,
-            link: link
-        }).then((ref) => {
-            console.log("Added content to the db", ref.id)
-            db.collection('user').doc("450").update({ myList: firebase.firestore.FieldValue.arrayUnion(ref.id)})
-            setMetaData({})
-        }).catch((err) => {
-            console.log("error adding content to the db", err);
-        });
+        let newLink = link.split("//").pop().replace(/[/]/g, "-");
+        console.log('newLink:  ', newLink)
+        const contentRef = db.collection('content-collection');
+        //do a call on a doc where new link is
+        contentRef.doc(newLink).get().then((docSnapshot)=> {
+        //see if it exists
+            if(docSnapshot.exists){
+                //if it exists, just update the array with the userId
+                contentRef.doc(newLink).update({userList: firebase.firestore.FieldValue.arrayUnion(state.userID)}).then(()=>{
+                    db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+                    console.log('Hello')
+                }).catch(err => {
+                    console.log("Error adding newLink to myList in user docs", err)
+                });
+
+        } else {
+            //else create the whole new document
+            contentRef.doc(newLink).set({
+                title: metaData.title,
+                author: metaData.author,
+                photoUrl: metaData.img,
+                description: metaData.description,
+                link: link,
+                // Pseudo code make a real array
+                userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
+            }).then(() => {
+                console.log("Added content to the db", )
+                db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+            }).catch((err) => {
+                console.log("error adding content to the db", err);
+            });
+        }
+    }).catch((err) => {
+        console.log("Error with getting the stuff. try a db call here if it is going to this catch", err)
+    })
+    
     }
 
     //MAKES THE CALL TO API TO ADD THE REVIEW, STILL NEEDS POST ID
@@ -134,6 +163,25 @@ const LearningLab = (props) => {
         setOpenMenu(false)
     }
     
+    const getContentByUserId = async () => {
+        let arr = [];
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection("content-collection").where("userList", "array-contains", state.userID)
+        .get()
+        .then(function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                const result = doc.data()
+                arr.push(result);
+                console.log(doc.id,"=>",result)
+            });
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+        setList(arr)
+        
+    }
 
     const handleSubmit = () => {
         // sending link to web scraping backend that returns meta tags
@@ -141,7 +189,7 @@ const LearningLab = (props) => {
         .then((res) => {
             // saves useful meta tags to local state
             const { title, description, author, image } = res.data;
-            setMetaData({title : title, description : description, author : author, img : image});  
+            setMetaData({title: title, description: description, author: author, img: image});  
             // sends meta links and info to the firebase backend to be saved
         })
         .catch(err => {
@@ -163,19 +211,19 @@ const LearningLab = (props) => {
     return (
         <div>
             <Navigation />
-
-            <h1>Current Courses</h1>
-            <div className="thisIsWhereCoursesCardsWillGo">
-            {/* This is where user courses will show up */}
-            </div>
-            <h1>My List</h1>
-            <div className="IDKWTFThisIs">
-            {/* I still have no Idea what this is */}
-            </div>
-            <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
-                <AddIcon />
-            </Fab>
-
+            <div>
+                <button onClick={()=>getContentByUserId()}>refresh</button>
+                <h1>Current Courses</h1>
+                <div className="thisIsWhereCoursesCardsWillGo">
+                {/* This is where user courses will show up */}
+                </div>
+                <h1>My List</h1>
+                <div className="my-list">
+                    {console.log(list)}
+                </div>
+                <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
+                    <AddIcon />
+                </Fab>
 
             {/* COMPONENT FOR ADDING AN ITEM TO 'MY LIST' */}
             <Dialog
@@ -202,7 +250,7 @@ const LearningLab = (props) => {
                     Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button onClick={handleSubmit} color="primary">
+                    <Button onClick={()=>handleSubmit(state.userID, link)} color="primary"> {/****************************************************************************8 */}
                     Add
                     </Button>
                 </DialogActions>
@@ -288,7 +336,7 @@ const LearningLab = (props) => {
                 </Popper>
             </div>
                 
-            
+            </div>
         </div>
     );
 }

@@ -10,7 +10,7 @@ import { loadDB } from "../firebaseConfig/firebase";
 
 //component imports
 import Nav from '../components/Navigation/Nav'
-import { Home } from "../components/HomePage/homepage";
+import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
 
 //styles imports
