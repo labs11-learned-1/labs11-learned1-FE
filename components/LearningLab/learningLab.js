@@ -74,7 +74,9 @@ const styles = theme => ({
         marginLeft:"26%"
     },
     myList: {
-        display: 'flex'
+        display: 'flex',
+        flexWrap: 'wrap',
+        justifyContent: 'center'
     },
     myHeader: {
         display: 'flex',
