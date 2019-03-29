@@ -6,7 +6,7 @@ import ReviewForm from '../Reviews/reviewForm';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Navigation from '../Navigation/Nav';
-import Card from './card';
+import MyListCard from './card';
 
 
 //FIREBASE
@@ -17,12 +17,7 @@ import {addReview, getReview} from '../firebaseAPI/firebaseReviews';
 //MaterialUI
 import { withStyles } from '@material-ui/core/styles';
 import { Store } from "../store";
-import ClickAwayListener from '@material-ui/core/ClickAwayListener';
-import Grow from '@material-ui/core/Grow';
-import Paper from '@material-ui/core/Paper';
-import Popper from '@material-ui/core/Popper';
-import MenuItem from '@material-ui/core/MenuItem';
-import MenuList from '@material-ui/core/MenuList';
+
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import Button from '@material-ui/core/Button';
@@ -78,6 +73,30 @@ const styles = theme => ({
         width:"80%",
         marginLeft:"26%"
     },
+    myList: {
+        display: 'flex'
+    },
+    myHeader: {
+        display: 'flex',
+        borderBottom: '1.5px solid rgba(0,0,0,.1)',
+        margin: '20px',
+        paddingBottom: '20px',
+        alignItems: 'center',
+        '& h1': {
+            margin: '0 20px 0 20px'
+        },
+        '& button': {
+            marginLeft: '20px'
+        }
+    },
+    learningLabWrap: {
+        marginTop: '40px'
+    },
+    currentCourses: {
+        minHeight: '100px'
+    }
+    
+
 });
 
 const LearningLab = (props) => {
@@ -91,8 +110,7 @@ const LearningLab = (props) => {
     const [link, setLink] = React.useState("");
     const [metaData, setMetaData] = React.useState({});
     const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: ''})
-    const [openMenu, setOpenMenu] = React.useState(false);
-    const [menuType, setMenuType] = React.useState('');
+    
     const [list, setList] = React.useState([]);
 
     const onChangeHandler = ev => {
@@ -117,8 +135,11 @@ const LearningLab = (props) => {
             if(docSnapshot.exists){
                 //if it exists, just update the array with the userId
                 contentRef.doc(newLink).update({userList: firebase.firestore.FieldValue.arrayUnion(state.userID)}).then(()=>{
-                    db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+                    db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => {
+                        getContentByUserId()
+                    })
                     console.log('Hello')
+                    
                 }).catch(err => {
                     console.log("Error adding newLink to myList in user docs", err)
                 });
@@ -135,7 +156,9 @@ const LearningLab = (props) => {
                 userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
             }).then(() => {
                 console.log("Added content to the db", )
-                db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+                db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => { 
+                    getContentByUserId()
+                })
             }).catch((err) => {
                 console.log("error adding content to the db", err);
             });
@@ -160,7 +183,6 @@ const LearningLab = (props) => {
     const prepareReview = (ev) => {
         setReviewContent({...reviewContent, postId: ev.target.id /*Whatever id it's supposed to be*/})
         setOpenReview(true)
-        setOpenMenu(false)
     }
     
     const getContentByUserId = async () => {
@@ -173,13 +195,16 @@ const LearningLab = (props) => {
             querySnapshot.forEach(function(doc) {
                 const result = doc.data()
                 arr.push(result);
+                
                 console.log(doc.id,"=>",result)
             });
+            setList(arr)
         })
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-        setList(arr)
+
+        
         
     }
 
@@ -205,26 +230,40 @@ const LearningLab = (props) => {
           }
         },
         [metaData.title]
-      );
+    );
 
-    console.log(reviewContent);
+    React.useEffect(
+        () => {
+            getContentByUserId()
+        },
+        []
+    );
+
+    console.log(reviewContent)
     return (
         <div>
             <Navigation />
-            <div>
-                <button onClick={()=>getContentByUserId()}>refresh</button>
-                <h1>Current Courses</h1>
-                <div className="thisIsWhereCoursesCardsWillGo">
+            <div className={classes.learningLabWrap}>
+                <div className={classes.myHeader}>
+                    <h1>Current Courses</h1>
+                </div>
+                <div className={classes.currentCourses}>
                 {/* This is where user courses will show up */}
                 </div>
-                <h1>My List</h1>
-                <div className="my-list">
-                    {console.log(list)}
+                <div className={classes.myHeader}>
+                    <h1>My List</h1>
+                    <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
+                        <AddIcon />
+                    </Fab>
                 </div>
-                <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
-                    <AddIcon />
-                </Fab>
 
+                
+                <div className={classes.myList}>
+                    {console.log("MY LIST", list)} 
+                    {list.map(item => 
+                        <MyListCard content={item} prepareReview={prepareReview}/>  
+                    )}
+                </div>
             {/* COMPONENT FOR ADDING AN ITEM TO 'MY LIST' */}
             <Dialog
             open={open}
@@ -305,36 +344,9 @@ const LearningLab = (props) => {
 
 
             {/* COMPONENT THAT WILL BE PLACED WITH EVERY ITEM IN 'MY LIST' TO ALLOW USER TO REVIEW*/}
-            <div>
-                <Button
-                    buttonRef={node => {
-                    Button.anchorEl = node;
-                    }}
-                    aria-owns={openMenu ? 'menu-list-grow' : undefined}
-                    aria-haspopup="true"
-                    onClick={() => setOpenMenu(!openMenu)}
-                    className={classes.menu}
-                >
-                    . . .
-                </Button>
-                <Popper open={openMenu} anchorEl={Popper.anchorEl} transition disablePortal>
-                    {({ TransitionProps, placement }) => (
-                    <Grow
-                        {...TransitionProps}
-                        id="menu-list-grow"
-                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                    >
-                        <Paper>
-                        <ClickAwayListener onClickAway={() => setOpenMenu(false)}>
-                            <MenuList>
-                                    <MenuItem id={450} onClick={prepareReview}>Add Review</MenuItem>
-                            </MenuList>
-                        </ClickAwayListener>
-                        </Paper>
-                    </Grow>
-                    )}
-                </Popper>
-            </div>
+            
+                
+            
                 
             </div>
         </div>
