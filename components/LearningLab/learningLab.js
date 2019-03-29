@@ -174,8 +174,9 @@ const LearningLab = (props) => {
     //MAKES THE CALL TO API TO ADD THE REVIEW, STILL NEEDS POST ID
     const postReview = () => {
         const {rating, content, title, postId} = reviewContent;
-        addReview(rating, content, title, state.userID, /*SOME POST ID*/)
-        setOpenReview(false)
+        let newLink = postId.split("//").pop().replace(/[/]/g, "-");
+        addReview(rating, content, title, state.userID, newLink);
+        setOpenReview(false);
     }
 
     const retrieveReview = () => {
@@ -194,6 +195,7 @@ const LearningLab = (props) => {
         db.collection("content-collection").where("userList", "array-contains", state.userID)
         .get()
         .then(function(querySnapshot) {
+            console.log(querySnapshot)
             querySnapshot.forEach(function(doc) {
                 const result = doc.data()
                 arr.push(result);

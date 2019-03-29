@@ -76,9 +76,10 @@ const MyListCard = (props) => {
                                 <Paper>
                                 <ClickAwayListener onClickAway={() => setOpenMenu(false)}>
                                     <MenuList>
-                                            <MenuItem id={450} onClick={(ev) => {
+                                            <MenuItem id={props.content.link} onClick={(ev) => {
                                                 ev.preventDefault()
                                                 props.prepareReview(ev)
+                                                setOpenMenu(false);
                                             }}>Add Review</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>

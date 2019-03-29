@@ -19,7 +19,7 @@ export const getReview = async () => {
 
 //// =============ADD REVIEW==============
 
-export const addReview = async (rating, comment, title, userId, collectionId) => {
+export const addReview = async (rating, comment, title, userId, postId) => {
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
@@ -31,16 +31,16 @@ export const addReview = async (rating, comment, title, userId, collectionId) =>
       comment: comment,
       title: title,
       userId: userId, //<--- id of user who left review, in this case is state.userId
-      contentCollectionId: collectionId // id of content that is being reviewed, should be accsesed through state that has content-collection in it. state.contentId
+      contentCollectionId: postId // id of content that is being reviewed, should be accsesed through state that has content-collection in it. state.contentId
     })
     .then(ref => {
       db.collection("user")
-        .doc("88kXCz9j4hxYGdzz8TeP") //<--- id of user who left erview, same as above, state.userId
+        .doc(userId) //<--- id of user who left erview, same as above, state.userId
         .update({ reviews: firebase.firestore.FieldValue.arrayUnion(ref.id) })
         .then(() => {
           console.log("review ID:  ", ref.id, "has been added to the user");
           db.collection("content-collection")
-            .doc("ps4oztUhbI8jEU1AKxLk") //<---this is contentCollectionId, which should be on state when state.contentId
+            .doc(postId) //<---this is contentCollectionId, which should be on state when state.contentId
             .update({
               reviews: firebase.firestore.FieldValue.arrayUnion(ref.id)
             })

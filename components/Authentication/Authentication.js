@@ -104,10 +104,6 @@ const Authentication = props => {
             email: result.user.email,
             image: result.user.photoURL
           });
-          console.log(result.user.uid)
-          console.log(result.user.displayName)
-          console.log(result.user.email)
-          console.log(result.user.photoURL)
 
         return dispatch({
           type: "LOGGED_IN",
