@@ -4,7 +4,7 @@ import { loadDB } from "../../firebaseConfig/firebase";
 
 
 // ====== User1 follows User2 
-export const userFollows = async () => {
+export const getPostsOfFollowing = async () => {
     let result = await loadDB();
     let db = result.firestore();
     let userRef = db.collection('user');

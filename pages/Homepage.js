@@ -19,9 +19,9 @@ import ContentCollection from "../components/ContentCollection/contentCollection
 
 
 //================DEVEVLOPMENT IMPORTS <---------- delete these================
-import { userFollows } from '../components/firebaseAPI/firebaseFollow';
+import  getPostsOfFollowing  from '../components/firebaseAPI/firebaseFollow';
 
-userFollows();
+
 
 
 //======================================================
@@ -37,6 +37,10 @@ const styles = {
 
 function Homepage(props) {
 
+  const handleUserFollows = () => {
+
+    getPostsOfFollowing();  
+  }
   const handleSignOut = async () => {
     let myVal = await loadDB();
     myVal
@@ -67,6 +71,7 @@ function Homepage(props) {
           <Nav/>
           <Home/>
           <ContentCollection />
+          <button onClick = {handleUserFollows}>Get user 450 follows posts</button>
         </div>
       );
     }
