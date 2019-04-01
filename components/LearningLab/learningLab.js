@@ -1,8 +1,6 @@
 import React from 'react';
 
 //REACT
-import PostForm from '../Posts/postForm';
-import ReviewForm from '../Reviews/reviewForm';
 import axios from 'axios';
 import PropTypes from 'prop-types';
 import Navigation from '../Navigation/Nav';
@@ -12,7 +10,7 @@ import MyListCard from './card';
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-import {addReview, getReview} from '../firebaseAPI/firebaseReviews';
+import {addReview, editReview} from '../firebaseAPI/firebaseReviews';
 
 //MaterialUI
 import { withStyles } from '@material-ui/core/styles';
@@ -97,8 +95,6 @@ const styles = theme => ({
     currentCourses: {
         minHeight: '100px'
     }
-    
-
 });
 
 const LearningLab = (props) => {
@@ -111,8 +107,8 @@ const LearningLab = (props) => {
     const [openReview, setOpenReview] = React.useState(false);
     const [link, setLink] = React.useState("");
     const [metaData, setMetaData] = React.useState({});
-    const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: ''})
-    
+    const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: '', reviewID: ''});
+    const [submitType, setSubmitType] = React.useState('');
     const [list, setList] = React.useState([]);
 
     const onChangeHandler = ev => {
@@ -125,11 +121,9 @@ const LearningLab = (props) => {
     }
 
     const addContent = async () => {
-        console.log(metaData)
         let result = await loadDB();
         let db = result.firestore();
         let newLink = link.split("//").pop().replace(/[/]/g, "-");
-        console.log('newLink:  ', newLink)
         const contentRef = db.collection('content-collection');
         //do a call on a doc where new link is
         contentRef.doc(newLink).get().then((docSnapshot)=> {
@@ -145,33 +139,37 @@ const LearningLab = (props) => {
                 }).catch(err => {
                     console.log("Error adding newLink to myList in user docs", err)
                 });
-
-        } else {
-            //else create the whole new document
-            contentRef.doc(newLink).set({
-                title: metaData.title,
-                author: metaData.author,
-                photoUrl: metaData.img,
-                description: metaData.description,
-                link: link,
-                // Pseudo code make a real array
-                userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
-            }).then(() => {
-                console.log("Added content to the db", )
-                db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => { 
-                    getContentByUserId()
-                })
-            }).catch((err) => {
-                console.log("error adding content to the db", err);
-            });
-        }
-    }).catch((err) => {
-        console.log("Error with getting the stuff. try a db call here if it is going to this catch", err)
-    })
-    
+            } else {
+                //else create the whole new document
+                contentRef.doc(newLink).set({
+                    title: metaData.title,
+                    author: metaData.author,
+                    photoUrl: metaData.img,
+                    description: metaData.description,
+                    link: link,
+                    // Pseudo code make a real array
+                    userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
+                }).then(() => {
+                    console.log("Added content to the db", )
+                    db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => { 
+                        setList(list => [...list, {author: author, description: description, link: link, photoUrl: image, review: null, title: title}])
+                    })
+                }).catch((err) => {
+                    console.log("error adding content to the db", err);
+                });
+            }
+        }).catch((err) => {
+            console.log("Error with getting the stuff. try a db call here if it is going to this catch", err)
+        })
     }
 
-    //MAKES THE CALL TO API TO ADD THE REVIEW, STILL NEEDS POST ID
+    const updateReview = () => {
+        const {rating, title, content, reviewID} = reviewContent;
+        editReview(reviewID, content, title, rating)
+        setReviewContent({rating: 5, title: '', content: '', postId: ''})
+        setOpenReview(false)
+    }
+
     const postReview = () => {
         const {rating, content, title, postId} = reviewContent;
         let newLink = postId.split("//").pop().replace(/[/]/g, "-");
@@ -179,37 +177,42 @@ const LearningLab = (props) => {
         setOpenReview(false);
     }
 
-    const retrieveReview = () => {
-        
-    }
-
-    const prepareReview = (ev) => {
-        setReviewContent({...reviewContent, postId: ev.target.id /*Whatever id it's supposed to be*/})
-        setOpenReview(true)
-    }
-    
     const getContentByUserId = async () => {
         let arr = [];
         let result = await loadDB();
         let db = result.firestore();
         db.collection("content-collection").where("userList", "array-contains", state.userID)
         .get()
-        .then(function(querySnapshot) {
-            console.log(querySnapshot)
+        .then(async function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 const result = doc.data()
-                arr.push(result);
-                
-                console.log(doc.id,"=>",result)
-            });
-            setList(arr)
+                let newLink = (result.link).split("//").pop().replace(/[/]/g, "-");
+                db.collection("reviews").where("userId", "==", state.userID).where("contentCollectionId", "==", newLink)
+                .get()
+                .then(async(res) => {
+                    let response;
+                    if(res.docs.length > 0) {
+                         response = res.docs[0].data();
+                         response["reviewId"] = res.docs[0].id;
+                    } else {
+                        response = null;
+                    }
+                    result["review"] = response;
+                    setList(list => [
+                        ...list, result
+                    ])
+                })
+                .catch(err => {
+                    console.log(err)
+                })   
+                   
+            }); 
+                 
         })
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-
-        
-        
+        console.log("MY ARRAY", arr)
     }
 
     const handleSubmit = () => {
@@ -219,7 +222,7 @@ const LearningLab = (props) => {
             // saves useful meta tags to local state
             const { title, description, author, image } = res.data;
             setMetaData({title: title, description: description, author: author, img: image});  
-            // sends meta links and info to the firebase backend to be saved
+            setList(...list, {author: author, description: description, link: link, photoUrl: image, review: null, title: title})
         })
         .catch(err => {
             alert("ERROR");
@@ -265,7 +268,7 @@ const LearningLab = (props) => {
                 <div className={classes.myList}>
                     {console.log("MY LIST", list)} 
                     {list.map(item => 
-                        <MyListCard content={item} prepareReview={prepareReview}/>  
+                        <MyListCard content={item} reviewContent={reviewContent} setSubmitType={setSubmitType} setOpenReview={setOpenReview} setReviewContent={setReviewContent}/>  
                     )}
                 </div>
             {/* COMPONENT FOR ADDING AN ITEM TO 'MY LIST' */}
@@ -293,7 +296,7 @@ const LearningLab = (props) => {
                     Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button onClick={()=>handleSubmit(state.userID, link)} color="primary"> {/****************************************************************************8 */}
+                    <Button onClick={()=>handleSubmit(state.userID, link)} color="primary"> 
                     Add
                     </Button>
                 </DialogActions>
@@ -303,7 +306,7 @@ const LearningLab = (props) => {
 
             {/* THIS IS THE REVIEW POSTING POPUP COMPONENT*/}
             <Dialog  open={openReview}  onClose={() => setOpenReview(false)} aria-labelledby="simple-dialog-title">
-                <DialogTitle className={classes.reviewDialog}id="simple-dialog-title">Post Review</DialogTitle>
+                <DialogTitle className={classes.reviewDialog}id="simple-dialog-title">{submitType == 'post'? 'Post Review': 'Edit Review'}</DialogTitle>
                 <DialogContent>
                    
                     <TextField
@@ -314,6 +317,7 @@ const LearningLab = (props) => {
                     placeholder='Title'
                     className={classes.textField}
                     fullWidth
+                    value={reviewContent.title}
                     onChange={reviewChange}
                     />
 
@@ -326,18 +330,22 @@ const LearningLab = (props) => {
                         className={classes.textField}
                         margin="normal"
                         variant="filled"
+                        value={reviewContent.content}
                         onChange={reviewChange}
                     />
                     <div className={classes.reviewButtons}>
                         <button style={{backgroundColor: reviewContent.rating >= 1 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 1})}></button>
                         <button style={{backgroundColor: reviewContent.rating >= 2 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 2})}></button>
-                        <button style={{backgroundColor: reviewContent.rating >= 3 ? 'yellow' : ''}}onClick={() => setReviewContent({...reviewContent, rating: 3})}></button>
+                        <button style={{backgroundColor: reviewContent.rating >= 3 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 3})}></button>
                         <button style={{backgroundColor: reviewContent.rating >= 4 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 4})}></button>
                         <button style={{backgroundColor: reviewContent.rating >= 5 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 5})}></button>
-                        <Button onClick={() => postReview()} color="primary">
-                            POST
+                        <Button color="primary" onClick={() => {submitType == 'post' ? postReview() : updateReview() }} >
+                            SAVE
                         </Button>
-                        <Button onClick={() => setOpenReview(false)} color="primary">
+                        <Button onClick={() => {
+                            setOpenReview(false)
+                            setReviewContent({rating: 5, title: '', content: '', postId: ''})
+                            }} color="primary">
                             CANCEL
                         </Button>
                     </div>

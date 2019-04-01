@@ -1,5 +1,8 @@
 import React from 'react';
 import PropTypes from 'prop-types';
+import {deleteReview} from '../firebaseAPI/firebaseReviews';
+
+
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -43,11 +46,35 @@ const MyListCard = (props) => {
     const [openMenu, setOpenMenu] = React.useState(false);
 
     const { classes } = props;
+    let checkReview;
 
+    if(props.content.review) {
+        checkReview = <div>
+            <MenuItem id={props.content.link} onClick={(ev) => {
+            ev.preventDefault();
+            props.setSubmitType('edit');
+            props.setReviewContent({rating: props.content.review.rating, title: props.content.review.title, content: props.content.review.comment, postId: props.content.link, reviewID: props.content.review.reviewId});
+            props.setOpenReview(true);
+        }}>Edit Review</MenuItem>
+        <MenuItem onClick={(ev) => {
+            ev.preventDefault();
+            deleteReview(props.content.review.reviewId);
+        }}>Delete Review</MenuItem>
+        </div>
+    } else {
+        checkReview = <MenuItem onClick={(ev) => {
+            ev.preventDefault();
+            props.setSubmitType('post');
+            props.setReviewContent({...props.reviewContent, postId: props.content.link});
+            props.setOpenReview(true);           
+        }}>Add Review</MenuItem>
+    }
+ 
     return(
         <div>
-            <a href={props.content.link} style={{display: 'block', textDecoration: 'none'}}>
+            
                 <Card className={classes.card}>
+                 <a href={props.content.link} style={{display: 'block', textDecoration: 'none'}}>
                     <CardHeader
                     action={
                         <div>
@@ -59,8 +86,8 @@ const MyListCard = (props) => {
                                 aria-owns={openMenu ? 'menu-list-grow' : undefined}
                                 aria-haspopup="true"
                                 onClick={(ev) => {
-                                    ev.preventDefault()
-                                    setOpenMenu(!openMenu)
+                                    ev.preventDefault();
+                                    setOpenMenu(!openMenu);
                                 }}
                                 className={classes.menu}
                             >
@@ -76,11 +103,7 @@ const MyListCard = (props) => {
                                 <Paper>
                                 <ClickAwayListener onClickAway={() => setOpenMenu(false)}>
                                     <MenuList>
-                                            <MenuItem id={props.content.link} onClick={(ev) => {
-                                                ev.preventDefault()
-                                                props.prepareReview(ev)
-                                                setOpenMenu(false);
-                                            }}>Add Review</MenuItem>
+                                            {checkReview}
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
@@ -101,16 +124,15 @@ const MyListCard = (props) => {
                         {props.content.description}
                     </Typography>
                     </CardContent>
+                    </a>
                 </Card>
-            </a>
-        </div>
-
-        
+           
+        </div>     
     )
 }
 
 MyListCard.propTypes = {
     classes: PropTypes.object.isRequired,
-  };
+};
   
-  export default withStyles(styles)(MyListCard);
+export default withStyles(styles)(MyListCard);
