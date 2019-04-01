@@ -13,7 +13,7 @@ import Button from '@material-ui/core/Button';
 import { loadDB } from "../firebaseConfig/firebase";
 import * as firebase from "firebase";
 
-import  getPostsOfFollowing  from '../components/firebaseAPI/firebaseFollow';
+import  { getPostsOfFollowing, followOthers }  from '../components/firebaseAPI/firebaseFollow';
 
 
 
@@ -24,6 +24,10 @@ export default function Community() {
 
     const handleUserFollows = () => {
       getPostsOfFollowing();  
+    }
+
+    const handleFollowOthers = () => {
+      followOthers()
     }
 
     const getAllPosts = async ( ) => {
@@ -55,6 +59,7 @@ export default function Community() {
             <div className="community">
                 <Nav />
                 <button onClick ={handleUserFollows}>Get user 450 follows posts</button>
+                <button onClick ={handleFollowOthers}>Follow user 454</button>
                 <div className="community-content">
                     <h1>News Feed</h1>
                     <div className='cards'>
