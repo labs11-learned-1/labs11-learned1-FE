@@ -11,7 +11,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-import Router from 'next/router'
+//import Router from 'next/router'
 // import * as firebase from "firebase";
 // import { loadDB } from '../../firebaseConfig/firebase';
 
@@ -103,7 +103,7 @@ const Navigation  = (props) => {
         return (
           <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo} onClick={() => Router.push('/Homepage')}/>
+                <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
                 <div className={classes.tabs}>
                     <Link href="/Homepage">
                         <a className={classes.links}>Home</a>
