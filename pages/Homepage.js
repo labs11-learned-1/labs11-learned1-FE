@@ -18,13 +18,7 @@ import { withStyles } from '@material-ui/core/styles';
 import ContentCollection from "../components/ContentCollection/contentCollection";
 
 
-//================DEVEVLOPMENT IMPORTS <---------- delete these================
-import  getPostsOfFollowing  from '../components/firebaseAPI/firebaseFollow';
 
-
-
-
-//======================================================
 
 
 const styles = {
@@ -37,10 +31,6 @@ const styles = {
 
 function Homepage(props) {
 
-  const handleUserFollows = () => {
-
-    getPostsOfFollowing();  
-  }
   const handleSignOut = async () => {
     let myVal = await loadDB();
     myVal
@@ -71,7 +61,7 @@ function Homepage(props) {
           <Nav/>
           <Home/>
           <ContentCollection />
-          <button onClick = {handleUserFollows}>Get user 450 follows posts</button>
+          
         </div>
       );
     }
