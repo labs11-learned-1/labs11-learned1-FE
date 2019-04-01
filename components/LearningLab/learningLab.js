@@ -132,7 +132,7 @@ const LearningLab = (props) => {
                 //if it exists, just update the array with the userId
                 contentRef.doc(newLink).update({userList: firebase.firestore.FieldValue.arrayUnion(state.userID)}).then(()=>{
                     db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => {
-                        getContentByUserId()
+                        setList([...list, {author: metaData.author, description: metaData.description, link: link, photoUrl: metaData.img, review: null, title: metaData.title}])
                     })
                     console.log('Hello')
                     
@@ -152,7 +152,7 @@ const LearningLab = (props) => {
                 }).then(() => {
                     console.log("Added content to the db", )
                     db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => { 
-                        setList(list => [...list, {author: author, description: description, link: link, photoUrl: image, review: null, title: title}])
+                        setList([...list, {author: metaData.author, description: metaData.description, link: link, photoUrl: metaData.img, review: null, title: metaData.title}])
                     })
                 }).catch((err) => {
                     console.log("error adding content to the db", err);
@@ -222,7 +222,6 @@ const LearningLab = (props) => {
             // saves useful meta tags to local state
             const { title, description, author, image } = res.data;
             setMetaData({title: title, description: description, author: author, img: image});  
-            setList(...list, {author: author, description: description, link: link, photoUrl: image, review: null, title: title})
         })
         .catch(err => {
             alert("ERROR");
