@@ -4,26 +4,28 @@ import * as firebase from "firebase";
 
 //// =============GET REVIEW==============
 
-export const getReview = async () => {
+export const getReview = async (userId, postId) => {
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
 
-  db.collection("reviews")
-    .doc("RdMmNJJzECo1iWys43q7") //<---make this dynamic. when adding a review, a review ID is generated
-    .get()
-    .then(res => {
-      console.log("review:", res.data());
-    });
-};
-
+  db.collection("reviews").where("userId", "==", userId).where("contentCollectionId", "==", postId)
+  .get()
+    .then(async(res) => {
+      const test = await res.docs[0].data()
+      return test;
+    })
+    .catch(err => {
+      return err
+      console.log("Unable to retrieve a review about this blog post from the user.")
+    })
+  }
 //// =============ADD REVIEW==============
 
 export const addReview = async (rating, comment, title, userId, postId) => {
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
-
   db.collection("reviews")
     .add({
       // adding a new review in 'reviews' collection
@@ -66,15 +68,15 @@ export const addReview = async (rating, comment, title, userId, postId) => {
 
 //// =============EDIT REVIEW==============
 
-export const editReview = async () => {
+export const editReview = async (reviewID, comment, title, rating) => {
   let result = await loadDB();
   let db = result.firestore();
 
-  db.collection('reviews').doc('4s493CU0cz68KqTNJDVS') // <--this is the reviewId on state
+  db.collection('reviews').doc(reviewID) // <--this is the reviewId on state
   .update({
-    comment: 'New commdadentsssss',
-    title: 'Adding titlasdfadssss',
-    rating: 4
+    comment: comment,
+    title: title,
+    rating: rating
   })
   .then(res => console.log('Success updating review', res))
   .catch(err => console.log('Failed to update review', err))
@@ -82,11 +84,11 @@ export const editReview = async () => {
 
 //// =============DELETE REVIEW============
 
-export const deleteReview = async () => {
+export const deleteReview = async (reviewID) => {
   let result = await loadDB();
   let db = result.firestore();
 
-  db.collection('reviews').doc('xStOJP3IVYk2sFKq22TS') //<--- this id should be the reviewId of the review you want to delete. on state
+  db.collection('reviews').doc(reviewID) //<--- this id should be the reviewId of the review you want to delete. on state
   .delete()
   .then(res => console.log('Success deleting:', res))
   .catch(err => console.log('Failed to delete review', err))
