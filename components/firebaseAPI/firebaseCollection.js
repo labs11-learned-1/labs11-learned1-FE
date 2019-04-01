@@ -82,4 +82,3 @@ export const getContentByUserId = async () => {
     })
     .catch(err => console.log('Cant remove'))
 }
-

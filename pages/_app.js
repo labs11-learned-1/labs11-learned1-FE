@@ -12,6 +12,7 @@ class MyApp extends App {
       body {
         margin: 0
       }
+
     `}</style>
                 {/* Then we wrap our components with the provider */}
                 <StoreProvider>

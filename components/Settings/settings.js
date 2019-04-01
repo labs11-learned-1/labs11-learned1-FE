@@ -1,4 +1,5 @@
 import React, {useState, useContext} from "react";
+//import Router from 'next/router'
 import { Store } from "../store";
 import PropTypes from "prop-types";
 import MenuItem from '@material-ui/core/MenuItem';
@@ -156,6 +157,7 @@ const Settings = (props) => {
           .signOut()
           .then((result) => {
             console.log("logout success", result)
+            //Router.push('/Homepage')
             return dispatch({ type: "LOGGED_OUT" });
           })
           .catch(e => {
