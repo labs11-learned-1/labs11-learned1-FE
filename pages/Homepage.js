@@ -18,6 +18,9 @@ import { withStyles } from '@material-ui/core/styles';
 import ContentCollection from "../components/ContentCollection/contentCollection";
 
 
+
+
+
 const styles = {
   authContainer: {
     display: "flex",
@@ -58,6 +61,7 @@ function Homepage(props) {
           <Nav/>
           <Home/>
           <ContentCollection />
+          
         </div>
       );
     }

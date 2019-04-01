@@ -13,12 +13,18 @@ import Button from '@material-ui/core/Button';
 import { loadDB } from "../firebaseConfig/firebase";
 import * as firebase from "firebase";
 
+import  getPostsOfFollowing  from '../components/firebaseAPI/firebaseFollow';
+
 
 
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Community() {
 
     const [newsfeed, setNewsFeed] = React.useState([]);
+
+    const handleUserFollows = () => {
+      getPostsOfFollowing();  
+    }
 
     const getAllPosts = async ( ) => {
         
@@ -48,6 +54,7 @@ export default function Community() {
       
             <div className="community">
                 <Nav />
+                <button onClick ={handleUserFollows}>Get user 450 follows posts</button>
                 <div className="community-content">
                     <h1>News Feed</h1>
                     <div className='cards'>
