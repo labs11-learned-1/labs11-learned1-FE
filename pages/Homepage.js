@@ -18,6 +18,15 @@ import { withStyles } from '@material-ui/core/styles';
 import ContentCollection from "../components/ContentCollection/contentCollection";
 
 
+//================DEVEVLOPMENT IMPORTS <---------- delete these================
+import { userFollows } from '../components/firebaseAPI/firebaseFollow';
+
+userFollows();
+
+
+//======================================================
+
+
 const styles = {
   authContainer: {
     display: "flex",
