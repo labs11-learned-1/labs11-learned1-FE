@@ -223,42 +223,25 @@ const LearningLab = (props) => {
         });
         console.log("MY ARRAY", arr)
     }
+
     const getUdemyByUserId = async () => {
         let arr = [];
         let result = await loadDB();
         let db = result.firestore();
-        db.collection("content-collection").where("userList", "array-contains", state.userID)
+        db.collection("content-collection").where("UserList", "array-contains", state.userID)
         .get()
         .then(async function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
+            await querySnapshot.forEach(function(doc) {
                 const result = doc.data()
-                let newLink = (result.link).split("//").pop().replace(/[/]/g, "-");
-                db.collection("reviews").where("userId", "==", state.userID).where("contentCollectionId", "==", newLink)
-                .get()
-                .then(async(res) => {
-                    let response;
-                    if(res.docs.length > 0) {
-                         response = res.docs[0].data();
-                         response["reviewId"] = res.docs[0].id;
-                    } else {
-                        response = null;
-                    }
-                    result["review"] = response;
-                    setUdemyList(UdemyList => [
-                        ...UdemyList, result
-                    ])
-                })
-                .catch(err => {
-                    console.log(err)
-                })   
-                   
+                arr.push(result)
+                console.log("udemy result", result) 
             }); 
-                 
+            console.log("this is the array", arr)
+            setUdemyList([...arr])
         })
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-        console.log("MY ARRAY", arr)
     }
 
     const handleSubmit = () => {
@@ -278,7 +261,7 @@ const LearningLab = (props) => {
     React.useEffect(
         () => {
             getContentByUserId()
-            // getUdemyByUserId()
+            getUdemyByUserId()
         },
         []
     );
