@@ -113,6 +113,7 @@ const LearningLab = (props) => {
     const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: '', reviewID: ''});
     const [submitType, setSubmitType] = React.useState('');
     const [list, setList] = React.useState([]);
+    const [UdemyList, setUdemyList] = React.useState([]);
 
 
     
@@ -193,14 +194,15 @@ const LearningLab = (props) => {
         .then(async function(querySnapshot) {
             querySnapshot.forEach(function(doc) {
                 const result = doc.data()
+                console.log("RESULT", result)
                 let newLink = (result.link).split("//").pop().replace(/[/]/g, "-");
                 db.collection("reviews").where("userId", "==", state.userID).where("contentCollectionId", "==", newLink)
                 .get()
                 .then(async(res) => {
                     let response;
                     if(res.docs.length > 0) {
-                         response = res.docs[0].data();
-                         response["reviewId"] = res.docs[0].id;
+                        response = res.docs[0].data();
+                        response["reviewId"] = res.docs[0].id;
                     } else {
                         response = null;
                     }
@@ -212,14 +214,34 @@ const LearningLab = (props) => {
                 .catch(err => {
                     console.log(err)
                 })   
-                   
+            
             }); 
-                 
+            
         })
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
         console.log("MY ARRAY", arr)
+    }
+
+    const getUdemyByUserId = async () => {
+        let arr = [];
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection("content-collection").where("UserList", "array-contains", state.userID)
+        .get()
+        .then(async function(querySnapshot) {
+            await querySnapshot.forEach(function(doc) {
+                const result = doc.data()
+                arr.push(result)
+                console.log("udemy result", result) 
+            }); 
+            console.log("this is the array", arr)
+            setUdemyList([...arr])
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
     }
 
     const handleSubmit = () => {
@@ -238,18 +260,21 @@ const LearningLab = (props) => {
 
     React.useEffect(
         () => {
-          if (metaData.title) {
-            addContent()
-          }
+            getContentByUserId()
+            getUdemyByUserId()
         },
-        [metaData.title]
+        []
     );
 
     React.useEffect(
         () => {
-            getContentByUserId()
+            
+            if (metaData.title) {
+                console.log("HEY IM BEING CALLED!")
+                addContent()
+            }
         },
-        []
+        [metaData.title]
     );
 
     console.log(reviewContent)
@@ -260,8 +285,11 @@ const LearningLab = (props) => {
                 <div className={classes.myHeader}>
                     <h1>Current Courses</h1>
                 </div>
-                <div className={classes.currentCourses}>
+                <div className={classes.myList}>
                 {/* This is where user courses will show up */}
+                {UdemyList.map(course => {
+                        return <MyListCard content={course} /> 
+                    })}
                 </div>
                 <div className={classes.myHeader}>
                     <h1>My List</h1>
