@@ -20,7 +20,7 @@ import { loadDB } from "../../firebaseConfig/firebase";
         console.log(err)
     })
     
-    
+    //get posts of each user in array above
     let data =  await followingArray.forEach(user => postsRef.where("userId", "==", user).limit(1).get().then(querySnapshot => {
         querySnapshot.forEach(post => console.log("POST:   ", post.data()))
     }).catch(err => {
@@ -34,22 +34,28 @@ import { loadDB } from "../../firebaseConfig/firebase";
 }
 
 // ---------- FOLLOW OTHERS -------- //
+
 //need to update followCount and followersCount
 export const followOthers = async () => { // async (myUserId, theirId)
     let result = await loadDB();
     let db = result.firestore();
+
     let userRef = db.collection('user');
      userRef.doc('450').get().then(docSnapshot => {
+//check if user is already following
         if(docSnapshot.data().following.includes("454")){
-            userRef.doc('450').update({ following: firebase.firestore.FieldValue.arrayRemove("454")})
-            .then(()=> {
-                userRef.doc('454').update({followers: firebase.firestore.FieldValue.arrayRemove('450')})
+            //====================unfollow section==================
+            userRef.doc('450').update({ following: firebase.firestore.FieldValue.arrayRemove("454")}) //if user "454" is in 450's following then remove
+            .then(()=> { 
+                userRef.doc('454').update({followers: firebase.firestore.FieldValue.arrayRemove('450')}) //then remove "450" from 454's followers
                 .then(()=> {
                     console.log("success unfollowing")
                 }).catch(err => console.log('Error updating other users followers'))
             })
             .catch(err => console.log('Error removing from following'))
         } else { 
+            //=================follow section=====================
+            //if user 450 is not following user 454 then adding 454 to following array
             userRef.doc('450').update({following: firebase.firestore.FieldValue.arrayUnion('454')})// .doc("myUserId")  .arrayUnion("theirId")
         .then (() => {
         // then update their followers list with my id
