@@ -2,7 +2,7 @@ import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 
 // ====== User1 follows User2
-export const getPostsOfFollowing = async () => {
+export const getPostsOfFollowing = async (bool) => {
   let result = await loadDB();
   let db = result.firestore();
   let userRef = db.collection("user");
@@ -21,21 +21,54 @@ export const getPostsOfFollowing = async () => {
       console.log(err);
     });
 
+    //following array = ["451", "452", "453", "454"]
   //get posts of each user in array above
-  let data = await followingArray.forEach(user =>
+  // let postsArr = [];
+  // await followingArray.forEach(user =>
+     
+  //   db.collection("posts").where("userId", "==", user).orderBy("createdAt", "desc")
+  //     .get()
+  //     .then(docSnapshot => {
+  //       let lastVisible = docSnapshot.docs[docSnapshot.docs.length-1];
+  //       console.log("last visible:   ", lastVisible)
+  //       //put lastVisible on state
+        
+        
+  //       docSnapshot.forEach(post => postsArr.push(post.data()));
+  //       let nextQuery = 
+  //         db.collection('posts').where("userId", "==", user).orderBy("createdAt", "desc").startAfter(lastVisible).limit(3)
+  //     })
+  //     .catch(err => {
+  //       console.log(err);
+  //     })
+    
+     
+      
+  // );
+  
+  // console.log("RESULT: ", postsArr);
+  let postsArr = [];
+  await followingArray.forEach(user =>
     postsRef
       .where("userId", "==", user)
       .get()
       .then(querySnapshot => {
-        querySnapshot.forEach(post => console.log("POST:   ", post.data()));
+        querySnapshot.forEach(post => postsArr.push(post.data()));
       })
       .catch(err => {
         console.log(err);
       })
   );
 
-  console.log("RESULT: ", data);
+  console.log("RESULT: ", postsArr);
 };
+
+
+
+
+
+// };
+
 
 // ---------- FOLLOW OTHERS -------- //
 
