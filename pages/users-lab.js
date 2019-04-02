@@ -151,7 +151,7 @@ const UsersLab = (props) => {
                     <h1>Their Current Courses</h1>
                 </div>
                 <div className={classes.userList}>
-                    {UdemyList.length ? UdemyList.map(item=><UserListCard content={item} />)
+                    {UdemyList.length ? UdemyList.map(item=><UserListCard content={item} key={item.link}/>)
                     :
                     <p>This user has no courses or has not linked their account yet</p>
                     }
@@ -162,11 +162,10 @@ const UsersLab = (props) => {
                 </div>
                 
                 <div className={classes.userList}>
-                    {list.map(item=>{
-                            return(
-                                <UserListCard content={item} />
-                            )
-                        })}
+                {list.length ? list.map(item=><UserListCard key={item.link} content={item} />)
+                    :
+                    <p>This user has not added anything to their list</p>
+                    }
                 </div>
             </div>
         </div>
