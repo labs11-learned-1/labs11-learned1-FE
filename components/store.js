@@ -10,6 +10,7 @@ const initialState = {
     userID: "",
     displayName: "",
     userImage: "",
+    
 }
 
 function reducer(state, action) {
