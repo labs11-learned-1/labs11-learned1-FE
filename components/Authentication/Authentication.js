@@ -116,7 +116,9 @@ const Authentication = props => {
                 name: result.additionalUserInfo.profile.name,
                 id: result.user.uid,
                 email: result.user.email,
-                image: result.user.photoURL
+                image: result.user.photoURL,
+                followers: [result.user.uid],
+                following: [result.user.uid]
               });
             }
           })
