@@ -118,6 +118,7 @@ const LearningLab = (props) => {
     const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: '', reviewID: ''});
     const [submitType, setSubmitType] = React.useState('');
     const [list, setList] = React.useState([]);
+    const [UdemyList, setUdemyList] = React.useState([]);
 
 
     
@@ -226,6 +227,43 @@ const LearningLab = (props) => {
         });
         console.log("MY ARRAY", arr)
     }
+    const getUdemyByUserId = async () => {
+        let arr = [];
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection("content-collection").where("UserList", "array-contains", state.userID)
+        .get()
+        .then(async function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                const result = doc.data()
+                let newLink = (result.link).split("//").pop().replace(/[/]/g, "-");
+                db.collection("reviews").where("userId", "==", state.userID).where("contentCollectionId", "==", newLink)
+                .get()
+                .then(async(res) => {
+                    let response;
+                    if(res.docs.length > 0) {
+                         response = res.docs[0].data();
+                         response["reviewId"] = res.docs[0].id;
+                    } else {
+                        response = null;
+                    }
+                    result["review"] = response;
+                    setUdemyList(UdemyList => [
+                        ...UdemyList, result
+                    ])
+                })
+                .catch(err => {
+                    console.log(err)
+                })   
+                   
+            }); 
+                 
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+        console.log("MY ARRAY", arr)
+    }
 
     const handleSubmit = () => {
         // sending link to web scraping backend that returns meta tags
@@ -253,6 +291,7 @@ const LearningLab = (props) => {
     React.useEffect(
         () => {
             getContentByUserId()
+            getUdemyByUserId()
         },
         []
     );
@@ -265,8 +304,11 @@ const LearningLab = (props) => {
                 <div className={classes.myHeader}>
                     <h1>Current Courses</h1>
                 </div>
-                <div className={classes.currentCourses}>
+                <div className={classes.myList}>
                 {/* This is where user courses will show up */}
+                {UdemyList.map(course => {
+                        return <MyListCard content={course} /> 
+                    })}
                 </div>
                 <div className={classes.myHeader}>
                     <h1>My List</h1>
