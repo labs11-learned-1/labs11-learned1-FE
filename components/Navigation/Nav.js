@@ -1,7 +1,6 @@
 import Link from 'next/link'
 import React, {useContext, useState} from 'react';
 import { Store } from "../store";
-import { loadDB } from "../../firebaseConfig/firebase";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -57,21 +56,21 @@ const Navigation  = (props) => {
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
-    /*
-    const handleSignOut = async () => {
-        let myVal = await loadDB();
-        myVal
-          .auth()
-          .signOut()
-          .then((result) => {
-            console.log("logout success", result)
-            return dispatch({ type: "LOGGED_OUT" });
-          })
-          .catch(e => {
-            alert("Error signing out");
-          });
-      };
-      */
+
+    // const handleSignOut = async () => {
+    //     let myVal = await loadDB();
+    //     myVal
+    //       .auth()
+    //       .signOut()
+    //       .then((result) => {
+    //         console.log("logout success", result)
+    //         return dispatch({ type: "LOGGED_OUT" });
+    //       })
+    //       .catch(e => {
+    //         alert("Error signing out");
+    //       });
+    //   };
+
     const handleToggle = () => {
         setOpen(!open);
       };
@@ -139,9 +138,7 @@ const Navigation  = (props) => {
                                         <Link href='/settings'>
                                             <MenuItem onClick={handleClose}>Settings</MenuItem>
                                         </Link>
-                                        <Link href='/Homepage'>
-                                            <MenuItem onClick={handleSignOut}>SignOut</MenuItem>
-                                        </Link>
+                                        {/* <MenuItem onClick={handleSignOut}>SignOut</MenuItem> */}
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
