@@ -10,9 +10,6 @@ import Slide from '@material-ui/core/Slide';
 import GridListTile from '@material-ui/core/GridListTile';
 import GridList from '@material-ui/core/GridList';
 import GridListTileBar from '@material-ui/core/GridListTileBar';
-import Chip from '@material-ui/core/Chip';
-import Paper from '@material-ui/core/Paper';
-import TagFacesIcon from '@material-ui/icons/TagFaces';
 
 function Transition(props) {
     return <Slide direction="up" {...props} />;
@@ -20,6 +17,7 @@ function Transition(props) {
 
 function CategoryModal() {
     const [open, setOpen] = React.useState(true);
+    const [categories, setCategories] = React.useState([]);
 
     function handleClickOpen() {
         setOpen(true);
@@ -29,43 +27,121 @@ function CategoryModal() {
         setOpen(false);
     }
 
-    const handleDelete = data => () => {
-        console.log(data)
-        const chipToDelete = chipData.indexOf(data);
-        console.log("to delete", chipToDelete);
-        chipData.splice(chipToDelete, 1);
-        console.log(chipData);
-        setChipData(chipData);
-    };
+    const handleAdd = name => {
+        console.log(name);
+        if (categories.length) {
+            if (categories.includes(name)) {
+                // delete it
+                categories.splice(categories.indexOf(name), 1)
+                setCategories(categories)
+                console.log("after deleting", categories)
+            } else if (categories.length < 3) {
+                //add it to the array
+                categories.push(name);
+                setCategories(categories);
+                console.log("after adding", categories);
+            } else if (categories.length === 3) {
+                console.log("categories and length", categories, categories.length)
+                alert("only 3 categories may be picked")
+            }
+        } else if (categories.length === 3) {
+            console.log("categories and length", categories, categories.length)
+            alert("only 3 categories may be picked")
+        }else {
+            categories.push(name);
+            setCategories(categories);
+            console.log("after adding", categories);
+        }
+
+    }
+    const cardSize = .3;
+    const cardHeight = "420px";
+    const cardWidth = "420px";
+
 
     return (
         <div>
-        <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
-            <AppBar>
-            <Toolbar>
-                <IconButton color="inherit" onClick={handleClose} aria-label="Close">
-                <CloseIcon />
-                </IconButton>
-                <Typography variant="h6" color="inherit">
-                Please Pick your favorite categories
-                </Typography>
-                <Button color="inherit" onClick={handleClose}>
-                save
-                </Button>
-            </Toolbar>
-            </AppBar>
-            <GridList cellHeight={20}>
-                <GridListTile cols={1} style={{height:"500px"}} >
-                    <img src="https://images.pexels.com/photos/193350/pexels-photo-193350.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
-                    <GridListTileBar title="Technology"/>
-                </GridListTile>
+            <Dialog fullScreen open={open} onClose={handleClose} TransitionComponent={Transition}>
 
-                <GridListTile cols={1} style={{height:"500px"}}>
-                    <img src="https://images.pexels.com/photos/193350/pexels-photo-193350.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
-                    <GridListTileBar title="Technology"/>
-                </GridListTile>
-            </GridList>
-        </Dialog>
+                {/* Business Design Development Health & Fitness IT & Software Lifestyle Marketing Music Office Productivity Personal Development Photography Teaching & Academics */}
+                <GridList cellHeight={200} style={{ display: 'flex', flexFlow: 'row wrap', alignItems: 'center', justifyContent: 'center', padding: '20px 160px 0 160px' }}>
+                    {/* <GridList cellHeight={200} style={{boxSizing:"border-box", display: 'block', verticalAlign: 'baseline',  padding: '120px 160px 0 160px'}}> */}
+
+                    <GridListTile cols={cardSize} style={{ display: 'block', height: cardHeight, width: "840px", margin: '0' }}  >
+                        <img src="https://images.pexels.com/photos/691668/pexels-photo-691668.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Instructions" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ display: 'block', margin: '0', height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Technology") }} >
+                        <img src="https://images.pexels.com/photos/193350/pexels-photo-193350.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Technology" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ display: 'block', margin: '0', height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Music") }} >
+                        <img src="https://images.pexels.com/photos/167092/pexels-photo-167092.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Music" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ display: 'block', margin: '0', height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Business") }} >
+                        <img src="https://images.pexels.com/photos/1437866/pexels-photo-1437866.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Business" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Design") }}>
+                        <img src="https://images.pexels.com/photos/1328891/pexels-photo-1328891.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Design" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Development") }}>
+                        <img src="https://images.pexels.com/photos/908284/pexels-photo-908284.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Development" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Health & Fitness") }}>
+                        <img src="https://images.pexels.com/photos/40751/running-runner-long-distance-fitness-40751.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Health & Fitness" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("IT & Software") }}>
+                        <img src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="IT & Software" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Lifestyle") }}>
+                        <img src="https://images.pexels.com/photos/1536619/pexels-photo-1536619.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Lifestyle" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Marketing") }}>
+                        <img src="https://images.pexels.com/photos/1496192/pexels-photo-1496192.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Marketing" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Office") }}>
+                        <img src="https://images.pexels.com/photos/1432942/pexels-photo-1432942.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Office" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Personal Development") }}>
+                        <img src="https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Personal Development" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Photography") }}>
+                        <img src="https://images.pexels.com/photos/368893/pexels-photo-368893.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Photography" />
+                    </GridListTile>
+
+                    <GridListTile cols={cardSize} style={{ height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { handleAdd("Teaching & Academics") }}>
+                        <img src="https://images.pexels.com/photos/7075/people-office-group-team.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
+                        <GridListTileBar title="Teaching & Academics" />
+                    </GridListTile>
+
+                </GridList>
+                <Button color="inherit" onClick={handleClose}>
+                    Save
+                </Button>
+            </Dialog>
         </div>
     );
 }
