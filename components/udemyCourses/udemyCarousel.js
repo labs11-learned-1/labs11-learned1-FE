@@ -47,7 +47,7 @@ const UdemyCarousel = props => {
     console.log("running axios request")    
     axios({
       method: 'POST',
-      url:"http://localhost:3333/udemy-cat",
+      url:"https://metadatatesting.herokuapp.com/udemy-cat",
       data: payload })
     
     .then(res => {
