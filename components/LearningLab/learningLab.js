@@ -618,3 +618,4 @@ LearningLab.propTypes = {
 };
 
 export default withStyles(styles)(LearningLab);
+
