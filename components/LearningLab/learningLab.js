@@ -5,12 +5,12 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Navigation from '../Navigation/Nav';
 import MyListCard from './card';
+import addPost from '../firebaseAPI/firebasePosts';
 
 
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-import {addReview, editReview} from '../firebaseAPI/firebaseReviews';
 
 //MaterialUI
 import { withStyles } from '@material-ui/core/styles';
@@ -24,6 +24,14 @@ import Dialog from '@material-ui/core/Dialog';
 import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
+import List from '@material-ui/core/List';
+import ListItem from '@material-ui/core/ListItem';
+import ListItemText from '@material-ui/core/ListItemText';
+import ListItemAvatar from '@material-ui/core/ListItemAvatar';
+import Avatar from '@material-ui/core/Avatar';
+import Typography from '@material-ui/core/Typography';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Checkbox from '@material-ui/core/Checkbox';
 
 
  
@@ -97,7 +105,24 @@ const styles = theme => ({
     },
     currentCourses: {
         minHeight: '100px'
-    }
+    },
+    reviewList: {
+        width: '100%',
+        maxWidth: 360,
+        backgroundColor: theme.palette.background.paper,
+    },
+    reviewListDialog: {
+        margin: '0',
+        backgroundColor: '#3f51b5',
+        '& h2': {
+            color: 'white',
+            fontWeight: 'bold'
+        },
+    },
+    inline: {
+        display: 'inline',
+    },
+    
 });
 
 const LearningLab = (props) => {
@@ -113,6 +138,11 @@ const LearningLab = (props) => {
     const [reviewContent, setReviewContent] = React.useState({rating: 5, title: '', content: '', postId: '', reviewID: ''});
     const [submitType, setSubmitType] = React.useState('');
     const [list, setList] = React.useState([]);
+    const [openReviewList, setOpenReviewList] = React.useState(false);
+    const [reviewList, setReviewList] = React.useState([]);
+    const [hasReview, setHasReview] = React.useState(false);
+    const [gettingInfo, setGettingInfo] = React.useState(true);
+    const [share, setShare] = React.useState(true);
     const [UdemyList, setUdemyList] = React.useState([]);
 
 
@@ -123,9 +153,60 @@ const LearningLab = (props) => {
         setLink(ev.target.value)
     }
 
+    //GETS ALL THE POSTS INFORMATION FROM THE SERVER
+    const getContentByUserId = async () => {
+        let arr = [];
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection("content-collection").where("userList", "array-contains", state.userID)
+        .get()
+        .then(async function(querySnapshot) {
+            querySnapshot.forEach(function(doc) {
+                const result = doc.data()
+                arr.push(result);  
+            }); 
+            setList(arr);   
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+        console.log("MY ARRAY", arr)
+    }
+
     //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
     const reviewChange = ev => {
         setReviewContent({...reviewContent, [ev.target.name]: ev.target.value})
+    }
+
+    const prepareReviewList = async(userList, link) => {
+        setReviewContent({...reviewContent, postId: link})
+        await getReviewList(userList, link);
+        setOpenReviewList(true);
+    }
+
+    const getReviewList = async(userList, link) => {
+        let result = await loadDB();
+        let db = result.firestore();
+        let newLink = link.split("//").pop().replace(/[/]/g, "-");
+        await userList.forEach(async(id) => {
+            db.collection('reviews').where("contentCollectionId", "==", newLink).where("userId", "==", id) //<--- this id should be the reviewId of the review you want to delete. on state
+            .get()
+            .then(res => {
+                setGettingInfo(false);
+                if(res.docs.length > 0) {
+                    let item = res.docs[0].data();
+                    
+                    setReviewList(prevReview => [...prevReview, res.docs[0].data()]);
+                    if(item.userId == state.userID) {
+                        setReviewContent({...reviewContent, title: item.title, rating: item.rating, content: item.comment, postId: item.contentCollectionId, reviewID: res.docs[0].id});
+                        setHasReview(true)
+                    }
+                }
+            })
+            .catch(err => err)
+        })
+       
+        
     }
 
     const addContent = async () => {
@@ -173,57 +254,117 @@ const LearningLab = (props) => {
 
     const updateReview = () => {
         const {rating, title, content, reviewID} = reviewContent;
+        if(share) {
+            console.log("SHARE")
+           // addPost(title, content, , state.userID)
+        }
         editReview(reviewID, content, title, rating)
-        setReviewContent({rating: 5, title: '', content: '', postId: ''})
         setOpenReview(false)
     }
 
+    const editReview = async (reviewID, comment, title, rating) => {
+        let result = await loadDB();
+        let db = result.firestore();
+      
+        db.collection('reviews').doc(reviewID) // <--this is the reviewId on state
+        .update({
+          comment: comment,
+          title: title,
+          rating: rating
+        })
+        .then(res => {
+            setList(prevList => {
+                return prevList.map((item, index) => {
+                    if(item.review && item.review.reviewId === reviewID) {
+                        return {...item, review : {...item.review, comment: comment, rating: rating, reviewId: reviewID, title: title}};
+                    } else {
+                        return item;
+                    }
+                })
+                
+            })
+            console.log('Success updating review', res);
+        })
+        .catch(err => console.log('Failed to update review', err))
+      }
+
+    const deleteReview = async () => {
+        let result = await loadDB();
+        let db = result.firestore();
+        console.log(reviewContent.reviewID)
+        db.collection('reviews').doc(reviewContent.reviewID) //<--- this id should be the reviewId of the review you want to delete. on state
+        .delete()
+        .then(res => {
+            console.log('Success deleting:', res)})
+        .catch(err => console.log('Failed to delete review', err))
+      }
+      
+
     const postReview = () => {
         const {rating, content, title, postId} = reviewContent;
-        let newLink = postId.split("//").pop().replace(/[/]/g, "-");
-        addReview(rating, content, title, state.userID, newLink);
+        if (share) {
+            console.log("SHARE")
+        }
+        addReview(rating, content, title, state.userID, postId);
         setOpenReview(false);
     }
 
-    const getContentByUserId = async () => {
-        let arr = [];
+    const addReview = async (rating, comment, title, userId, postId) => {
+        //load db instance
         let result = await loadDB();
         let db = result.firestore();
-        db.collection("content-collection").where("userList", "array-contains", state.userID)
-        .get()
-        .then(async function(querySnapshot) {
-            querySnapshot.forEach(function(doc) {
-                const result = doc.data()
-                console.log("RESULT", result)
-                let newLink = (result.link).split("//").pop().replace(/[/]/g, "-");
-                db.collection("reviews").where("userId", "==", state.userID).where("contentCollectionId", "==", newLink)
-                .get()
-                .then(async(res) => {
-                    let response;
-                    if(res.docs.length > 0) {
-                        response = res.docs[0].data();
-                        response["reviewId"] = res.docs[0].id;
-                    } else {
-                        response = null;
-                    }
-                    result["review"] = response;
-                    setList(list => [
-                        ...list, result
-                    ])
-                })
-                .catch(err => {
-                    console.log(err)
-                })   
-            
-            }); 
-            
-        })
-        .catch(function(error) {
-            console.log("Error getting documents: ", error);
-        });
-        console.log("MY ARRAY", arr)
-    }
-
+        let newLink = postId.split("//").pop().replace(/[/]/g, "-");
+        db.collection("reviews")
+          .add({
+            // adding a new review in 'reviews' collection
+            rating: rating, //<---- firestore review system (drew's resource that he posted)
+            comment: comment,
+            title: title,
+            userId: userId, //<--- id of user who left review, in this case is state.userId
+            contentCollectionId: newLink, // id of content that is being reviewed, should be accsesed through state that has content-collection in it. state.contentId
+            displayImage: state.userImage,
+            displayName: state.displayName
+          })
+          .then(ref => {
+            db.collection("user")
+              .doc(userId) //<--- id of user who left erview, same as above, state.userId
+              .update({ reviews: firebase.firestore.FieldValue.arrayUnion(ref.id) })
+              .then(() => {
+                console.log("review ID:  ", ref.id, "has been added to the user");
+                db.collection("content-collection")
+                  .doc(newLink) //<---this is contentCollectionId, which should be on state when state.contentId
+                  .update({
+                    reviews: firebase.firestore.FieldValue.arrayUnion(ref.id)
+                  })
+                  .then(() => {
+                        setList(prevList => {
+                            return prevList.map((item, index) => {
+                                if(item.link === postId) {
+                                    return {...item, review : {comment: comment, contentCollectionId: postId, rating: rating, reviewId: ref.id, title: title, userId: state.userID}};
+                                } else {
+                                    return item;
+                                }
+                            })
+                        })
+                        
+                    console.log(
+                      "reviewID",
+                      ref.id,
+                      "has been added to the reviews array in the content"
+                    )
+                  })
+                  .catch(err => {
+                    console.log(
+                      "error adding reviewID to the reviews array in content collection"
+                    );
+                  });
+              })
+              .catch(err => {
+                console.log("error adding reviewid to reviews array in user");
+              });
+          })
+          .catch(err => console.log("Error adding review", err));
+      };
     const getUdemyByUserId = async () => {
         let arr = [];
         let result = await loadDB();
@@ -277,6 +418,60 @@ const LearningLab = (props) => {
         [metaData.title]
     );
 
+  
+    let reviewBody;
+    let reviewButtons;
+    if(gettingInfo) {
+        reviewBody = <div>*****************************************************************</div>
+    } else {
+        if(!hasReview) {
+            reviewButtons = <Button color="primary" onClick={() => {
+                setSubmitType('post');
+                setOpenReview(true);  }}>  ADD REVIEW
+            </Button>
+        } else {
+            reviewButtons =<div> <Button color="primary" onClick={() => {
+                setSubmitType('edit');
+                setOpenReview(true);}}>  EDIT REVIEW
+             </Button>
+             
+             <Button color="primary" onClick={() => {
+                 deleteReview();}}>  DELETE REVIEW
+             </Button>
+             </div>
+        }
+        reviewBody = <div>
+        <List className={classes.reviewList}>
+        {reviewList.map(item => {
+            {console.log("LIST", item)}
+            return (
+            <ListItem alignItems="flex-start">
+            <ListItemAvatar>
+            <Avatar alt="Remy Sharp" src={item.displayImage} />
+            </ListItemAvatar>
+            <ListItemText
+            primary={item.title}
+            secondary={
+                <React.Fragment>
+                <Typography component="span" className={classes.inline} color="textPrimary">
+                    {item.displayName}
+                </Typography>
+                {item.comment}
+                </React.Fragment>
+            }
+            />
+            </ListItem>
+            )
+        })}
+        </List>
+        <div>
+            {reviewButtons}
+        </div>
+        </div>
+    }
+
+    
+
     console.log(reviewContent)
     return (
         <div>
@@ -301,9 +496,11 @@ const LearningLab = (props) => {
                 
                 <div className={classes.myList}>
                     {console.log("MY LIST", list)} 
-                    {list.map(item => 
-                        <MyListCard content={item} reviewContent={reviewContent} setSubmitType={setSubmitType} setOpenReview={setOpenReview} setReviewContent={setReviewContent}/>  
-                    )}
+                    {list.map(item => {
+                        return(
+                        <MyListCard content={item} prepareReviewList={prepareReviewList}/> 
+                        )
+                    })}
                 </div>
             {/* COMPONENT FOR ADDING AN ITEM TO 'MY LIST' */}
             <Dialog
@@ -339,8 +536,8 @@ const LearningLab = (props) => {
 
 
             {/* THIS IS THE REVIEW POSTING POPUP COMPONENT*/}
-            <Dialog  open={openReview}  onClose={() => setOpenReview(false)} aria-labelledby="simple-dialog-title">
-                <DialogTitle className={classes.reviewDialog}id="simple-dialog-title">{submitType == 'post'? 'Post Review': 'Edit Review'}</DialogTitle>
+            <Dialog  className={classes.reviewListDialog} open={openReview}  onClose={() => setOpenReview(false)} aria-labelledby="simple-dialog-title">
+                <DialogTitle className={classes.reviewListDialog}id="simple-dialog-title">{submitType == 'post'? 'POST REVIEW': 'EDIT REVIEW'}</DialogTitle>
                 <DialogContent>
                    
                     <TextField
@@ -367,7 +564,19 @@ const LearningLab = (props) => {
                         value={reviewContent.content}
                         onChange={reviewChange}
                     />
+                    
                     <div className={classes.reviewButtons}>
+                        <FormControlLabel
+                        control={
+                            <Checkbox
+                            checked={share}
+                            onChange={() => {setShare(!share)}}
+                            value="checkedB"
+                            color="primary"
+                            />
+                        }
+                        label="Share this with your followers!"
+                        />
                         <button style={{backgroundColor: reviewContent.rating >= 1 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 1})}></button>
                         <button style={{backgroundColor: reviewContent.rating >= 2 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 2})}></button>
                         <button style={{backgroundColor: reviewContent.rating >= 3 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 3})}></button>
@@ -389,6 +598,10 @@ const LearningLab = (props) => {
                 </DialogContent>
             </Dialog>
 
+            <Dialog fullWidth={true} maxWidth = {'md'} open={openReviewList}  onClose={() => {setOpenReviewList(false); setReviewList([]); setHasReview(false); setReviewContent({rating: 5, title: '', content: '', postId: ''}); setGettingInfo(true)}}  aria-labelledby="simple-dialog-title">
+                <DialogTitle className={classes.reviewListDialog} id="simple-dialog-title">Reviews</DialogTitle>
+                {reviewBody}
+            </Dialog>
 
             {/* COMPONENT THAT WILL BE PLACED WITH EVERY ITEM IN 'MY LIST' TO ALLOW USER TO REVIEW*/}
             
