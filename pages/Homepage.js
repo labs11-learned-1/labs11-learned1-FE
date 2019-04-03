@@ -12,7 +12,7 @@ import { loadDB } from "../firebaseConfig/firebase";
 import Nav from '../components/Navigation/Nav'
 import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
-import UdemyCarousel from '../components/udemyCourses/categoriesModal.js';
+import UdemyCarousel from "../components/udemyCourses/udemyCarousel.js";
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
