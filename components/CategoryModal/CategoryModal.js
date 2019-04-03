@@ -20,6 +20,7 @@ function Transition(props) {
 
 function CategoryModal() {
     const [open, setOpen] = React.useState(true);
+    const [chips, setChipData] = React.useState([]);
 
     function handleClickOpen() {
         setOpen(true);
