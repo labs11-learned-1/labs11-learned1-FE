@@ -1,6 +1,6 @@
 import Link from "next/link";
 import React, {useContext, useState} from "react";
-import { loadDB } from "../../firebaseConfig/firebase";
+
 import { Store } from "../store";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
