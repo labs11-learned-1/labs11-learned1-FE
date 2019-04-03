@@ -138,7 +138,9 @@ const Navigation  = (props) => {
                                         <Link href='/settings'>
                                             <MenuItem onClick={handleClose}>Settings</MenuItem>
                                         </Link>
-                                        {/* <MenuItem onClick={handleSignOut}>SignOut</MenuItem> */}
+                                        <Link href='/Homepage'>
+                                            <MenuItem onClick={handleSignOut}>SignOut</MenuItem>
+                                        </Link>
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
