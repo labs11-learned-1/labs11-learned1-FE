@@ -3,10 +3,11 @@ import Nav from '../components/Navigation/Nav';
 import Postcard from '../components/community/Postcard';
 import { loadDB } from "../firebaseConfig/firebase";
 import * as firebase from "firebase";
+import Newsfeed from "../components/community/Newsfeed";
 
 export default function Community() {
 
-    const [newsfeed, setNewsFeed] = React.useState([]);
+    /* const [newsfeed, setNewsFeed] = React.useState([]);
 
     const getPostsOfFollowing = async () => {
       let result = await loadDB();
@@ -45,9 +46,9 @@ export default function Community() {
             console.log(err);
           })
       );
-    };
+    }; */
 
-    const getAllPosts = async ( ) => {
+    /* const getAllPosts = async ( ) => {
         
         let result = await loadDB();
         let db = result.firestore();
@@ -66,17 +67,17 @@ export default function Community() {
           .catch(err => {
             console.log("Error fetching posts", err);
           });
-      }
+      } */
       
-    React.useEffect(() => {
+    /* React.useEffect(() => {
       getPostsOfFollowing()
-    }, []);
+    }, []); */
 
     return(
       
             <div className="community">
                 <Nav />
-                <div className="community-content">
+                {/* <div className="community-content">
                     <h1>News Feed</h1>
                     <div className='cards'>
                         {console.log("Newsfeed: ", newsfeed)}
@@ -86,7 +87,8 @@ export default function Community() {
                               
                         )}
                     </div>
-                </div>
+                </div> */}
+                <Newsfeed />
             </div>
     )
 }
