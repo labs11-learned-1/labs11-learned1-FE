@@ -13,7 +13,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 //import Router from 'next/router'
 // import * as firebase from "firebase";
-// import { loadDB } from '../../firebaseConfig/firebase';
+import { loadDB } from '../../firebaseConfig/firebase';
 
 const styles = theme => ({
     nav : {
@@ -57,7 +57,7 @@ const Navigation  = (props) => {
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
 
-    const handleSignOut = async () => {
+    /*const handleSignOut = async () => {
         let myVal = await loadDB();
          myVal
            .auth()
@@ -70,6 +70,7 @@ const Navigation  = (props) => {
              alert("Error signing out");
            });
     };
+    */
 
     const handleToggle = () => {
         setOpen(!open);
@@ -138,9 +139,10 @@ const Navigation  = (props) => {
                                         <Link href='/settings'>
                                             <MenuItem onClick={handleClose}>Settings</MenuItem>
                                         </Link>
-                                        <Link href='/Homepage'>
+                                        
+                                        {/*<Link href='/Homepage'>
                                             <MenuItem onClick={handleSignOut}>SignOut</MenuItem>
-                                        </Link>
+                            </Link>*/}
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
