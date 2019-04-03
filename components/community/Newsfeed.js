@@ -2,10 +2,12 @@ import React from "react";
 import Postcard from '../community/Postcard';
 import { loadDB } from "../../firebaseConfig/firebase";
 import * as firebase from "firebase";
+import { Store } from '../store';
 
 const Newsfeed = () => {
 
     const [newsfeed, setNewsFeed] = React.useState([]);
+    const {state, dispatch} = React.useContext(Store);
 
     const getPostsOfFollowing = async () => {
       let result = await loadDB();
@@ -15,7 +17,7 @@ const Newsfeed = () => {
     
       const followingArray = 
        await userRef
-        .doc("Z75puMPR29RnN1E3l3ayj3jSASl1")
+        .doc(state.userID)
         .get(firebase.firestore.FieldPath("following"))
         .then(docSnapshot => {
           console.log(docSnapshot.data().following);
