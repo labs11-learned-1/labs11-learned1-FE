@@ -57,7 +57,7 @@ const Navigation  = (props) => {
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
-
+    /*
     const handleSignOut = async () => {
         let myVal = await loadDB();
         myVal
@@ -71,7 +71,7 @@ const Navigation  = (props) => {
             alert("Error signing out");
           });
       };
-
+      */
     const handleToggle = () => {
         setOpen(!open);
       };
