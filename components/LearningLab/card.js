@@ -83,6 +83,10 @@ const MyListCard = (props) => {
                                         ev.preventDefault();
                                         props.prepareReviewList(props.content.userList, props.content.link);
                                     }}>Reviews</MenuItem>
+                                    <MenuItem onClick={(ev) => {
+                                        ev.preventDefault();
+                                        props.prepareSharePost(props.content.link);
+                                    }}>Share Post</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
