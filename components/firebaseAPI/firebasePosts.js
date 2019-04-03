@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 
 
 //// =============ADD POST==============
-export const addPost = async () => {
+export const addPost = async (title, content, url, userId) => {
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
@@ -14,16 +14,16 @@ export const addPost = async () => {
   // add post to "posts" collection, creating a unique document/postId with .add()
   db.collection("posts")
     .add({
-      title: "Test Title 5", // <--- provide input form
-      content: "Test Content 5", //<--- provide input form
+      title: title, // <--- provide input form
+      content: content, //<--- provide input form
       createdAt: Date.now(),
-      url: "TestURL5.com",
-      userId: "1" //<--- make dynamic with state.userId
+      url: url,
+      userId: userId//<--- make dynamic with state.userId
     })
     .then(ref =>
       db
         .collection("user")
-        .doc("1") // <--- make dynamic with state.userId
+        .doc(userId) // <--- make dynamic with state.userId
         .update({ posts: firebase.firestore.FieldValue.arrayUnion(ref.id) }) // <--- updates the array of postId's within user, for future reference
         .then(() => {
           console.log("Success adding a post, this is the postId:  ", ref.id);
