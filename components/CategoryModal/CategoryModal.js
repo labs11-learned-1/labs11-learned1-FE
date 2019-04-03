@@ -52,20 +52,6 @@ function CategoryModal() {
                 <Button color="inherit" onClick={handleClose}>
                 save
                 </Button>
-                    {chipData.map(data => {
-                        let icon = null;
-                        return (
-                            <Chip
-                                label="Awesome Chip Component"
-                                color={color}
-                                deleteIcon={onDelete === 'custom' ? <DoneIcon /> : undefined}
-                                onDelete={onDelete !== 'none' ? this.handleDeleteExample : undefined}
-                                avatar={avatarToPlayground}
-                                icon={iconToPlayground}
-                                variant={variant}
-                            />
-                        );
-                    })}
             </Toolbar>
             </AppBar>
             <GridList cellHeight={20}>

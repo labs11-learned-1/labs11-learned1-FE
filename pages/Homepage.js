@@ -12,6 +12,7 @@ import { loadDB } from "../firebaseConfig/firebase";
 import Nav from '../components/Navigation/Nav'
 import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
+import CategoryModal from '../components/CategoryModal/CategoryModal'
 import UdemyCarousel from "../components/udemyCourses/udemyCarousel.js";
 
 //styles imports
@@ -63,7 +64,7 @@ function Homepage(props) {
           <Home/>
           <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=piano"]}/>
           <ContentCollection />
-          
+          {state.firstTimeUser ? <CategoryModal /> : null}
         </div>
       );
     }
