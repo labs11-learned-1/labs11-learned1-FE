@@ -10,7 +10,11 @@ const initialState = {
     userID: "",
     displayName: "",
     userImage: "",
+<<<<<<< HEAD
     firstTimeUser: true
+=======
+    
+>>>>>>> e389c655fb5c70f47a0ff60698fd4082396ff3b1
 }
 
 function reducer(state, action) {
