@@ -98,12 +98,28 @@ const Authentication = props => {
         await db
           .collection("user")
           .doc(result.user.uid)
-          .set({
-            name: result.additionalUserInfo.profile.name,
-            id: result.user.uid,
-            email: result.user.email,
-            image: result.user.photoURL
-          });
+          .get().then(docSnapshot => {
+            if(docSnapshot.data()){
+              console.log(docSnapshot.data())
+              db.collection("user")
+              .doc(result.user.uid)
+              .update({
+                name: result.additionalUserInfo.profile.name,
+                id: result.user.uid,
+                email: result.user.email,
+                image: result.user.photoURL
+              })
+            }else{
+              db.collection("user")
+              .doc(result.user.uid)
+              .set({
+                name: result.additionalUserInfo.profile.name,
+                id: result.user.uid,
+                email: result.user.email,
+                image: result.user.photoURL
+              });
+            }
+          })
 
         return dispatch({
           type: "LOGGED_IN",

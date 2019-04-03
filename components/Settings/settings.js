@@ -1,10 +1,16 @@
 import React, {useState, useContext} from "react";
+import axios from 'axios';
 //import Router from 'next/router'
 import { Store } from "../store";
 import PropTypes from "prop-types";
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import Button from '@material-ui/core/Button';
+import Dialog from '@material-ui/core/Dialog';
+import DialogActions from '@material-ui/core/DialogActions';
+import DialogContent from '@material-ui/core/DialogContent';
+import DialogTitle from '@material-ui/core/DialogTitle';
+import LinearProgress from '@material-ui/core/LinearProgress';
 //firebase import
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
@@ -132,8 +138,10 @@ const styles = theme => ({
     },
     saveCancel: {
         display: 'flex'
+    },
+    udemyInput: {
+        width:"50%"
     }
-    
 
 })
 
@@ -145,7 +153,10 @@ const Settings = (props) => {
     const [editDisplay, setEditDisplay] = useState(false);
     const [activeTab, setActiveTab] = useState('account')
     const [newDisplay, setNewDisplay] = useState(state.displayName);
-
+    const [udemyModal, setUdemyModal] = useState(false);
+    const [udemyLink, setUdemyLink] = useState("");
+    const [loading, setLoadingStatus] = useState(false);
+    const [loadingMessage, setLoadingMessage] = useState("This could take up to 15 seconds")
     
     const { classes } = props;
     //FOR NOW HAS VERY UGLY LOOKING SETUP IN ORDER TO PRESENT THE IDEA OF FUNCTIONALITY
@@ -171,6 +182,24 @@ const Settings = (props) => {
 
     const uploadDisplayName = () => {
         //Send a put to the server to update the display name of the user and update global state.
+    }
+
+    const handleLinkSumbit = e => {
+        setLoadingStatus(true)
+        console.log("clicked",udemyLink,state.userID)
+        axios.post('https://metadatatesting.herokuapp.com/user-udemy',{url: udemyLink, userId: state.userID})
+        .then(res=>{
+            setLoadingMessage("Account Linked!");
+            setTimeout(()=>{
+                setLoadingStatus(false);
+                setUdemyModal(false);
+            },1000)
+        })
+        .catch(err=>{
+            console.log("Error adding users udemy stuffage", err);
+            setUdemyModal(false);
+            alert("error linking account")
+        })
     }
 
     let selectImage;
@@ -249,11 +278,46 @@ const Settings = (props) => {
                 <h2>Connect to Udemy</h2>
                 <p>Get access to all your Udemy courses with the click of a button</p>
             </div>
-                <Button variant="contained" color="red" className={classes.udemyButton}>
+                <Button variant="contained" color="red" className={classes.udemyButton} onClick={()=>setUdemyModal(true)}>
                     Connect to Udemy
                 </Button>
-        
+                
             </div>
+            <Dialog open={udemyModal} onClose={() => setUdemyModal(false)}>
+                <DialogTitle>Public Profile Link</DialogTitle>
+                <DialogContent>
+                    {
+                    loading ? 
+                        <div>
+                            <p>{loadingMessage}</p>
+                            <LinearProgress variant="indeterminate"/>
+                        </div> 
+                    : 
+                    <React.Fragment>
+                        <TextField
+                            autoFocus
+                            margin="dense"
+                            id="name"
+                            label="Link"
+                            fullWidth
+                            multiline
+                            onChange={e=>{setUdemyLink(e.target.value)}}
+                        />
+
+                        <DialogActions>
+                            <Button color="primary" onClick={()=>setUdemyModal(false)}>
+                            Cancel
+                            </Button>
+                            {/* Change this to handle submit */}
+                            <Button color="primary" onClick={()=>handleLinkSumbit()}> 
+                            Link
+                            </Button>
+                        </DialogActions>
+                    </React.Fragment>
+                    }
+
+                </DialogContent>
+            </Dialog>
       </div>
       
     );
@@ -264,3 +328,9 @@ Settings.propTypes = {
   };
 
 export default withStyles(styles)(Settings);
+
+{/* <TextField
+label="Public Profile Link"
+className={classes.udemyInput}
+variant="outlined"
+/> */}

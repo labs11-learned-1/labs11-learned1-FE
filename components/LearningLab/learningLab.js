@@ -33,6 +33,9 @@ import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
 
+
+ 
+
 const styles = theme => ({
     reviewDialog: {
         width: '548px',
@@ -140,6 +143,11 @@ const LearningLab = (props) => {
     const [hasReview, setHasReview] = React.useState(false);
     const [gettingInfo, setGettingInfo] = React.useState(true);
     const [share, setShare] = React.useState(true);
+    const [UdemyList, setUdemyList] = React.useState([]);
+
+
+    
+ 
 
     const onChangeHandler = ev => {
         setLink(ev.target.value)
@@ -247,6 +255,7 @@ const LearningLab = (props) => {
     const updateReview = () => {
         const {rating, title, content, reviewID} = reviewContent;
         if(share) {
+            console.log("SHARE")
            // addPost(title, content, , state.userID)
         }
         editReview(reviewID, content, title, rating)
@@ -294,13 +303,11 @@ const LearningLab = (props) => {
     const postReview = () => {
         const {rating, content, title, postId} = reviewContent;
         if (share) {
-
+            console.log("SHARE")
         }
         addReview(rating, content, title, state.userID, postId);
         setOpenReview(false);
     }
-
-    
 
     const addReview = async (rating, comment, title, userId, postId) => {
         //load db instance
@@ -358,6 +365,25 @@ const LearningLab = (props) => {
           })
           .catch(err => console.log("Error adding review", err));
       };
+    const getUdemyByUserId = async () => {
+        let arr = [];
+        let result = await loadDB();
+        let db = result.firestore();
+        db.collection("content-collection").where("UserList", "array-contains", state.userID)
+        .get()
+        .then(async function(querySnapshot) {
+            await querySnapshot.forEach(function(doc) {
+                const result = doc.data()
+                arr.push(result)
+                console.log("udemy result", result) 
+            }); 
+            console.log("this is the array", arr)
+            setUdemyList([...arr])
+        })
+        .catch(function(error) {
+            console.log("Error getting documents: ", error);
+        });
+    }
 
     const handleSubmit = () => {
         // sending link to web scraping backend that returns meta tags
@@ -375,18 +401,21 @@ const LearningLab = (props) => {
 
     React.useEffect(
         () => {
-          if (metaData.title) {
-            addContent()
-          }
+            getContentByUserId()
+            getUdemyByUserId()
         },
-        [metaData.title]
+        []
     );
 
     React.useEffect(
         () => {
-            getContentByUserId()
+            
+            if (metaData.title) {
+                console.log("HEY IM BEING CALLED!")
+                addContent()
+            }
         },
-        []
+        [metaData.title]
     );
 
   
@@ -436,17 +465,6 @@ const LearningLab = (props) => {
         })}
         </List>
         <div>
-            <FormControlLabel
-            control={
-                <Checkbox
-                checked={share}
-                onChange={() => {setShare(!share)}}
-                value="checkedB"
-                color="primary"
-                />
-            }
-            label="Share this with your followers!"
-            />
             {reviewButtons}
         </div>
         </div>
@@ -462,8 +480,11 @@ const LearningLab = (props) => {
                 <div className={classes.myHeader}>
                     <h1>Current Courses</h1>
                 </div>
-                <div className={classes.currentCourses}>
+                <div className={classes.myList}>
                 {/* This is where user courses will show up */}
+                {UdemyList.map(course => {
+                        return <MyListCard content={course} /> 
+                    })}
                 </div>
                 <div className={classes.myHeader}>
                     <h1>My List</h1>
@@ -500,7 +521,7 @@ const LearningLab = (props) => {
                     onChange={onChangeHandler}
                     />
                 </DialogContent>
-
+                
                 <DialogActions>
                     <Button onClick={() => setOpen(false)} color="primary">
                     Cancel
@@ -543,7 +564,19 @@ const LearningLab = (props) => {
                         value={reviewContent.content}
                         onChange={reviewChange}
                     />
+                    
                     <div className={classes.reviewButtons}>
+                        <FormControlLabel
+                        control={
+                            <Checkbox
+                            checked={share}
+                            onChange={() => {setShare(!share)}}
+                            value="checkedB"
+                            color="primary"
+                            />
+                        }
+                        label="Share this with your followers!"
+                        />
                         <button style={{backgroundColor: reviewContent.rating >= 1 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 1})}></button>
                         <button style={{backgroundColor: reviewContent.rating >= 2 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 2})}></button>
                         <button style={{backgroundColor: reviewContent.rating >= 3 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 3})}></button>
@@ -558,6 +591,7 @@ const LearningLab = (props) => {
                             }} color="primary">
                             CANCEL
                         </Button>
+                        
                     </div>
                     
 

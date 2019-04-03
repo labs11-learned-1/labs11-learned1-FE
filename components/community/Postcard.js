@@ -12,6 +12,7 @@ import Typography from '@material-ui/core/Typography';
 import red from '@material-ui/core/colors/red';
 import FavoriteIcon from '@material-ui/icons/Favorite';
 import TextField from '@material-ui/core/TextField';
+import Link from "next/link";
 
 const styles = theme => ({
     card: {
@@ -40,11 +41,13 @@ class Postcard extends React.Component {
         return (
         <Card className={classes.card}>
             {/* Replace with users google image */}
-            <CardHeader 
-                avatar={<Avatar aria-label="Recipe" className={classes.avatar}>D</Avatar>}
-                title={this.props.content.title}
-                subheader="March 26, 2019"
-            />
+            <Link href={{ pathname: '/users-lab', query: { user: this.props.content.userId }}}>
+                <CardHeader 
+                    avatar={<Avatar aria-label="Recipe" className={classes.avatar}>D</Avatar>}
+                    title={this.props.content.title}
+                    subheader="March 26, 2019"
+                />
+            </Link>
             {/* Replace image url if present to one inputted in text */}
             <CardMedia
             className={classes.media}
@@ -54,7 +57,7 @@ class Postcard extends React.Component {
             <CardContent>
                 {/* Replace with users own inputted text */}
                 <Typography component="p">
-                    This is my favorite blog and stuff. It is super duper cool and all I would recommend checking it out
+                    {this.props.content.content}
                 </Typography>
             </CardContent>
 
