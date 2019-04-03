@@ -59,7 +59,7 @@ const Navigation  = (props) => {
 
     const handleSignOut = async () => {
         let myVal = await loadDB();
-    //     myVal
+         myVal
     //       .auth()
     //       .signOut()
     //       .then((result) => {
