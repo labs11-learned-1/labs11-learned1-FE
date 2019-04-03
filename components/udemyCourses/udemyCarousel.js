@@ -31,7 +31,12 @@ const styles = theme => ({
 });
 
 const UdemyCarousel = props => {
-    
+  let payload =  [
+      "Music",
+      "marketing",
+      "Music&subcategory=piano"
+    ]
+  
   const { classes } = props;
   //   const {tags] = props;
   //   console.log("TAGS",tags)
@@ -40,16 +45,19 @@ const UdemyCarousel = props => {
     
     (() => {
     console.log("running axios request")    
-    axios
-    .post("https://metadatatesting.herokuapp.com/udemy-cat", [
-      "Music",
-      "marketing",
-      "Music&subcategory=piano"
-    ])
+    axios({
+      method: 'POST',
+      url:"http://localhost:3333/udemy-cat",
+      data: payload })
+    
     .then(res => {
         console.log("RESPONSE",res)
-      setTaggedData(res);
-    })})();
+      setTaggedData(res.data);
+    }).catch(err=>{
+      console.log("error making axios request",err)
+    })
+  
+  })();
   }, []);
   //   let catArray = ["Music", "marketing", "Music&subcategory=piano"]; // this is an array on state
   
@@ -59,8 +67,8 @@ const UdemyCarousel = props => {
       <GridList className={classes.gridList} cols={2.5}>
         {console.log("TAGGEDDATA:   ", taggedData)}
         {taggedData.map(tile => (
-          <GridListTile key={tile.img}>
-            <img src={tile.img} alt={tile.title} />
+          <GridListTile key={tile.image_480x270}>
+            <img src={tile.image_480x270} alt={tile.title} />
             <GridListTileBar
               title={tile.title}
               classes={{
