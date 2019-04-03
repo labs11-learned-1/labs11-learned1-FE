@@ -2,16 +2,15 @@ import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 
 // ====== User1 follows User2
-export const getPostsOfFollowing = async (bool) => {
+export const getPostsOfFollowing = async () => {
   let result = await loadDB();
   let db = result.firestore();
   let userRef = db.collection("user");
-  
   let postsRef = db.collection("posts");
 
   //get array of who user follows
   const followingArray = await userRef
-    .doc("450")
+    .doc("Z75puMPR29RnN1E3l3ayj3jSASl1")
     .get(firebase.firestore.FieldPath("following"))
     .then(docSnapshot => {
       console.log(docSnapshot.data().following);
@@ -48,7 +47,7 @@ export const getPostsOfFollowing = async (bool) => {
   
   // console.log("RESULT: ", postsArr);
   let postsArr = [];
-  await followingArray.forEach(user =>
+  followingArray.forEach(user =>
     postsRef
       .where("userId", "==", user)
       .get()
@@ -59,8 +58,7 @@ export const getPostsOfFollowing = async (bool) => {
         console.log(err);
       })
   );
-
-  console.log("RESULT: ", postsArr);
+  console.log("PostsArr: ", postsArr)
 };
 
 
@@ -80,24 +78,24 @@ export const followOthers = async () => {
 
   let userRef = db.collection("user");
   userRef
-    .doc("450")
+    .doc("Z75puMPR29RnN1E3l3ayj3jSASl1")
     .get()
     .then(docSnapshot => {
       //check if user is already following
-      if (docSnapshot.data().following.includes("454")) {
+      if (docSnapshot.data().following.includes("452")) {
         //====================unfollow section==================
         userRef
-          .doc("450")
+          .doc("Z75puMPR29RnN1E3l3ayj3jSASl1")
           .update({
             followingCount: firebase.firestore.FieldValue.increment(-1),
-            following: firebase.firestore.FieldValue.arrayRemove("454")
+            following: firebase.firestore.FieldValue.arrayRemove("452")
           }) //if user "454" is in 450's following then remove
           .then(() => {
             userRef
-              .doc("454")
+              .doc("452")
               .update({
                 followerCount: firebase.firestore.FieldValue.increment(-1),
-                followers: firebase.firestore.FieldValue.arrayRemove("450")
+                followers: firebase.firestore.FieldValue.arrayRemove("Z75puMPR29RnN1E3l3ayj3jSASl1")
               }) //then remove "450" from 454's followers
               .then(() => {
                 console.log("success unfollowing");
@@ -111,18 +109,18 @@ export const followOthers = async () => {
         //=================follow section=====================
         //if user 450 is not following user 454 then adding 454 to following array
         userRef
-          .doc("450")
+          .doc("Z75puMPR29RnN1E3l3ayj3jSASl1")
           .update({
             followingCount: firebase.firestore.FieldValue.increment(1), // add +1 to following count
-            following: firebase.firestore.FieldValue.arrayUnion("454")
+            following: firebase.firestore.FieldValue.arrayUnion("452")
           }) // .doc("myUserId")  .arrayUnion("theirId")
           .then(() => {
             // then update their followers list with my id
             userRef
-              .doc("454")
+              .doc("452")
               .update({
                 followerCount: firebase.firestore.FieldValue.increment(1),
-                followers: firebase.firestore.FieldValue.arrayUnion("450")
+                followers: firebase.firestore.FieldValue.arrayUnion("Z75puMPR29RnN1E3l3ayj3jSASl1")
               }) // .doc("theirId")  .arrayUnion("myUserId")
               .then(() => {
                 console.log("Success update follows");
