@@ -10,6 +10,7 @@ const initialState = {
     userID: "",
     displayName: "",
     userImage: "",
+    firstTimeUser: true
 }
 
 function reducer(state, action) {
@@ -24,6 +25,15 @@ function reducer(state, action) {
             return {...state, openForm: action.payload}
         case 'SET_POSTS':
             return {...state, newsfeed: action.payload}
+        case 'FIRST_TIME_LOGIN':
+            return{
+                ...state, 
+                loggedIn: true, 
+                userID: action.payload.uid, 
+                displayName: action.payload.displayName, 
+                userImage: action.payload.photoURL,
+                firstTimeUser: true,
+            }
         default:
             return state;
     }

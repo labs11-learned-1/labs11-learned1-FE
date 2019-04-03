@@ -109,6 +109,11 @@ const Authentication = props => {
                 email: result.user.email,
                 image: result.user.photoURL
               })
+              
+              return dispatch({
+                type: "LOGGED_IN",
+                payload: result.user
+              });
             }else{
               db.collection("user")
               .doc(result.user.uid)
@@ -118,13 +123,12 @@ const Authentication = props => {
                 email: result.user.email,
                 image: result.user.photoURL
               });
+              return dispatch({
+                type: "FIRST_TIME_LOGIN",
+                payload: result.user
+              })
             }
           })
-
-        return dispatch({
-          type: "LOGGED_IN",
-          payload: result.user
-        });
       })
       .catch(e => {
         console.log("Error logging in", e);

@@ -12,6 +12,7 @@ import { loadDB } from "../firebaseConfig/firebase";
 import Nav from '../components/Navigation/Nav'
 import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
+import CategoryModal from '../components/CategoryModal/CategoryModal'
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
@@ -61,7 +62,7 @@ function Homepage(props) {
           <Nav/>
           <Home/>
           <ContentCollection />
-          
+          {state.firstTimeUser ? <CategoryModal /> : null}
         </div>
       );
     }
