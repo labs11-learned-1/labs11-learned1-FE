@@ -15,22 +15,16 @@ import * as firebase from "firebase";
 
 import  { getPostsOfFollowing, followOthers }  from '../components/firebaseAPI/firebaseFollow';
 
-
+import Newsfeed from '../components/community/Newsfeed';
 
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Community() {
-
-    const [newsfeed, setNewsFeed] = React.useState([]);
-
-    const handleUserFollows = () => {
-      getPostsOfFollowing();  
-    }
 
     const handleFollowOthers = () => {
       followOthers()
     }
 
-    const getAllPosts = async ( ) => {
+    /* const getAllPosts = async ( ) => {
         
         let result = await loadDB();
         let db = result.firestore();
@@ -50,26 +44,15 @@ export default function Community() {
             console.log("Error fetching posts", err);
           });
           
-      }
+      } */
       
-      
-    React.useEffect(() => {getAllPosts()}, []);
     return(
-      
             <div className="community">
                 <Nav />
-                <button onClick ={handleUserFollows}>Get user 450 follows posts</button>
                 <button onClick ={handleFollowOthers}>Follow user 454</button>
                 <div className="community-content">
                     <h1>News Feed</h1>
-                    <div className='cards'>
-                        {console.log(newsfeed)}
-                        {   
-                            newsfeed.map((post, index) =>                             
-                                    <Postcard content={post} key={index}/>     
-                        )}
-                        
-                    </div>
+                    <Newsfeed />
                 </div>
             </div>
     )
