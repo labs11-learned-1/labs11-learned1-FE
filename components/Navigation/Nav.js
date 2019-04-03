@@ -60,15 +60,15 @@ const Navigation  = (props) => {
     const handleSignOut = async () => {
         let myVal = await loadDB();
          myVal
-    //       .auth()
-    //       .signOut()
-    //       .then((result) => {
-    //         console.log("logout success", result)
-    //         return dispatch({ type: "LOGGED_OUT" });
-    //       })
-    //       .catch(e => {
-    //         alert("Error signing out");
-    //       });
+           .auth()
+           .signOut()
+           .then((result) => {
+             console.log("logout success", result)
+             return dispatch({ type: "LOGGED_OUT" });
+           })
+           .catch(e => {
+             alert("Error signing out");
+           });
     };
 
     const handleToggle = () => {
