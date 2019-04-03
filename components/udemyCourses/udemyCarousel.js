@@ -34,7 +34,7 @@ const UdemyCarousel = props => {
   let payload =  [
       "Music",
       "marketing",
-      "Music&subcategory=piano"
+      "Music&subcategory=Vocal"
     ]
   
   const { classes } = props;
