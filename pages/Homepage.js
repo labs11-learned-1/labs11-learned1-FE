@@ -12,6 +12,8 @@ import { loadDB } from "../firebaseConfig/firebase";
 import Nav from '../components/Navigation/Nav'
 import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
+import CategoryModal from '../components/CategoryModal/CategoryModal'
+import UdemyCarousel from "../components/udemyCourses/udemyCarousel.js";
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
@@ -60,8 +62,9 @@ function Homepage(props) {
         <div>
           <Nav/>
           <Home/>
+          <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=piano"]}/>
           <ContentCollection />
-          
+          {state.firstTimeUser ? <CategoryModal /> : null}
         </div>
       );
     }

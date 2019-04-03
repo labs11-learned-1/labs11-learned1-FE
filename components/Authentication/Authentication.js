@@ -96,6 +96,7 @@ const Authentication = props => {
         // console.log("result", result); <--- uncomment to see what else you can grab, such as accessToken
         // creates a doc with value of userID in user collectionthen puts fields in
         await db
+        //user already exists
           .collection("user")
           .doc(result.user.uid)
           .get().then(docSnapshot => {
@@ -109,22 +110,29 @@ const Authentication = props => {
                 email: result.user.email,
                 image: result.user.photoURL
               })
+              
+              return dispatch({
+                type: "LOGGED_IN",
+                payload: result.user
+              });
             }else{
+              //create a new user
               db.collection("user")
               .doc(result.user.uid)
               .set({
                 name: result.additionalUserInfo.profile.name,
                 id: result.user.uid,
                 email: result.user.email,
-                image: result.user.photoURL
+                image: result.user.photoURL,
+                followers: [result.user.uid],
+                following: [result.user.uid]
               });
+              return dispatch({
+                type: "FIRST_TIME_LOGIN",
+                payload: result.user
+              })
             }
           })
-
-        return dispatch({
-          type: "LOGGED_IN",
-          payload: result.user
-        });
       })
       .catch(e => {
         console.log("Error logging in", e);

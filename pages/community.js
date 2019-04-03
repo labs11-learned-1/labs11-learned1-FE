@@ -1,76 +1,14 @@
-import React, { Component } from "react";
-import { Store } from "../components/store";
+import React from "react";
 import Nav from '../components/Navigation/Nav';
-import Postcard from '../components/community/Postcard';
-import Fab from '@material-ui/core/Fab';
-import AddIcon from '@material-ui/icons/Add';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
-import Button from '@material-ui/core/Button';
-import { loadDB } from "../firebaseConfig/firebase";
-import * as firebase from "firebase";
+import Newsfeed from "../components/community/Newsfeed";
 
-import  { getPostsOfFollowing, followOthers }  from '../components/firebaseAPI/firebaseFollow';
-
-
-
-//  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 export default function Community() {
 
-    const [newsfeed, setNewsFeed] = React.useState([]);
-
-    const handleUserFollows = () => {
-      getPostsOfFollowing();  
-    }
-
-    const handleFollowOthers = () => {
-      followOthers()
-    }
-
-    const getAllPosts = async ( ) => {
-        
-        let result = await loadDB();
-        let db = result.firestore();
-      
-        const posts = []
-      
-        //access posts collection, provide the postId that you want to get
-        db.collection("posts")
-          .get()
-          .then(postSnapshot => {
-            postSnapshot.docs.forEach(doc => {
-              posts.push(doc.data())
-            })
-            setNewsFeed(posts)
-          })
-          .catch(err => {
-            console.log("Error fetching posts", err);
-          });
-          
-      }
-      
-      
-    React.useEffect(() => {getAllPosts()}, []);
     return(
       
             <div className="community">
                 <Nav />
-                <button onClick ={handleUserFollows}>Get user 450 follows posts</button>
-                <button onClick ={handleFollowOthers}>Follow user 454</button>
-                <div className="community-content">
-                    <h1>News Feed</h1>
-                    <div className='cards'>
-                        {console.log(newsfeed)}
-                        {   
-                            newsfeed.map((post, index) =>                             
-                                    <Postcard content={post} key={index}/>     
-                        )}
-                        
-                    </div>
-                </div>
+                <Newsfeed />
             </div>
     )
 }
