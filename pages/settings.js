@@ -1,13 +1,14 @@
 import React from "react";
 import Settings from '../components/Settings/settings';
 import Nav from '../components/Navigation/Nav'
+import GeneralNav from "../components/Navigation/GeneralNav";
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
 const SettingsPage = () => {
 
     return (
       <div>   
-        <Nav/>
+        <GeneralNav/>
         <Settings/>  
       </div>
     );

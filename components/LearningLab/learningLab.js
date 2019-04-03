@@ -31,6 +31,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
+import GeneralNav from '../Navigation/GeneralNav';
 
 const styles = theme => ({
     reviewDialog: {
@@ -512,7 +513,7 @@ const LearningLab = (props) => {
 
     return (
         <div>
-            <Navigation />
+            <GeneralNav/>
             <div className={classes.learningLabWrap}>
                 <div className={classes.myHeader}>
                     <h1>Current Courses</h1>
