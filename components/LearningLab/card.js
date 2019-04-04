@@ -91,7 +91,7 @@ const MyListCard = (props) => {
                                     </MenuList>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
-                                        props.deleteContent(props.content.link);
+                                        props.deleteContent();
                                     }}>Delete</MenuItem>
                                 </ClickAwayListener>
                                 </Paper>
