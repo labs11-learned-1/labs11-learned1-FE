@@ -127,7 +127,7 @@ const GeneralNav = (props) => {
                                         </Link>
                                        
                                         <Link href='/Homepage'>
-                                            <MenuItem onClick={handleSignOut}>SignOut</MenuItem>
+                                            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
                                         </Link>
                                        
                                     </MenuList>
