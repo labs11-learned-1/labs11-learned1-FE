@@ -182,6 +182,30 @@ const LearningLab = (props) => {
         setOpenReview(true);
     }
 
+    const deleteContent = async (link) => {
+        let result = await loadDB();
+        let db = result.firestore();
+        let newLink = link.split("//").pop().replace(/[/]/g, "-");
+    
+        db.collection('user').doc(state.userID).update({myList: firebase.firestore.FieldValue.arrayRemove(link)})
+        .then(() => {
+            db.collection('content-collection').doc(newLink).update({userList: firebase.firestore.FieldValue.arrayRemove(state.userID)})
+            .then(() => {
+                db.collection('reviews').doc(userReview.reviewID).delete() //<--- this id should be the reviewId of the review you want to delete. on state
+                .then(res => {
+                        setUserReview(null);
+                        setReviewContent({rating: 5, title: '', content: '', postId: '', reviewID: ''})
+                        console.log('Success deleting:', res)})
+                .catch(err => console.log('Failed to delete review', err))
+                })
+            .catch(err => {
+                console.log("error removing userid from content array")
+            })
+            // make edge case, above function wont remove from userId if it the last index in the array
+        })
+        .catch(err => console.log('Cant remove content'))
+    }
+
     const sharePost = () => {
         const {title, content, postId} = reviewContent;
         addPost(title, content, postId, state.userID)
@@ -371,7 +395,6 @@ const LearningLab = (props) => {
                 arr.push(result)
                 console.log("udemy result", result) 
             }); 
-            console.log("this is the array", arr)
             setUdemyList([...arr])
         })
         .catch(function(error) {
@@ -532,7 +555,10 @@ const LearningLab = (props) => {
                 <div className={classes.myList}>
                     {list.map(item => {
                         return(
-                        <MyListCard content={item} prepareReviewList={prepareReviewList} prepareSharePost={prepareSharePost}/> 
+                        <MyListCard content={item} 
+                        prepareReviewList={prepareReviewList} 
+                        prepareSharePost={prepareSharePost} 
+                        deleteContent={deleteContent}/> 
                         )
                     })}
                 </div>

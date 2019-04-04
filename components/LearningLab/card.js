@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
+import {Store} from '../store';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -44,7 +45,7 @@ const styles = theme => ({
 
 const MyListCard = (props) => {
     const [openMenu, setOpenMenu] = React.useState(false);
-
+    
     const { classes } = props;
         
     return(
@@ -88,6 +89,10 @@ const MyListCard = (props) => {
                                         props.prepareSharePost(props.content.link);
                                     }}>Share Post</MenuItem>
                                     </MenuList>
+                                    <MenuItem onClick={(ev) => {
+                                        ev.preventDefault();
+                                        props.deleteContent(props.content.link);
+                                    }}>Delete</MenuItem>
                                 </ClickAwayListener>
                                 </Paper>
                             </Grow>
