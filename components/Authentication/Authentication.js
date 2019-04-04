@@ -125,7 +125,8 @@ const Authentication = props => {
                 email: result.user.email,
                 image: result.user.photoURL,
                 followers: [result.user.uid],
-                following: [result.user.uid]
+                following: [result.user.uid],
+                myList: []
               });
               return dispatch({
                 type: "FIRST_TIME_LOGIN",

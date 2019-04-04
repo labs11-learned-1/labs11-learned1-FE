@@ -124,7 +124,7 @@ const LearningLab = (props) => {
     const [list, setList] = React.useState([]);
     const [UdemyList, setUdemyList] = React.useState([]);
     const [open, setOpen] = React.useState(false);
-
+    console.log("list inside learninglab", list)
 /* #region tabs */ 
     //=====TABS HANDLING STATE======
     const handleChange = (event, newValue) => {
@@ -154,7 +154,8 @@ const LearningLab = (props) => {
             if(docSnapshot.exists){
                 //if it exists, just update the array with the userId
                 contentRef.doc(newLink).update({userList: firebase.firestore.FieldValue.arrayUnion(state.userID)}).then(()=>{
-                    db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => {
+                    db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)})
+                    .then(() => {
                         setList([...list, {author: metaData.author, description: metaData.description, link: link, photoUrl: metaData.img, review: null, title: metaData.title}])
                     })
                     console.log('Hello')
@@ -224,7 +225,8 @@ const LearningLab = (props) => {
 
     React.useEffect(
         () => {
-            getUdemyByUserId()
+            getUdemyByUserId();
+           
         },
         []
     );
