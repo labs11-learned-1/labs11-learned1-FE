@@ -101,7 +101,7 @@ const MyListCard = (props) => {
                     <a target='_blank' href={props.content.link} style={{display: 'block', textDecoration: 'none'}}>
                     <CardMedia
                     className={classes.media}
-                    image={props.content.photoUrl}
+                    image={props.content.photoUrl ? props.content.photoUrl : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
                     />
                     </a>
                     <CardContent>
