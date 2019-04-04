@@ -141,6 +141,27 @@ const styles = theme => ({
     },
     udemyInput: {
         width:"50%"
+    },
+    '@media(max-width: 600px)': {
+        sidebar: {
+            display: 'none'
+        },
+        content: {
+            padding: '0 10px 0 10px',
+            display: 'flex',
+            flexDirection: 'column',
+            paddingBottom: '20px'
+        },
+        connectionsTab: {
+            paddingTop: '20px',
+            display: 'block !important'
+        },
+        accountTab: {
+            borderBottom: '40px solid rgba(0,0,0,.1)', 
+            display: 'block !important'
+        }
+    
+
     }
 
 })
@@ -226,100 +247,101 @@ const Settings = (props) => {
                     Sign Out
             </Button>
         </div>
-        <div className={`${classes.content}`} style={{display: activeTab === 'account' ? 'block' : 'none'}}>
-            <div className={classes.title}>
-                <h1>Account</h1>
-            </div>
-            <div className={classes.profilePicWrap}>
-                <h3>Profile Picture</h3>
-                <div className={classes.profilePic} style={imageStyle} onClick={() => setImagePopup(true)}></div> {/*Make this a circle and the background image will be*/}
-            </div>
-            {selectImage}
-            <div className={classes.row}>
-                <div className={classes.usernameA}>
-                    <h3>Your Username</h3>
-                    <div>
-                        <Button variant="contained" color="red" onClick={() => setEditDisplay(true)}className={classes.button} style={{display: editDisplay ? 'none' : 'block'}}>
-                            EDIT
-                        </Button>
-                        <div className={classes.saveCancel}>
-                            <Button variant="contained" color="red" onClick={() => {
-                                setEditDisplay(false)
-                                uploadDisplayName()
-                                }}className={classes.saveButton} style={{display: editDisplay ? 'block' : 'none'}}>
-                                SAVE
-                            </Button>
-                
-                            <Button variant="contained" color="red" onClick={() => {
-                                setEditDisplay(false)
-                                setNewDisplay(state.displayName)
-                            }} className={classes.button} style={{display: editDisplay ? 'block' : 'none'}}>
-                                CANCEL
-                            </Button>
+        <div className={`${classes.content}`}>
+            <div>
+                <div className={classes.accountTab} style={{display: activeTab === 'account' ? 'block' : 'none'}}>
+                    <div className={classes.title}>
+                        <h1>Account</h1>
+                    </div>
+                    <div className={classes.profilePicWrap}>
+                        <h3>Profile Picture</h3>
+                        <div className={classes.profilePic} style={imageStyle} onClick={() => setImagePopup(true)}></div> {/*Make this a circle and the background image will be*/}
+                    </div>
+                    {selectImage}
+                    <div className={classes.row}>
+                        <div className={classes.usernameA}>
+                            <h3>Username</h3>
+                            <div>
+                                <Button variant="contained" color="red" onClick={() => setEditDisplay(true)}className={classes.button} style={{display: editDisplay ? 'none' : 'block'}}>
+                                    EDIT
+                                </Button>
+                                <div className={classes.saveCancel}>
+                                    <Button variant="contained" color="red" onClick={() => {
+                                        setEditDisplay(false)
+                                        uploadDisplayName()
+                                        }}className={classes.saveButton} style={{display: editDisplay ? 'block' : 'none'}}>
+                                        SAVE
+                                    </Button>
+                        
+                                    <Button variant="contained" color="red" onClick={() => {
+                                        setEditDisplay(false)
+                                        setNewDisplay(state.displayName)
+                                    }} className={classes.button} style={{display: editDisplay ? 'block' : 'none'}}>
+                                        CANCEL
+                                    </Button>
+                                </div>
+                            </div>
                         </div>
+                        <TextField
+                        id="filled-name"
+                        className={classes.textField}
+                        value={newDisplay}
+                        onChange={handleInputChanges}
+                        disabled= {(editDisplay) ? '': 'disabled'}
+                        />
                     </div>
                 </div>
-                <TextField
-                id="filled-name"
-                className={classes.textField}
-                value={newDisplay}
-                onChange={handleInputChanges}
-                disabled= {(editDisplay) ? '': 'disabled'}
-                />
-            </div>
-            
-           
-        </div>
-        <div className={`${classes.content}`} style={{display: activeTab === 'connections' ? 'block' : 'none'}}>
-            <div className={classes.title}>
-                <h1>Connections</h1> 
-            </div>
-            <div>
-                <h2>Connect to Udemy</h2>
-                <p>Get access to all your Udemy courses with the click of a button</p>
-            </div>
-                <Button variant="contained" color="red" className={classes.udemyButton} onClick={()=>setUdemyModal(true)}>
-                    Connect to Udemy
-                </Button>
-                
-            </div>
-            <Dialog open={udemyModal} onClose={() => setUdemyModal(false)}>
-                <DialogTitle>Public Profile Link</DialogTitle>
-                <DialogContent>
-                    {
-                    loading ? 
-                        <div>
-                            <p>{loadingMessage}</p>
-                            <LinearProgress variant="indeterminate"/>
-                        </div> 
-                    : 
-                    <React.Fragment>
-                        <TextField
-                            autoFocus
-                            margin="dense"
-                            id="name"
-                            label="Link"
-                            fullWidth
-                            multiline
-                            onChange={e=>{setUdemyLink(e.target.value)}}
-                        />
+                <div className={classes.connectionsTab} style={{display: activeTab === 'connections' ? 'block' : 'none'}}>
+                    <div className={classes.title}>
+                        <h1>Connections</h1> 
+                    </div>
+                    <div>
+                        <h2>Connect to Udemy</h2>
+                        <p>Get access to all your Udemy courses with the click of a button</p>
+                    </div>
+                        <Button variant="contained" color="red" className={classes.udemyButton} onClick={()=>setUdemyModal(true)}>
+                            Connect to Udemy
+                        </Button>
+                        
+                    </div>
+                    <Dialog open={udemyModal} onClose={() => setUdemyModal(false)}>
+                        <DialogTitle>Public Profile Link</DialogTitle>
+                        <DialogContent>
+                            {
+                            loading ? 
+                                <div>
+                                    <p>{loadingMessage}</p>
+                                    <LinearProgress variant="indeterminate"/>
+                                </div> 
+                            : 
+                            <React.Fragment>
+                                <TextField
+                                    autoFocus
+                                    margin="dense"
+                                    id="name"
+                                    label="Link"
+                                    fullWidth
+                                    multiline
+                                    onChange={e=>{setUdemyLink(e.target.value)}}
+                                />
 
-                        <DialogActions>
-                            <Button color="primary" onClick={()=>setUdemyModal(false)}>
-                            Cancel
-                            </Button>
-                            {/* Change this to handle submit */}
-                            <Button color="primary" onClick={()=>handleLinkSumbit()}> 
-                            Link
-                            </Button>
-                        </DialogActions>
-                    </React.Fragment>
-                    }
+                                <DialogActions>
+                                    <Button color="primary" onClick={()=>setUdemyModal(false)}>
+                                    Cancel
+                                    </Button>
+                                    {/* Change this to handle submit */}
+                                    <Button color="primary" onClick={()=>handleLinkSumbit()}> 
+                                    Link
+                                    </Button>
+                                </DialogActions>
+                            </React.Fragment>
+                            }
 
-                </DialogContent>
-            </Dialog>
-      </div>
-      
+                        </DialogContent>
+                    </Dialog>
+                </div>
+           </div>
+        </div> 
     );
 }
 
