@@ -56,6 +56,9 @@ const styles = theme => ({
     Button: {
         fontSize: '11px'
     },
+    menuList: {
+        display: 'none'
+    },
     '@media(max-width: 880px)': {
         navBarLinksMedium: {
             display: 'flex',
@@ -65,7 +68,8 @@ const styles = theme => ({
         },
         menuList: {
             width: '100%',
-            zIndex: '3'
+            zIndex: '3',
+            display: 'block'
         }
 
     },
