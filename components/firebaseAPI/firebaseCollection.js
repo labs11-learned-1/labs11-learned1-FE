@@ -6,6 +6,7 @@ import { loadDB } from "../../firebaseConfig/firebase";
 import * as firebase from "firebase";
 
 
+
 // ==== ADD CONTENT to content-collection ====== 
 
 export const addContent = async () => {
@@ -65,20 +66,57 @@ export const getContentByUserId = async () => {
 
 // ===== DELETE CONTENT by contentId in content-collection =====
 
- export const deleteContent = async () => {
+export const deleteContent = async (link, userID, list, setList, getContentByUserId) => {
     let result = await loadDB();
     let db = result.firestore();
+    console.log("this is link", link)
+    console.log("here is first list:  ", list)
+    let newLink = link
+      .split("//")
+      .pop()
+      .replace(/[/]/g, "-");
+      console.log("this is newLink", newLink)
+    
+    console.log("this is the user that I am: ", userID)
+    //const arrayContent = db.collection('user').doc(userIDID).firebase.firestore.FieldValue(myList.length === 1)
 
-    db.collection('user').doc("450").update({myList: firebase.firestore.FieldValue.arrayRemove('vTUfZsjTezKIynDHOqkJ')})
-    .then(() => {
-        db.collection('content-collection').doc('vTUfZsjTezKIynDHOqkJ').update({userId: firebase.firestore.FieldValue.arrayRemove("450")})
-        .then(() => {
-            console.log('Success')
-        })
-        .catch(err => {
-            console.log("error removing userid from content array")
-        })
-        // make edge case, above function wont remove from userId if it the last index in the array
-    })
-    .catch(err => console.log('Cant remove'))
-}
+    //go to user doc
+    db.collection("user")
+      .doc(userID)
+      //update myList of content Id's by removing the content id
+      .update({ myList: firebase.firestore.FieldValue.arrayRemove(newLink) })
+      .then(() => {
+          //then try to go to content collection doc of newLink to update the userList by removing my Id from array
+          db.collection("content-collection")
+            .doc(newLink)
+            .update({
+              userList: firebase.firestore.FieldValue.arrayRemove(userID)
+            })
+            .then(() => {
+              console.log("removed userId from content's user list");
+              console.log("Success deleting");
+              console.log("list before splice", list)
+              list.splice(list.indexOf(newLink))
+                  setList(list)
+                  console.log("here is list: ",list)
+                getContentByUserId()
+            }).catch(err => {
+                console.log("could not delete user from array, removing content from db")
+                db.collection("content-collection")
+            .doc(newLink)
+            .delete()
+            .then(() => {
+              console.log("Content document removed from db");
+              list.splice(list.indexOf(newLink))
+              setList(list)
+            })
+            .catch(err => {
+              console.log("error removing document from db", err);
+            });
+            });
+       
+        // but if it is the last one and the above doesn't work, then I want to delete the whole document from the db
+        // might need to go in here and remove content from users list of content Id's
+      })
+      .catch(err => console.log("Cant remove content"));
+  };

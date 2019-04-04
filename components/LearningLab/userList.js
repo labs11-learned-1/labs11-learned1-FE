@@ -12,6 +12,7 @@ import {addPost} from '../firebaseAPI/firebasePosts';
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
+import {deleteContent} from '../firebaseAPI/firebaseCollection'; 
 
 //MATERIAL UI
 import { withStyles } from "@material-ui/core/styles";
@@ -71,7 +72,8 @@ const styles = theme => ({
 
 
 const UserList = props => {
-
+const listOnState = props.list;
+console.log("listOnState", listOnState)
     const {classes}= props;
   //===========HOOKS===========
   const [open, setOpen] = React.useState(false);
@@ -111,66 +113,67 @@ const UserList = props => {
         console.log("Error getting documents: ", error);
       });
   };
+/* #region delete */
+    //   const deleteContent = async () => {
+    //     let result = await loadDB();
+    //     let db = result.firestore();
+    //     console.log("this is props.link", props.link)
+    //     let newLink = props.link
+    //       .split("//")
+    //       .pop()
+    //       .replace(/[/]/g, "-");
+    //       console.log("this is newLink", newLink)
+    //     console.log("LIST BEFORE DELETE: ", props.list);
+    //     console.log("this is the user that I am: ", props.state.userID)
+    //     //const arrayContent = db.collection('user').doc(props.state.userID).firebase.firestore.FieldValue(myList.length === 1)
 
-  const deleteContent = async () => {
-    let result = await loadDB();
-    let db = result.firestore();
-    console.log("this is props.link", props.link)
-    let newLink = props.link
-      .split("//")
-      .pop()
-      .replace(/[/]/g, "-");
-      console.log("this is newLink", newLink)
-    console.log("LIST BEFORE DELETE: ", props.list);
-    console.log("this is the user that I am: ", props.state.userID)
+    //     //go to user doc
+    //     db.collection("user")
+    //       .doc(props.state.userID)
+    //       //update myList of content Id's by removing the content id
+    //       .update({ myList: firebase.firestore.FieldValue.arrayRemove(newLink) })
+    //       .then(() => {
+    //           //then try to go to content collection doc of newLink to update the userList by removing my Id from array
+    //           db.collection("content-collection")
+    //             .doc(newLink)
+    //             .update({
+    //               userList: firebase.firestore.FieldValue.arrayRemove(props.state.userID)
+    //             })
+    //             .then(() => {
+    //               console.log("removed userId from content's user list");
+    //               console.log("Success deleting");
+    //               // list.splice(list.indexOf(newLink))
+    //               // setList(list)
+    //             }).catch(err => {
+    //                 console.log("could not delete user from array, removing content from db")
+    //                 db.collection("content-collection")
+    //             .doc(newLink)
+    //             .delete()
+    //             .then(() => {
+    //               console.log("Content document removed from db");
+    //               // list.splice(list.indexOf(newLink))
+    //               // setList(list)
+    //             })
+    //             .catch(err => {
+    //               console.log("error removing document from db", err);
+    //             });
+    //             });
+        
+    //         // but if it is the last one and the above doesn't work, then I want to delete the whole document from the db
+    //         // might need to go in here and remove content from users list of content Id's
+        
+            
+        
 
-    //go to user doc
-    db.collection("user")
-      .doc(props.state.userID)
-      //update myList of content Id's by removing the content id
-      .update({ myList: firebase.firestore.FieldValue.arrayRemove(newLink) })
-      .then(() => {
-          //then try to go to content collection doc of newLink to update the userList by removing my Id from array
-        try {
-          db.collection("content-collection")
-            .doc(newLink)
-            .update({
-              userList: firebase.firestore.FieldValue.arrayRemove(props.state.userID)
-            })
-            .then(() => {
-              console.log("removed userId from content's user list");
-              console.log("Success deleting");
-              // list.splice(list.indexOf(newLink))
-              // setList(list)
-            }).catch(err => {
-                console.log("could not remove userId from content's user list", err)
-            });
-        } 
-        // but if it is the last one and the above doesn't work, then I want to delete the whole document from the db
-        // might need to go in here and remove content from users list of content Id's
-        catch {
-          db.collection("content-collection")
-            .doc(newLink)
-            .delete()
-            .then(() => {
-              console.log("Content document removed from db");
-              // list.splice(list.indexOf(newLink))
-              // setList(list)
-            })
-            .catch(err => {
-              console.log("error removing document from db", err);
-            });
-        }
-
-        // list.splice(list.indexOf(newLink))
-        // console.log("LIST AFTER DELETING: ", list)
-        // setList(list.splice(list.indexOf(newLink)));
-        //if content only has this one user it should also remove the review
-        // make edge case, above function wont remove from userId if it the last index in the array
-      })
-      .catch(err => console.log("Cant remove content"));
-  };
-
+    //         // list.splice(list.indexOf(newLink))
+    //         // console.log("LIST AFTER DELETING: ", list)
+    //         // setList(list.splice(list.indexOf(newLink)));
+    //         //if content only has this one user it should also remove the review
+    //         // make edge case, above function wont remove from userId if it the last index in the array
+    //       })
+    //       .catch(err => console.log("Cant remove content"));
+    //   };
+/* #endregion delete */
   //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
   const reviewChange = ev => {
     setReviewContent({ ...reviewContent, [ev.target.name]: ev.target.value });
@@ -450,7 +453,7 @@ const UserList = props => {
           <Button
             color="primary"
             onClick={() => {
-              deleteReview();
+              deleteReview(props.link, );
             }}
           >
             {" "}
@@ -520,7 +523,11 @@ const UserList = props => {
   //-----Effects-----
   React.useEffect(() => {
     getContentByUserId();
+    console.log("list inside useEffect: ", props.list)
   }, []);
+//   React.useEffect(()=> {
+//       
+//   }, []);
   //------end effects-----
   //===========RENDER===========
   return (
@@ -531,7 +538,7 @@ const UserList = props => {
             content={item}
             prepareReviewList={prepareReviewList}
             prepareSharePost={prepareSharePost}
-            deleteContent={deleteContent}
+            deleteContent={() => deleteContent(item.link, props.state.userID, listOnState, props.setList, getContentByUserId)}
           />
         );
       })}
