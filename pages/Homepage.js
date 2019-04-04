@@ -18,6 +18,7 @@ import UdemyCarousel from "../components/udemyCourses/udemyCarousel.js";
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
 import ContentCollection from "../components/ContentCollection/contentCollection";
+import GeneralNav from "../components/Navigation/GeneralNav";
 
 
 
@@ -60,7 +61,7 @@ function Homepage(props) {
     } else {
       return (
         <div>
-          <Nav/>
+          <GeneralNav/>
           <Home/>
           <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=piano"]}/>
           <ContentCollection />

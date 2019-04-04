@@ -2,6 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
+import {Store} from '../store';
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -44,7 +45,7 @@ const styles = theme => ({
 
 const MyListCard = (props) => {
     const [openMenu, setOpenMenu] = React.useState(false);
-
+    
     const { classes } = props;
         
     return(
@@ -88,6 +89,10 @@ const MyListCard = (props) => {
                                         props.prepareSharePost(props.content.link);
                                     }}>Share Post</MenuItem>
                                     </MenuList>
+                                    <MenuItem onClick={(ev) => {
+                                        ev.preventDefault();
+                                        props.deleteContent();
+                                    }}>Delete</MenuItem>
                                 </ClickAwayListener>
                                 </Paper>
                             </Grow>
@@ -96,17 +101,17 @@ const MyListCard = (props) => {
                         </div>
                         
                     }
-                    title={props.content.title}
+                    title={props.content.title ? props.content.title : 'No title provided...'}
                     />
                     <a target='_blank' href={props.content.link} style={{display: 'block', textDecoration: 'none'}}>
                     <CardMedia
                     className={classes.media}
-                    image={props.content.photoUrl}
+                    image={props.content.photoUrl ? props.content.photoUrl : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
                     />
                     </a>
                     <CardContent>
                     <Typography component="p">
-                        {props.content.description}
+                        {props.content.description ? props.content.description : 'No description provided...'}
                     </Typography>
                     </CardContent>
                 </Card>

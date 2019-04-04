@@ -1,8 +1,10 @@
 import { loadDB } from "../../firebaseConfig/firebase";
+import React, {useContext, useState} from 'react';
 import { Store } from "../store";
 import * as firebase from "firebase";
 
 //// =============GET REVIEW==============
+
 
 export const getReview = async (userId, postId) => {
   //load db instance
@@ -21,6 +23,8 @@ export const getReview = async (userId, postId) => {
     })
   }
 //// =============ADD REVIEW==============
+
+
 
 export const addReview = async (rating, comment, title, userId, postId) => {
   //load db instance
@@ -93,3 +97,4 @@ export const deleteReview = async (reviewID) => {
   .then(res => console.log('Success deleting:', res))
   .catch(err => console.log('Failed to delete review', err))
 }
+
