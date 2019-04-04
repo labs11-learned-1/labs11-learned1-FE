@@ -10,7 +10,7 @@ import PropTypes from 'prop-types';
 const styles = {
     homepageWrapper:{
         width:"80%",
-        marginLeft:"26%"
+        
     },
 }
 const Home = (props) => {
