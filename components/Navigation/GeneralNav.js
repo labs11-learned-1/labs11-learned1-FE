@@ -1,6 +1,9 @@
 import Link from "next/link";
 import React, {useContext, useState} from "react";
 
+import { loadDB } from "../../firebaseConfig/firebase";
+import * as firebase from "firebase";
+
 import { Store } from "../store";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -56,6 +59,7 @@ const GeneralNav = (props) => {
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
 
+    /*
     const handleSignOut = async () => {
         let myVal = await loadDB();
          myVal
@@ -69,7 +73,7 @@ const GeneralNav = (props) => {
              alert("Error signing out");
            });
     };
-
+    */
     const handleClose = event => {
         if (Button.anchorEl.contains(event.target)) {
           return;
@@ -122,10 +126,11 @@ const GeneralNav = (props) => {
                                         <Link href='/settings'>
                                             <MenuItem onClick={handleClose}>Settings</MenuItem>
                                         </Link>
-                                        
+                                       {/*
                                         <Link href='/Homepage'>
                                             <MenuItem onClick={handleSignOut}>SignOut</MenuItem>
                                         </Link>
+                                       */}
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
