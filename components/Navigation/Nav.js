@@ -12,8 +12,9 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 //import Router from 'next/router'
-// import * as firebase from "firebase";
+// 
 // import { loadDB } from '../../firebaseConfig/firebase';
+// import * as firebase from "firebase";
 
 const styles = theme => ({
     nav : {
