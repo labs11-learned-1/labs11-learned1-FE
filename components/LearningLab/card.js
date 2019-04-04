@@ -96,7 +96,7 @@ const MyListCard = (props) => {
                         </div>
                         
                     }
-                    title={props.content.title}
+                    title={props.content.title ? props.content.title : 'No title provided...'}
                     />
                     <a target='_blank' href={props.content.link} style={{display: 'block', textDecoration: 'none'}}>
                     <CardMedia
@@ -106,7 +106,7 @@ const MyListCard = (props) => {
                     </a>
                     <CardContent>
                     <Typography component="p">
-                        {props.content.description}
+                        {props.content.description ? props.content.description : 'No description provided...'}
                     </Typography>
                     </CardContent>
                 </Card>
