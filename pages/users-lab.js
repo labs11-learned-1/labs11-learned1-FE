@@ -60,11 +60,13 @@ const UsersLab = (props) => {
     const { classes } = props;
     const {state, dispatch} = React.useContext(Store)
     const [list, setList] = React.useState([]);
+    const [publicUser, setUser] = React.useState("")
     const [UdemyList, setUdemyList] = React.useState([]);
 
     const getContentByUserId = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const userID = urlParams.get('user');
+        setUser(userID);
         let arr = [];
         let result = await loadDB();
         let db = result.firestore();
@@ -125,10 +127,74 @@ const UsersLab = (props) => {
         });
     }
 
+    const followOthers = async () => {
+        // async (myUserId, theirId)
+        let result = await loadDB();
+        let db = result.firestore();
+      
+        let userRef = db.collection("user");
+        userRef
+          .doc(state.userID)
+          .get()
+          .then(docSnapshot => {
+            //check if user is already following
+            if (docSnapshot.data().following.includes(publicUser)) {
+              //====================unfollow section==================
+              userRef
+                .doc(state.userID)
+                .update({
+                  followingCount: firebase.firestore.FieldValue.increment(-1),
+                  following: firebase.firestore.FieldValue.arrayRemove(publicUser)
+                }) //if user "454" is in 450's following then remove
+                .then(() => {
+                  userRef
+                    .doc(publicUser)
+                    .update({
+                      followerCount: firebase.firestore.FieldValue.increment(-1),
+                      followers: firebase.firestore.FieldValue.arrayRemove(state.userID)
+                    }) //then remove "450" from 454's followers
+                    .then(() => {
+                      console.log("success unfollowing");
+                    })
+                    .catch(err =>
+                      console.log("Error updating other users followers", err)
+                    );
+                })
+                .catch(err => console.log("Error removing from following"));
+            } else {
+              //=================follow section=====================
+              //if user 450 is not following user 454 then adding 454 to following array
+              userRef
+                .doc(state.userID)
+                .update({
+                  followingCount: firebase.firestore.FieldValue.increment(1), // add +1 to following count
+                  following: firebase.firestore.FieldValue.arrayUnion(publicUser)
+                }) // .doc("myUserId")  .arrayUnion("theirId")
+                .then(() => {
+                  // then update their followers list with my id
+                  userRef
+                    .doc(publicUser)
+                    .update({
+                      followerCount: firebase.firestore.FieldValue.increment(1),
+                      followers: firebase.firestore.FieldValue.arrayUnion(state.userID)
+                    }) // .doc("theirId")  .arrayUnion("myUserId")
+                    .then(() => {
+                      console.log("Success update follows");
+                    })
+                    .catch(err =>
+                      console.log("ERROR updating other users followers")
+                    );
+                })
+                .catch(err => console.log("ERROR FOLLOWING USER"));
+            }
+          });
+      };
+
     React.useEffect(
         () => {
             getContentByUserId()
             getUdemyByUserId()
+            followOthers()
         },
         []
     );
@@ -148,6 +214,7 @@ const UsersLab = (props) => {
             <Navigation />
             <div className={classes.learningLabWrap}>
                 <div className={classes.myHeader}>
+                    <button onClick={followOthers}>Follow</button>
                     <h1>Their Current Courses</h1>
                 </div>
                 <div className={classes.userList}>
