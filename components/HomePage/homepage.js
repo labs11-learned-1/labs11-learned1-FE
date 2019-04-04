@@ -7,13 +7,28 @@ import BlogCard from './blogcard';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import axios from "axios";
-
+import CourseCard from './coursecard'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 const styles = {
-    homepageWrapper:{
-        width:"80%",
-        marginLeft:"19%"
+    recommendedCoursesWrapper:{
+        width:"100%",
     },
+    homepageWrapper:{
+        width:"100%",
+    },
+    recoCourses:{
+        width:"50%",
+        boxSizing:"border-box",
+        margin:"0 auto",
+        display:"flex",
+        flexWrap:"wrap",
+        justifyContent:"space-between",
+    },
+    '@media(max-width: 600px)': {
+        recoCourses:{
+            width:"80%",
+        }
+    }
 }
 const Home = (props) => {
     const {classes} = props
@@ -45,11 +60,12 @@ const Home = (props) => {
             //allowing them to reload on click
         let result = await loadDB();
         let db = result.firestore();
-        let categories = ["Business", "Design", "Development"];
         let docRef = db.collection("user").doc(state.userID)
         docRef.get().then(doc => {
+            setUserTags(userTags.slice(0,userTags.length));
+            console.log("emptied user tags", userTags)
             if(doc.exists){
-                console.log("user data", doc.data().tags);
+                console.log("users tags", doc.data().tags);
                 let data = doc.data();
                 for(let i = 0; i < 3; i++){
                     setUserTags(userTags.push(data.tags[i]));
@@ -84,15 +100,18 @@ const Home = (props) => {
                 )
             })}
         </div>
-        <div className='recommendedBlogWrapper'>
+        <div className={classes.recommendedCoursesWrapper}>
             <h2>Recommended Courses For You</h2>
-            {recCourses.map(course => {
-                return (
-                    <h1>{course.title}</h1>
-                )
-            })}
+            <div className={classes.recoCourses}>
+                {recCourses.map(course => {
+                    return (
+                        
+                        <CourseCard key={course.url} info={course}/>
+                    )
+                })}
+            </div>
         </div>
-        <button onClick={()=>{fetchRecommended()}}>console log recs</button>
+        <button onClick={()=>{fetchRecommended()}}>Get Recs</button>
       </div>
     );
 }
