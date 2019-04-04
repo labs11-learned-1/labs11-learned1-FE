@@ -41,11 +41,11 @@ const styles = theme => ({
             cursor: 'pointer'
         }
     },
+    navBarLinksMedium: {
+        display: 'none'
+    },
     navBarLinksLarge: {
         display: 'flex',
-    },
-    links: {
-       paddingLeft: '20px'
     },
     root: {
         display: 'flex',
@@ -53,7 +53,10 @@ const styles = theme => ({
     paper: {
         marginRight: theme.spacing.unit * 2,
     },
-    '@media(max-width: 850px)': {
+    Button: {
+        fontSize: '11px'
+    },
+    '@media(max-width: 880px)': {
         navBarLinksMedium: {
             display: 'flex',
         },
@@ -117,13 +120,13 @@ const GeneralNav = (props) => {
                 <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
                 <div className={classes.navBarLinksLarge}>
                     <Link href="/Homepage">
-                        <a className={classes.links}>Home</a>
+                        <Button className={classes.links}>Home</Button>
                     </Link>
                     <Link href="/learning-lab">
-                        <a className={classes.links}>Learning Lab</a>
+                        <Button className={classes.links}>Learning Lab</Button>
                     </Link>
                     <Link href="/community">
-                        <a className={classes.links}>Community</a>
+                        <Button className={classes.links}>Community</Button>
                     </Link>
                     <div>
                         <Button
@@ -176,6 +179,7 @@ const GeneralNav = (props) => {
                 </div>
                 
             </Toolbar>
+            <div>
                 <Popper  className={classes.menuList}open={open} anchorEl={Popper.anchorEl} transition disablePortal>
                     {({ TransitionProps, placement }) => (
                     <Grow
@@ -208,6 +212,7 @@ const GeneralNav = (props) => {
                     </Grow>
                     )}
                 </Popper>
+                </div>
           </div>
     );
 }
