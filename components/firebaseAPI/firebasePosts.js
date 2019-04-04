@@ -88,13 +88,6 @@ export const getPost = async (/*value of postId*/) => {
     });
 };
 
-// ========= GET POST by userId ==============
-
-
-
-
-
-
 // =========GET ALL POSTS ================
 export const getAllPosts = async ( ) => {
   //const {store, dispatch} = useContext(Store)

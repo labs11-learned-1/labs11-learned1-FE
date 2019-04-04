@@ -83,6 +83,10 @@ const MyListCard = (props) => {
                                         ev.preventDefault();
                                         props.prepareReviewList(props.content.userList, props.content.link);
                                     }}>Reviews</MenuItem>
+                                    <MenuItem onClick={(ev) => {
+                                        ev.preventDefault();
+                                        props.prepareSharePost(props.content.link);
+                                    }}>Share Post</MenuItem>
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
@@ -92,17 +96,17 @@ const MyListCard = (props) => {
                         </div>
                         
                     }
-                    title={props.content.title}
+                    title={props.content.title ? props.content.title : 'No title provided...'}
                     />
                     <a target='_blank' href={props.content.link} style={{display: 'block', textDecoration: 'none'}}>
                     <CardMedia
                     className={classes.media}
-                    image={props.content.photoUrl}
+                    image={props.content.photoUrl ? props.content.photoUrl : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
                     />
                     </a>
                     <CardContent>
                     <Typography component="p">
-                        {props.content.description}
+                        {props.content.description ? props.content.description : 'No description provided...'}
                     </Typography>
                     </CardContent>
                 </Card>

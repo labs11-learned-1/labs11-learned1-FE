@@ -1,5 +1,9 @@
-import Link from 'next/link'
-import React, {useContext, useState} from 'react';
+import Link from "next/link";
+import React, {useContext, useState} from "react";
+
+import { loadDB } from "../../firebaseConfig/firebase";
+import * as firebase from "firebase";
+
 import { Store } from "../store";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,10 +15,7 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
-//import Router from 'next/router'
-// 
-// import { loadDB } from '../../firebaseConfig/firebase';
-// import * as firebase from "firebase";
+//  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
 const styles = theme => ({
     nav : {
@@ -53,56 +54,41 @@ const styles = theme => ({
     },
 });
 
-const Navigation  = (props) => {
+const GeneralNav = (props) => {
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
 
-    // const handleSignOut = async () => {
-    //     let myVal = await loadDB();
-    //     myVal
-    //       .auth()
-    //       .signOut()
-    //       .then((result) => {
-    //         console.log("logout success", result)
-    //         return dispatch({ type: "LOGGED_OUT" });
-    //       })
-    //       .catch(e => {
-    //         alert("Error signing out");
-    //       });
-    //   };
+    const handleSignOut = async () => {
+        let myVal = await loadDB();
+         myVal
+           .auth()
+           .signOut()
+           .then((result) => {
+             console.log("logout success", result)
+             return dispatch({ type: "LOGGED_OUT" });
+           })
+           .catch(e => {
+             alert("Error signing out");
+           });
+    };
 
-    const handleToggle = () => {
-        setOpen(!open);
-      };
-    
     const handleClose = event => {
         if (Button.anchorEl.contains(event.target)) {
           return;
         }
     
         setOpen(false);
+    };
+
+    const handleToggle = () => {
+        setOpen(!open);
       };
-      //test comment
 
     const { classes } = props;
-
-    if (!state.loggedIn) {
-        return (
-            <div className={classes.nav}>
-                <Toolbar variant="regular" className={classes.toolbar}>
-                    <div className={classes.logo}/>
-                    <div>
-                        <Link href="/Homepage">
-                            <Button className={classes.Button} color="#69178A">Login / Sign Up</Button>
-                        </Link>
-                    </div>
-                </Toolbar>
-            </div>
-        );
-      } else {
-        return (
-          <div className={classes.nav}>
+      
+    return(
+        <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
                 <div className={classes.tabs}>
@@ -139,7 +125,11 @@ const Navigation  = (props) => {
                                         <Link href='/settings'>
                                             <MenuItem onClick={handleClose}>Settings</MenuItem>
                                         </Link>
-                                        {/* <MenuItem onClick={handleSignOut}>SignOut</MenuItem> */}
+                                       
+                                        <Link href='/Homepage'>
+                                            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                                        </Link>
+                                       
                                     </MenuList>
                                 </ClickAwayListener>
                                 </Paper>
@@ -150,13 +140,11 @@ const Navigation  = (props) => {
                 </div>
             </Toolbar>
           </div>
-        );
-      }
-  }
+    );
+}
 
-  Navigation.propTypes = {
+GeneralNav.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-  
-export default withStyles(styles)(Navigation);
+export default withStyles(styles)(GeneralNav);

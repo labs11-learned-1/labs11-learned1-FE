@@ -5,8 +5,7 @@ import axios from 'axios';
 import PropTypes from 'prop-types';
 import Navigation from '../Navigation/Nav';
 import MyListCard from './card';
-import addPost from '../firebaseAPI/firebasePosts';
-
+import {addPost} from '../firebaseAPI/firebasePosts';
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -32,9 +31,7 @@ import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
 import Checkbox from '@material-ui/core/Checkbox';
-
-
- 
+import GeneralNav from '../Navigation/GeneralNav';
 
 const styles = theme => ({
     reviewDialog: {
@@ -140,14 +137,10 @@ const LearningLab = (props) => {
     const [list, setList] = React.useState([]);
     const [openReviewList, setOpenReviewList] = React.useState(false);
     const [reviewList, setReviewList] = React.useState([]);
-    const [hasReview, setHasReview] = React.useState(false);
     const [gettingInfo, setGettingInfo] = React.useState(true);
     const [share, setShare] = React.useState(true);
     const [UdemyList, setUdemyList] = React.useState([]);
-
-
-    
- 
+    const [userReview, setUserReview] = React.useState(null)
 
     const onChangeHandler = ev => {
         setLink(ev.target.value)
@@ -170,7 +163,7 @@ const LearningLab = (props) => {
         .catch(function(error) {
             console.log("Error getting documents: ", error);
         });
-        console.log("MY ARRAY", arr)
+        
     }
 
     //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
@@ -179,9 +172,23 @@ const LearningLab = (props) => {
     }
 
     const prepareReviewList = async(userList, link) => {
-        setReviewContent({...reviewContent, postId: link})
+        setReviewContent({...reviewContent, postId: link});
         await getReviewList(userList, link);
         setOpenReviewList(true);
+    }
+
+    const prepareSharePost = (postLink) => {
+        setReviewContent({...reviewContent, postId: postLink});
+        setSubmitType('share');
+        setOpenReview(true);
+    }
+
+    const sharePost = () => {
+        const {title, content, postId} = reviewContent;
+        addPost(title, content, postId, state.userID)
+        setOpenReview(false)
+        setReviewContent({...reviewContent, rating: 5, title: '', content: ''})
+        
     }
 
     const getReviewList = async(userList, link) => {
@@ -195,11 +202,12 @@ const LearningLab = (props) => {
                 setGettingInfo(false);
                 if(res.docs.length > 0) {
                     let item = res.docs[0].data();
-                    
-                    setReviewList(prevReview => [...prevReview, res.docs[0].data()]);
                     if(item.userId == state.userID) {
-                        setReviewContent({...reviewContent, title: item.title, rating: item.rating, content: item.comment, postId: item.contentCollectionId, reviewID: res.docs[0].id});
-                        setHasReview(true)
+                        setUserReview({title: item.title, rating: item.rating, content: item.comment, postId: item.contentCollectionId, reviewID: res.docs[0].id, displayName: item.displayName, displayImage: item.displayImage});
+                        setReviewContent({...reviewContent, rating: item.rating, content: item.comment, title: item.title, postId: item.contentCollectionId, reviewID: res.docs[0].id})
+                    } else {
+                        setReviewList(prevReview => [...prevReview, {...res.docs[0].data(), reviewID: res.docs[0].id}]);
+                        
                     }
                 }
             })
@@ -253,10 +261,10 @@ const LearningLab = (props) => {
     }
 
     const updateReview = () => {
-        const {rating, title, content, reviewID} = reviewContent;
+        const {rating, title, content, reviewID, postId} = reviewContent;
         if(share) {
             console.log("SHARE")
-           // addPost(title, content, , state.userID)
+           addPost(title, content, postId, state.userID)
         }
         editReview(reviewID, content, title, rating)
         setOpenReview(false)
@@ -273,16 +281,8 @@ const LearningLab = (props) => {
           rating: rating
         })
         .then(res => {
-            setList(prevList => {
-                return prevList.map((item, index) => {
-                    if(item.review && item.review.reviewId === reviewID) {
-                        return {...item, review : {...item.review, comment: comment, rating: rating, reviewId: reviewID, title: title}};
-                    } else {
-                        return item;
-                    }
-                })
-                
-            })
+            setUserReview({...userReview, comment: comment, rating: rating, reviewID: reviewID, title: title})
+
             console.log('Success updating review', res);
         })
         .catch(err => console.log('Failed to update review', err))
@@ -291,10 +291,11 @@ const LearningLab = (props) => {
     const deleteReview = async () => {
         let result = await loadDB();
         let db = result.firestore();
-        console.log(reviewContent.reviewID)
-        db.collection('reviews').doc(reviewContent.reviewID) //<--- this id should be the reviewId of the review you want to delete. on state
+        db.collection('reviews').doc(userReview.reviewID) //<--- this id should be the reviewId of the review you want to delete. on state
         .delete()
         .then(res => {
+            setUserReview(null);
+            setReviewContent({rating: 5, title: '', content: '', postId: '', reviewID: ''})
             console.log('Success deleting:', res)})
         .catch(err => console.log('Failed to delete review', err))
       }
@@ -304,6 +305,7 @@ const LearningLab = (props) => {
         const {rating, content, title, postId} = reviewContent;
         if (share) {
             console.log("SHARE")
+            addPost(title, content, postId, state.userID)
         }
         addReview(rating, content, title, state.userID, postId);
         setOpenReview(false);
@@ -337,15 +339,7 @@ const LearningLab = (props) => {
                     reviews: firebase.firestore.FieldValue.arrayUnion(ref.id)
                   })
                   .then(() => {
-                        setList(prevList => {
-                            return prevList.map((item, index) => {
-                                if(item.link === postId) {
-                                    return {...item, review : {comment: comment, contentCollectionId: postId, rating: rating, reviewId: ref.id, title: title, userId: state.userID}};
-                                } else {
-                                    return item;
-                                }
-                            })
-                        })
+                        setUserReview({comment: comment, contentCollectionId: postId, rating: rating, reviewID: ref.id, title: title, userId: state.userID, displayImage: state.userImage, displayName: state.displayName})
                         
                     console.log(
                       "reviewID",
@@ -365,6 +359,7 @@ const LearningLab = (props) => {
           })
           .catch(err => console.log("Error adding review", err));
       };
+
     const getUdemyByUserId = async () => {
         let arr = [];
         let result = await loadDB();
@@ -421,14 +416,41 @@ const LearningLab = (props) => {
   
     let reviewBody;
     let reviewButtons;
+    let userContent;
+    let nonShareButtons;
+
+    if(submitType != 'share') {
+        nonShareButtons = 
+        <div>
+            <FormControlLabel
+            control={
+                <Checkbox
+                checked={share}
+                onChange={() => {setShare(!share)}}
+                value="checkedB"
+                color="primary"
+                />
+            }
+            label="Share this with your followers!"
+            />
+            <button style={{backgroundColor: reviewContent.rating >= 1 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 1})}></button>
+            <button style={{backgroundColor: reviewContent.rating >= 2 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 2})}></button>
+            <button style={{backgroundColor: reviewContent.rating >= 3 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 3})}></button>
+            <button style={{backgroundColor: reviewContent.rating >= 4 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 4})}></button>
+            <button style={{backgroundColor: reviewContent.rating >= 5 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 5})}></button>
+        </div>
+    }
+
     if(gettingInfo) {
         reviewBody = <div>*****************************************************************</div>
     } else {
-        if(!hasReview) {
+        if(userReview == null) {
             reviewButtons = <Button color="primary" onClick={() => {
                 setSubmitType('post');
                 setOpenReview(true);  }}>  ADD REVIEW
             </Button>
+
+            userContent = null;
         } else {
             reviewButtons =<div> <Button color="primary" onClick={() => {
                 setSubmitType('edit');
@@ -439,43 +461,59 @@ const LearningLab = (props) => {
                  deleteReview();}}>  DELETE REVIEW
              </Button>
              </div>
-        }
-        reviewBody = <div>
-        <List className={classes.reviewList}>
-        {reviewList.map(item => {
-            {console.log("LIST", item)}
-            return (
+            
+            userContent = 
             <ListItem alignItems="flex-start">
-            <ListItemAvatar>
-            <Avatar alt="Remy Sharp" src={item.displayImage} />
-            </ListItemAvatar>
-            <ListItemText
-            primary={item.title}
-            secondary={
-                <React.Fragment>
-                <Typography component="span" className={classes.inline} color="textPrimary">
-                    {item.displayName}
-                </Typography>
-                {item.comment}
-                </React.Fragment>
-            }
-            />
+                <ListItemAvatar>
+                    <Avatar alt="Remy Sharp" src={userReview.displayImage} />
+                </ListItemAvatar>
+                <ListItemText
+                    primary={userReview.title}
+                    secondary={
+                    <React.Fragment>
+                        <Typography component="span" className={classes.inline} color="textPrimary">
+                            {userReview.displayName}
+                        </Typography>
+                        {userReview.comment}
+                    </React.Fragment>
+                }
+                />
             </ListItem>
-            )
-        })}
-        </List>
-        <div>
-            {reviewButtons}
-        </div>
+        }
+
+        reviewBody = <div>
+            <List className={classes.reviewList}>
+            {userContent}
+            {reviewList.map(item => {
+                return (
+                <ListItem alignItems="flex-start">
+                <ListItemAvatar>
+                <Avatar alt="Remy Sharp" src={item.displayImage} />
+                </ListItemAvatar>
+                <ListItemText
+                primary={item.title}
+                secondary={
+                    <React.Fragment>
+                    <Typography component="span" className={classes.inline} color="textPrimary">
+                        {item.displayName}
+                    </Typography>
+                    {item.comment}
+                    </React.Fragment>
+                }
+                />
+                </ListItem>
+                )
+            })}
+            </List>
+            <div>
+                {reviewButtons}
+            </div>
         </div>
     }
 
-    
-
-    console.log(reviewContent)
     return (
         <div>
-            <Navigation />
+            <GeneralNav/>
             <div className={classes.learningLabWrap}>
                 <div className={classes.myHeader}>
                     <h1>Current Courses</h1>
@@ -491,17 +529,15 @@ const LearningLab = (props) => {
                     <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
                         <AddIcon />
                     </Fab>
-                </div>
-
-                
+                </div>               
                 <div className={classes.myList}>
-                    {console.log("MY LIST", list)} 
                     {list.map(item => {
                         return(
-                        <MyListCard content={item} prepareReviewList={prepareReviewList}/> 
+                        <MyListCard content={item} prepareReviewList={prepareReviewList} prepareSharePost={prepareSharePost}/> 
                         )
                     })}
                 </div>
+
             {/* COMPONENT FOR ADDING AN ITEM TO 'MY LIST' */}
             <Dialog
             open={open}
@@ -531,15 +567,12 @@ const LearningLab = (props) => {
                     Add
                     </Button>
                 </DialogActions>
-
             </Dialog>
 
-
             {/* THIS IS THE REVIEW POSTING POPUP COMPONENT*/}
-            <Dialog  className={classes.reviewListDialog} open={openReview}  onClose={() => setOpenReview(false)} aria-labelledby="simple-dialog-title">
-                <DialogTitle className={classes.reviewListDialog}id="simple-dialog-title">{submitType == 'post'? 'POST REVIEW': 'EDIT REVIEW'}</DialogTitle>
-                <DialogContent>
-                   
+            <Dialog  className={classes.reviewListDialog} open={openReview}  onClose={() => { submitType == 'share' ? (setOpenReview(false), setReviewContent({...reviewContent, rating: 5, title: '', content: ''})) : setOpenReview(false)}} aria-labelledby="simple-dialog-title">
+                <DialogTitle className={classes.reviewListDialog}id="simple-dialog-title">{submitType == 'post'? 'POST REVIEW': submitType == 'share' ? 'SHARE POST': 'EDIT REVIEW'}</DialogTitle>
+                <DialogContent>                  
                     <TextField
                     autoFocus
                     margin="dense"
@@ -551,7 +584,6 @@ const LearningLab = (props) => {
                     value={reviewContent.title}
                     onChange={reviewChange}
                     />
-
                     <TextField
                         id="filled-multiline-static"
                         multiline
@@ -563,51 +595,22 @@ const LearningLab = (props) => {
                         variant="filled"
                         value={reviewContent.content}
                         onChange={reviewChange}
-                    />
-                    
+                    />                   
                     <div className={classes.reviewButtons}>
-                        <FormControlLabel
-                        control={
-                            <Checkbox
-                            checked={share}
-                            onChange={() => {setShare(!share)}}
-                            value="checkedB"
-                            color="primary"
-                            />
-                        }
-                        label="Share this with your followers!"
-                        />
-                        <button style={{backgroundColor: reviewContent.rating >= 1 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 1})}></button>
-                        <button style={{backgroundColor: reviewContent.rating >= 2 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 2})}></button>
-                        <button style={{backgroundColor: reviewContent.rating >= 3 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 3})}></button>
-                        <button style={{backgroundColor: reviewContent.rating >= 4 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 4})}></button>
-                        <button style={{backgroundColor: reviewContent.rating >= 5 ? 'yellow' : ''}} onClick={() => setReviewContent({...reviewContent, rating: 5})}></button>
-                        <Button color="primary" onClick={() => {submitType == 'post' ? postReview() : updateReview() }} >
+                        {nonShareButtons}
+                        <Button color="primary" onClick={() => {submitType == 'post' ? postReview() : submitType =='share' ? sharePost() : updateReview() }} >
                             SAVE
                         </Button>
-                        <Button onClick={() => {
-                            setOpenReview(false)
-                            setReviewContent({rating: 5, title: '', content: '', postId: ''})
-                            }} color="primary">
+                        <Button onClick={() => {submitType == 'edit' ? setOpenReview(false) : (setOpenReview(false), setReviewContent({...reviewContent, rating: 5, title: '', content: ''}))}} color="primary">
                             CANCEL
-                        </Button>
-                        
+                        </Button>                      
                     </div>
-                    
-
                 </DialogContent>
             </Dialog>
-
-            <Dialog fullWidth={true} maxWidth = {'md'} open={openReviewList}  onClose={() => {setOpenReviewList(false); setReviewList([]); setHasReview(false); setReviewContent({rating: 5, title: '', content: '', postId: ''}); setGettingInfo(true)}}  aria-labelledby="simple-dialog-title">
+            <Dialog fullWidth={true} maxWidth = {'md'} open={openReviewList}  onClose={() => {setOpenReviewList(false); setReviewList([]); setReviewContent({rating: 5, title: '', content: '', postId: '', reivewID: ''}); setGettingInfo(true)}}  aria-labelledby="simple-dialog-title">
                 <DialogTitle className={classes.reviewListDialog} id="simple-dialog-title">Reviews</DialogTitle>
                 {reviewBody}
-            </Dialog>
-
-            {/* COMPONENT THAT WILL BE PLACED WITH EVERY ITEM IN 'MY LIST' TO ALLOW USER TO REVIEW*/}
-            
-                
-            
-                
+            </Dialog>          
             </div>
         </div>
     );
