@@ -1,4 +1,4 @@
-import algoliasearch from 'algoliasearch'
+/*import algoliasearch from 'algoliasearch'
 const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID
 const ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY
 const ALGOLIA_SEARCH_KEY = process.env.ALGOLIA_SEARCH_KEY
@@ -18,7 +18,7 @@ export const onPostsDeleted = (objectID) => {
     const index = client.initIndex(ALGOLIA_INDEX_NAME);
     return index.deleteObject(objectID);
 };
-
+*/
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //

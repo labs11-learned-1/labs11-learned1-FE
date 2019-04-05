@@ -4,7 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
-import { auth } from "firebase";
+
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
 const styles = theme => ({
