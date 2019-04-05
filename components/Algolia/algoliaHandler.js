@@ -1,4 +1,5 @@
-/*import algoliasearch from 'algoliasearch'
+import algoliasearch from 'algoliasearch'
+/*
 const ALGOLIA_APP_ID = process.env.ALGOLIA_APP_ID
 const ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY
 const ALGOLIA_SEARCH_KEY = process.env.ALGOLIA_SEARCH_KEY
