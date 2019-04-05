@@ -47,7 +47,7 @@ React.useEffect(()=>{
     <div>
       <img className={classes.profileImage} src={props.state.userImage}/>
       <h1>{props.state.displayName}</h1>
-      {userInfo ? <h6>userInfo.followingCount</h6> : <p>loading...</p>}
+      
     </div>
   );
 };
