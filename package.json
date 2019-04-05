@@ -11,6 +11,7 @@
     "next": "^8.0.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
+    "react-firebase-hooks": "^1.1.0",
     "react-scripts": "2.1.8",
     "styled-jsx": "^3.2.1"
   },
@@ -29,5 +30,4 @@
     "not ie <= 11",
     "not op_mini all"
   ]
-  
 }

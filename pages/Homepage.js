@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 //firebase imports
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 //component imports
 import Nav from '../components/Navigation/Nav'
@@ -32,10 +33,11 @@ const styles = {
   }
 }
 
-function Homepage(props) {
+const Homepage = (props) => {
+ 
   const [categories, setCategories] = React.useState([]);
   const [open, setOpen] = React.useState(true);
-
+  
   function handleClose() {
     setOpen(false);
 }
@@ -89,19 +91,7 @@ function Homepage(props) {
     }
   }
 
-  const handleSignOut = async () => {
-    let myVal = await loadDB();
-    myVal
-      .auth()
-      .signOut()
-      .then((result) => {
-        console.log("logout success", result)
-        return dispatch({ type: "LOGGED_OUT" });
-      })
-      .catch(e => {
-        alert("Error signing out");
-      });
-  };
+ 
 
   const {classes} = props;
     const { state, dispatch } = React.useContext(Store);

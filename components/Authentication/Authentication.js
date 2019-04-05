@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 //firebase import
 import { loadDB } from "../../firebaseConfig/firebase.js";
 import * as firebase from "firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 //style imports
 import { withStyles } from "@material-ui/core/styles";
@@ -81,63 +82,81 @@ const styles = {
     display: "flex"
   }
 };
-const Authentication = props => {
+const Authentication =  props => {
   const { state, dispatch } = React.useContext(Store);
+  
+
+  
+
+
   //sign in via google auth.
   const handleGoogle = async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
-    var provider = new firebase.auth.GoogleAuthProvider();
+   
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(()=> {
+      var provider = new firebase.auth.GoogleAuthProvider();
+      
+    
+    // myVal
+    return firebase.auth()
+    .signInWithPopup(provider)
+    .then(async result => {
+      var token = result.credential.accessToken;
+      // console.log("result", result); <--- uncomment to see what else you can grab, such as accessToken
+      // creates a doc with value of userID in user collectionthen puts fields in
+      await db
+      //user already exists
+        .collection("user")
+        .doc(result.user.uid)
+        .get().then(docSnapshot => {
+          if(docSnapshot.data()){
+            console.log(docSnapshot.data())
+            db.collection("user")
+            .doc(result.user.uid)
+            .update({
+              name: result.additionalUserInfo.profile.name,
+              id: result.user.uid,
+              email: result.user.email,
+              image: result.user.photoURL
+            })
+            
+            return dispatch({
+              type: "LOGGED_IN",
+              payload: result.user
+            });
+          }else{
+            //create a new user
+            db.collection("user")
+            .doc(result.user.uid)
+            .set({
+              name: result.additionalUserInfo.profile.name,
+              id: result.user.uid,
+              email: result.user.email,
+              image: result.user.photoURL,
+              followers: [result.user.uid],
+              following: [result.user.uid],
+              myList: []
+            });
+            return dispatch({
+              type: "FIRST_TIME_LOGIN",
+              payload: result.user
+            })
+          }
+        })
+    })
+    .catch(e => {
+      console.log("Error logging in", e);
+    });
 
-    myVal
-      .auth()
-      .signInWithPopup(provider)
-      .then(async result => {
-        // console.log("result", result); <--- uncomment to see what else you can grab, such as accessToken
-        // creates a doc with value of userID in user collectionthen puts fields in
-        await db
-        //user already exists
-          .collection("user")
-          .doc(result.user.uid)
-          .get().then(docSnapshot => {
-            if(docSnapshot.data()){
-              console.log(docSnapshot.data())
-              db.collection("user")
-              .doc(result.user.uid)
-              .update({
-                name: result.additionalUserInfo.profile.name,
-                id: result.user.uid,
-                email: result.user.email,
-                image: result.user.photoURL
-              })
-              
-              return dispatch({
-                type: "LOGGED_IN",
-                payload: result.user
-              });
-            }else{
-              //create a new user
-              db.collection("user")
-              .doc(result.user.uid)
-              .set({
-                name: result.additionalUserInfo.profile.name,
-                id: result.user.uid,
-                email: result.user.email,
-                image: result.user.photoURL,
-                followers: [result.user.uid],
-                following: [result.user.uid],
-                myList: []
-              });
-              return dispatch({
-                type: "FIRST_TIME_LOGIN",
-                payload: result.user
-              })
-            }
-          })
-      })
-      .catch(e => {
-        console.log("Error logging in", e);
-      });
+    }).catch(err => {
+      console.log("auth persistence has experienced an error.", err)
+    })
+
+
+
+
+     
   };
 
   const { classes } = props;

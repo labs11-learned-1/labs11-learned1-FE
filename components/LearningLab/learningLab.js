@@ -44,9 +44,6 @@ function TabContainer({ children, dir }) {
     </Typography>
   );
 }
-function handleChangeIndex(index) {
-  setValue(index);
-}
 
 //=========END TABS FUNCTIONS=========
 
@@ -131,10 +128,7 @@ const LearningLab = props => {
     console.log("newValue: ",newValue)
   };
 
-  const handleChangeIndex = index => {
-    setValue(index);
-    
-  };
+  
   //=====END TABS HANDLING STATE=====
   /* #endregion tabs */
 
