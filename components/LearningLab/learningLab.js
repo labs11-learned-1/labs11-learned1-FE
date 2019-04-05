@@ -3,11 +3,11 @@ import React from "react";
 //REACT
 import axios from "axios";
 import PropTypes from "prop-types";
-import Nav from "../Navigation/Nav";
 import MyListCard from "./card";
 import { addPost } from "../firebaseAPI/firebasePosts";
 import UserList from "../LearningLab/userList";
 import UserPosts from '../LearningLab/userPosts';
+import GeneralNav from "../Navigation/GeneralNav";
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -36,6 +36,7 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
+
 
 //==========TABS FUNCTIONS=========
 function TabContainer({ children, dir }) {
@@ -290,7 +291,7 @@ const LearningLab = props => {
 console.log("postList inside learning labs: ", postList)
   return (
     <div>
-      <Nav/>
+      <GeneralNav/>
       <div className={classes.learningLabWrap}>
         <div className={classes.myHeader}>
           

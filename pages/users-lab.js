@@ -3,7 +3,6 @@ import React from "react";
 //REACT
 import axios from "axios";
 import PropTypes from "prop-types";
-import Navigation from "../components/Navigation/Nav";
 import MyListCard from "../components/LearningLab/card";
 
 //FIREBASE
@@ -213,7 +212,7 @@ const UsersLab = props => {
   // );
   return (
     <div>
-      <Navigation />
+      <GeneralNav/>
       <div className={classes.learningLabWrap}>
         <div className={classes.myHeader}>
           <button onClick={followOthers}>Follow</button>

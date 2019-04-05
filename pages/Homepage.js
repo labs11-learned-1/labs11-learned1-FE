@@ -7,18 +7,20 @@ import PropTypes from 'prop-types';
 //firebase imports
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";
-
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 //component imports
-import Nav from '../components/Navigation/Nav'
 import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
 import CategoryModal from '../components/CategoryModal/CategoryModal'
 import UdemyCarousel from "../components/udemyCourses/udemyCarousel.js";
+import GeneralNav from "../components/Navigation/GeneralNav";
+import LandingNav from '../components/Navigation/LandingNav';
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
 import ContentCollection from "../components/ContentCollection/contentCollection";
+
 
 
 
@@ -105,7 +107,7 @@ const Homepage = (props) => {
     } else {
       return (
         <div>
-          <Nav/>
+          {state.loggedIn ? <GeneralNav/> : <LandingNav/>}
           <Home/>
           <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
           <ContentCollection />

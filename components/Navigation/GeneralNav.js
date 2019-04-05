@@ -17,16 +17,10 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/
 
-// // import algoliasearch from 'algoliasearch';
-// import { InstantSearch } from 'react-instantsearch-dom';
-// import { SearchBox } from 'react-instantsearch-dom';
+import algoliasearch from 'algoliasearch';
+import { InstantSearch } from 'react-instantsearch-dom';
+import { SearchBox } from 'react-instantsearch-dom';
 
-
-// //Gets info from algolia
-// const searchClient = algoliasearch(
-//     process.env.ALGOLIA_APP_ID,
-//     process.env.ALGOLI_ADMIN_KEY
-//   );
 
 const styles = theme => ({
     nav : {
@@ -100,10 +94,10 @@ const styles = theme => ({
 
 const GeneralNav = (props) => {
 
-    // const searchClient = algoliasearch(
-    //     `${process.env.ALGOLIA_APP_ID}`,
-    //     `${process.env.ALGOLI_ADMIN_KEY}`
-    //   );
+    const searchClient = algoliasearch(
+        `${process.env.ALGOLIA_APP_ID}`,
+         `${process.env.ALGOLI_ADMIN_KEY}`
+    );
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
@@ -140,11 +134,11 @@ const GeneralNav = (props) => {
         <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
-                {/* <InstantSearch
-                    indexName="instant_search" */}
-                    {/* // searchClient={searchClient} */}
-                
-                    {/* <SearchBox />
+                <InstantSearch
+                    indexName="instant_search"
+                    searchClient={searchClient}
+                >
+                    <SearchBox />
                 </InstantSearch> */}
                 
                 <div className={classes.navBarLinksLarge}>
