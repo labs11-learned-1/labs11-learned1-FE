@@ -105,6 +105,7 @@ const Navigation  = (props) => {
 
     
 
+    /*
     const handleSignOut = async () => {
         let myVal = await loadDB();
         myVal
@@ -118,7 +119,7 @@ const Navigation  = (props) => {
             alert("Error signing out");
           });
       };
-
+      */
     const handleToggle = () => {
         setOpen(!open);
       };
@@ -192,7 +193,7 @@ const Navigation  = (props) => {
                                         </Link>
                                        
                                         <Link href='/Homepage'>
-                                            <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                                            <MenuItem onClick={/*handleSignOut*/}>Sign Out</MenuItem>
                                         </Link>
                                        
                                     </MenuList>
