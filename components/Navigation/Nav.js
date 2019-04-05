@@ -93,8 +93,8 @@ import { SearchBox } from 'react-instantsearch-dom';
 
 //Gets info from algolia
 const searchClient = algoliasearch(
-    process.env.ALGOLIA_APP_ID,
-    process.env.ALGOLI_ADMIN_KEY
+    `${process.env.ALGOLIA_APP_ID}`,
+    `${process.env.ALGOLI_ADMIN_KEY}`
 );
 
 
