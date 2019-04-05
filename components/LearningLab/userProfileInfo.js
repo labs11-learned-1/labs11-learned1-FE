@@ -45,7 +45,7 @@ React.useEffect(()=>{
 })
   return (
     <div>
-      <img className={classes.profileImage} src={props.state.userImage}/>
+      <img className={classes.profileImage} src={props.state.userImage} />
       <h1>{props.state.displayName}</h1>
       
     </div>
