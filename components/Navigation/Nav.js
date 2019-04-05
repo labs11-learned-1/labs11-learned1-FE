@@ -133,7 +133,6 @@ const Navigation  = (props) => {
       };
 
     const { classes } = props;
-    /*
     let hold;
     if (!state.loggedIn) {
         hold =
@@ -148,8 +147,7 @@ const Navigation  = (props) => {
             </Toolbar>
         </div>
       } else {
-          */
-       return (
+       hold =
             <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo}/>
@@ -257,6 +255,10 @@ const Navigation  = (props) => {
                 </div>
           </div>
       }
+      return (
+          <div>
+              {hold}
+          </div>
       )
   }
 
