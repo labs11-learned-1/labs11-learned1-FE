@@ -6,17 +6,35 @@ import { loadDB } from "../../firebaseConfig/firebase";
 import BlogCard from './blogcard';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
+import axios from "axios";
+import CourseCard from './coursecard'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 const styles = {
-    homepageWrapper:{
-        width:"80%",
-        
+    recommendedCoursesWrapper:{
+        width:"100%",
     },
+    homepageWrapper:{
+        width:"100%",
+    },
+    recoCourses:{
+        width:"50%",
+        boxSizing:"border-box",
+        margin:"0 auto",
+        display:"flex",
+        flexWrap:"wrap",
+        justifyContent:"space-between",
+    },
+    '@media(max-width: 600px)': {
+        recoCourses:{
+            width:"80%",
+        }
+    }
 }
 const Home = (props) => {
     const {classes} = props
     const [topBlogs, setTopBlogs] = useState([]);
     const [recCourses, setRecCourses] = useState([]);
+    const [userTags, setUserTags] = useState([]);
 
     const fetchTopBlogs = () => {
         // We will make a request to our server for the 
@@ -30,7 +48,7 @@ const Home = (props) => {
             //allowing them to reload on click
     }
 
-    const fetchRecommended = () => {
+    const fetchRecommended = async () => {
         // We will have user most recent searches stored in state
         // which was retrieved from user component. using these recent
         // we will randomly select two searched and request from the server
@@ -40,9 +58,38 @@ const Home = (props) => {
             //On failure:
             //present user with an error div with a button
             //allowing them to reload on click
+        let result = await loadDB();
+        let db = result.firestore();
+        let docRef = db.collection("user").doc(state.userID)
+        docRef.get().then(doc => {
+            setUserTags(userTags.slice(0,userTags.length));
+            console.log("emptied user tags", userTags)
+            if(doc.exists){
+                console.log("users tags", doc.data().tags);
+                let data = doc.data();
+                for(let i = 0; i < 3; i++){
+                    setUserTags(userTags.push(data.tags[i]));
+                }
+                console.log("this is user tags in state", userTags)
+                axios.post('https://metadatatesting.herokuapp.com/udemy-cat', {category : userTags})
+                .then(res => {
+                    console.log("response.data", res.data);
+                    setRecCourses(res.data)
+                    console.log("rec courses", recCourses)
+                })
+                .catch(err => {
+                    console.log(err);
+                })
+            }else{
+                alert("Error: doc does not exist")
+            }
+        })
+        .catch(err => {
+            console.log("line 56", err)
+        })
     }
 
-  const { state, dispatch } = React.useContext(Store);
+    const { state, dispatch } = React.useContext(Store);
     return (
       <div className={classes.homepageWrapper}>
         <div className={classes.popularBlogsWrapper}>
@@ -53,14 +100,18 @@ const Home = (props) => {
                 )
             })}
         </div>
-        <div className='recommendedBlogWrapper'>
+        <div className={classes.recommendedCoursesWrapper}>
             <h2>Recommended Courses For You</h2>
-            {recCourses.map(course => {
-                return (
-                    <CourseCard content={course}/>
-                )
-            })}
+            <div className={classes.recoCourses}>
+                {recCourses.map(course => {
+                    return (
+                        
+                        <CourseCard key={course.url} info={course}/>
+                    )
+                })}
+            </div>
         </div>
+        <button onClick={()=>{fetchRecommended()}}>Get Recs</button>
       </div>
     );
 }
