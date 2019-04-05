@@ -33,6 +33,61 @@ const styles = {
 }
 
 function Homepage(props) {
+  const [categories, setCategories] = React.useState([]);
+  const [open, setOpen] = React.useState(true);
+
+  function handleClose() {
+    setOpen(false);
+}
+
+  //add tags array to user
+  const addTagsToUser = async () => {
+    let result = await loadDB();
+    let db = result.firestore();
+    console.log(categories)
+    if(categories.length != 3){
+      alert("Please pick 3 categories");
+    }
+    else{
+      db.collection('user').doc(state.userID).update({
+        tags: firebase.firestore.FieldValue.delete(),
+        tags: firebase.firestore.FieldValue.arrayUnion(categories[0], categories[1], categories[2])
+      }).then(() => {
+        console.log("tags added to db:  ", categories)
+        handleClose();
+      }).catch(err => {
+        console.log("Error adding tags to db", err)
+        alert("there was an error")
+      })
+    }
+  }
+
+  const handleAdd = name => {
+    console.log(name);
+    if (categories.length) {
+        if (categories.includes(name)) {
+            // delete it
+            categories.splice(categories.indexOf(name), 1)
+            setCategories(categories)
+            console.log("after deleting", categories)
+        } else if (categories.length < 3) {
+            //add it to the array
+            categories.push(name);
+            setCategories(categories);
+            console.log("after adding", categories);
+        } else if (categories.length === 3) {
+            console.log("categories and length", categories, categories.length)
+            alert("only 3 categories may be picked")
+        }
+    } else if (categories.length === 3) {
+        console.log("categories and length", categories, categories.length)
+        alert("only 3 categories may be picked")
+    }else {
+        categories.push(name);
+        setCategories(categories);
+        console.log("after adding", categories);
+    }
+  }
 
   const handleSignOut = async () => {
     let myVal = await loadDB();
@@ -63,9 +118,9 @@ function Homepage(props) {
         <div>
           <GeneralNav/>
           <Home/>
-          <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=piano"]}/>
+          <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
           <ContentCollection />
-          {state.firstTimeUser ? <CategoryModal /> : null}
+          {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd}/> : null}
         </div>
       );
     }

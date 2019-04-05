@@ -3,11 +3,39 @@ import Postcard from '../community/Postcard';
 import { loadDB } from "../../firebaseConfig/firebase";
 import * as firebase from "firebase";
 import { Store } from '../store';
+import PropTypes from 'prop-types';
+import { withStyles } from '@material-ui/core/styles';
 
-const Newsfeed = () => {
+const styles = {
+  communityContent: {
+    width:"100%",
+    display:"flex",
+    justifyContent:"center",
+    flexDirection:"column",
+    alignItems:"center"
+  },
+  cards:{
+    width:"60%",
+    display:"flex",
+    flexDirection:"column",
+    alignItems:"center",
+  },
+  '@media(max-width: 600px)':{
+    cards:{
+      width:"90%",
+      display:"flex",
+      justifyContent:"center",
+      flexDirection:"column",
+      alignItems:"center"
+    }
+  }
+}
+
+const Newsfeed = props => {
 
     const [newsfeed, setNewsFeed] = React.useState([]);
     const {state, dispatch} = React.useContext(Store);
+    const { classes } = props;
 
     const getPostsOfFollowing = async () => {
       let result = await loadDB();
@@ -53,9 +81,9 @@ const Newsfeed = () => {
     }, []);
 
     return (
-      <div className="community-content">
+      <div className={classes.communityContent}>
                     <h1>News Feed</h1>
-                    <div className='cards'>
+                    <div className={classes.cards}>
                         {console.log("Newsfeed: ", newsfeed)}
                         {   
                             newsfeed.map((post, index) =>                             
@@ -66,5 +94,8 @@ const Newsfeed = () => {
     )
 
 }
+Newsfeed.propTypes = {
+  classes: PropTypes.object.isRequired,
+};
 
-export default Newsfeed
+export default withStyles(styles)(Newsfeed);

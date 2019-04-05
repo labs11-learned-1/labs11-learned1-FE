@@ -8,6 +8,9 @@ import GridListTileBar from "@material-ui/core/GridListTileBar";
 import IconButton from "@material-ui/core/IconButton";
 import StarBorderIcon from "@material-ui/icons/StarBorder";
 
+import * as firebase from 'firebase';
+import {loadDB} from '../../firebaseConfig/firebase';
+
 const styles = theme => ({
   root: {
     display: "flex",
@@ -30,7 +33,15 @@ const styles = theme => ({
   }
 });
 
-const UdemyCarousel = props => {
+const UdemyCarousel =  props => {
+  // let result = await loadDB();
+  // let db = result.firestore();
+
+
+
+
+
+
   let payload =  [
       "Music",
       "marketing",

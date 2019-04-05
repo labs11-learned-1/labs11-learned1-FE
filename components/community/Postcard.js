@@ -16,11 +16,14 @@ import Link from "next/link";
 
 const styles = theme => ({
     card: {
+        width: "100%",
         maxWidth: 800,
+        margin:"0",
+        marginBottom:"20px",
     },
     media: {
         width:"100%",
-        height:"200px"
+        height:"200px",
     },
     avatar: {
         backgroundColor: red[500],
