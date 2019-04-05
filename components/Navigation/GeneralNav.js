@@ -17,17 +17,17 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/
 
-//import algoliasearch from 'algoliasearch/lite';
-import { InstantSearch } from 'react-instantsearch-dom';
-import { SearchBox } from 'react-instantsearch-dom';
+//import algoliasearch from 'algoliasearch';
+//import { InstantSearch } from 'react-instantsearch-dom';
+//import { SearchBox } from 'react-instantsearch-dom';
 
 
 
-const searchClient = algoliasearch(
+/*const searchClient = algoliasearch(
     'YS9GY1E1SC',
     'b9cfa39eea97d48e3e7171fb0ccbf0a2'
   );
-
+*/
 const styles = theme => ({
     nav : {
         width:"100%",
