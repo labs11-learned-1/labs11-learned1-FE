@@ -23,11 +23,11 @@ import { SearchBox } from 'react-instantsearch-dom';
 
 
 
-/*const searchClient = algoliasearch(
+const searchClient = algoliasearch(
     'YS9GY1E1SC',
     'b9cfa39eea97d48e3e7171fb0ccbf0a2'
   );
-*/
+
 const styles = theme => ({
     nav : {
         width:"100%",
