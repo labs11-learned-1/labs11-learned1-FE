@@ -137,20 +137,7 @@ const Navigation  = (props) => {
 
     const { classes } = props;
     let hold;
-    if (!state.loggedIn) {
-        hold =
-            <div className={classes.nav}>
-            <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo}/>
-                <div>
-                    <Link href="/Homepage">
-                        <Button className={classes.Button} color="#69178A">Login / Sign Up</Button>
-                    </Link>
-                </div>
-            </Toolbar>
-        </div>
-      } else {
-       hold =
+    return (
             <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo}/>
@@ -258,12 +245,7 @@ const Navigation  = (props) => {
                 </Popper>
                 </div>
           </div>
-      }
-      return (
-          <div>
-              {hold}
-          </div>
-      )
+    )
   }
 
  Navigation.propTypes = {
