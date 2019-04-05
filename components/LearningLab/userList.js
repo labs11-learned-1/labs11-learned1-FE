@@ -31,6 +31,7 @@ import Button from '@material-ui/core/Button';
 import Avatar from '@material-ui/core/Avatar';
 import Typography from '@material-ui/core/Typography';
 
+
 const styles = theme => ({
     inline: {
         display: 'inline',
@@ -130,7 +131,8 @@ console.log("listOnState", listOnState)
     setSubmitType("share");
     setOpenReview(true);
   };
-
+  
+  //Share Handler
   const sharePost = () => {
     const { title, content, postId } = reviewContent;
     addPost(title, content, postId, props.state.userID);
