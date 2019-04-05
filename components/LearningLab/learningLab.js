@@ -12,8 +12,9 @@ import UserPosts from '../LearningLab/userPosts';
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
+/*
 import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
-
+*/
 //MaterialUI
 import { withStyles } from "@material-ui/core/styles";
 import { Store } from "../store";
@@ -197,7 +198,7 @@ const LearningLab = props => {
               userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
             })
             .then(() => {
-              onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
+              //onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
               console.log("Added content to the db");
               db.collection("user")
                 .doc(state.userID)

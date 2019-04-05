@@ -86,11 +86,13 @@ const styles = theme => ({
         }
     }
 });
+
+/*
 import algoliasearch from 'algoliasearch';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { SearchBox } from 'react-instantsearch-dom';
 
-
+*/
 
 
 
@@ -99,12 +101,13 @@ const Navigation  = (props) => {
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
 
+    /*
     //Gets info from algolia
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
         `${process.env.ALGOLI_ADMIN_KEY}`
     );
-        
+    */ 
 
     
     const handleSignOut = async () => {
@@ -151,13 +154,14 @@ const Navigation  = (props) => {
             <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo}/>
+                {/*
                 <InstantSearch
                     indexName="instant_search"
                     searchClient={searchClient}
                 >
                      <SearchBox />
                 </InstantSearch> 
-                
+                */}
                 <div className={classes.navBarLinksLarge}>
                     <Link href="/Homepage">
                         <Button className={classes.links}>Home</Button>
