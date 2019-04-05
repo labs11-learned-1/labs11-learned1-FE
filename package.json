@@ -5,13 +5,17 @@
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",
+    "@material-ui/styles": "^3.0.0-alpha.10",
+    "algoliasearch": "^3.32.1",
     "axios": "^0.18.0",
     "dotenv": "^7.0.0",
-    "firebase": "^5.9.0",
+    "firebase": "^5.9.2",
+    "firebase-tools": "^6.5.2",
     "next": "^8.0.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",
     "react-firebase-hooks": "^1.1.0",
+    "react-instantsearch-dom": "^5.4.0",
     "react-scripts": "2.1.8",
     "styled-jsx": "^3.2.1"
   },

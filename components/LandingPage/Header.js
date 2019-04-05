@@ -18,7 +18,7 @@ const styles = {
         width:"30%"
     },
     headerTitle : {
-        fontSize:"3rem"
+        fontSize:"2.7rem"
     },
     headerText:{
         fontSize:"1.6rem"
@@ -37,10 +37,36 @@ const styles = {
     },
     '@media(max-width: 600px)': {
         root:{
-            flexDirection:"column"
+            flexDirection:"column",
+            justifyContent:"space-evenly",
         },
         img:{
             display:"none"
+        },
+        textArea:{
+            color:"white",
+            width:"70%",
+        },
+        headerTitle: {
+            fontSize: '2rem'
+        },
+        headerText: {
+            fontSize: '1.5rem'
+        }
+    },
+    '@media(max-width: 800px)': {
+        root: {
+            justifyContent:"space-evenly",
+        },
+        headerTitle: {
+            fontSize: '2rem'
+        },
+        headerText: {
+            fontSize: '1.5rem',
+            width: '200px'
+        },
+        headerSignUp: {
+            fontSize: '1rem'
         }
     }
 }
