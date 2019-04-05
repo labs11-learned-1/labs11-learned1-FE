@@ -23,10 +23,6 @@ import { SearchBox } from 'react-instantsearch-dom';
 
 
 //Gets info from algolia
-const searchClient = algoliasearch(
-    process.env.ALGOLIA_APP_ID,
-    process.env.ALGOLI_SEARCH_KEY
-  );
 
 const styles = theme => ({
     nav : {
@@ -96,7 +92,14 @@ const styles = theme => ({
     }
 });
 
+
+
 const GeneralNav = (props) => {
+
+    const searchClient = algoliasearch(
+        `${process.env.ALGOLIA_APP_ID}`,
+        `${process.env.ALGOLI_ADMIN_KEY}`
+      );
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
