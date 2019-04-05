@@ -14,12 +14,12 @@ export const onPostsCreated = (post) => {
     console.log(post)
     return index.saveObject(post);
 };
-/*
+
 export const onPostsDeleted = (objectID) => {
     const index = client.initIndex(ALGOLIA_INDEX_NAME);
     return index.deleteObject(objectID);
 };
-*/
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //
