@@ -109,7 +109,6 @@ const Homepage = (props) => {
           <GeneralNav/>
           <Home/>
           <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
-          <ContentCollection />
           {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/> : null}
         </div>
       );
