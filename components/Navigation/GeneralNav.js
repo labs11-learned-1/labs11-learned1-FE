@@ -17,7 +17,7 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/
 
-import algoliasearch from 'algoliasearch/lite';
+//import algoliasearch from 'algoliasearch/lite';
 import { InstantSearch } from 'react-instantsearch-dom';
 import { SearchBox } from 'react-instantsearch-dom';
 
