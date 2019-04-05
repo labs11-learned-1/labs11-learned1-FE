@@ -5,7 +5,7 @@ const ALGOLIA_ADMIN_KEY = process.env.ALGOLIA_ADMIN_KEY
 const ALGOLIA_SEARCH_KEY = process.env.ALGOLIA_SEARCH_KEY
 const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
 const client = algoliasearch(ALGOLIA_APP_ID, ALGOLIA_ADMIN_KEY);
-/*
+
 export const onPostsCreated = (post) => {
     // Get the note document
 
@@ -14,7 +14,7 @@ export const onPostsCreated = (post) => {
     console.log(post)
     return index.saveObject(post);
 };
-
+/*
 export const onPostsDeleted = (objectID) => {
     const index = client.initIndex(ALGOLIA_INDEX_NAME);
     return index.deleteObject(objectID);
