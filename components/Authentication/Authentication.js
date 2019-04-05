@@ -6,7 +6,6 @@ import PropTypes from "prop-types";
 //firebase import
 import { loadDB } from "../../firebaseConfig/firebase.js";
 import * as firebase from "firebase";
-import { useAuthState } from 'react-firebase-hooks/auth';
 
 //style imports
 import { withStyles } from "@material-ui/core/styles";
