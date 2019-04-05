@@ -27,7 +27,7 @@
         "ALGOLIA_APP_ID": process.env.ALGOLIA_APP_ID,
         "ALGOLIA_ADMIN_KEY": process.env.ALGOLIA_ADMIN_KEY,
         "ALGOLIA_SEARCH_KEY": process.env.ALGOLIA_SEARCH_KEY,
-        "ALGOLIA_INDEX_NAME": process.env.ALGOLIA_INDEX_NAME
+        "ALGOLIA_INDEX_NAME": process.env.ALGOLIA_INDEX_NAME,
       }
       
     };

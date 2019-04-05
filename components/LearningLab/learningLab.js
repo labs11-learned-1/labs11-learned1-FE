@@ -12,7 +12,7 @@ import UserPosts from '../LearningLab/userPosts';
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
+// import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
 
 //MaterialUI
 import { withStyles } from "@material-ui/core/styles";
@@ -44,9 +44,6 @@ function TabContainer({ children, dir }) {
       {children}
     </Typography>
   );
-}
-function handleChangeIndex(index) {
-  setValue(index);
 }
 
 //=========END TABS FUNCTIONS=========
@@ -132,10 +129,7 @@ const LearningLab = props => {
     console.log("newValue: ",newValue)
   };
 
-  const handleChangeIndex = index => {
-    setValue(index);
-    
-  };
+  
   //=====END TABS HANDLING STATE=====
   /* #endregion tabs */
 
