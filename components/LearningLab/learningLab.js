@@ -131,9 +131,9 @@ const LearningLab = props => {
 
   
   //=====END TABS HANDLING STATE=====
-  /* #endregion tabs */
+/* #endregion tabs */
 
-  /* #region list-handling */
+/* #region list-handling */
   // on change for adding an item to list
   const onChangeHandler = ev => {
     setLink(ev.target.value);
@@ -231,9 +231,9 @@ const LearningLab = props => {
         );
       });
   };
-  /* #endregion list-handling */
+/* #endregion list-handling */
 
-  /* #region udemy-handling */
+/* #region udemy-handling */
   const getUdemyByUserId = async () => {
     let arr = [];
     let result = await loadDB();
