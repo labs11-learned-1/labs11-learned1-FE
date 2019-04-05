@@ -14,7 +14,7 @@
       "UDEMY_CLIENT_ID": "@udemy-client-id",
       "UDEMY_CLIENT_SECRET": "@udemy-client-secret",
       "ALGOLIA_APP_ID": "@algolia-app-id",
-      "ALGOLIA_ADMIN_KEY": "@algolia-admin-search",
+      "ALGOLIA_ADMIN_KEY": "@algolia-admin-key",
       "ALGOLIA_SEARCH_KEY": "@algolia-search-key",
       "ALGOLIA_INDEX_NAME": "@algolia-index-name"
     }
