@@ -3,10 +3,13 @@ import React from "react";
 //REACT
 import axios from "axios";
 import PropTypes from "prop-types";
+
+//COMPONENTS
 import Navigation from "../Navigation/Nav";
 import MyListCard from "./card";
 import UserList from "../LearningLab/userList";
 import UserPosts from '../LearningLab/userPosts';
+import UserProfileInfo from '../userProfileInfo'
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -138,7 +141,7 @@ const LearningLab = props => {
   return (
     <div className={classes.learningLabWrap}>
       <GeneralNav />
-     
+      <UserProfileInfo state={state}/>
         <div className={classes.myList}>
           {/* This is where user courses will show up */}
           {UdemyList.map(course => {
