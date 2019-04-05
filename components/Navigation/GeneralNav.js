@@ -22,7 +22,7 @@ import { InstantSearch } from 'react-instantsearch-dom';
 import { SearchBox } from 'react-instantsearch-dom';
 
 
-
+//Gets info from algolia
 const searchClient = algoliasearch(
     process.env.ALGOLIA_APP_ID,
     process.env.ALGOLI_SEARCH_KEY
