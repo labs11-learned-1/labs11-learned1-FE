@@ -105,7 +105,7 @@ const Homepage = (props) => {
     } else {
       return (
         <div>
-          {/*<Nav/>*/}
+          <Nav/>
           <Home/>
           <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
           <ContentCollection />

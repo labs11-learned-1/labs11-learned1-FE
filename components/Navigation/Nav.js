@@ -91,11 +91,7 @@ import { InstantSearch } from 'react-instantsearch-dom';
 import { SearchBox } from 'react-instantsearch-dom';
 
 
-//Gets info from algolia
-const searchClient = algoliasearch(
-    `${process.env.ALGOLIA_APP_ID}`,
-    `${process.env.ALGOLI_ADMIN_KEY}`
-);
+
 
 
 const Navigation  = (props) => {
@@ -103,9 +99,14 @@ const Navigation  = (props) => {
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
 
-    
+    //Gets info from algolia
+    const searchClient = algoliasearch(
+        `${process.env.ALGOLIA_APP_ID}`,
+        `${process.env.ALGOLI_ADMIN_KEY}`
+    );
+        
 
-    /*
+    
     const handleSignOut = async () => {
         let myVal = await loadDB();
         myVal
@@ -119,7 +120,7 @@ const Navigation  = (props) => {
             alert("Error signing out");
           });
       };
-      */
+      
     const handleToggle = () => {
         setOpen(!open);
       };
@@ -132,6 +133,7 @@ const Navigation  = (props) => {
       };
 
     const { classes } = props;
+    /*
     let hold;
     if (!state.loggedIn) {
         hold =
@@ -146,7 +148,8 @@ const Navigation  = (props) => {
             </Toolbar>
         </div>
       } else {
-        hold =
+          */
+       return (
             <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo}/>
@@ -254,11 +257,6 @@ const Navigation  = (props) => {
                 </div>
           </div>
       }
-
-      return (
-          <div>
-            {hold}
-          </div>
       )
   }
 
