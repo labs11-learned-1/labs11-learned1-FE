@@ -19,16 +19,20 @@ const styles = {
   }
 };
 
-const UserPosts = (props, state, postList, setPostList) => {
-  console.log("1", props);
+const UserPosts = props => {
   const { classes } = props;
-
+  console.log("classes", classes);
+  const [postList, setPostList] = React.useState([]);
+  const [number, setNumber] = React.useState(0);
   //const [postList, setPostList] = React.useState([]);
+  console.log("top post learninglab", postList);
 
   const getPostsByUserId = async () => {
-    console.log("state", props.state.userID, "\n postlist: ", props.state.postList);
+    console.log("state", props.state.userID, "\n postlist: ", postList);
     const urlParams = new URLSearchParams(window.location.search);
-    const userID = urlParams.get("user") ? urlParams.get("user") : props.state.userID;
+    const userID = urlParams.get("user")
+      ? urlParams.get("user")
+      : props.state.userID;
     console.log("userID: ", userID);
     // setUser(userID);
     let result = await loadDB();
@@ -42,13 +46,17 @@ const UserPosts = (props, state, postList, setPostList) => {
           const result = doc.data();
           console.log("ESULT", result);
           arr.push(result);
+          setPostList([...postList, result]);
         });
       })
       .catch(function(error) {
         console.log("Error getting documents: ", error);
       });
-    props.setPostList(arr);
+
+    setNumber(number => number + 1);
+    console.log("number", number);
   }; //end getPostsByUserId
+  // change in postList => new render
 
   React.useEffect(() => {
     getPostsByUserId();
@@ -56,12 +64,13 @@ const UserPosts = (props, state, postList, setPostList) => {
 
   return (
     <div className={classes.list}>
-      {props.postList.length ? (
-        props.postList.map((post, index) => {
-          <Postcard content={post} key={index} />;
-        })
+      {console.log("postList:   ", postList)}
+     
+      {console.log("leeeeength", postList.length)}
+      {postList.length ? (
+        postList.map((post, index) => <Postcard content={post} key={index} />)
       ) : (
-        <p>loading</p>
+        <p>"nothing"</p>
       )}
     </div>
   );

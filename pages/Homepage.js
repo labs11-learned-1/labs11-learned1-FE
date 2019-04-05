@@ -15,11 +15,11 @@ import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
 import CategoryModal from '../components/CategoryModal/CategoryModal'
 import UdemyCarousel from "../components/udemyCourses/udemyCarousel.js";
+import GeneralNav from "../components/Navigation/GeneralNav";
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
-import ContentCollection from "../components/ContentCollection/contentCollection";
-import GeneralNav from "../components/Navigation/GeneralNav";
+
 
 
 
