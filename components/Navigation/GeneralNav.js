@@ -96,7 +96,14 @@ const styles = theme => ({
     }
 });
 
+
+
 const GeneralNav = (props) => {
+
+    // const searchClient = algoliasearch(
+    //     `${process.env.ALGOLIA_APP_ID}`,
+    //     `${process.env.ALGOLI_ADMIN_KEY}`
+    //   );
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
