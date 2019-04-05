@@ -18,14 +18,39 @@ const useStyles = makeStyles(theme => ({
 
 const UserProfileInfo = props => {
   const classes = useStyles();
+const { userInfo, setUserInfo } = React.useState({})
+  
 
+  const getUserInfo = async () => {
+    const urlParams = new URLSearchParams(window.location.search);
+    const userID = urlParams.get("user")
+      ? urlParams.get("user")
+      : props.state.userID;
+    console.log("userID: ", userID);
+    let result = await loadDB();
+    let db = result.firestore();
 
+    db.collection('user').doc(userID).get().then(docSnapshot => {
+        if(docSnapshot.exists){
+            console.log("user data:   ",docSnapshot.data())
+            setUserInfo(docSnapshot.data())
+        }
+    }).catch(err=>{
+        console.log(err)
+    })
+}
+console.log("user info array: ", userInfo)
+React.useEffect(()=>{
+    getUserInfo();
+})
   return (
     <div>
       <img className={classes.profileImage} src={props.state.userImage}/>
       <h1>{props.state.displayName}</h1>
+      {userInfo ? <h6>userInfo.followingCount</h6> : <p>loading...</p>}
     </div>
   );
 };
 
 export default UserProfileInfo;
+

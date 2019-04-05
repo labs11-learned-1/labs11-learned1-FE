@@ -9,7 +9,7 @@ import Navigation from "../Navigation/Nav";
 import MyListCard from "./card";
 import UserList from "../LearningLab/userList";
 import UserPosts from '../LearningLab/userPosts';
-import UserProfileInfo from '../userProfileInfo'
+import UserProfileInfo from '.././LearningLab/userProfileInfo';
 
 //FIREBASE
 import * as firebase from "firebase";
