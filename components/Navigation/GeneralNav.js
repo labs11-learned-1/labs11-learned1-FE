@@ -24,8 +24,8 @@ import { SearchBox } from 'react-instantsearch-dom';
 
 
 const searchClient = algoliasearch(
-    'YS9GY1E1SC',
-    'b9cfa39eea97d48e3e7171fb0ccbf0a2'
+    process.env.ALGOLIA_APP_ID,
+    process.env.ALGOLI_SEARCH_KEY
   );
 
 const styles = theme => ({
