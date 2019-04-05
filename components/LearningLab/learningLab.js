@@ -10,6 +10,7 @@ import {addPost} from '../firebaseAPI/firebasePosts';
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
+import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
 
 //MaterialUI
 import { withStyles } from '@material-ui/core/styles';
@@ -247,10 +248,12 @@ const LearningLab = (props) => {
                     // Pseudo code make a real array
                     userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
                 }).then(() => {
+                    onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
                     console.log("Added content to the db", )
                     db.collection('user').doc(state.userID).update({ myList: firebase.firestore.FieldValue.arrayUnion(newLink)}).then(() => { 
                         setList([...list, {author: metaData.author, description: metaData.description, link: link, photoUrl: metaData.img, review: null, title: metaData.title}])
                     })
+                    
                 }).catch((err) => {
                     console.log("error adding content to the db", err);
                 });
