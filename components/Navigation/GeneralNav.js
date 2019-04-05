@@ -1,5 +1,9 @@
-import Link from 'next/link'
-import React, {useContext, useState} from 'react';
+import Link from "next/link";
+import React, {useContext, useState} from "react";
+
+import { loadDB } from "../../firebaseConfig/firebase";
+import * as firebase from "firebase";
+
 import { Store } from "../store";
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
@@ -11,9 +15,18 @@ import Paper from '@material-ui/core/Paper';
 import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
+//  https://balsamiq.cloud/snv27r3/pqwdr68/
 
-import * as firebase from "firebase";
-import { loadDB } from '../../firebaseConfig/firebase';
+// // import algoliasearch from 'algoliasearch';
+// import { InstantSearch } from 'react-instantsearch-dom';
+// import { SearchBox } from 'react-instantsearch-dom';
+
+
+// //Gets info from algolia
+// const searchClient = algoliasearch(
+//     process.env.ALGOLIA_APP_ID,
+//     process.env.ALGOLI_ADMIN_KEY
+//   );
 
 const styles = theme => ({
     nav : {
@@ -79,82 +92,60 @@ const styles = theme => ({
         toolbar : {
             margin:'0 6% 0 6%',
             width:"88%",
-        },
-        Button: {
-            fontSize: '11px',
-            width: '125px'
         }
     }
 });
-import algoliasearch from 'algoliasearch';
-import { InstantSearch } from 'react-instantsearch-dom';
-import { SearchBox } from 'react-instantsearch-dom';
 
 
-//Gets info from algolia
-const searchClient = algoliasearch(
-    process.env.ALGOLIA_APP_ID,
-    process.env.ALGOLI_ADMIN_KEY
-);
 
+const GeneralNav = (props) => {
 
-const Navigation  = (props) => {
+    // const searchClient = algoliasearch(
+    //     `${process.env.ALGOLIA_APP_ID}`,
+    //     `${process.env.ALGOLI_ADMIN_KEY}`
+    //   );
 
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
 
-    
-
     const handleSignOut = async () => {
         let myVal = await loadDB();
-        myVal
-          .auth()
-          .signOut()
-          .then((result) => {
-            console.log("logout success", result)
-            return dispatch({ type: "LOGGED_OUT" });
-          })
-          .catch(e => {
-            alert("Error signing out");
-          });
-      };
+         myVal
+           .auth()
+           .signOut()
+           .then((result) => {
+             console.log("logout success", result)
+             return dispatch({ type: "LOGGED_OUT" });
+           })
+           .catch(e => {
+             alert("Error signing out");
+           });
+    };
 
-    const handleToggle = () => {
-        setOpen(!open);
-      };
-    
     const handleClose = event => {
         if (Button.anchorEl.contains(event.target)) {
           return;
         }
+    
         setOpen(false);
+    };
+
+    const handleToggle = () => {
+        setOpen(!open);
       };
 
     const { classes } = props;
-    let hold;
-    if (!state.loggedIn) {
-        hold =
-            <div className={classes.nav}>
+      
+    return(
+        <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo}/>
-                <div>
-                    <Link href="/Homepage">
-                        <Button className={classes.Button} color="#69178A">Login / Sign Up</Button>
-                    </Link>
-                </div>
-            </Toolbar>
-        </div>
-      } else {
-        hold =
-            <div className={classes.nav}>
-            <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo}/>
-                <InstantSearch
-                    indexName="instant_search"
-                    searchClient={searchClient}
-                >
-                     <SearchBox />
-                </InstantSearch> 
+                <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
+                {/* <InstantSearch
+                    indexName="instant_search" */}
+                    {/* // searchClient={searchClient} */}
+                
+                    {/* <SearchBox />
+                </InstantSearch> */}
                 
                 <div className={classes.navBarLinksLarge}>
                     <Link href="/Homepage">
@@ -252,18 +243,11 @@ const Navigation  = (props) => {
                 </Popper>
                 </div>
           </div>
-      }
+    );
+}
 
-      return (
-          <div>
-            {hold}
-          </div>
-      )
-  }
-
- Navigation.propTypes = {
+GeneralNav.propTypes = {
     classes: PropTypes.object.isRequired,
 };
 
-  
-export default withStyles(styles)(Navigation);
+export default withStyles(styles)(GeneralNav);
