@@ -23,7 +23,11 @@
         "STORAGE_BUCKET": process.env.STORAGE_BUCKET,
         "MESSAGING_SENDER_ID": process.env.MESSAGING_SENDER_ID,
         "UDEMY_CLIENT_ID": process.env.UDEMY_CLIENT_ID,
-        "UDEMY_CLIENT_SECRET": process.env.UDEMY_CLIENT_SECRET
+        "UDEMY_CLIENT_SECRET": process.env.UDEMY_CLIENT_SECRET,
+        "ALGOLIA_APP_ID": process.env.ALGOLIA_APP_ID,
+        "ALGOLIA_ADMIN_KEY": process.env.ALGOLIA_ADMIN_KEY,
+        "ALGOLIA_SEARCH_KEY": process.env.ALGOLIA_SEARCH_KEY,
+        "ALGOLIA_INDEX_NAME": process.env.ALGOLIA_INDEX_NAME,
       }
       
     };
