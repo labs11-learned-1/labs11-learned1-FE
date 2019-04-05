@@ -10,7 +10,7 @@ import {addPost} from '../firebaseAPI/firebasePosts';
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-//import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
+import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
 
 //MaterialUI
 import { withStyles } from '@material-ui/core/styles';
