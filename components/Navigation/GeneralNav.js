@@ -18,8 +18,8 @@ import MenuList from '@material-ui/core/MenuList';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/
 
 import algoliasearch from 'algoliasearch';
-//import { InstantSearch } from 'react-instantsearch-dom';
-//import { SearchBox } from 'react-instantsearch-dom';
+import { InstantSearch } from 'react-instantsearch-dom';
+import { SearchBox } from 'react-instantsearch-dom';
 
 
 
@@ -133,13 +133,13 @@ const GeneralNav = (props) => {
         <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
-                {/*<InstantSearch
+                <InstantSearch
                     indexName="instant_search"
                     searchClient={searchClient}
                 >
                     <SearchBox />
                 </InstantSearch>
-                */}
+                
                 <div className={classes.navBarLinksLarge}>
                     <Link href="/Homepage">
                         <Button className={classes.links}>Home</Button>
