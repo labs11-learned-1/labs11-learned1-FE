@@ -20,31 +20,28 @@ export const getPostsOfFollowing = async () => {
       console.log(err);
     });
 
-    //following array = ["451", "452", "453", "454"]
+  //following array = ["451", "452", "453", "454"]
   //get posts of each user in array above
   // let postsArr = [];
   // await followingArray.forEach(user =>
-     
+
   //   db.collection("posts").where("userId", "==", user).orderBy("createdAt", "desc")
   //     .get()
   //     .then(docSnapshot => {
   //       let lastVisible = docSnapshot.docs[docSnapshot.docs.length-1];
   //       console.log("last visible:   ", lastVisible)
   //       //put lastVisible on state
-        
-        
+
   //       docSnapshot.forEach(post => postsArr.push(post.data()));
-  //       let nextQuery = 
+  //       let nextQuery =
   //         db.collection('posts').where("userId", "==", user).orderBy("createdAt", "desc").startAfter(lastVisible).limit(3)
   //     })
   //     .catch(err => {
   //       console.log(err);
   //     })
-    
-     
-      
+
   // );
-  
+
   // console.log("RESULT: ", postsArr);
   let postsArr = [];
   followingArray.forEach(user =>
@@ -58,15 +55,10 @@ export const getPostsOfFollowing = async () => {
         console.log(err);
       })
   );
-  console.log("PostsArr: ", postsArr)
+  console.log("PostsArr: ", postsArr);
 };
 
-
-
-
-
 // };
-
 
 // ---------- FOLLOW OTHERS -------- //
 
@@ -95,7 +87,9 @@ export const followOthers = async () => {
               .doc("452")
               .update({
                 followerCount: firebase.firestore.FieldValue.increment(-1),
-                followers: firebase.firestore.FieldValue.arrayRemove("Z75puMPR29RnN1E3l3ayj3jSASl1")
+                followers: firebase.firestore.FieldValue.arrayRemove(
+                  "Z75puMPR29RnN1E3l3ayj3jSASl1"
+                )
               }) //then remove "450" from 454's followers
               .then(() => {
                 console.log("success unfollowing");
@@ -120,7 +114,9 @@ export const followOthers = async () => {
               .doc("452")
               .update({
                 followerCount: firebase.firestore.FieldValue.increment(1),
-                followers: firebase.firestore.FieldValue.arrayUnion("Z75puMPR29RnN1E3l3ayj3jSASl1")
+                followers: firebase.firestore.FieldValue.arrayUnion(
+                  "Z75puMPR29RnN1E3l3ayj3jSASl1"
+                )
               }) // .doc("theirId")  .arrayUnion("myUserId")
               .then(() => {
                 console.log("Success update follows");
