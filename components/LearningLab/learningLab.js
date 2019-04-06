@@ -27,7 +27,17 @@ import GeneralNav from "../Navigation/GeneralNav";
 //learning labs styles
 const styles = {
   userInfo: {
-    float: "left"
+    width: "200px",
+    height: "460px",
+    margin: "10px 30px 0 30px",
+    display: "flex",
+    position: "relative",
+    left: "0",
+    /* flex-flow: column wrap; */
+    background: "black",
+    alignItems: "flex-end",
+    borderRadius: "10px",
+    border: "1px solid #778178"
   },
 
   tabby: {

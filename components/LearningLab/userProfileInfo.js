@@ -13,20 +13,22 @@ import PropTypes from "prop-types";
 const useStyles = makeStyles(theme => ({
   profileImage: {
     borderRadius: "50%",
-    width: "80%",
-    height: "auto"
+    width: "45%",
+    height: "auto",
+    position: "absolute",
+    top: "0px"
   },
   sidebar: {
-    display:"flex",
-  
-    height: "500px",
-    position: "fixed",
-    background: "white",
-    width:" 200px",
+    width: "200px",
+    height: "400px",
+    /* margin: 10px 30px 0 30px; */
+    display: "flex",
+    bottom: "0",
+    /* position: fixed; */
     flexFlow: "column wrap",
-    alignItems: 'center',
-    margin: "10px 30px 0 30px",
-    borderRadius: "10px"
+    background: "white",
+    alignItems: "center",
+    borderRadius: "0 0 10px 10px",
   }
 }));
 
@@ -59,8 +61,8 @@ React.useEffect(()=>{
 })
   return (
     <div className={classes.sidebar}>
-      {/* <img className={classes.profileImage} src={props.state.userImage} />
-      <h1>{props.state.displayName}</h1> */}
+      <img className={classes.profileImage} src={props.state.userImage} />
+      <h1>{props.state.displayName}</h1> 
       
     </div>
   );

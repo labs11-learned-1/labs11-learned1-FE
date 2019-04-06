@@ -10,8 +10,15 @@ class MyApp extends App {
             
             <Container>
                 <style jsx global>{`
+                html {
+                    height:100%;
+                    box-sizing: border-box;
+                    font-size: 62.5%;
+                    font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+                }
       body {
-        margin: 0
+        height: 100%;
+        margin: 0;
       }
 
     `}</style>
