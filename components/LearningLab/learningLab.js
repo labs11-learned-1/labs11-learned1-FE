@@ -8,7 +8,7 @@ import Navigation from "../Navigation/Nav";
 import MyListCard from "./card";
 
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
-// import TabComponent from ".././LearningLab/tabComponent";
+import TabComponent from ".././LearningLab/tabComponent";
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -32,7 +32,8 @@ const styles = {
 
   tabby: {
     float: "right",
-    zIndex: "0"
+    zIndex: "0",
+    width: "600px"
   },
 
   reviewDialog: {
@@ -116,22 +117,23 @@ const LearningLab = props => {
   }, []);
   //handlechange
 
+  //   <div className={classes.myList}>
+  //          This is where user courses will show up
+  //         {UdemyList.map(course => {
+  //           return <MyListCard content={course} />;
+  //         })}
+
   return (
     <div>
       <GeneralNav />
       <div className={classes.learningLabWrap}>
-        {/* <div className={classes.userInfo}>
+        <div className={classes.userInfo}>
           <UserProfileInfo state={state} />
         </div>
-        {/* <div className={classes.myList}>
-        {/* This is where user courses will show up */}
-        {/* {UdemyList.map(course => {
-          return <MyListCard content={course} />;
-        })} */}
-        {/* <div className={classes.tabby}>
+
+        <div className={classes.tabby}>
           <TabComponent state={state} />
-        </div> */} 
-        {/* </div> */}
+        </div>
       </div>
     </div>
   );
