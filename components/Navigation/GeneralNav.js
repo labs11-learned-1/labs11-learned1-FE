@@ -18,9 +18,7 @@ import MenuList from '@material-ui/core/MenuList';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/
 
 import algoliasearch from 'algoliasearch';
-import { InstantSearch } from 'react-instantsearch-dom';
-import { SearchBox } from 'react-instantsearch-dom';
-
+import { InstantSearch, SearchBox, Hits } from 'react-instantsearch-dom';
 
 const styles = theme => ({
     nav : {
@@ -87,6 +85,9 @@ const styles = theme => ({
             margin:'0 6% 0 6%',
             width:"88%",
         }
+    },
+    hit: {
+
     }
 });
 
@@ -94,13 +95,29 @@ const styles = theme => ({
 
 const GeneralNav = (props) => {
 
+    
+
+    const [open, setOpen] = useState(false);
+    const {state, dispatch} = useContext(Store);
+
+    const Hit = ({hit}) => {
+        <div className={classes.hit}>
+            <div className={classes.hitImage}>
+                <img src={hit.title}/>
+            </div>
+        </div>
+    }
+    
+    const Content = () => {
+        <div className={classes.content}>
+            <Hits hitComponent={Hit}/>
+        </div>
+    }
+    
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
          `${process.env.ALGOLI_ADMIN_KEY}`
     );
-
-    const [open, setOpen] = useState(false);
-    const {state, dispatch} = useContext(Store);
 
     const handleSignOut = async () => {
         let myVal = await loadDB();
@@ -128,18 +145,21 @@ const GeneralNav = (props) => {
         setOpen(!open);
       };
 
-    const { classes } = props;
+      
+
+      const { classes } = props;
       
     return(
         <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
                 <InstantSearch
-                    indexName="instant_search"
+                    indexName="posts"
                     searchClient={searchClient}
                 >
-                    <SearchBox />
-                </InstantSearch> */}
+                    <SearchBox translations={{placeholder: 'Search..'}}/>
+                </InstantSearch>
+                <Content/>
                 
                 <div className={classes.navBarLinksLarge}>
                     <Link href="/Homepage">

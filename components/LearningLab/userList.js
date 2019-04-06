@@ -2,83 +2,99 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
+import Store from "../../components/store";
 
 //COMPONENTS
 import MyListCard from "./card";
 
 //FUNCTIONS
-import {addPost} from '../firebaseAPI/firebasePosts';
 
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-import {deleteContent} from '../firebaseAPI/firebaseCollection'; 
+import { deleteContent } from "../firebaseAPI/firebaseCollection";
+import { addPost } from "../firebaseAPI/firebasePosts";
+import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
 
 //MATERIAL UI
-import { withStyles } from "@material-ui/core/styles";
-import FormControlLabel from '@material-ui/core/FormControlLabel';
-import List from '@material-ui/core/List';
-import ListItem from '@material-ui/core/ListItem';
-import ListItemText from '@material-ui/core/ListItemText';
-import ListItemAvatar from '@material-ui/core/ListItemAvatar';
-import Dialog from '@material-ui/core/Dialog';
-import DialogActions from '@material-ui/core/DialogActions';
-import DialogContent from '@material-ui/core/DialogContent';
-import DialogTitle from '@material-ui/core/DialogTitle';
-import TextField from '@material-ui/core/TextField';
-import Checkbox from '@material-ui/core/Checkbox';
-import Button from '@material-ui/core/Button';
-import Avatar from '@material-ui/core/Avatar';
-import Typography from '@material-ui/core/Typography';
+import { makeStyles } from "@material-ui/styles";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import List from "@material-ui/core/List";
+import ListItem from "@material-ui/core/ListItem";
+import ListItemText from "@material-ui/core/ListItemText";
+import ListItemAvatar from "@material-ui/core/ListItemAvatar";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import Checkbox from "@material-ui/core/Checkbox";
+import Button from "@material-ui/core/Button";
+import Avatar from "@material-ui/core/Avatar";
+import Typography from "@material-ui/core/Typography";
+import Fab from "@material-ui/core/Fab";
+import AddIcon from "@material-ui/icons/Add";
 
-
-const styles = theme => ({
-    inline: {
-        display: 'inline',
+const useStyles = makeStyles(theme => ({
+  inline: {
+    display: "inline"
+  },
+  reviewList: {
+    width: "100%",
+    maxWidth: 360,
+    // backgroundColor: theme.palette.background.paper
+  },
+  reviewListDialog: {
+    margin: "0",
+    backgroundColor: "#3f51b5",
+    "& h2": {
+      color: "white",
+      fontWeight: "bold"
+    }
+  },
+  textField: {
+    width: "100%",
+    marginTop: "30px",
+    "& div": {
+      backgroundColor: "white",
+      padding: "0 0 0 0",
+      "&:hover": {
+        backgroundColor: "white"
+      }
     },
-    reviewList: {
-        width: '100%',
-        maxWidth: 360,
-        backgroundColor: theme.palette.background.paper,
+    "% label": {
+      padding: "0",
+      tranform: ""
+    }
+  },
+  reviewButtons: {
+    display: "flex",
+    justifyContent: "flex-end",
+    width: "100%"
+  },
+  myHeader: {
+    display: "flex",
+    borderBottom: "1.5px solid rgba(0,0,0,.1)",
+    margin: "20px",
+    paddingBottom: "20px",
+    alignItems: "center",
+    "& h1": {
+      margin: "0 20px 0 20px"
     },
-    reviewListDialog: {
-        margin: '0',
-        backgroundColor: '#3f51b5',
-        '& h2': {
-            color: 'white',
-            fontWeight: 'bold'
-        },
-    },
-    textField: {
-        width: '100%',
-        marginTop: '30px',
-        '& div': {
-            backgroundColor: 'white',
-            padding: '0 0 0 0',
-            '&:hover': {
-                backgroundColor: 'white',
-            }
-        },
-        '% label': {
-            padding: '0',
-            tranform : ''
-        }
-    },
-    reviewButtons: {
-        display: 'flex',
-        justifyContent: 'flex-end',
-        width: '100%'
-    },
-}); //end styles
-
-
-const UserList = props => {
-const listOnState = props.list;
-console.log("listOnState", listOnState)
-    const {classes}= props;
+    "& button": {
+      marginLeft: "20px"
+    }
+  }
+})); //end styles
+console.log(Store)
+const UserList = (props) => {
+  const  classes  = useStyles();
   //===========HOOKS===========
+  //const { state, dispatch } = React.useContext(Store);
+  
   const [open, setOpen] = React.useState(false);
   const [openReview, setOpenReview] = React.useState(false);
+  const [metaData, setMetaData] = React.useState({});
   const [reviewContent, setReviewContent] = React.useState({
     rating: 5,
     title: "",
@@ -87,14 +103,15 @@ console.log("listOnState", listOnState)
     reviewID: ""
   });
   const [submitType, setSubmitType] = React.useState("");
+  const [list, setList] = React.useState([]);
   const [openReviewList, setOpenReviewList] = React.useState(false);
   const [reviewList, setReviewList] = React.useState([]);
   const [gettingInfo, setGettingInfo] = React.useState(true);
   const [share, setShare] = React.useState(true);
   const [userReview, setUserReview] = React.useState(null);
-//   const [link, setLink] = React.useState("");
-
-
+  const [link, setLink] = React.useState("");
+  console.log(props.state);
+  const listOnState = list;
   //===========FUNCTIONS===========
   const getContentByUserId = async () => {
     let arr = [];
@@ -108,11 +125,108 @@ console.log("listOnState", listOnState)
           const result = doc.data();
           arr.push(result);
         });
-        props.setList(arr);
+        setList(arr);
       })
       .catch(function(error) {
         console.log("Error getting documents: ", error);
       });
+  };
+
+  const addContent = async () => {
+    let result = await loadDB();
+    let db = result.firestore();
+    let newLink = link
+      .split("//")
+      .pop()
+      .replace(/[/]/g, "-");
+    const contentRef = db.collection("content-collection");
+    //do a call on a doc where new link is
+    contentRef
+      .doc(newLink)
+      .get()
+      .then(docSnapshot => {
+        //see if it exists
+        if (docSnapshot.exists) {
+          //if it exists, just update the array with the userId
+          contentRef
+            .doc(newLink)
+            .update({
+              userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
+            })
+            .then(() => {
+              db.collection("user")
+                .doc(props.state.userID)
+                .update({
+                  myList: firebase.firestore.FieldValue.arrayUnion(newLink)
+                })
+                .then(() => {
+                  setList([
+                    ...list,
+                    {
+                      author: metaData.author,
+                      description: metaData.description,
+                      link: link,
+                      photoUrl: metaData.img,
+                      review: null,
+                      title: metaData.title
+                    }
+                  ]);
+                });
+              console.log("Hello");
+            })
+            .catch(err => {
+              console.log("Error adding newLink to myList in user docs", err);
+            });
+        } else {
+          //else create the whole new document
+          contentRef
+            .doc(newLink)
+            .set({
+              title: metaData.title,
+              author: metaData.author,
+              photoUrl: metaData.img,
+              description: metaData.description,
+              link: link,
+              // Pseudo code make a real array
+              userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
+            })
+            .then(() => {
+              onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
+              console.log("Added content to the db");
+              db.collection("user")
+                .doc(props.state.userID)
+                .update({
+                  myList: firebase.firestore.FieldValue.arrayUnion(newLink)
+                })
+                .then(() => {
+                  setList([
+                    ...list,
+                    {
+                      author: metaData.author,
+                      description: metaData.description,
+                      link: link,
+                      photoUrl: metaData.img,
+                      review: null,
+                      title: metaData.title
+                    }
+                  ]);
+                });
+            })
+            .catch(err => {
+              console.log("error adding content to the db", err);
+            });
+        }
+      })
+      .catch(err => {
+        console.log(
+          "Error with getting the stuff. try a db call here if it is going to this catch",
+          err
+        );
+      });
+  };
+
+  const onChangeHandler = ev => {
+    setLink(ev.target.value);
   };
 
   //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
@@ -143,7 +257,7 @@ console.log("listOnState", listOnState)
   const getReviewList = async (userList, link) => {
     let result = await loadDB();
     let db = result.firestore();
-    let newLink = props.link
+    let newLink = link
       .split("//")
       .pop()
       .replace(/[/]/g, "-");
@@ -248,6 +362,26 @@ console.log("listOnState", listOnState)
     }
     addReview(rating, content, title, props.state.userID, postId);
     setOpenReview(false);
+  };
+
+  const handleSubmit = () => {
+    // sending link to web scraping backend that returns meta tags
+    axios
+      .post("https://getmetatag.herokuapp.com/get-meta", { url: link })
+      .then(res => {
+        // saves useful meta tags to local state
+        const { title, description, author, image } = res.data;
+        setMetaData({
+          title: title,
+          description: description,
+          author: author,
+          img: image
+        });
+      })
+      .catch(err => {
+        alert("ERROR");
+      });
+    setOpen(false);
   };
 
   const addReview = async (rating, comment, title, userId, postId) => {
@@ -395,7 +529,7 @@ console.log("listOnState", listOnState)
           <Button
             color="primary"
             onClick={() => {
-              deleteReview(props.link, );
+              deleteReview(link);
             }}
           >
             {" "}
@@ -465,29 +599,84 @@ console.log("listOnState", listOnState)
   //-----Effects-----
   React.useEffect(() => {
     getContentByUserId();
-    console.log("list inside useEffect: ", props.list)
   }, []);
-//   React.useEffect(()=> {
-//       
-//   }, []);
+  //   React.useEffect(()=> {
+  //
+  //   }, []);
   //------end effects-----
   //===========RENDER===========
+
+  React.useEffect(() => {
+    if (metaData.title) {
+      console.log("HEY IM BEING CALLED!");
+      addContent();
+    }
+  }, [metaData.title]);
+
   return (
     <div>
-      {props.list.map(item => {
+      <div className={classes.myHeader}>
+        <h1>My List</h1>
+        <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
+          <AddIcon />
+        </Fab>
+        <Dialog
+          open={open}
+          onClose={() => setOpen(false)}
+          aria-labelledby="form-dialog-title"
+        >
+          <DialogTitle id="form-dialog-title">
+            Enter Link to Blog/Course
+          </DialogTitle>
+
+          <DialogContent>
+            <TextField
+              autoFocus
+              margin="dense"
+              id="name"
+              label="Link"
+              fullWidth
+              multiline
+              onChange={onChangeHandler}
+            />
+          </DialogContent>
+
+          <DialogActions>
+            <Button onClick={() => setOpen(false)} color="primary">
+              Cancel
+            </Button>
+            {/* Change this to handle submit */}
+            <Button
+              onClick={() => handleSubmit(props.state.userID, link)}
+              color="primary"
+            >
+              Add
+            </Button>
+          </DialogActions>
+        </Dialog>
+      </div>
+      {list.map(item => {
         return (
           <MyListCard
             content={item}
             prepareReviewList={prepareReviewList}
             prepareSharePost={prepareSharePost}
-            deleteContent={() => deleteContent(item.link, props.state.userID, listOnState, props.setList, getContentByUserId)}
+            deleteContent={() =>
+              deleteContent(
+                item.link,
+                props.state.userID,
+                listOnState,
+                setList,
+                getContentByUserId
+              )
+            }
           />
         );
       })}
 
       {/*  THIS IS THE REVIEW POSTING POPUP COMPONENT */}
       <Dialog
-        className={props.classes.reviewListDialog}
+        className={classes.reviewListDialog}
         open={openReview}
         onClose={() => {
           submitType == "share"
@@ -600,7 +789,5 @@ console.log("listOnState", listOnState)
 }; //end UserList
 
 //===========PROPTYPES AND EXPORT===========
-UserList.propTypes = {
-  classes: PropTypes.object.isRequired
-};
-export default withStyles(styles)(UserList);
+
+export default UserList;

@@ -19,12 +19,6 @@ import LandingNav from '../components/Navigation/LandingNav';
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
-import ContentCollection from "../components/ContentCollection/contentCollection";
-
-
-
-
-
 
 const styles = {
   authContainer: {
@@ -110,8 +104,7 @@ const Homepage = (props) => {
           {state.loggedIn ? <GeneralNav/> : <LandingNav/>}
           <Home/>
           <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
-          <ContentCollection />
-          {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd}/> : null}
+          {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/> : null}
         </div>
       );
     }

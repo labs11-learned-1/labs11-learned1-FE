@@ -6,6 +6,7 @@ import PropTypes from "prop-types";
 //firebase import
 import { loadDB } from "../../firebaseConfig/firebase.js";
 import * as firebase from "firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 //style imports
 import { withStyles } from "@material-ui/core/styles";
@@ -93,7 +94,7 @@ const Authentication =  props => {
     let myVal = await loadDB();
     let db = myVal.firestore();
    
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.LOCAL).then(()=> {
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE).then(()=> {
       var provider = new firebase.auth.GoogleAuthProvider();
       
     
@@ -101,7 +102,9 @@ const Authentication =  props => {
     return firebase.auth()
     .signInWithPopup(provider)
     .then(async result => {
-      var token = result.credential.accessToken;
+      console.log("result", result)
+      const token = result.credential.accessToken;
+      
       // console.log("result", result); <--- uncomment to see what else you can grab, such as accessToken
       // creates a doc with value of userID in user collectionthen puts fields in
       await db
@@ -150,12 +153,7 @@ const Authentication =  props => {
 
     }).catch(err => {
       console.log("auth persistence has experienced an error.", err)
-    })
-
-
-
-
-     
+    })  
   };
 
   const { classes } = props;

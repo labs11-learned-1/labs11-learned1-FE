@@ -48,5 +48,5 @@ const UserListCard = (props) => {
 UserListCard.propTypes = {
     classes: PropTypes.object.isRequired,
 };
-  
+
 export default withStyles(styles)(UserListCard);
