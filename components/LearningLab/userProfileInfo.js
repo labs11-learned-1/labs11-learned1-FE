@@ -59,8 +59,8 @@ React.useEffect(()=>{
 })
   return (
     <div className={classes.sidebar}>
-      <img className={classes.profileImage} src={props.state.userImage} />
-      <h1>{props.state.displayName}</h1>
+      {/* <img className={classes.profileImage} src={props.state.userImage} />
+      <h1>{props.state.displayName}</h1> */}
       
     </div>
   );

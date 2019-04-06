@@ -8,7 +8,7 @@ import Navigation from "../Navigation/Nav";
 import MyListCard from "./card";
 
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
-import TabComponent from ".././LearningLab/tabComponent";
+// import TabComponent from ".././LearningLab/tabComponent";
 
 //FIREBASE
 import * as firebase from "firebase";
