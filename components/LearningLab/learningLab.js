@@ -120,7 +120,7 @@ const LearningLab = props => {
     <div>
       <GeneralNav />
       <div className={classes.learningLabWrap}>
-        <div className={classes.userInfo}>
+        {/* <div className={classes.userInfo}>
           <UserProfileInfo state={state} />
         </div>
         {/* <div className={classes.myList}>
@@ -128,9 +128,9 @@ const LearningLab = props => {
         {/* {UdemyList.map(course => {
           return <MyListCard content={course} />;
         })} */}
-        <div className={classes.tabby}>
+        {/* <div className={classes.tabby}>
           <TabComponent state={state} />
-        </div>
+        </div> */} 
         {/* </div> */}
       </div>
     </div>
