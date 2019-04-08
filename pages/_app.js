@@ -1,5 +1,6 @@
 import App, { Container } from 'next/app'
 /* First we import our provider */
+import React from "react";
 import StoreProvider from '../components/store'
 
 class MyApp extends App {
