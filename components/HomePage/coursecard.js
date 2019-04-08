@@ -120,7 +120,7 @@ const CourseCard = props => {
     return (
       <div  className={classes.courseCardWrapper}/*onClick={() => {window.location.href = props.url}}*/>
       <Fab 
-      style={{position:"absolute",zIndex:"100"}} 
+      style={{position:"absolute",zIndex:"1"}} 
       size="small" 
       color="primary" 
       aria-label="Add"
