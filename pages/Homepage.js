@@ -7,6 +7,7 @@ import PropTypes from 'prop-types';
 //firebase imports
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";
+import { useAuthState } from 'react-firebase-hooks/auth';
 
 //component imports
 import Nav from '../components/Navigation/Nav'
@@ -14,11 +15,11 @@ import Home from "../components/HomePage/homepage";
 import Authentication from "../components/Authentication/Authentication";
 import CategoryModal from '../components/CategoryModal/CategoryModal'
 import UdemyCarousel from "../components/udemyCourses/udemyCarousel.js";
+import GeneralNav from "../components/Navigation/GeneralNav";
 
 //styles imports
 import { withStyles } from '@material-ui/core/styles';
-import ContentCollection from "../components/ContentCollection/contentCollection";
-import GeneralNav from "../components/Navigation/GeneralNav";
+
 
 
 
@@ -32,10 +33,11 @@ const styles = {
   }
 }
 
-function Homepage(props) {
+const Homepage = (props) => {
+ 
   const [categories, setCategories] = React.useState([]);
   const [open, setOpen] = React.useState(true);
-
+  
   function handleClose() {
     setOpen(false);
 }
@@ -55,6 +57,7 @@ function Homepage(props) {
       }).then(() => {
         console.log("tags added to db:  ", categories)
         handleClose();
+        return dispatch({type:"RETRACT_FIRST_TIME_LOGIN"})
       }).catch(err => {
         console.log("Error adding tags to db", err)
         alert("there was an error")
@@ -89,19 +92,7 @@ function Homepage(props) {
     }
   }
 
-  const handleSignOut = async () => {
-    let myVal = await loadDB();
-    myVal
-      .auth()
-      .signOut()
-      .then((result) => {
-        console.log("logout success", result)
-        return dispatch({ type: "LOGGED_OUT" });
-      })
-      .catch(e => {
-        alert("Error signing out");
-      });
-  };
+ 
 
   const {classes} = props;
     const { state, dispatch } = React.useContext(Store);
@@ -119,8 +110,7 @@ function Homepage(props) {
           <GeneralNav/>
           <Home/>
           <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
-          <ContentCollection />
-          {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd}/> : null}
+          {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/> : null}
         </div>
       );
     }

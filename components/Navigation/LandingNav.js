@@ -4,6 +4,7 @@ import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import Toolbar from '@material-ui/core/Toolbar';
 import Button from '@material-ui/core/Button';
+
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
 const styles = theme => ({
@@ -14,8 +15,8 @@ const styles = theme => ({
     },
     toolbar : {
         padding:0,
-        margin:"0 auto",
-        width:"48%",
+        width:"60%",
+        margin: '0 auto',
         display: 'flex',
         justifyContent: "space-between",
     },
@@ -28,7 +29,21 @@ const styles = theme => ({
         '&:hover': {
             cursor: 'pointer'
         }
-    }
+    },
+    '@media(max-width: 600px)': {
+        toolbar : {
+            margin:'0 6% 0 6%',
+            width:"88%",
+        },
+        logo : {
+            height: '75px',
+            width: '100px',
+        },
+        Button: {
+            fontSize: '11px',
+            width: '125px'
+        }
+    },
 })
 
 const LandingNav = (props) => {

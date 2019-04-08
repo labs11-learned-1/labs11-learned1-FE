@@ -6,19 +6,20 @@ import Link from 'next/link';
 
 const styles = {
     root:{
-        height:"500px",
+        height:"600px",
         background:"url('https://www.photohdx.com/images/2016/10/abstract-grey-blue-blurred-shapes-background.jpg')",
         backgroundSize:"cover",
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
+        width:"100%",
     },
     textArea:{
         color:"white",
         width:"30%"
     },
     headerTitle : {
-        fontSize:"3rem"
+        fontSize:"2.7rem"
     },
     headerText:{
         fontSize:"1.6rem"
@@ -37,10 +38,36 @@ const styles = {
     },
     '@media(max-width: 600px)': {
         root:{
-            flexDirection:"column"
+            flexDirection:"column",
+            justifyContent:"space-evenly",
         },
         img:{
             display:"none"
+        },
+        textArea:{
+            color:"white",
+            width:"70%",
+        },
+        headerTitle: {
+            fontSize: '2rem'
+        },
+        headerText: {
+            fontSize: '1.5rem'
+        }
+    },
+    '@media(max-width: 800px)': {
+        root: {
+            justifyContent:"space-evenly",
+        },
+        headerTitle: {
+            fontSize: '2rem'
+        },
+        headerText: {
+            fontSize: '1.5rem',
+            width: '200px'
+        },
+        headerSignUp: {
+            fontSize: '1rem'
         }
     }
 }

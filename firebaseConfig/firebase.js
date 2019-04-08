@@ -1,4 +1,5 @@
 import firebase from '@firebase/app'
+import React from 'react';
 import '@firebase/firestore'
 
 export function loadDB() {
