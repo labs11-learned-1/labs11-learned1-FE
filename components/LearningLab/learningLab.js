@@ -33,7 +33,6 @@ const styles = {
     display: "flex",
     position: "relative",
     left: "0",
-    /* flex-flow: column wrap; */
     background: "black",
     alignItems: "flex-end",
     borderRadius: "10px",

@@ -61,7 +61,7 @@ React.useEffect(()=>{
 })
   return (
     <div className={classes.sidebar}>
-      <img className={classes.profileImage} src={props.state.userImage} />
+      <img className={classes.profileImage} src={props.state.userImage} alt="Profile Image" />
       <h1>{props.state.displayName}</h1> 
       
     </div>
