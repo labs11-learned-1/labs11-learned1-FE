@@ -45,7 +45,7 @@ const styles = theme => ({
 
 const MyListCard = (props) => {
     const [openMenu, setOpenMenu] = React.useState(false);
-    
+    const {state, dispatch} = React.useContext(Store);
     const { classes } = props;
         
     return(
@@ -86,7 +86,7 @@ const MyListCard = (props) => {
                                     }}>Reviews</MenuItem>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
-                                        props.prepareSharePost(props.content.link);
+                                        props.prepareSharePost(props.content.link, props.content.photoUrl, state.displayName);
                                     }}>Share Post</MenuItem>
                                     </MenuList>
                                     <MenuItem onClick={(ev) => {
