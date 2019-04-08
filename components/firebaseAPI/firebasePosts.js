@@ -18,8 +18,7 @@ export const addPost = async (title, content, url, userId) => {
       content: content, //<--- provide input form
       createdAt: Date.now(),
       url: url,
-      userId: userId,
-      //<--- make dynamic with state.userId
+      userId: userId//<--- make dynamic with state.userId
     })
     .then(ref =>
       db

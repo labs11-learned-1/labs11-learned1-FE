@@ -27,15 +27,7 @@ import GeneralNav from "../Navigation/GeneralNav";
 //learning labs styles
 const styles = {
   userInfo: {
-    width: "200px",
-    height: "460px",
-    margin: "10px 30px 0 30px",
-    display: "flex",
-    position: "relative",
-    left: "0",
-    background: "black",
-    alignItems: "flex-end",
-    borderRadius: "10px",
+ float: "left"
    
   },
 

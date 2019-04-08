@@ -10,7 +10,6 @@ class MyApp extends App {
       <Container>
         <style jsx global>{`
           body {
-            height: 100%;
             margin: 0;
           }
         `}</style>
