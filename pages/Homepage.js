@@ -57,6 +57,7 @@ const Homepage = (props) => {
       }).then(() => {
         console.log("tags added to db:  ", categories)
         handleClose();
+        return dispatch({type:"RETRACT_FIRST_TIME_LOGIN"})
       }).catch(err => {
         console.log("Error adding tags to db", err)
         alert("there was an error")
