@@ -14,6 +14,8 @@ import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 import { deleteContent } from "../firebaseAPI/firebaseCollection";
 import { addPost } from "../firebaseAPI/firebasePosts";
+
+//ALGOLIA
 import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
 
 //MATERIAL UI
@@ -36,6 +38,12 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
+
+
+  userListWrap: {
+background: "white"
+  },
+
   inline: {
     display: "inline"
   },
@@ -614,7 +622,7 @@ const UserList = (props) => {
   }, [metaData.title]);
 
   return (
-    <div>
+    <div className={classes.userListWrap}>
       <div className={classes.myHeader}>
         <h1>My List</h1>
         <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>

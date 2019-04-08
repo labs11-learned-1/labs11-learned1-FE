@@ -1,12 +1,14 @@
 import React from "react";
 
 //REACT
-import axios from "axios";
 import PropTypes from "prop-types";
+
+//COMPONENTS
+
 import MyListCard from "./card";
-import UserList from "../LearningLab/userList";
-import UserPosts from '../LearningLab/userPosts';
-import GeneralNav from "../Navigation/GeneralNav";
+import GeneralNav from '../Navigation/GeneralNav'
+import UserProfileInfo from ".././LearningLab/userProfileInfo";
+import TabComponent from ".././LearningLab/tabComponent";
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -44,7 +46,7 @@ function TabContainer(props) {
   );
 }
 
-//=========END TABS FUNCTIONS=========
+  
 
 //learning labs styles
 const styles = {
@@ -56,6 +58,10 @@ const styles = {
       color: "white",
       fontWeight: "bold"
     }
+  },
+  tabby: {
+    float: "right",
+    zIndex: "0"
   },
 
   toolbar: {
@@ -79,9 +85,12 @@ const styles = {
     flexWrap: "wrap",
     justifyContent: "center"
   },
-  
   learningLabWrap: {
-    marginTop: "40px"
+    paddingTop: "70px",
+    background: "#E6ECF0",
+    display: "flex",
+    height: "100%",
+    justifyContent: "space-around"
   },
   currentCourses: {
     minHeight: "100px"
@@ -91,115 +100,13 @@ const styles = {
 //begin Component
 const LearningLab = props => {
   //========TABS HOOKS=========
-  const {classes} = props;
-  const [value, setValue] = React.useState(0);
+  const { classes } = props;
+
   //=========END TABS HOOKS=======
   const { state, dispatch } = React.useContext(Store);
   const [link, setLink] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
   const [open, setOpen] = React.useState(false);
- 
-  //=====TABS HANDLING STATE======
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
-
-  };
-
-
-
-  const addContent = async () => {
-    let result = await loadDB();
-    let db = result.firestore();
-    let newLink = link
-      .split("//")
-      .pop()
-      .replace(/[/]/g, "-");
-    const contentRef = db.collection("content-collection");
-    //do a call on a doc where new link is
-    contentRef
-      .doc(newLink)
-      .get()
-      .then(docSnapshot => {
-        //see if it exists
-        if (docSnapshot.exists) {
-          //if it exists, just update the array with the userId
-          contentRef
-            .doc(newLink)
-            .update({
-              userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
-            })
-            .then(() => {
-              db.collection("user")
-                .doc(state.userID)
-                .update({
-                  myList: firebase.firestore.FieldValue.arrayUnion(newLink)
-                })
-                .then(() => {
-                  setList([
-                    ...list,
-                    {
-                      author: metaData.author,
-                      description: metaData.description,
-                      link: link,
-                      photoUrl: metaData.img,
-                      review: null,
-                      title: metaData.title
-                    }
-                  ]);
-                });
-              console.log("Hello");
-            })
-            .catch(err => {
-              console.log("Error adding newLink to myList in user docs", err);
-            });
-        } else {
-          //else create the whole new document
-          contentRef
-            .doc(newLink)
-            .set({
-              title: metaData.title,
-              author: metaData.author,
-              photoUrl: metaData.img,
-              description: metaData.description,
-              link: link,
-              // Pseudo code make a real array
-              userList: firebase.firestore.FieldValue.arrayUnion(state.userID)
-            })
-            .then(() => {
-              
-              console.log("Added content to the db");
-              db.collection("user")
-                .doc(state.userID)
-                .update({
-                  myList: firebase.firestore.FieldValue.arrayUnion(newLink)
-                })
-                .then(() => {
-                  setList([
-                    ...list,
-                    {
-                      author: metaData.author,
-                      description: metaData.description,
-                      link: link,
-                      photoUrl: metaData.img,
-                      review: null,
-                      title: metaData.title
-                    }
-                  ]);
-                });
-            })
-            .catch(err => {
-              console.log("error adding content to the db", err);
-            });
-        }
-      })
-      .catch(err => {
-        console.log(
-          "Error with getting the stuff. try a db call here if it is going to this catch",
-          err
-        );
-      });
-  };
-  /* #endregion list-handling */
 
 
   //=====END TABS HANDLING STATE=====
@@ -228,38 +135,25 @@ const LearningLab = props => {
   React.useEffect(() => {
     getUdemyByUserId();
   }, []);
+  //handlechange
 
   return (
       <div>
       <GeneralNav/>
       <div className={classes.learningLabWrap}>
-        <div className={classes.myHeader}>
-          
+        <div className={classes.userInfo}>
+          <UserProfileInfo state={state} />
         </div>
-        <div className={classes.myList}>
-          {/* This is where user courses will show up */}
-          {UdemyList.map(course => {
-            return <MyListCard content={course} />;
-          })}
+        {/* <div className={classes.myList}>
+        {/* This is where user courses will show up */}
+        {/* {UdemyList.map(course => {
+          return <MyListCard content={course} />;
+        })} */}
+        <div className={classes.tabby}>
+          <TabComponent state={state} />
         </div>
-      
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange}>
-          <Tab label="My List" />
-          <Tab label="Posts" />
-          <Tab label="Item Three" />
-        </Tabs>
-      </AppBar>
-      {value === 0 && 
-        <TabContainer>
-          <UserList state={state}/>
-        </TabContainer>
-      }
-      {value === 1 && <TabContainer>
-          <UserPosts state={state}/>
-      </TabContainer>}
-      {value === 2 && <TabContainer>Item Three</TabContainer>}
-    </div>
+        {/* </div> */}
+      </div>
     </div>
   );
 };
@@ -267,8 +161,5 @@ const LearningLab = props => {
 LearningLab.propTypes = {
   classes: PropTypes.object.isRequired,
 };
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired
-}
+
 export default withStyles(styles)(LearningLab);

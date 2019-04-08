@@ -18,6 +18,11 @@ export const onPostsDeleted = (objectID) => {
     return index.deleteObject(objectID);
 };
 
+export const onUserCreated = (userInfo) => {
+  const index = client.initIndex('users');
+  return index.saveObject(userInfo);
+}
+
 // // Create and Deploy Your First Cloud Functions
 // // https://firebase.google.com/docs/functions/write-firebase-functions
 //

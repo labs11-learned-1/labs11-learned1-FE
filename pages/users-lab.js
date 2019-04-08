@@ -4,6 +4,7 @@ import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import MyListCard from "../components/LearningLab/card";
+import GeneralNav from '../components/Navigation/GeneralNav'
 
 //FIREBASE
 import * as firebase from "firebase";
