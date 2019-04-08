@@ -16,18 +16,18 @@ import PropTypes from "prop-types";
 const useStyles = makeStyles(theme => ({
   profileImage: {
     borderRadius: "50%",
-    width: "45%",
+    width: "80%",
     height: "auto",
   },
   sidebar: {
-    width: "200px",
-    height: "400px",
     display: "flex",
-    bottom: "0",
+    width: "200px",
+    height: "500px",
+
     flexFlow: "column wrap",
     background: "white",
     alignItems: "center",
-    borderRadius: "0 0 10px 10px"
+    borderRadius: "10px"
   }
 }));
 

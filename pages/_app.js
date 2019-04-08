@@ -10,7 +10,7 @@ class MyApp extends App {
       <Container>
         <style jsx global>{`
           body {
-            margin: 0;
+            margin: 0
           }
         `}</style>
         {/* Then we wrap our components with the provider */}
