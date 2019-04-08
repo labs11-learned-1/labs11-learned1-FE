@@ -5,8 +5,8 @@ import Link from "next/link";
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 import {Store} from '../store'
-import {getReviewList, editReview, addReview, deleteReview} from '../firebaseAPI/firebaseCollection'
-import {getContentById} from '../firebaseAPI/firebaseReviews'
+import {getReviewList, editReview, addReview, deleteReview} from '../firebaseAPI/firebaseReviews'
+import {getContentById} from '../firebaseAPI/firebaseCollection'
 import { addPost } from "../firebaseAPI/firebasePosts";
 
 //MATERIAL UI
