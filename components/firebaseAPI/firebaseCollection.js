@@ -35,7 +35,8 @@ export const addContent = async () => {
 }
 
 // ==== GET CONTENT by contentId in content-collection =====
-
+// OLD GET CONTENTBYID
+/*
 export const getContentById = async () => {
     let result = await loadDB();
     let db = result.firestore();
@@ -47,6 +48,21 @@ export const getContentById = async () => {
     });
 
 }
+*/
+
+//NEW GET CONTENTBYID
+export const getContentById = async (postID) => {
+    let result = await loadDB();
+    let db = result.firestore();
+    return db.collection('content-collection').doc(postID).get().then((res) => {
+        return res.data();
+    }).catch(err => {
+        console.log("Error getting content", err)
+        return null;
+    });
+
+}
+
 
 export const getContentByUserId = async () => {
     let result = await loadDB();
