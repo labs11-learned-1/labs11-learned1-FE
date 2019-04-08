@@ -168,10 +168,12 @@ const GeneralNav = (props) => {
                 >
                     <SearchBox translations={{placeholder: 'Search..'}}/>
                     <Index indexName="posts">
+                        <p>Users</p>
                         <Content/>
                     </Index>
 
                     <Index indexName="users">
+                        <p>Articles</p>
                         <Content/>
                     </Index>
                 </InstantSearch>
