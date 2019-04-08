@@ -4,7 +4,6 @@ import React from "react";
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 
-
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
 import Postcard from "../community/Postcard";
@@ -21,21 +20,20 @@ const useStyles = makeStyles(theme => ({
   sidebar: {
     width: "200px",
     height: "400px",
-    
+
     display: "flex",
     bottom: "0",
-    
+
     flexFlow: "column wrap",
     background: "white",
     alignItems: "center",
-    borderRadius: "0 0 10px 10px",
+    borderRadius: "0 0 10px 10px"
   }
 }));
 
 const UserProfileInfo = props => {
   const classes = useStyles();
-const { userInfo, setUserInfo } = React.useState({})
-  
+  const { userInfo, setUserInfo } = React.useState({});
 
   const getUserInfo = async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -46,27 +44,33 @@ const { userInfo, setUserInfo } = React.useState({})
     let result = await loadDB();
     let db = result.firestore();
 
-    db.collection('user').doc(userID).get().then(docSnapshot => {
-        if(docSnapshot.exists){
-            console.log("user data:   ",docSnapshot.data())
-            setUserInfo(docSnapshot.data())
+    db.collection("user")
+      .doc(userID)
+      .get()
+      .then(docSnapshot => {
+        if (docSnapshot.exists) {
+          console.log("user data:   ", docSnapshot.data());
+          setUserInfo(docSnapshot.data());
         }
-    }).catch(err=>{
-        console.log(err)
-    })
-}
-console.log("user info array: ", userInfo)
-React.useEffect(()=>{
+      })
+      .catch(err => {
+        console.log(err);
+      });
+  };
+  console.log("user info array: ", userInfo);
+  React.useEffect(() => {
     getUserInfo();
-})
+  });
   return (
     <div className={classes.sidebar}>
-      <img className={classes.profileImage} src={props.state.userImage} alt="Profile Image" />
-      <h1>{props.state.displayName}</h1> 
-      
+      <img
+        className={classes.profileImage}
+        src={props.state.userImage}
+        alt="Profile Image"
+      />
+      <h1>{props.state.displayName}</h1>
     </div>
   );
 };
 
 export default UserProfileInfo;
-
