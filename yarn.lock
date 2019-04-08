@@ -1102,10 +1102,7 @@
 "@firebase/auth@0.9.7":
   version "0.9.7"
   resolved "https://registry.yarnpkg.com/@firebase/auth/-/auth-0.9.7.tgz#8c7d0908810bf8771db653a4dde401cc2d26befc"
-  integrity sha512-6DyylOzHfnf1NZUOJQNs2S1HpRN8fH/O/oIByO1qTC7SqOa9Tnz4d8Lmc/Z/UfjMENCcaZbxs4p58GGYiEkjZQ==
   dependencies:
-    "@firebase/auth-types" "0.5.5"
-
 "@firebase/database-types@0.3.8":
   version "0.3.8"
   resolved "https://registry.yarnpkg.com/@firebase/database-types/-/database-types-0.3.8.tgz#d35b2fb09fa0ba1f542c16b6fa5a7471f85fc2a4"
@@ -1117,7 +1114,10 @@
   integrity sha512-YHXdBOoBowRiDUPSXuc9/6zo8JOm0gEt9/NC7s9Izf3TW71N6XBLXlL13j5zEO2UEhRSDIufvWty7TiMLPir4g==
   dependencies:
     "@firebase/database-types" "0.3.8"
+    "@firebase/logger" "0.1.10"
     "@firebase/util" "0.2.11"
+    faye-websocket "0.11.1"
+    tslib "1.9.3"
 
 "@firebase/firestore-types@1.1.1":
   version "1.1.1"
