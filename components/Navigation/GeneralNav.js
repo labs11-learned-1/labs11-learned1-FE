@@ -32,7 +32,11 @@ const styles = theme => ({
     nav : {
         width:"100%",
         borderBottom: '1px solid rgba(0,0,0,.1)',
-        boxShadow: '0 5px 6px -6px black'
+        boxShadow: '0 5px 6px -6px black',
+        height: '70px',
+        position: 'fixed',
+        background: "#A2E9FF",
+        zIndex: "40"
     },
     toolbar : {
         width:"60%",
@@ -41,9 +45,10 @@ const styles = theme => ({
         justifyContent: "space-between",
         padding: '0',
         
+        
     },
     logo : {
-        height: '100px',
+        height: '55px',
         width: '150px',
         backgroundImage: `url(https://i.ibb.co/vHLKCnG/low-res.png)`, 
         backgroundSize: 'cover',

@@ -1,12 +1,14 @@
 import React from "react";
 
 //REACT
-import axios from "axios";
 import PropTypes from "prop-types";
+
+//COMPONENTS
 import Navigation from "../Navigation/Nav";
 import MyListCard from "./card";
-import UserList from "../LearningLab/userList";
-import UserPosts from '../LearningLab/userPosts';
+
+import UserProfileInfo from ".././LearningLab/userProfileInfo";
+import TabComponent from ".././LearningLab/tabComponent";
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -16,37 +18,24 @@ import { loadDB } from "../../firebaseConfig/firebase";
 //MaterialUI
 import { withStyles } from "@material-ui/core/styles";
 import { Store } from "../store";
-import Dialog from "@material-ui/core/Dialog";
-import DialogActions from "@material-ui/core/DialogActions";
-import DialogContent from "@material-ui/core/DialogContent";
-import DialogTitle from "@material-ui/core/DialogTitle";
-import TextField from "@material-ui/core/TextField";
-import Button from "@material-ui/core/Button";
-
 
 //===========TABS IMPORTS===========
 // import SwipeableViews from 'react-swipeable-views';
-import AppBar from "@material-ui/core/AppBar";
-import Tabs from "@material-ui/core/Tabs";
-import Tab from "@material-ui/core/Tab";
-import Typography from "@material-ui/core/Typography";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import Checkbox from "@material-ui/core/Checkbox";
+
 import GeneralNav from "../Navigation/GeneralNav";
-
-//==========TABS FUNCTIONS=========
-function TabContainer(props) {
-  return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
-      {props.children}
-    </Typography>
-  );
-}
-
-//=========END TABS FUNCTIONS=========
 
 //learning labs styles
 const styles = {
+  userInfo: {
+    float: "left"
+  },
+
+  tabby: {
+    float: "right",
+    zIndex: "0",
+    width: "600px"
+  },
+
   reviewDialog: {
     width: "548px",
     margin: "0",
@@ -78,9 +67,13 @@ const styles = {
     flexWrap: "wrap",
     justifyContent: "center"
   },
-  
+
   learningLabWrap: {
-    marginTop: "40px"
+    paddingTop: "70px",
+    background: "#E6ECF0",
+    display: "flex",
+    height: "100%",
+    justifyContent: "space-around"
   },
   currentCourses: {
     minHeight: "100px"
@@ -90,27 +83,15 @@ const styles = {
 //begin Component
 const LearningLab = props => {
   //========TABS HOOKS=========
-  const {classes} = props;
-  const [value, setValue] = React.useState(0);
+  const { classes } = props;
+
   //=========END TABS HOOKS=======
   const { state, dispatch } = React.useContext(Store);
   const [link, setLink] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
   const [open, setOpen] = React.useState(false);
- 
-  //=====TABS HANDLING STATE======
-  const handleChange = (event, newValue) => {
-    setValue(newValue);
 
-  };
-
-
-
-
-
-  //=====END TABS HANDLING STATE=====
-
-/* #region udemy-handling */
+  /* #region udemy-handling */
   const getUdemyByUserId = async () => {
     let arr = [];
     let result = await loadDB();
@@ -134,43 +115,32 @@ const LearningLab = props => {
   React.useEffect(() => {
     getUdemyByUserId();
   }, []);
+  //handlechange
+
+  //   <div className={classes.myList}>
+  //          This is where user courses will show up
+  //         {UdemyList.map(course => {
+  //           return <MyListCard content={course} />;
+  //         })}
 
   return (
-    <div className={classes.learningLabWrap}>
+    <div>
       <GeneralNav />
-     
-        <div className={classes.myList}>
-          {/* This is where user courses will show up */}
-          {UdemyList.map(course => {
-            return <MyListCard content={course} />;
-          })}
+      <div className={classes.learningLabWrap}>
+        <div className={classes.userInfo}>
+          <UserProfileInfo state={state} />
         </div>
-      
-      <AppBar position="static">
-        <Tabs value={value} onChange={handleChange}>
-          <Tab label="My List" />
-          <Tab label="Posts" />
-          <Tab label="Item Three" />
-        </Tabs>
-      </AppBar>
-      {value === 0 && 
-        <TabContainer>
-          <UserList state={state}/>
-        </TabContainer>
-      }
-      {value === 1 && <TabContainer>
-          <UserPosts state={state}/>
-      </TabContainer>}
-      {value === 2 && <TabContainer>Item Three</TabContainer>}
+
+        <div className={classes.tabby}>
+          <TabComponent state={state} />
+        </div>
+      </div>
     </div>
   );
 };
 
 LearningLab.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
-TabContainer.propTypes = {
-  children: PropTypes.node.isRequired,
-  dir: PropTypes.string.isRequired
-}
+
 export default withStyles(styles)(LearningLab);
