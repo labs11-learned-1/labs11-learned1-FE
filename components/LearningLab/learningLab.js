@@ -46,8 +46,6 @@ function TabContainer(props) {
   );
 }
 
-  
-
 //learning labs styles
 const styles = {
   reviewDialog: {
@@ -61,7 +59,8 @@ const styles = {
   },
   tabby: {
     float: "right",
-    zIndex: "0"
+    zIndex: "0",
+    width: "600px"
   },
 
   toolbar: {
@@ -137,6 +136,12 @@ const LearningLab = props => {
   }, []);
   //handlechange
 
+  //   <div className={classes.myList}>
+  //          This is where user courses will show up
+  //         {UdemyList.map(course => {
+  //           return <MyListCard content={course} />;
+  //         })}
+
   return (
       <div>
       <GeneralNav/>
@@ -144,15 +149,10 @@ const LearningLab = props => {
         <div className={classes.userInfo}>
           <UserProfileInfo state={state} />
         </div>
-        {/* <div className={classes.myList}>
-        {/* This is where user courses will show up */}
-        {/* {UdemyList.map(course => {
-          return <MyListCard content={course} />;
-        })} */}
+
         <div className={classes.tabby}>
           <TabComponent state={state} />
         </div>
-        {/* </div> */}
       </div>
     </div>
   );

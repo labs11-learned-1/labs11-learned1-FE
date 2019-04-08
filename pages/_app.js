@@ -1,28 +1,26 @@
-import App, { Container } from 'next/app'
+import App, { Container } from "next/app";
 /* First we import our provider */
-import React from "react";
-import StoreProvider from '../components/store'
+import StoreProvider from "../components/store";
+import React from 'react';
 
 class MyApp extends App {
-    render () {
-        const { Component, pageProps } = this.props
-        
-        return (
-            
-            <Container>
-                <style jsx global>{`
-      body {
-        margin: 0
-      }
+  render() {
+    const { Component, pageProps } = this.props;
 
-    `}</style>
-                {/* Then we wrap our components with the provider */}
-                <StoreProvider>
-                <Component {...pageProps} />
-                </StoreProvider>
-            </Container>
-        )
-    }
+    return (
+      <Container>
+        <style jsx global>{`
+          body {
+            margin: 0
+          }
+        `}</style>
+        {/* Then we wrap our components with the provider */}
+        <StoreProvider>
+          <Component {...pageProps} />
+        </StoreProvider>
+      </Container>
+    );
+  }
 }
 
-export default MyApp
+export default MyApp;
