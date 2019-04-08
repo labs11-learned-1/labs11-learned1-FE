@@ -1,4 +1,4 @@
-import firebase from '@firebase/app'
+import * as firebase from 'firebase'
 import React from 'react';
 import '@firebase/firestore'
 
