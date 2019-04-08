@@ -33,6 +33,8 @@ const styles = {
         }
     }
 }
+
+//CHECK
 const Home = (props) => {
     const {classes} = props
     const [topBlogs, setTopBlogs] = useState([]);
