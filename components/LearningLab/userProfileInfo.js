@@ -21,10 +21,10 @@ const useStyles = makeStyles(theme => ({
   sidebar: {
     width: "200px",
     height: "400px",
-    /* margin: 10px 30px 0 30px; */
+    
     display: "flex",
     bottom: "0",
-    /* position: fixed; */
+    
     flexFlow: "column wrap",
     background: "white",
     alignItems: "center",
