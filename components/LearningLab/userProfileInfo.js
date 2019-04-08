@@ -20,10 +20,8 @@ const useStyles = makeStyles(theme => ({
   sidebar: {
     width: "200px",
     height: "400px",
-
     display: "flex",
     bottom: "0",
-
     flexFlow: "column wrap",
     background: "white",
     alignItems: "center",
@@ -63,12 +61,12 @@ const UserProfileInfo = props => {
   });
   return (
     <div className={classes.sidebar}>
-      {/* <img
+      <img
         className={classes.profileImage}
         src={props.state.userImage}
         alt="Profile Image"
       />
-      <h1>{props.state.displayName}</h1> */}
+      <h1>{props.state.displayName}</h1>
     </div>
   );
 };

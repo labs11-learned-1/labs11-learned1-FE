@@ -36,7 +36,7 @@ const styles = {
     background: "black",
     alignItems: "flex-end",
     borderRadius: "10px",
-    border: "1px solid #778178"
+   
   },
 
   tabby: {
