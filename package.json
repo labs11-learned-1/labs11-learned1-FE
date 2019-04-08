@@ -10,7 +10,11 @@
     "axios": "^0.18.0",
     "dotenv": "^7.0.0",
     "firebase": "^5.9.3",
+<<<<<<< HEAD
     "firebase-tools": "^6.5.3",
+=======
+    "firebase-tools": "^6.5.2",
+>>>>>>> d2e52441063a8997df8be42e3b41bc4d026e8357
     "next": "^8.0.3",
     "react": "^16.8.4",
     "react-dom": "^16.8.4",

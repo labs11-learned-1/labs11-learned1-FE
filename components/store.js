@@ -34,6 +34,8 @@ function reducer(state, action) {
                 userImage: action.payload.photoURL,
                 firstTimeUser: true,
             }
+        case 'RETRACT_FIRST_TIME_LOGIN':
+            return{...state, firstTimeUser: false}
         default:
             return state;
     }

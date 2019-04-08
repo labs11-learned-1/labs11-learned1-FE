@@ -6,12 +6,13 @@ import Link from 'next/link';
 
 const styles = {
     root:{
-        height:"500px",
+        height:"600px",
         background:"url('https://www.photohdx.com/images/2016/10/abstract-grey-blue-blurred-shapes-background.jpg')",
         backgroundSize:"cover",
         display:"flex",
         justifyContent:"center",
         alignItems:"center",
+        width:"100%",
     },
     textArea:{
         color:"white",

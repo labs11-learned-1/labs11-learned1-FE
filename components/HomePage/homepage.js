@@ -7,8 +7,11 @@ import BlogCard from './blogcard';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
 import axios from "axios";
-import CourseCard from './coursecard'
+import CourseCard from './coursecard';
+import CircularProgress from '@material-ui/core/CircularProgress';
+import LinearProgress from '@material-ui/core/LinearProgress';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
+import LoadingCard from './LoadingCard'
 const styles = {
     recommendedCoursesWrapper:{
         width:"100%",
@@ -17,7 +20,7 @@ const styles = {
         width:"100%",
     },
     recoCourses:{
-        width:"50%",
+        width:"80%",
         boxSizing:"border-box",
         margin:"0 auto",
         display:"flex",
@@ -26,7 +29,7 @@ const styles = {
     },
     '@media(max-width: 600px)': {
         recoCourses:{
-            width:"80%",
+            width:"100%",
         }
     }
 }
@@ -37,6 +40,7 @@ const Home = (props) => {
     const [topBlogs, setTopBlogs] = useState([]);
     const [recCourses, setRecCourses] = useState([]);
     const [userTags, setUserTags] = useState([]);
+    const [loadingCourses, setLoadingCourses] = useState(false);
 
     const fetchTopBlogs = () => {
         // We will make a request to our server for the 
@@ -60,6 +64,7 @@ const Home = (props) => {
             //On failure:
             //present user with an error div with a button
             //allowing them to reload on click
+        setLoadingCourses(true)
         let result = await loadDB();
         let db = result.firestore();
         let docRef = db.collection("user").doc(state.userID)
@@ -78,6 +83,7 @@ const Home = (props) => {
                     console.log("response.data", res.data);
                     setRecCourses(res.data)
                     console.log("rec courses", recCourses)
+                    setLoadingCourses(false)
                 })
                 .catch(err => {
                     console.log(err);
@@ -92,29 +98,48 @@ const Home = (props) => {
     }
 
     const { state, dispatch } = React.useContext(Store);
+    React.useEffect(()=>{
+        fetchRecommended()
+    }, [])
     return (
-      <div className={classes.homepageWrapper}>
-        <div className={classes.popularBlogsWrapper}>
-            <h2>Popular Blog Posts</h2>
-            {topBlogs.map(blog => {
-                return (
-                    <BlogCard  content={blog}/>
-                )
-            })}
-        </div>
-        <div className={classes.recommendedCoursesWrapper}>
-            <h2>Recommended Courses For You</h2>
-            <div className={classes.recoCourses}>
-                {recCourses.map(course => {
+        <div className={classes.homepageWrapper}>
+            {loadingCourses ? <LinearProgress /> : <></>}
+            <div className={classes.popularBlogsWrapper}>
+                <h2>Popular Blog Posts</h2>
+                {/* <LoadingCard /> */}
+                {topBlogs.map(blog => {
                     return (
-                        
-                        <CourseCard key={course.url} info={course}/>
+                        <BlogCard  content={blog}/>
                     )
                 })}
             </div>
+            <div className={classes.recommendedCoursesWrapper}>
+                <h2>Recommended Courses For You</h2>
+                {loadingCourses 
+                    ? 
+                    <div className={classes.recoCourses}>
+                        <React.Fragment>
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                            <LoadingCard />
+                        </React.Fragment>
+                    </div>
+                    : 
+                    <div className={classes.recoCourses}>
+                    {recCourses.map(course => {
+                        return <CourseCard userId={state.userID} key={course.url} info={course}/>
+                    })}
+                </div>
+                }
+            </div>
         </div>
-        <button onClick={()=>{fetchRecommended()}}>Get Recs</button>
-      </div>
     );
 }
 
