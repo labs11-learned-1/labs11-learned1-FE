@@ -27,8 +27,7 @@ import GeneralNav from "../Navigation/GeneralNav";
 //learning labs styles
 const styles = {
   userInfo: {
- float: "left"
-   
+    float: "left"
   },
 
   tabby: {
