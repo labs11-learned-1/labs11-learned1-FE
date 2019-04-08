@@ -54,7 +54,7 @@ class Postcard extends React.Component {
             {/* Replace image url if present to one inputted in text */}
             <CardMedia
             className={classes.media}
-            image="https://28oa9i1t08037ue3m1l0i861-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/Logo-sometimes-Pixelmator-577.png"
+            image={this.props.content.photoUrl ? this.props.content.photoUrl : "https://28oa9i1t08037ue3m1l0i861-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/Logo-sometimes-Pixelmator-577.png"}
             title="Website Image"
             />
             <CardContent>
