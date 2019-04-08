@@ -17,16 +17,8 @@ import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/
 
-// // import algoliasearch from 'algoliasearch';
-// import { InstantSearch } from 'react-instantsearch-dom';
-// import { SearchBox } from 'react-instantsearch-dom';
-
-
-// //Gets info from algolia
-// const searchClient = algoliasearch(
-//     process.env.ALGOLIA_APP_ID,
-//     process.env.ALGOLI_ADMIN_KEY
-//   );
+import algoliasearch from 'algoliasearch';
+import { InstantSearch, SearchBox, Hits, connectStateResults, Index } from 'react-instantsearch-dom';
 
 const styles = theme => ({
     nav : {
@@ -34,7 +26,6 @@ const styles = theme => ({
         borderBottom: '1px solid rgba(0,0,0,.1)',
         boxShadow: '0 5px 6px -6px black',
         height: '70px',
-        position: 'fixed',
         background: "#A2E9FF",
         zIndex: "40"
     },
@@ -98,20 +89,44 @@ const styles = theme => ({
             margin:'0 6% 0 6%',
             width:"88%",
         }
+    },
+    hit: {
+
     }
 });
+
+const Hit = ({hit}) =>
+  <div className="hit">
+    <div className="hitImage">
+        <Link href={{ pathname: '/postPage', query: { content: hit.objectID}}}>
+            <p>{hit.title}</p>
+        </Link>
+        <Link href={{ pathname: '/users-lab', query: { user: hit.userID }}}>
+            <p>{hit.username}</p>
+        </Link>
+    </div>
+  </div>
+
+const Content = connectStateResults(
+    ({ searchState }) =>
+      searchState && searchState.query
+        ? <div>
+            <Hits hitComponent = {Hit}/>
+          </div>
+        : <div></div>
+  );
 
 
 
 const GeneralNav = (props) => {
 
-    // const searchClient = algoliasearch(
-    //     `${process.env.ALGOLIA_APP_ID}`,
-    //     `${process.env.ALGOLI_ADMIN_KEY}`
-    //   );
-
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
+    
+    const searchClient = algoliasearch(
+        `${process.env.ALGOLIA_APP_ID}`,
+         `${process.env.ALGOLIA_SEARCH_KEY}`
+    );
 
     const handleSignOut = async () => {
         let myVal = await loadDB();
@@ -139,18 +154,29 @@ const GeneralNav = (props) => {
         setOpen(!open);
       };
 
-    const { classes } = props;
+      
+
+      const { classes } = props;
       
     return(
         <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
-                {/* <InstantSearch
-                    indexName="instant_search" */}
-                    {/* // searchClient={searchClient} */}
+                <InstantSearch
+                    indexName="posts"
+                    searchClient={searchClient}
+                >
+                    <SearchBox translations={{placeholder: 'Search..'}}/>
+                    <Index indexName="posts">
+                        <Content/>
+                    </Index>
+
+                    <Index indexName="users">
+                        <Content/>
+                    </Index>
+                </InstantSearch>
                 
-                    {/* <SearchBox />
-                </InstantSearch> */}
+                
                 
                 <div className={classes.navBarLinksLarge}>
                     <Link href="/Homepage">

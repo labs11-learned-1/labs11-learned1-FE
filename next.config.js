@@ -1,17 +1,4 @@
-const webpack = require('webpack');
-require('dotenv').config();
-
 module.exports = {
-  webpack: config => {
-    const env = Object.keys(process.env).reduce((acc, curr) => {
-      acc[`process.env.${curr}`] = JSON.stringify(process.env[curr]);
-      return acc;
-    }, {});
-
-    config.plugins.push(new webpack.DefinePlugin(env));
-
-    return config;
-  },
   
   target: 'serverless',
   env: {
@@ -22,7 +9,11 @@ module.exports = {
     "STORAGE_BUCKET": process.env.STORAGE_BUCKET,
     "MESSAGING_SENDER_ID": process.env.MESSAGING_SENDER_ID,
     "UDEMY_CLIENT_ID": process.env.UDEMY_CLIENT_ID,
-    "UDEMY_CLIENT_SECRET": process.env.UDEMY_CLIENT_SECRET
+    "UDEMY_CLIENT_SECRET": process.env.UDEMY_CLIENT_SECRET,
+    "ALGOLIA_ADMIN_KEY": process.env.ALGOLIA_ADMIN_KEY,
+    "ALGOLIA_SEARCH_KEY": process.env.ALGOLIA_SEARCH_KEY,
+    "ALGOLIA_APP_ID": process.env.ALGOLIA_APP_ID,
+    "ALGOLIA_INDEX_NAME": process.env.ALGOLIA_INDEX_NAME
   }
   
 };
