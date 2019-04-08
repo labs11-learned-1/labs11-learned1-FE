@@ -2,7 +2,7 @@ import algoliasearch from 'algoliasearch'
 
 const ALGOLIA_SEARCH_KEY = process.env.ALGOLIA_SEARCH_KEY
 const ALGOLIA_INDEX_NAME = process.env.ALGOLIA_INDEX_NAME;
-const client = algoliasearch(process.env.ALGOLIA_APP_ID,  process.env.ALGOLIA_ADMIN_KEY);
+const client = algoliasearch(`${process.env.ALGOLIA_APP_ID}`,  `${process.env.ALGOLIA_ADMIN_KEY}`);
 
 export const onPostsCreated = (post) => {
     // Get the note document
