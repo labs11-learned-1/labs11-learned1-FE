@@ -4,38 +4,50 @@ import React from "react";
 import PropTypes from "prop-types";
 
 //COMPONENTS
-import Navigation from "../Navigation/Nav";
-import MyListCard from "./card";
 
+import MyListCard from "./card";
+import GeneralNav from '../Navigation/GeneralNav'
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
 import TabComponent from ".././LearningLab/tabComponent";
 
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-// import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
+
+
 
 //MaterialUI
 import { withStyles } from "@material-ui/core/styles";
 import { Store } from "../store";
+import Dialog from "@material-ui/core/Dialog";
+import DialogActions from "@material-ui/core/DialogActions";
+import DialogContent from "@material-ui/core/DialogContent";
+import DialogTitle from "@material-ui/core/DialogTitle";
+import TextField from "@material-ui/core/TextField";
+import Button from "@material-ui/core/Button";
+
 
 //===========TABS IMPORTS===========
 // import SwipeableViews from 'react-swipeable-views';
+import AppBar from "@material-ui/core/AppBar";
+import Tabs from "@material-ui/core/Tabs";
+import Tab from "@material-ui/core/Tab";
+import Typography from "@material-ui/core/Typography";
+import FormControlLabel from "@material-ui/core/FormControlLabel";
+import Checkbox from "@material-ui/core/Checkbox";
 
-import GeneralNav from "../Navigation/GeneralNav";
+
+//==========TABS FUNCTIONS=========
+function TabContainer(props) {
+  return (
+    <Typography component="div" style={{ padding: 8 * 3 }}>
+      {props.children}
+    </Typography>
+  );
+}
 
 //learning labs styles
 const styles = {
-  userInfo: {
-    float: "left"
-  },
-
-  tabby: {
-    float: "right",
-    zIndex: "0",
-    width: "600px"
-  },
-
   reviewDialog: {
     width: "548px",
     margin: "0",
@@ -44,6 +56,11 @@ const styles = {
       color: "white",
       fontWeight: "bold"
     }
+  },
+  tabby: {
+    float: "right",
+    zIndex: "0",
+    width: "600px"
   },
 
   toolbar: {
@@ -67,7 +84,6 @@ const styles = {
     flexWrap: "wrap",
     justifyContent: "center"
   },
-
   learningLabWrap: {
     paddingTop: "70px",
     background: "#E6ECF0",
@@ -91,7 +107,10 @@ const LearningLab = props => {
   const [UdemyList, setUdemyList] = React.useState([]);
   const [open, setOpen] = React.useState(false);
 
-  /* #region udemy-handling */
+
+  //=====END TABS HANDLING STATE=====
+
+/* #region udemy-handling */
   const getUdemyByUserId = async () => {
     let arr = [];
     let result = await loadDB();
@@ -124,8 +143,8 @@ const LearningLab = props => {
   //         })}
 
   return (
-    <div>
-      <GeneralNav />
+      <div>
+      <GeneralNav/>
       <div className={classes.learningLabWrap}>
         <div className={classes.userInfo}>
           <UserProfileInfo state={state} />
@@ -140,7 +159,7 @@ const LearningLab = props => {
 };
 
 LearningLab.propTypes = {
-  classes: PropTypes.object.isRequired
+  classes: PropTypes.object.isRequired,
 };
 
 export default withStyles(styles)(LearningLab);

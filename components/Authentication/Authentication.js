@@ -8,6 +8,9 @@ import { loadDB } from "../../firebaseConfig/firebase.js";
 import * as firebase from "firebase";
 import { useAuthState } from 'react-firebase-hooks/auth';
 
+//Algolia imports
+import {onUserCreated} from '../Algolia/algoliaHandler';
+
 //style imports
 import { withStyles } from "@material-ui/core/styles";
 
@@ -84,10 +87,6 @@ const styles = {
 };
 const Authentication =  props => {
   const { state, dispatch } = React.useContext(Store);
-  
-
-  
-
 
   //sign in via google auth.
   const handleGoogle = async () => {
@@ -140,6 +139,7 @@ const Authentication =  props => {
               following: [result.user.uid],
               myList: []
             });
+            onUserCreated({userID: result.user.uid, username: result.additionalUserInfo.profile.name})
             return dispatch({
               type: "FIRST_TIME_LOGIN",
               payload: result.user
@@ -153,12 +153,7 @@ const Authentication =  props => {
 
     }).catch(err => {
       console.log("auth persistence has experienced an error.", err)
-    })
-
-
-
-
-     
+    })  
   };
 
   const { classes } = props;
@@ -203,6 +198,7 @@ const Authentication =  props => {
     </div>
   );
 };
+
 Authentication.propTypes = {
   classes: PropTypes.object.isRequired
 };

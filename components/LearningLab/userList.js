@@ -15,6 +15,9 @@ import { loadDB } from "../../firebaseConfig/firebase";
 import { deleteContent } from "../firebaseAPI/firebaseCollection";
 import { addPost } from "../firebaseAPI/firebasePosts";
 
+//ALGOLIA
+import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
+
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
@@ -196,7 +199,7 @@ const UserList = (props) => {
               userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
             })
             .then(() => {
-              // onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
+              onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
               console.log("Added content to the db");
               db.collection("user")
                 .doc(props.state.userID)
@@ -250,7 +253,8 @@ const UserList = (props) => {
     setSubmitType("share");
     setOpenReview(true);
   };
-
+  
+  //Share Handler
   const sharePost = () => {
     const { title, content, postId } = reviewContent;
     addPost(title, content, postId, props.state.userID);
