@@ -46,7 +46,7 @@ class Postcard extends React.Component {
             {/* Replace with users google image */}
             <Link href={{ pathname: '/users-lab', query: { user: this.props.content.userId }}}>
                 <CardHeader 
-                    avatar={<Avatar aria-label="Recipe" className={classes.avatar}>D</Avatar>}
+                    avatar={<Avatar aria-label="Recipe" className={classes.avatar}>{this.props.content.displayName ? this.props.content.displayName.charAt(0) : "F"}</Avatar>}
                     title={this.props.content.title}
                     subheader="March 26, 2019"
                 />
