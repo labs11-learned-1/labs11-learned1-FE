@@ -10,7 +10,7 @@ export const addPost = async (title, content, url, userId, photoUrl, displayName
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
-
+  console.log("this is the user image", userImage)
   // add post to "posts" collection, creating a unique document/postId with .add()
   db.collection("posts")
     .add({
@@ -21,7 +21,7 @@ export const addPost = async (title, content, url, userId, photoUrl, displayName
       userId: userId,//<--- make dynamic with state.userId
       photoUrl : photoUrl,
       displayName : displayName,
-      userImage : userImage,
+      userImage : userImage
     })
     .then(ref =>
       db

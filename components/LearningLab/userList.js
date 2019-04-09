@@ -110,7 +110,7 @@ const UserList = (props) => {
     postId: "",
     reviewID: "",
     photoUrl : "",
-    displayName : ""
+    displayName : "",
   });
   const [submitType, setSubmitType] = React.useState("");
   const [list, setList] = React.useState([]);
@@ -258,8 +258,8 @@ const UserList = (props) => {
   
   //Share Handler
   const sharePost = () => {
-    const { title, content, postId, photoUrl, displayName, userImage } = reviewContent;
-    addPost(title, content, postId, props.state.userID, photoUrl, displayName, userImage);
+    const { title, content, postId, photoUrl, displayName} = reviewContent;
+    addPost(title, content, postId, props.state.userID, photoUrl, displayName, props.state.userImage);
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });
   };

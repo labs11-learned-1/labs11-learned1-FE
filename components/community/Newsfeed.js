@@ -54,7 +54,7 @@ const Newsfeed = props => {
     const {state, dispatch} = React.useContext(Store);
     const { classes } = props;
 
-    const addPost = async (title, content, url, userId, photoUrl, displayName) => {
+    const addPost = async (title, content, url, userId, photoUrl, displayName, userImage) => {
       //load db instance
       let result = await loadDB();
       let db = result.firestore();
@@ -69,6 +69,7 @@ const Newsfeed = props => {
           userId: userId,//<--- make dynamic with state.userId
           photoUrl : photoUrl,
           displayName : displayName,
+          userImage : userImage
         })
         .then(ref =>
           db
@@ -150,7 +151,7 @@ const Newsfeed = props => {
         alert("fill out all fields")
       }else{
         console.log("adding post")
-        addPost(postInfo.title, postInfo.content, "", state.userID, "", state.displayName)
+        addPost(postInfo.title, postInfo.content, "", state.userID, "", state.displayName, state.userImage)
         getPostsOfFollowing()
         setPostInfo({title : "", content: ""})
       }
