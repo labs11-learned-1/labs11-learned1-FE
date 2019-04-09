@@ -1,58 +1,66 @@
-import React from 'react'
+import React from "react";
 
 export const Store = React.createContext(); //creates context object
 
 const initialState = {
-    message : "Are you working?",
-    loggedIn: false,
-    userId: "",
-    openForm:false,
-    userID: "",
-    displayName: "",
-    userImage: "",
-    firstTimeUser: false,
-    followingCount: 1,
-    followerCount: 1,
-    bio: ""
-}
+  message: "Are you working?",
+  loggedIn: false,
+  userId: "",
+  openForm: false,
+  userID: "",
+  displayName: "",
+  userImage: "",
+  firstTimeUser: false,
+  followingCount: 1,
+  followerCount: 1,
+  bio: ""
+};
 
 function reducer(state, action) {
-    switch(action.type){
-        case 'CHANGE_MESSAGE':
-            return { ...state, message:"CHANGED!!!" }
-        case 'LOGGED_IN':
-            return { ...state, loggedIn: true, userID: action.payload.uid, displayName: action.payload.displayName, userImage: action.payload.photoURL}
-        case 'LOGGED_OUT':
-            return {...state, loggedIn: false, }
-        case 'FORM_TOGGLE':
-            return {...state, openForm: action.payload}
-        case 'SET_POSTS':
-            return {...state, newsfeed: action.payload}
-        case 'FIRST_TIME_LOGIN':
-            return{
-                ...state, 
-                loggedIn: true, 
-                userID: action.payload.uid, 
-                displayName: action.payload.displayName, 
-                userImage: action.payload.photoURL,
-                firstTimeUser: true,
-            }
-        case 'RETRACT_FIRST_TIME_LOGIN':
-            return {...state, firstTimeUser: false}
-        case 'UPDATE_DISPLAY_NAME':
-            return {...state, displayName: action.payload}
-        case 'UPDATE_BIO':
-            return{...state, bio: action.payload}
-        default:
-            return state;
-    }
+  switch (action.type) {
+    case "CHANGE_MESSAGE":
+      return { ...state, message: "CHANGED!!!" };
+    case "LOGGED_IN":
+      return {
+        ...state,
+        loggedIn: true,
+        userID: action.payload.user.uid,
+        displayName: action.payload.user.displayName,
+        userImage: action.payload.user.photoURL,
+        token: action.payload.credential.accessToken
+      };
+    case "LOGGED_OUT":
+      return { ...state, loggedIn: false };
+    case "FORM_TOGGLE":
+      return { ...state, openForm: action.payload };
+    case "SET_POSTS":
+      return { ...state, newsfeed: action.payload };
+    case "FIRST_TIME_LOGIN":
+      return {
+        ...state,
+        loggedIn: true,
+        userID: action.payload.user.uid,
+        displayName: action.payload.user.displayName,
+        userImage: action.payload.user.photoURL,
+        firstTimeUser: true,
+        token: action.payload.credential.accessToken
+      };
+    case "RETRACT_FIRST_TIME_LOGIN":
+      return { ...state, firstTimeUser: false };
+    case "UPDATE_DISPLAY_NAME":
+      return { ...state, displayName: action.payload };
+    case "UPDATE_BIO":
+      return { ...state, bio: action.payload };
+    default:
+      return state;
+  }
 }
 
 export default function StoreProvider(props) {
-    const [state, dispatch] = React.useReducer(reducer, initialState);
-    const value = { state, dispatch }; //creates an object from above statement that holds both the values
-    return <Store.Provider value={value}>{props.children}</Store.Provider>
-} 
-// This will be the react component that will encapsulate the other components in the application. 
+  const [state, dispatch] = React.useReducer(reducer, initialState);
+  const value = { state, dispatch }; //creates an object from above statement that holds both the values
+  return <Store.Provider value={value}>{props.children}</Store.Provider>;
+}
+// This will be the react component that will encapsulate the other components in the application.
 // It has an argument of props because that’s how we’ll get access to the other child components.
 // This will be given to index.js to hold state

@@ -102,7 +102,7 @@ const Authentication =  props => {
     .signInWithPopup(provider)
     .then(async result => {
       console.log("result", result)
-      const token = result.credential.accessToken;
+        const token = result.credential.accessToken;
       
       // console.log("result", result); <--- uncomment to see what else you can grab, such as accessToken
       // creates a doc with value of userID in user collectionthen puts fields in
@@ -123,7 +123,7 @@ const Authentication =  props => {
             
             return dispatch({
               type: "LOGGED_IN",
-              payload: result.user
+              payload: result
             });
           }else{
             //create a new user
@@ -144,7 +144,7 @@ const Authentication =  props => {
             onUserCreated({userID: result.user.uid, username: result.additionalUserInfo.profile.name})
             return dispatch({
               type: "FIRST_TIME_LOGIN",
-              payload: result.user
+              payload: result
             })
           }
         })

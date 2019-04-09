@@ -83,6 +83,7 @@ const MyListCard = (props) => {
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
                                         props.prepareReviewList(props.content.userList, props.content.link);
+                                        console.log(props.content)
                                     }}>Reviews</MenuItem>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
