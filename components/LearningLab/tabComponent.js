@@ -2,6 +2,7 @@ import React from "react";
 import MyListCard from "./card";
 import UserList from "../LearningLab/userList";
 import UserPosts from "../LearningLab/userPosts";
+import UserReviews from '../LearningLab/userReviews';
 
 import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
@@ -91,7 +92,11 @@ const TabComponent = props => {
           <UserPosts state={props.state} />
         </TabContainer>
       )}
-      {value === 2 && <TabContainer>Item Three</TabContainer>}
+      {value === 2 && (
+      <TabContainer>
+          <UserReviews state={props.state} />
+      </TabContainer>
+      )}
     </div>
   );
 };
