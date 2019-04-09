@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 
 
 //// =============ADD POST==============
-export const addPost = async (title, content, url, userId) => {
+export const addPost = async (title, content, url, userId, photoUrl, displayName) => {
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
@@ -18,7 +18,9 @@ export const addPost = async (title, content, url, userId) => {
       content: content, //<--- provide input form
       createdAt: Date.now(),
       url: url,
-      userId: userId//<--- make dynamic with state.userId
+      userId: userId,//<--- make dynamic with state.userId
+      photoUrl : photoUrl,
+      displayName : displayName,
     })
     .then(ref =>
       db
