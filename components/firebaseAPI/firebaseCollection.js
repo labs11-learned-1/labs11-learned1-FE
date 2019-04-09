@@ -14,7 +14,7 @@ export const addContent = async () => {
     let db = result.firestore();
 
  //if (/*state.url = db.collection("content-collection").doc("existingDoc.id")*/ ) {
-    db.collection('content-collection').doc('vTUfZsm5bzKIynDHOqkJ').update({userList: firebase.firestore.FieldValue.arrayUnion(state.userId)})
+    //db.collection('content-collection').doc('vTUfZsm5bzKIynDHOqkJ').update({userList: firebase.firestore.FieldValue.arrayUnion(state.userId)})
 // db.collection('user').doc(/*state.userId*/).update({ myList: firebase.firestore.FieldValue.arrayUnion(/*existingDoc.id*/)}) 
 
  //} else {
@@ -22,7 +22,8 @@ export const addContent = async () => {
         title: "test Title1",
         author: "test author 1",
         photoUrl: "test photo 1",
-        userList: [state.userId]
+        userList: [state.userId],
+
     })
     .then((ref) => {
         console.log("Added content to the db", ref.id)
@@ -136,3 +137,43 @@ export const deleteContent = async (link, userID, list, setList, getContentByUse
       })
       .catch(err => console.log("Cant remove content"));
   };
+
+  //This function is called when a user modifies their review rating. It will update the
+  //numRatings/avgRatings with the new data depending on that action. The contentID passed
+  //in refers to the content link, rating is the one set in myReview from posts, type is set
+  // on call in posts, and the oldRating is taken from the baseReview in posts.
+  export const addRating = async(contentID, rating, type, oldRating) => {
+    let result = await loadDB();
+    let db = result.firestore();
+    let newLink = contentID.split("//").pop().replace(/[/]/g, "-");
+    const contentRef = db.collection("content-collection").doc(newLink);
+    var ratingRef = contentRef.collection('ratings').doc();
+    // In a transaction, add the new rating and update the aggregate totals
+    return db.runTransaction(transaction => {
+        return transaction.get(contentRef).then(res => {
+            if (!res.exists) {
+                throw "Document does not exist!";
+            }
+            let oldRatingTotal = res.data().avgRating * res.data().numRatings;
+            let newNumRatings = res.data().numRatings;
+            let newAvgRating;
+            console.log(res.data())
+            if(type === 'post') { //FOR WHEN A USER CREATES THEIR REVIEW
+                newNumRatings += 1;
+                newAvgRating = (oldRatingTotal + rating) / newNumRatings;
+            } else if (type === 'edit') { //FOR WHEN A USER EDITS THEIR REVIEW
+                newAvgRating = (oldRatingTotal - oldRating + rating) / newNumRatings;
+            } else { //FOR WHEN A USER DELETES THEIR REVIEW
+                newNumRatings -= 1;
+                newAvgRating = (oldRatingTotal - oldRating) / newNumRatings;
+            }
+
+            // Commit to Firestore
+            transaction.update(contentRef, {
+                numRatings: newNumRatings,
+                avgRating: newAvgRating
+            });
+        })
+    });
+    
+}
