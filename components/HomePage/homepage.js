@@ -10,6 +10,7 @@ import axios from "axios";
 import CourseCard from './coursecard';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import CategoryModal from '../CategoryModal/CategoryModal'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 import LoadingCard from './LoadingCard'
 const styles = {
@@ -115,6 +116,8 @@ const Home = (props) => {
             </div>
             <div className={classes.recommendedCoursesWrapper}>
                 <h2>Recommended Courses For You</h2>
+                <button onClick={() => props.setOpen(true)}>Change Your Interests</button>
+                <CategoryModal open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories}/>
                 {loadingCourses 
                     ? 
                     <div className={classes.recoCourses}>

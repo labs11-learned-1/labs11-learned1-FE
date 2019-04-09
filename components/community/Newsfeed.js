@@ -208,7 +208,7 @@ const Newsfeed = props => {
                         {console.log("Newsfeed: ", newsfeed)}
                         {   
                             newsfeed.map((post, index) =>                             
-                                    <Postcard content={post} key={index}/> 
+                                    <Postcard content={post} state={state} key={index}/> 
                         )}
                     </div>
                 </div>

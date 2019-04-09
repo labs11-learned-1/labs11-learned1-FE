@@ -9,7 +9,7 @@ import { loadDB } from "../../firebaseConfig/firebase";
 import { makeStyles } from "@material-ui/styles";
 
 //COMPONENTS
-
+import PostCard from '../community/Postcard'
 
 
 
@@ -56,8 +56,12 @@ console.log("userID",props.state.userID)
         querySnapshot.forEach(doc => {
           const result = doc.data();
           console.log("reviews result", result)
-          setReviewList([...reviewList, reviewList.push(result)])
+          let newArr = []
+          newArr.push(result)
+          
+          setReviewList(reviewList => reviewList.concat(newArr))
           console.log("REVIEW LIST AFTER SETLIST", reviewList)
+          console.log(newArr)
         })
         
       }).catch(err => {
@@ -70,18 +74,21 @@ console.log("userID",props.state.userID)
     React.useEffect(() => {
       getReviewsByUserId();
     }, []);
+
+   
     // <Link href={{ pathname: '/postPage', query: { content: review.contentCollectionId}}}></Link>
+     /* <a href={`/postPage?content=${review.contentCollectionId}`} className={classes.link}>{review.title}</a>
+            
+            <p>{review.comment}</p> */
+
 return(
     <div className={classes.reviewList}>
       {console.log("reviewlist in jsx", reviewList)}
         {reviewList.map((review, index) => 
-        <div className={classes.reviewContainer} key={index}>
+        <PostCard content={review} state={props.state} key={index}/>
             
-          <a href={`/postPage?content=${review.contentCollectionId}`} className={classes.link}>{review.title}</a>
+         
             
-            <p>{review.comment}</p>
-
-            </div>
         )
     }
 
