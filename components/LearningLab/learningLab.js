@@ -48,6 +48,18 @@ function TabContainer(props) {
 
 //learning labs styles
 const styles = {
+  userInfo: {
+    width: "200px",
+    height: "460px",
+    margin: "10px 30px 0 30px",
+    display: "flex",
+    position: "relative",
+    left: "0",
+    background: "black",
+    alignItems: "flex-end",
+    borderRadius: "10px",
+    border: "1px solid #778178"
+  },
   reviewDialog: {
     width: "548px",
     margin: "0",

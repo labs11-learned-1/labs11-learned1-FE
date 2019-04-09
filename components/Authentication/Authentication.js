@@ -116,7 +116,7 @@ const Authentication =  props => {
             db.collection("user")
             .doc(result.user.uid)
             .update({
-              name: result.additionalUserInfo.profile.name,
+              displayName: result.additionalUserInfo.profile.name,
               id: result.user.uid,
               email: result.user.email,
               image: result.user.photoURL
@@ -131,13 +131,16 @@ const Authentication =  props => {
             db.collection("user")
             .doc(result.user.uid)
             .set({
-              name: result.additionalUserInfo.profile.name,
+              displayName: result.additionalUserInfo.profile.name,
               id: result.user.uid,
               email: result.user.email,
               image: result.user.photoURL,
               followers: [result.user.uid],
               following: [result.user.uid],
-              myList: []
+              myList: [],
+              followingCount: 1,
+              followerCount: 1,
+              bio: ""
             });
             onUserCreated({userID: result.user.uid, username: result.additionalUserInfo.profile.name})
             return dispatch({

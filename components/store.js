@@ -10,7 +10,10 @@ const initialState = {
     userID: "",
     displayName: "",
     userImage: "",
-    firstTimeUser: false
+    firstTimeUser: false,
+    followingCount: 1,
+    followerCount: 1,
+    bio: ""
 }
 
 function reducer(state, action) {
@@ -35,7 +38,11 @@ function reducer(state, action) {
                 firstTimeUser: true,
             }
         case 'RETRACT_FIRST_TIME_LOGIN':
-            return{...state, firstTimeUser: false}
+            return {...state, firstTimeUser: false}
+        case 'UPDATE_DISPLAY_NAME':
+            return {...state, displayName: action.payload}
+        case 'UPDATE_BIO':
+            return{...state, bio: action.payload}
         default:
             return state;
     }
