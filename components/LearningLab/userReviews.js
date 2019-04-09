@@ -85,7 +85,7 @@ return(
     <div className={classes.reviewList}>
       {console.log("reviewlist in jsx", reviewList)}
         {reviewList.map((review, index) => 
-        <PostCard content={review} key={index}/>
+        <PostCard content={review} state={props.state} key={index}/>
             
          
             

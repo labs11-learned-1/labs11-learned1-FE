@@ -68,7 +68,7 @@ const UserPosts = props => {
      
       {console.log("leeeeength", postList.length)}
       {postList.length ? (
-        postList.map((post, index) => <Postcard content={post} key={index} />)
+        postList.map((post, index) => <Postcard content={post} state={props.state} key={index} />)
       ) : (
         <p>"nothing"</p>
       )}
