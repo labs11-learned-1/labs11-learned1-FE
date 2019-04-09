@@ -68,9 +68,9 @@ class Postcard extends React.Component {
                 </Typography>
             </CardContent>
 
-            <CardActions className={classes.actions}>
+            {/* <CardActions className={classes.actions}>
                 {/* IDK if we will need or want this but I will leave in just in case */}
-                <IconButton aria-label="Like">
+                {/* <IconButton aria-label="Like">
                     <FavoriteIcon />
                 </IconButton>
                 <TextField
@@ -80,7 +80,7 @@ class Postcard extends React.Component {
                     margin="normal"
                     variant="filled"
                 />
-            </CardActions>
+            </CardActions> */}
         </Card>
         );
     }
