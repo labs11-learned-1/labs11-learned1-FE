@@ -55,7 +55,7 @@ const styles = {
     display: "flex",
     position: "relative",
     left: "0",
-    background: "black",
+    background: "#3f51b5",
     alignItems: "flex-end",
     borderRadius: "10px",
     border: "1px solid #778178"
@@ -72,7 +72,7 @@ const styles = {
   tabby: {
     float: "right",
     zIndex: "0",
-    width: "600px"
+    width: "600px",
   },
 
   toolbar: {
@@ -101,7 +101,7 @@ const styles = {
     background: "#E6ECF0",
     display: "flex",
     height: "100%",
-    justifyContent: "space-around"
+    justifyContent: "space-around",
   },
   currentCourses: {
     minHeight: "100px"

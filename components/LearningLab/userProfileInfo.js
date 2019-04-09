@@ -33,8 +33,9 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "0 0 10p 10px"
   },
   displayName: {
-    padding: " 20px 0 20px 0",
-    fontSize: "28px"
+    margin: "40px auto 0 auto",
+    fontSize: "28px",
+    maxWidth: "80%"
   }
 }));
 
@@ -74,7 +75,7 @@ const UserProfileInfo = props => {
         src={props.state.userImage}
         alt="Profile Image"
       />
-      <h1 className={classes.displayName}>{userInfo.displayName}</h1>
+      <div className={classes.displayName}>{userInfo.displayName}</div>
       {userInfo.bio ? (<h5>{userInfo.bio}</h5>) : null}
       <h3>Following: {userInfo.followingCount}</h3>
       <h3>Followers: {userInfo.followerCount}</h3>
