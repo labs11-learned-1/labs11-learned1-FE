@@ -46,7 +46,7 @@ const UserPosts = props => {
           const result = doc.data();
           console.log("ESULT", result);
           arr.push(result);
-          setPostList([...postList, result]);
+          setPostList([...postList, postList.push(result)]);
         });
       })
       .catch(function(error) {

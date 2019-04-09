@@ -201,7 +201,7 @@ const UserList = (props) => {
               userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
             })
             .then(() => {
-              onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
+              onPostsCreated({objectID: newLink, title: metaData.title, content: metaData.description, author: metaData.author})
               console.log("Added content to the db");
               db.collection("user")
                 .doc(props.state.userID)

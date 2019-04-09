@@ -18,16 +18,23 @@ const useStyles = makeStyles(theme => ({
     borderRadius: "50%",
     width: "80%",
     height: "auto",
+    width: "45%",
+    height: "auto",
+    position: "absolute",
+    top: "0px"
   },
   sidebar: {
     display: "flex",
     width: "200px",
-    height: "500px",
-
+    height: "400px",
     flexFlow: "column wrap",
     background: "white",
     alignItems: "center",
-    borderRadius: "10px"
+    borderRadius: "0 0 10p 10px"
+  },
+  displayName: {
+    padding: " 20px 0 20px 0",
+    fontSize: "28px"
   }
 }));
 
@@ -61,14 +68,18 @@ const UserProfileInfo = props => {
   React.useEffect(() => {
     getUserInfo();
   });
+  console.log("props.state", props.state)
   return (
     <div className={classes.sidebar}>
-      {/* <img
+      <img
         className={classes.profileImage}
         src={props.state.userImage}
         alt="Profile Image"
       />
-      <h1>{props.state.displayName}</h1> */}
+      <h1 className={classes.displayName}>{props.state.displayName}</h1>
+      {props.state.bio ? (<h3>{props.state.bio}</h3>) : null}
+      <h3>Following: {props.state.followingCount}</h3>
+      <h3>Followers: {props.state.followerCount}</h3>
     </div>
   );
 };
