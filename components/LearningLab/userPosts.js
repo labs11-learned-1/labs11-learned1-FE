@@ -37,7 +37,6 @@ const UserPosts = props => {
     // setUser(userID);
     let result = await loadDB();
     let db = result.firestore();
-    let arr = [];
     db.collection("posts")
       .where("userId", "==", userID)
       .get()
@@ -45,8 +44,9 @@ const UserPosts = props => {
         querySnapshot.forEach(function(doc) {
           const result = doc.data();
           console.log("ESULT", result);
-          arr.push(result);
-          setPostList([...postList, postList.push(result)]);
+          let newArr = []
+          newArr.push(result)
+          setPostList(postList => postList.concat(newArr));
         });
       })
       .catch(function(error) {
