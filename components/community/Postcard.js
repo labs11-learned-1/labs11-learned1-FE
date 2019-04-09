@@ -26,7 +26,9 @@ const styles = theme => ({
         height:"200px",
     },
     avatar: {
-        backgroundColor: red[500],
+        height: "75px",
+        borderRadius: "50%",
+        cursor:"pointer"
     },
     textField:{
         width:"50%"
@@ -45,8 +47,9 @@ class Postcard extends React.Component {
         <Card className={classes.card}>
             {/* Replace with users google image */}
             <Link href={{ pathname: '/users-lab', query: { user: this.props.content.userId }}}>
+                {/* <img className={classes.avatar} src={this.props.content.userImage} /> */}
                 <CardHeader 
-                    avatar={<Avatar aria-label="Recipe" className={classes.avatar}>{this.props.content.displayName ? this.props.content.displayName.charAt(0) : "F"}</Avatar>}
+                    avatar={<img className={classes.avatar} src={this.props.content.userImage} />}
                     title={this.props.content.title}
                     subheader={this.props.content.displayName}
                 />
