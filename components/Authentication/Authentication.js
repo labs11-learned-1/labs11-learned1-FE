@@ -116,7 +116,6 @@ const Authentication =  props => {
             db.collection("user")
             .doc(result.user.uid)
             .update({
-              displayName: result.additionalUserInfo.profile.name,
               id: result.user.uid,
               email: result.user.email,
               image: result.user.photoURL
