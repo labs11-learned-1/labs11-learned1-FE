@@ -10,6 +10,11 @@ class MyApp extends App {
     return (
       <Container>
         <style jsx global>{`
+          html {
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif
+          }
+        `}</style>
+        <style jsx global>{`
           body {
             margin: 0
           }

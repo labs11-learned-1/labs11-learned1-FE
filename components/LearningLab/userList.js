@@ -98,7 +98,7 @@ console.log(Store)
 const UserList = (props) => {
   const  classes  = useStyles();
   //===========HOOKS===========
-  //const { state, dispatch } = React.useContext(Store);
+  // const { state, dispatch } = React.useContext(Store);
   
   const [open, setOpen] = React.useState(false);
   const [openReview, setOpenReview] = React.useState(false);
@@ -108,7 +108,9 @@ const UserList = (props) => {
     title: "",
     content: "",
     postId: "",
-    reviewID: ""
+    reviewID: "",
+    photoUrl : "",
+    displayName : ""
   });
   const [submitType, setSubmitType] = React.useState("");
   const [list, setList] = React.useState([]);
@@ -199,7 +201,7 @@ const UserList = (props) => {
               userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
             })
             .then(() => {
-              onPostsCreated({objectID: link, title: metaData.title, content: metaData.description, author: metaData.author})
+              onPostsCreated({objectID: newLink, title: metaData.title, content: metaData.description, author: metaData.author})
               console.log("Added content to the db");
               db.collection("user")
                 .doc(props.state.userID)
@@ -248,16 +250,16 @@ const UserList = (props) => {
     setOpenReviewList(true);
   };
 
-  const prepareSharePost = postLink => {
-    setReviewContent({ ...reviewContent, postId: postLink });
+  const prepareSharePost = (postLink, photoUrl, displayName) => {
+    setReviewContent({ ...reviewContent, postId: postLink, photoUrl : photoUrl, displayName: displayName });
     setSubmitType("share");
     setOpenReview(true);
   };
   
   //Share Handler
   const sharePost = () => {
-    const { title, content, postId } = reviewContent;
-    addPost(title, content, postId, props.state.userID);
+    const { title, content, postId, photoUrl, displayName } = reviewContent;
+    addPost(title, content, postId, props.state.userID, photoUrl, displayName);
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });
   };

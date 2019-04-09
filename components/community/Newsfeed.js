@@ -5,6 +5,7 @@ import * as firebase from "firebase";
 import { Store } from '../store';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
+import TextField from '@material-ui/core/TextField';
 
 const styles = {
   communityContent: {
@@ -83,6 +84,18 @@ const Newsfeed = props => {
     return (
       <div className={classes.communityContent}>
                     <h1>News Feed</h1>
+                    <TextField
+                          id="filled-full-width"
+                          label="Post Title"
+                          style={{ margin: 8 }}
+                          placeholder="Post title here"
+                          multiline
+                          margin="normal"
+                          variant="filled"
+                          InputLabelProps={{
+                            shrink: true,
+                          }}
+                    />
                     <div className={classes.cards}>
                         {console.log("Newsfeed: ", newsfeed)}
                         {   
