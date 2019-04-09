@@ -93,7 +93,7 @@ const Authentication =  props => {
     let myVal = await loadDB();
     let db = myVal.firestore();
    
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.NONE).then(()=> {
+    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(()=> {
       var provider = new firebase.auth.GoogleAuthProvider();
       
     
