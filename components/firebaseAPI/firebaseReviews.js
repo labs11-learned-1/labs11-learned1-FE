@@ -158,6 +158,7 @@ export const deleteReview = async (reviewID) => {
 export const getReviewList = async (link) => {
   let result = await loadDB();
   let db = result.firestore();
+  console.log(db)
   let newLink = link
     .split("//")
     .pop()
