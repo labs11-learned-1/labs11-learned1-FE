@@ -60,6 +60,7 @@ const UsersLab = props => {
   const [list, setList] = React.useState([]);
   const [publicUser, setUser] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
+  const [isFollowing, updateFollowing] = React.useState(true)
 
   const getContentByUserId = async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -155,7 +156,8 @@ const UsersLab = props => {
                   followers: firebase.firestore.FieldValue.arrayRemove(
                     state.userID
                   )
-                }) //then remove "450" from 454's followers
+                })
+                updateFollowing(false) //then remove "450" from 454's followers
                 .then(() => {
                   console.log("success unfollowing");
                 })
@@ -182,7 +184,8 @@ const UsersLab = props => {
                   followers: firebase.firestore.FieldValue.arrayUnion(
                     state.userID
                   )
-                }) // .doc("theirId")  .arrayUnion("myUserId")
+                })
+                updateFollowing(true) // .doc("theirId")  .arrayUnion("myUserId")
                 .then(() => {
                   console.log("Success update follows");
                 })
@@ -216,7 +219,7 @@ const UsersLab = props => {
       <GeneralNav/>
       <div className={classes.learningLabWrap}>
         <div className={classes.myHeader}>
-          <button onClick={followOthers}>Follow</button>
+          {isFollowing ? <button onClick={followOthers}>UnFollow</button> : <button onClick={followOthers}>Follow</button>}
           <h1>Their Current Courses</h1>
         </div>
         <div className={classes.userList}>
