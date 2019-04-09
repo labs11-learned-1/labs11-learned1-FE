@@ -40,14 +40,13 @@ const useStyles = makeStyles(theme => ({
 
 const UserProfileInfo = props => {
   const classes = useStyles();
-  const { userInfo, setUserInfo } = React.useState({});
+  const [userInfo, setUserInfo] = React.useState({});
 
   const getUserInfo = async () => {
     const urlParams = new URLSearchParams(window.location.search);
     const userID = urlParams.get("user")
       ? urlParams.get("user")
       : props.state.userID;
-    console.log("userID: ", userID);
     let result = await loadDB();
     let db = result.firestore();
 
@@ -56,19 +55,18 @@ const UserProfileInfo = props => {
       .get()
       .then(docSnapshot => {
         if (docSnapshot.exists) {
-          console.log("user data:   ", docSnapshot.data());
-          setUserInfo(docSnapshot.data());
+          setUserInfo(docSnapshot.data())
         }
       })
       .catch(err => {
         console.log(err);
       });
   };
-  console.log("user info array: ", userInfo);
+  console.log("userinfo: ", userInfo)
   React.useEffect(() => {
     getUserInfo();
-  });
-  console.log("props.state", props.state)
+  }, []);
+
   return (
     <div className={classes.sidebar}>
       <img
@@ -76,10 +74,10 @@ const UserProfileInfo = props => {
         src={props.state.userImage}
         alt="Profile Image"
       />
-      <h1 className={classes.displayName}>{props.state.displayName}</h1>
-      {props.state.bio ? (<h3>{props.state.bio}</h3>) : null}
-      <h3>Following: {props.state.followingCount}</h3>
-      <h3>Followers: {props.state.followerCount}</h3>
+      <h1 className={classes.displayName}>{userInfo.displayName}</h1>
+      {userInfo.bio ? (<h5>{userInfo.bio}</h5>) : null}
+      <h3>Following: {userInfo.followingCount}</h3>
+      <h3>Followers: {userInfo.followerCount}</h3>
     </div>
   );
 };
