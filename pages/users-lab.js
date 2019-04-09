@@ -60,6 +60,7 @@ const UsersLab = props => {
   const [list, setList] = React.useState([]);
   const [publicUser, setUser] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
+  const [isFollowing, updateFollowing] = React.useState(true)
 
   const getContentByUserId = async () => {
     const urlParams = new URLSearchParams(window.location.search);
@@ -216,6 +217,7 @@ const UsersLab = props => {
       <GeneralNav/>
       <div className={classes.learningLabWrap}>
         <div className={classes.myHeader}>
+          {isFollowing ? <button onClick={followOthers}>UnFollow</button> : <button onClick={followOthers}>Follow</button>}
           <button onClick={followOthers}>Follow</button>
           <h1>Their Current Courses</h1>
         </div>
