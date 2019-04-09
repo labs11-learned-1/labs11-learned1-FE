@@ -90,31 +90,12 @@ const styles = theme => ({
             width:"88%",
         }
     },
-    hit: {
-
+    hitList: {
+        margin: '0'
     }
 });
 
-const Hit = ({hit}) =>
-  <div className="hit">
-    <div className="hitImage">
-        <Link href={{ pathname: '/postPage', query: { content: hit.objectID}}}>
-            <p>{hit.title}</p>
-        </Link>
-        <Link href={{ pathname: '/users-lab', query: { user: hit.userID }}}>
-            <p>{hit.username}</p>
-        </Link>
-    </div>
-  </div>
 
-const Content = connectStateResults(
-    ({ searchState }) =>
-      searchState && searchState.query
-        ? <div>
-            <Hits hitComponent = {Hit}/>
-          </div>
-        : <div></div>
-  );
 
 
 
@@ -123,10 +104,31 @@ const GeneralNav = (props) => {
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
     
+    console.log(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEARCH_KEY)
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
-         `${process.env.ALGOLIA_SEARCH_KEY}`
+        `${process.env.ALGOLIA_SEARCH_KEY}`
     );
+
+    const Hit = ({hit}) =>
+        <div className="hit">
+            <div className="hitImage">
+                <Link href={{ pathname: '/postPage', query: { content: hit.objectID}}}>
+                    <p>{hit.title}</p>
+                </Link>
+                <Link href={{ pathname: '/users-lab', query: { user: hit.userID }}}>
+                    <p>{hit.username}</p>
+                </Link>
+            </div>
+        </div>
+
+    const Content = connectStateResults(({ searchState }) =>
+      searchState && searchState.query
+        ? <div>
+            <Hits hitComponent = {Hit} />
+          </div>
+        : <div></div>
+  );
 
     const handleSignOut = async () => {
         let myVal = await loadDB();
@@ -161,7 +163,7 @@ const GeneralNav = (props) => {
     return(
         <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo} /*onClick={() => Router.push('/Homepage')} *//>
+                <div className={classes.logo}/>
                 <InstantSearch
                     indexName="posts"
                     searchClient={searchClient}
@@ -280,5 +282,6 @@ const GeneralNav = (props) => {
 GeneralNav.propTypes = {
     classes: PropTypes.object.isRequired,
 };
+
 
 export default withStyles(styles)(GeneralNav);
