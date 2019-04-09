@@ -6,6 +6,7 @@ import { Store } from '../store';
 import PropTypes from 'prop-types';
 import { withStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
+import Fab from '@material-ui/core/Fab';
 
 const styles = {
   communityContent: {
@@ -21,6 +22,18 @@ const styles = {
     flexDirection:"column",
     alignItems:"center",
   },
+  addPostContainer : {
+    display: "flex",
+    flexDirection: "column",
+    width:"25%",
+    justifyContent:"space-between",
+    background:"linear-gradient(to right, rgba(237,237,237,1) 0%, rgba(255,255,255,1) 21%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 76%, rgba(237,237,237,1) 100%)",
+    height:"20%",
+    borderRadius:"10px",
+  },
+  postBtn:{
+    width:"25%"
+  },
   '@media(max-width: 600px)':{
     cards:{
       width:"90%",
@@ -35,8 +48,43 @@ const styles = {
 const Newsfeed = props => {
 
     const [newsfeed, setNewsFeed] = React.useState([]);
+    const [postInfo, setPostInfo] = React.useState({title : "", content: ""});
+    const [contentLength, setContentLength] = React.useState(0);
+    const [titleLength, setTitleLength] = React.useState(0);
     const {state, dispatch} = React.useContext(Store);
     const { classes } = props;
+
+    const addPost = async (title, content, url, userId, photoUrl, displayName, userImage) => {
+      //load db instance
+      let result = await loadDB();
+      let db = result.firestore();
+    
+      // add post to "posts" collection, creating a unique document/postId with .add()
+      db.collection("posts")
+        .add({
+          title: title, // <--- provide input form
+          content: content, //<--- provide input form
+          createdAt: Date.now(),
+          url: url,
+          userId: userId,//<--- make dynamic with state.userId
+          photoUrl : photoUrl,
+          displayName : displayName,
+          userImage : userImage
+        })
+        .then(ref =>
+          db
+            .collection("user")
+            .doc(userId) // <--- make dynamic with state.userId
+            .update({ posts: firebase.firestore.FieldValue.arrayUnion(ref.id) }) // <--- updates the array of postId's within user, for future reference
+            .then(() => {
+              console.log("Success adding a post, this is the postId:  ", ref.id);
+            })
+            .catch(err => {
+              console.log("error adding post to user array", err); // inner addition to the array failed
+            })
+        )
+        .catch(err => console.log("error adding post", err)); // addition to "posts" collection failed
+    };
 
     const getPostsOfFollowing = async () => {
       let result = await loadDB();
@@ -77,6 +125,38 @@ const Newsfeed = props => {
       );
     };
 
+    const onChangeHandler = e => {
+      console.log("On change handler 82 : ", e.target.name, e.target.value)
+      setPostInfo({...postInfo, [e.target.name] : e.target.value})
+      console.log("POST INFO", postInfo)
+      if(e.target.name === "title"){
+        if(e.target.value.length == 33){
+          setPostInfo({...postInfo, title : postInfo.title.substring(0, 32)})
+        }else{
+          setTitleLength(postInfo.title.length + 1)
+        }
+      }else{
+        if(e.target.value.length == 256){
+          setPostInfo({...postInfo, content : postInfo.content.substring(0, 255)})
+        }else{
+          setContentLength(postInfo.content.length + 1)
+        }
+      }
+      
+    }
+
+    const submitPost = () => {
+      if(postInfo.title.length == 0 || postInfo.content.length == 0){
+        console.log("error not all fields filled out")
+        alert("fill out all fields")
+      }else{
+        console.log("adding post")
+        addPost(postInfo.title, postInfo.content, "", state.userID, "", state.displayName, state.userImage)
+        getPostsOfFollowing()
+        setPostInfo({title : "", content: ""})
+      }
+    }
+
     React.useEffect(() => {
       getPostsOfFollowing()
     }, []);
@@ -84,18 +164,46 @@ const Newsfeed = props => {
     return (
       <div className={classes.communityContent}>
                     <h1>News Feed</h1>
-                    <TextField
-                          id="filled-full-width"
-                          label="Post Title"
-                          style={{ margin: 8 }}
-                          placeholder="Post title here"
-                          multiline
-                          margin="normal"
-                          variant="filled"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                    />
+                    <div className={classes.addPostContainer}>
+                        <TextField
+                              name="title"
+                              id="filled-full-width"
+                              label={`${titleLength} / 32`}
+                              style={{ margin: 8 }}
+                              placeholder="Post title here"
+                              multiline
+                              margin="normal"
+                              variant="filled"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              value={postInfo.title}
+                              onChange={onChangeHandler}
+                        />
+                        <TextField
+                              name="content"
+                              id="filled-full-width"
+                              label={`${contentLength} / 255`}
+                              style={{ margin: 8 }}
+                              placeholder="Whats on your mind?"
+                              multiline
+                              margin="normal"
+                              variant="filled"
+                              InputLabelProps={{
+                                shrink: true,
+                              }}
+                              value={postInfo.content}
+                              onChange={onChangeHandler}
+                        />
+                        <Fab
+                        variant="extended"
+                        color="primary"
+                        onClick={() => submitPost()}
+                        className={classes.postBtn}
+                      >
+                        Post
+                      </Fab>
+                      </div>
                     <div className={classes.cards}>
                         {console.log("Newsfeed: ", newsfeed)}
                         {   
