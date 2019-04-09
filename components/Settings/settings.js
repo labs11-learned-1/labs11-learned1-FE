@@ -182,6 +182,7 @@ const Settings = (props) => {
     const [loadingMessage, setLoadingMessage] = useState("This could take up to 15 seconds")
     const [displayName, setDisplayName] = useState("")
     const [bio, setBio] = useState("")
+    const [userInfo, setUserInfo] = useState({})
     
     const { classes } = props;
     //FOR NOW HAS VERY UGLY LOOKING SETUP IN ORDER TO PRESENT THE IDEA OF FUNCTIONALITY
@@ -200,6 +201,23 @@ const Settings = (props) => {
             alert("Error signing out");
           });
     };
+
+    const getUserInfo = async () => {
+        let result = await loadDB();
+        let db = result.firestore();
+    
+        db.collection("user")
+          .doc(state.userID)
+          .get()
+          .then(docSnapshot => {
+            if (docSnapshot.exists) {
+              setUserInfo(docSnapshot.data())
+            }
+          })
+          .catch(err => {
+            console.log(err);
+          });
+      };
     
     const handleInputChanges = (ev) => {
         setNewDisplay(ev.target.value);
@@ -284,6 +302,10 @@ const Settings = (props) => {
         selectImage = null;
     }
 
+    React.useEffect(() => {
+        getUserInfo();
+      }, []);
+
     //This might be a popup, otherwise it would be beteer to hide the change button in displayname div.
     return (
       <div className={classes.settingsWrapper}>
@@ -336,7 +358,7 @@ const Settings = (props) => {
                         className={classes.textField}
                         value={displayName}
                         onChange={handleUpdateDisplayName}
-                        placeholder={state.displayName}
+                        placeholder={userInfo.displayName}
                         disabled= {(editDisplay) ? '': 'disabled'}
                         maxLength="50"
                         />
@@ -373,7 +395,7 @@ const Settings = (props) => {
                         id="bio"
                         className={classes.bio}
                         value={bio}
-                        placeholder={state.bio}
+                        placeholder={userInfo.bio}
                         onChange={handleUpdateBio}
                         maxLength="144"
                         disabled= {(bioDisplay) ? '': 'disabled'}
