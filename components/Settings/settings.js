@@ -11,6 +11,7 @@ import DialogActions from '@material-ui/core/DialogActions';
 import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import LinearProgress from '@material-ui/core/LinearProgress';
+import Input from '@material-ui/core/Input';
 //firebase import
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
@@ -172,12 +173,15 @@ const Settings = (props) => {
 
     const [imagePopup, setImagePopup] = useState(false);
     const [editDisplay, setEditDisplay] = useState(false);
+    const [bioDisplay, setBioDisplay] = useState(false)
     const [activeTab, setActiveTab] = useState('account')
     const [newDisplay, setNewDisplay] = useState(state.displayName);
     const [udemyModal, setUdemyModal] = useState(false);
     const [udemyLink, setUdemyLink] = useState("");
     const [loading, setLoadingStatus] = useState(false);
     const [loadingMessage, setLoadingMessage] = useState("This could take up to 15 seconds")
+    const [displayName, setDisplayName] = useState("")
+    const [bio, setBio] = useState("")
     
     const { classes } = props;
     //FOR NOW HAS VERY UGLY LOOKING SETUP IN ORDER TO PRESENT THE IDEA OF FUNCTIONALITY
@@ -201,10 +205,53 @@ const Settings = (props) => {
         setNewDisplay(ev.target.value);
     }
 
-    const uploadDisplayName = () => {
-        //Send a put to the server to update the display name of the user and update global state.
+    const updateDisplayName = async () => {
+        console.log(state.displayName)
+        let result = await loadDB();
+        let db = result.firestore();
+
+        db.collection('user').doc(state.userID).update({
+            displayName: displayName
+        }).then(()=>{
+            return dispatch({
+                type: "UPDATE_DISPLAY_NAME",
+                payload: displayName
+              })
+        }).catch(err => alert('Error updating display name'))    
     }
 
+    const handleBioUpdate = async () => {
+        //db call
+        let result = await loadDB();
+        let db = result.firestore();
+
+        db.collection('user').doc(state.userID).update({
+            bio: bio
+        }).then(()=>{
+            return dispatch({
+                type: "UPDATE_BIO",
+                payload: bio
+              })
+        }).catch(err => alert('Error updating bio'))
+    
+
+        
+    }
+
+    const handleUpdateDisplayName = (e) => {
+        console.log(e.target.value)
+        
+        setDisplayName(e.target.value)
+        
+    }
+
+    const handleUpdateBio= (e) => {
+        console.log(e.target.value)
+        
+        setBio(e.target.value)
+        
+    }
+    
     const handleLinkSumbit = e => {
         setLoadingStatus(true)
         console.log("clicked",udemyLink,state.userID)
@@ -260,7 +307,7 @@ const Settings = (props) => {
                     {selectImage}
                     <div className={classes.row}>
                         <div className={classes.usernameA}>
-                            <h3>Username</h3>
+                            <h3>Display Name</h3>
                             <div>
                                 <Button variant="contained" color="red" onClick={() => setEditDisplay(true)}className={classes.button} style={{display: editDisplay ? 'none' : 'block'}}>
                                     EDIT
@@ -268,29 +315,72 @@ const Settings = (props) => {
                                 <div className={classes.saveCancel}>
                                     <Button variant="contained" color="red" onClick={() => {
                                         setEditDisplay(false)
-                                        uploadDisplayName()
+                                        updateDisplayName()
                                         }}className={classes.saveButton} style={{display: editDisplay ? 'block' : 'none'}}>
                                         SAVE
                                     </Button>
                         
                                     <Button variant="contained" color="red" onClick={() => {
                                         setEditDisplay(false)
-                                        setNewDisplay(state.displayName)
+                                        setNewDisplay(displayName)
                                     }} className={classes.button} style={{display: editDisplay ? 'block' : 'none'}}>
                                         CANCEL
                                     </Button>
                                 </div>
                             </div>
                         </div>
-                        <TextField
+                        
+                        {/* UPDATE DISPLAY NAME */}
+                        <Input
                         id="filled-name"
                         className={classes.textField}
-                        value={newDisplay}
-                        onChange={handleInputChanges}
+                        value={displayName}
+                        onChange={handleUpdateDisplayName}
+                        placeholder={state.displayName}
                         disabled= {(editDisplay) ? '': 'disabled'}
+                        maxLength="50"
                         />
+                        
+                    </div>
+                    <div className={classes.row}>
+                        <div className={classes.usernameA}>
+                            <h3>Bio</h3>
+                            <div>
+                                <Button variant="contained" color="red" onClick={() => setBioDisplay(true)}className={classes.button} style={{display: bioDisplay ? 'none' : 'block'}}>
+                                    EDIT
+                                </Button>
+                                <div className={classes.saveCancel}>
+                                    <Button variant="contained" color="red" onClick={() => {
+                                        setBioDisplay(false)
+                                        handleBioUpdate()
+                                        }}className={classes.saveButton} style={{display: bioDisplay ? 'block' : 'none'}}>
+                                        SAVE
+                                    </Button>
+                        
+                                    <Button variant="contained" color="red" onClick={() => {
+                                        setBioDisplay(false)
+                                        
+                                        setBioDisplay(bio)
+                                    }} className={classes.button} style={{display: bioDisplay ? 'block' : 'none'}}>
+                                        CANCEL
+                                    </Button>
+                                </div>
+                            </div>
+                        </div>
+                       
+                        {/* UPDATE BIO */}
+                        <Input
+                        id="bio"
+                        className={classes.bio}
+                        value={bio}
+                        placeholder={state.bio}
+                        onChange={handleUpdateBio}
+                        maxLength="144"
+                        disabled= {(bioDisplay) ? '': 'disabled'}
+                        />            
                     </div>
                 </div>
+                
                 <div className={classes.connectionsTab} style={{display: activeTab === 'connections' ? 'block' : 'none'}}>
                     <div className={classes.title}>
                         <h1>Connections</h1> 
@@ -351,8 +441,8 @@ Settings.propTypes = {
 
 export default withStyles(styles)(Settings);
 
-{/* <TextField
+/* <TextField
 label="Public Profile Link"
 className={classes.udemyInput}
 variant="outlined"
-/> */}
+/> */

@@ -341,3 +341,5 @@ const PostInfoPage = props => {
 
 export default PostInfoPage;
 
+//I will continue styling the algolia search bar, along with styling and adding a little more functionality to the product page.
+//Yesterday was a lot of peer programming, making sure everyone had a working form of the master branch because for some reason it felt like we all had different information.
