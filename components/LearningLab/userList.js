@@ -197,6 +197,8 @@ const UserList = (props) => {
               photoUrl: metaData.img,
               description: metaData.description,
               link: link,
+              numRatings: 0,
+              avgRating: 0,
               // Pseudo code make a real array
               userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
             })

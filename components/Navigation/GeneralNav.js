@@ -104,9 +104,10 @@ const GeneralNav = (props) => {
     const [open, setOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
     
+    console.log(process.env.ALGOLIA_APP_ID, process.env.ALGOLIA_SEARCH_KEY)
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
-         `${process.env.ALGOLIA_SEARCH_KEY}`
+        `${process.env.ALGOLIA_SEARCH_KEY}`
     );
 
     const Hit = ({hit}) =>

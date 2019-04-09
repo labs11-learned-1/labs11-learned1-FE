@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
 import {Store} from '../store'
 import {getReviewList, editReview, addReview, deleteReview} from '../firebaseAPI/firebaseReviews'
-import {getContentById} from '../firebaseAPI/firebaseCollection'
+import {getContentById, addRating} from '../firebaseAPI/firebaseCollection'
 import { addPost } from "../firebaseAPI/firebasePosts";
 
 //MATERIAL UI
@@ -20,19 +20,30 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
+import Card from '@material-ui/core/Card';
+import CardMedia from '@material-ui/core/CardMedia';
 
 const useStyles = makeStyles(theme => ({
     postPageWrapper: {
-
+        margin: '0 auto',
+        maxWidth: '900px',
+        width: '100%',
     },
     myReview: {
 
-    }
+    },
+    card: {
+        width: '900px',
+    },
+    media: {
+        maxWidth: '900px',
+        paddingTop: '56.25%', // 16:9
+    },
 }));
 
 const PostInfoPage = props => {
     const classes = useStyles();
-    const {state, dispatch} = React.useContext(Store)
+    const {state, dispatch} = React.useContext(Store);
 
     //General Post Infomration States
     const [contentInfo, setContentInfo] = useState({});
@@ -41,7 +52,10 @@ const PostInfoPage = props => {
     const [reviewContent, setReviewContent] = useState([]);
     const [myReview, setMyReview] = useState({title: "", comment: "", rating: 5});
     const [editingMyReview, setEditingMyReview] = useState(true);
-    const [baseReview, setBaseReview] = useState(null)
+    const [baseReview, setBaseReview] = useState(null);
+
+    //State for styling purpose
+    const [imgWidth, setImgWidth] = useState(null);
 
     //Gets the review id from the url parameters and uses the id retrieved to get the article information
     //from our database. Then sets the contentInfo state equal to that information.
@@ -49,8 +63,9 @@ const PostInfoPage = props => {
         const urlParams = new URLSearchParams(window.location.search);
         const contentID = urlParams.get("content").split("//").pop().replace(/[/]/g, "-");
         const content = await getContentById(contentID).then((res) => {
-            setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link})
-        })  
+            getImageWidth(res.photoUrl)
+            setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link});
+        }); 
     }
 
     //Gets the review id from the url parameters and uses the id retrieved to get all reviews associated
@@ -58,11 +73,12 @@ const PostInfoPage = props => {
     //User review is stored seperately in myReview.
     const getReviewContent = async() => {
         const urlParams = new URLSearchParams(window.location.search);
-        const contentID = urlParams.get("content")
+        const contentID = urlParams.get("content");
         const content = await getReviewList(contentID).then((res) => {
             let reviewArr = [];
             res.map((review) => {
                 if(review.data().userId == state.userID) {
+                    setEditingMyReview(false);
                     setMyReview({...review.data(), reviewID: review.id});
                     setBaseReview({title: review.data().title, comment: review.data().comment, rating: review.data().rating});
                 } else {
@@ -77,6 +93,7 @@ const PostInfoPage = props => {
     const handleReviewDelete = async() => { 
         await deleteReview(myReview.reviewID).then(() => {
             setMyReview({title: "", comment: "", rating: 5});
+            addRating(contentInfo.link, null, "delete", baseReview.rating);
             setBaseReview(null);
         })
 
@@ -85,7 +102,15 @@ const PostInfoPage = props => {
     //Sets editingMyReview to false to switch from input to text. Calls function with api call to update our review.
     const handleEditSave = async() => {
         setEditingMyReview(false);
-        editReview(myReview.reviewID, myReview.comment, myReview.title, myReview.rating)
+        await editReview(myReview.reviewID, myReview.comment, myReview.title, myReview.rating).then(() => {
+            if(baseReview.rating != myReview.rating) {
+                addRating(contentInfo.link, myReview.rating, "edit", baseReview.rating);
+            }
+            setBaseReview({...myReview, title: myReview.title, comment: myReview.comment, rating: myReview.rating});
+            
+        })
+        
+        
     }
 
     // When an edit is cancelled we reset the values back to the original.
@@ -101,14 +126,23 @@ const PostInfoPage = props => {
         setEditingMyReview(false);
         await addReview(myReview.rating, myReview.comment, myReview.title, state.userID, contentInfo.link, state.userImage, state.displayName)
         .then((res) => {
-            console.log(res)
+            console.log(res);
             if(res) {
-                setMyReview({...myReview, reviewID: res})
+                setMyReview({...myReview, reviewID: res});
                 setBaseReview({title: myReview.title, comment: myReview.comment, rating: myReview.rating});
+                addRating(contentInfo.link ,myReview.rating, "post", null);
             } else {
-                alert("Error creating review")
+                alert("Error creating review");
             }
         })
+    }
+
+    const getImageWidth = (url) => {   
+        let img = new Image();
+        img.addEventListener("load", function(){
+            setImgWidth(this.naturalWidth);
+        });
+        img.src = url;
     }
 
     //Handler used to update myReview depending on content type.
@@ -285,12 +319,16 @@ const PostInfoPage = props => {
     }
 
     console.log(myReview)
+    console.log(imgWidth)
 
     return (
         <div className={classes.postPageWrapper}>
             <div>
                 <h1>{contentInfo.title}</h1>
-                <img src={contentInfo.image}/>
+                    <CardMedia
+                        className={classes.media}
+                        image={contentInfo.image ? contentInfo.image : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
+                        />
                 <p>Author: {contentInfo.author}</p>
                 <h3>Description</h3>
                 <p>{contentInfo.description}</p>
