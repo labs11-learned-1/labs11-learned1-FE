@@ -78,8 +78,8 @@ const TabComponent = props => {
       <AppBar position="static">
         <Tabs value={value} onChange={handleChange}>
           <Tab label="My List" />
-          <Tab label="Posts" />
-          <Tab label="Item Three" />
+          <Tab label={`${props.state.displayName}'s Posts`} />
+          <Tab label={`${props.state.displayName}'s Reviews`} />
         </Tabs>
       </AppBar>
       {value === 0 && (
