@@ -35,8 +35,40 @@ const styles = {
 const Newsfeed = props => {
 
     const [newsfeed, setNewsFeed] = React.useState([]);
+    const [postInfo, setPostInfo] = React.useState({title : "", content: ""})
     const {state, dispatch} = React.useContext(Store);
     const { classes } = props;
+
+    const addPost = async (title, content, url, userId, photoUrl, displayName) => {
+      //load db instance
+      let result = await loadDB();
+      let db = result.firestore();
+    
+      // add post to "posts" collection, creating a unique document/postId with .add()
+      db.collection("posts")
+        .add({
+          title: title, // <--- provide input form
+          content: content, //<--- provide input form
+          createdAt: Date.now(),
+          url: url,
+          userId: userId,//<--- make dynamic with state.userId
+          photoUrl : photoUrl,
+          displayName : displayName,
+        })
+        .then(ref =>
+          db
+            .collection("user")
+            .doc(userId) // <--- make dynamic with state.userId
+            .update({ posts: firebase.firestore.FieldValue.arrayUnion(ref.id) }) // <--- updates the array of postId's within user, for future reference
+            .then(() => {
+              console.log("Success adding a post, this is the postId:  ", ref.id);
+            })
+            .catch(err => {
+              console.log("error adding post to user array", err); // inner addition to the array failed
+            })
+        )
+        .catch(err => console.log("error adding post", err)); // addition to "posts" collection failed
+    };
 
     const getPostsOfFollowing = async () => {
       let result = await loadDB();
@@ -77,6 +109,24 @@ const Newsfeed = props => {
       );
     };
 
+    const onChangeHandler = e => {
+      console.log("On change handler 82 : ", e.target.name, e.target.value)
+      setPostInfo({...postInfo, [e.target.name] : e.target.value})
+      console.log("POST INFO", postInfo)
+    }
+
+    const submitPost = () => {
+      if(postInfo.title.length == 0 || postInfo.content.length == 0){
+        console.log("error not all fields filled out")
+        alert("fill out all fields")
+      }else{
+        console.log("adding post")
+        addPost(postInfo.title, postInfo.content, "", state.userID, "", state.displayName)
+        getPostsOfFollowing()
+        setPostInfo({title : "", content: ""})
+      }
+    }
+
     React.useEffect(() => {
       getPostsOfFollowing()
     }, []);
@@ -84,18 +134,38 @@ const Newsfeed = props => {
     return (
       <div className={classes.communityContent}>
                     <h1>News Feed</h1>
-                    <TextField
-                          id="filled-full-width"
-                          label="Post Title"
-                          style={{ margin: 8 }}
-                          placeholder="Post title here"
-                          multiline
-                          margin="normal"
-                          variant="filled"
-                          InputLabelProps={{
-                            shrink: true,
-                          }}
-                    />
+                      <TextField
+                            name="title"
+                            id="filled-full-width"
+                            label="Post Title"
+                            style={{ margin: 8 }}
+                            placeholder="Post title here"
+                            multiline
+                            margin="normal"
+                            variant="filled"
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={postInfo.title}
+                            onChange={onChangeHandler}
+                      />
+                      <TextField
+                            name="content"
+                            id="filled-full-width"
+                            label="Post Content"
+                            style={{ margin: 8 }}
+                            placeholder="Whats on your mind?"
+                            fullWidth
+                            multiline
+                            margin="normal"
+                            variant="filled"
+                            InputLabelProps={{
+                              shrink: true,
+                            }}
+                            value={postInfo.content}
+                            onChange={onChangeHandler}
+                      />
+                      <button onClick={() => submitPost()}>Post</button>
                     <div className={classes.cards}>
                         {console.log("Newsfeed: ", newsfeed)}
                         {   
