@@ -156,7 +156,8 @@ const UsersLab = props => {
                   followers: firebase.firestore.FieldValue.arrayRemove(
                     state.userID
                   )
-                }) //then remove "450" from 454's followers
+                })
+                updateFollowing(false) //then remove "450" from 454's followers
                 .then(() => {
                   console.log("success unfollowing");
                 })
@@ -183,7 +184,8 @@ const UsersLab = props => {
                   followers: firebase.firestore.FieldValue.arrayUnion(
                     state.userID
                   )
-                }) // .doc("theirId")  .arrayUnion("myUserId")
+                })
+                updateFollowing(true) // .doc("theirId")  .arrayUnion("myUserId")
                 .then(() => {
                   console.log("Success update follows");
                 })
@@ -218,7 +220,6 @@ const UsersLab = props => {
       <div className={classes.learningLabWrap}>
         <div className={classes.myHeader}>
           {isFollowing ? <button onClick={followOthers}>UnFollow</button> : <button onClick={followOthers}>Follow</button>}
-          <button onClick={followOthers}>Follow</button>
           <h1>Their Current Courses</h1>
         </div>
         <div className={classes.userList}>
