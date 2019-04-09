@@ -26,7 +26,9 @@ const styles = theme => ({
         height:"200px",
     },
     avatar: {
-        backgroundColor: red[500],
+        height: "75px",
+        borderRadius: "50%",
+        cursor:"pointer"
     },
     textField:{
         width:"50%"
@@ -45,18 +47,23 @@ class Postcard extends React.Component {
         <Card className={classes.card}>
             {/* Replace with users google image */}
             <Link href={{ pathname: '/users-lab', query: { user: this.props.content.userId }}}>
+                {/* <img className={classes.avatar} src={this.props.content.userImage} /> */}
                 <CardHeader 
-                    avatar={<Avatar aria-label="Recipe" className={classes.avatar}>{this.props.content.displayName ? this.props.content.displayName.charAt(0) : "F"}</Avatar>}
+                    avatar={<img className={classes.avatar} src={this.props.content.userImage} />}
                     title={this.props.content.title}
-                    subheader="March 26, 2019"
+                    subheader={this.props.content.displayName}
                 />
             </Link>
             {/* Replace image url if present to one inputted in text */}
-            <CardMedia
+            {this.props.content.photoUrl 
+            ?<CardMedia
             className={classes.media}
-            image={this.props.content.photoUrl ? this.props.content.photoUrl : "https://28oa9i1t08037ue3m1l0i861-wpengine.netdna-ssl.com/wp-content/uploads/2015/03/Logo-sometimes-Pixelmator-577.png"}
+            image={this.props.content.photoUrl}
             title="Website Image"
             />
+            :
+            null
+            }
             <CardContent>
                 {/* Replace with users own inputted text */}
                 <Typography component="p">
@@ -64,9 +71,9 @@ class Postcard extends React.Component {
                 </Typography>
             </CardContent>
 
-            <CardActions className={classes.actions}>
+            {/* <CardActions className={classes.actions}>
                 {/* IDK if we will need or want this but I will leave in just in case */}
-                <IconButton aria-label="Like">
+                {/* <IconButton aria-label="Like">
                     <FavoriteIcon />
                 </IconButton>
                 <TextField
@@ -76,7 +83,7 @@ class Postcard extends React.Component {
                     margin="normal"
                     variant="filled"
                 />
-            </CardActions>
+            </CardActions> */}
         </Card>
         );
     }
