@@ -27,12 +27,13 @@ const styles = {
     flexDirection: "column",
     width:"25%",
     justifyContent:"space-between",
-    background:"linear-gradient(to right, rgba(237,237,237,1) 0%, rgba(255,255,255,1) 21%, rgba(246,246,246,1) 47%, rgba(237,237,237,1) 76%, rgba(237,237,237,1) 100%)",
+    background:"#A2E9FF",
     height:"20%",
-    borderRadius:"10px",
+    borderRadius:"10px"
   },
   postBtn:{
-    width:"25%"
+    width:"25%",
+    margin: "5px auto 15px auto"
   },
   '@media(max-width: 600px)':{
     cards:{
@@ -169,7 +170,7 @@ const Newsfeed = props => {
                               name="title"
                               id="filled-full-width"
                               label={`${titleLength} / 32`}
-                              style={{ margin: 8 }}
+                              style={{ margin: 10, background: "white" }}
                               placeholder="Post title here"
                               multiline
                               margin="normal"
@@ -184,7 +185,7 @@ const Newsfeed = props => {
                               name="content"
                               id="filled-full-width"
                               label={`${contentLength} / 255`}
-                              style={{ margin: 8 }}
+                              style={{ margin: 10, background: "white" }}
                               placeholder="Whats on your mind?"
                               multiline
                               margin="normal"
@@ -205,7 +206,6 @@ const Newsfeed = props => {
                       </Fab>
                       </div>
                     <div className={classes.cards}>
-                        {console.log("Newsfeed: ", newsfeed)}
                         {   
                             newsfeed.map((post, index) =>                             
                                     <Postcard content={post} state={state} key={index}/> 

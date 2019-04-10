@@ -18,12 +18,15 @@ const styles = theme => ({
     card: {
         width: "100%",
         maxWidth: 800,
-        margin:"0",
+        marginTop:"15px",
         marginBottom:"20px",
+        border: "solid 1px #3f51b5",
+        boxShadow: "3px 6px #3f51b5",
     },
     media: {
-        width:"100%",
+        width:"60%",
         height:"200px",
+        margin: "auto"
     },
     avatar: {
         height: "75px",
@@ -36,6 +39,17 @@ const styles = theme => ({
     actions:{
         display:"flex",
         justifyContent:"center"
+    },
+    cardContent: {
+        margin: "auto 15px auto 15px",
+        textAlign: "center"
+    },
+    styleOne: {
+        width: "95%",
+    },
+    title: {
+        fontSize: "18px",
+        textAlign: "center"
     }
 });
 
@@ -52,7 +66,7 @@ class Postcard extends React.Component {
                 {/* <img className={classes.avatar} src={this.props.content.userImage} /> */}
                 <CardHeader 
                     avatar={<img className={classes.avatar} src={imgSrc} />}
-                    title={this.props.content.title}
+                    //title={this.props.content.title}
                     subheader={this.props.content.displayName}
                 />
             </Link>
@@ -66,9 +80,11 @@ class Postcard extends React.Component {
             :
             null
             }
+            <p className={classes.title}>{this.props.content.title}</p>
+            <hr className={classes.styleOne} />
             <CardContent>
                 {/* Replace with users own inputted text */}
-                <Typography component="p">
+                <Typography component="p" className={classes.cardContent}>
                     {this.props.content.content}
                 </Typography>
             </CardContent>
