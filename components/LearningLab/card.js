@@ -1,7 +1,5 @@
 import React from 'react';
 import PropTypes from 'prop-types';
-import * as firebase from "firebase";
-import { loadDB } from "../../firebaseConfig/firebase";
 import {Store} from '../store';
 
 import { withStyles } from '@material-ui/core/styles';
