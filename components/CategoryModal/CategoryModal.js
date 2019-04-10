@@ -299,10 +299,11 @@ function CategoryModal(props) {
             <img src="https://images.pexels.com/photos/7075/people-office-group-team.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
             <GridListTileBar title="Teaching & Academics" />
           </GridListTile>
+          <Button variant="contained" size="large" color="primary" style={{width:"100%"}} onClick={props.addTagsToUser}>
+            Save
+          </Button>
         </GridList>
-        <Button color="inherit" onClick={props.addTagsToUser}>
-          Save
-        </Button>
+
       </Dialog>
     </div>
   );
