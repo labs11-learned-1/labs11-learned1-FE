@@ -118,12 +118,13 @@ const Authentication =  props => {
             .update({
               id: result.user.uid,
               email: result.user.email,
-              image: result.user.photoURL
+              image: docSnapshot.data().image,
+              displayName: docSnapshot.data().displayName
             })
             
             return dispatch({
               type: "LOGGED_IN",
-              payload: result.user
+              payload: docSnapshot.data()
             });
           }else{
             //create a new user
