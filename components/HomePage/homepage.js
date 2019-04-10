@@ -117,7 +117,7 @@ const Home = (props) => {
             <div className={classes.recommendedCoursesWrapper}>
                 <h2>Recommended Courses For You</h2>
                 <button onClick={() => props.setOpen(true)}>Change Your Interests</button>
-                <CategoryModal open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories}/>
+            {props.open ? <CategoryModal open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories} /> : null }
                 {loadingCourses 
                     ? 
                     <div className={classes.recoCourses}>

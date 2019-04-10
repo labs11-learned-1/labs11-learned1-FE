@@ -104,7 +104,7 @@ const Homepage = (props) => {
         <div>
           {state.loggedIn ? <GeneralNav/> : <LandingNav/>}
           <Home open={open} setOpen={setOpen} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/>
-          <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
+          {/* <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/> */}
           {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/> : null}
         </div>
       );

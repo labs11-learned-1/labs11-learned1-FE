@@ -23,7 +23,8 @@ function TabContainer(props) {
 }
 const useStyles = makeStyles(theme => ({
   tabWrap: {
-    maxWidth: "600px"
+    maxWidth: "600px",
+    height: "100%"
   },
   reviewDialog: {
     width: "548px",
