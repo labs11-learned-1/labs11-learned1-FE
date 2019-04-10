@@ -361,7 +361,9 @@ const Settings = (props) => {
                         onChange={handleUpdateDisplayName}
                         placeholder={userInfo.displayName}
                         disabled= {(editDisplay) ? '': 'disabled'}
-                        maxLength="50"
+                        inputProps={{
+                            maxLength: 16,
+                          }}
                         />
                         
                     </div>
@@ -398,7 +400,9 @@ const Settings = (props) => {
                         value={bio}
                         placeholder={userInfo.bio}
                         onChange={handleUpdateBio}
-                        maxLength="144"
+                        inputProps={{
+                            maxLength: 144,
+                          }}
                         disabled= {(bioDisplay) ? '': 'disabled'}
                         />            
                     </div>

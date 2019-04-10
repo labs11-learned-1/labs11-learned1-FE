@@ -106,7 +106,7 @@ const Home = (props) => {
         <div className={classes.homepageWrapper}>
             {loadingCourses ? <LinearProgress /> : <></>}
             <div className={classes.popularBlogsWrapper}>
-                <h2>Popular Blog Posts</h2>
+                
                 {/* <LoadingCard /> */}
                 {topBlogs.map(blog => {
                     return (
