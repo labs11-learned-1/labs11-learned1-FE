@@ -22,12 +22,15 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
+import Paper from '@material-ui/core/Paper';
 
 const useStyles = makeStyles(theme => ({
     postPageWrapper: {
         margin: '0 auto',
         maxWidth: '900px',
         width: '100%',
+        marginBottom: '40px',
+        marginTop: '40px'
     },
     myReview: {
 
@@ -38,7 +41,73 @@ const useStyles = makeStyles(theme => ({
     media: {
         maxWidth: '900px',
         paddingTop: '56.25%', // 16:9
+        
     },
+    content: {
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        padding: '20px',
+        marginTop: '20px'
+    },
+    extraInfo: {
+        
+        paddingTop: '20px',
+        display: 'flex',
+        justifyContent: 'space-between',
+        alignItems: 'center'
+    },
+    author: {
+        display: 'flex',
+        paddingTop: '10px'
+    },
+    myReview: {
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        marginTop: '20px',
+        padding: '20px',
+        '& div': {
+            width: '100%'
+        }
+    },
+    myReviewContent: {
+        boxShadow: 'none',
+        paddingLeft: '8px',
+        paddingBottom: '20px',
+        width: '100%'
+    },
+    myReviewButtons: {
+        display: 'flex',
+        justifyContent: 'space-between',
+        
+    },
+    ratingButtons: {
+        display: 'flex',
+        alignItems: 'center',
+        '& p': {
+            paddingLeft: '5px'
+        },
+        '& button': {
+            margin: '2px',
+            height: '15px'
+        }
+    },
+    writeReview: {
+        width: '100%'
+    },
+    reviewListWrapper: {
+        boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
+        marginTop: '20px',
+        padding: '20px',
+       
+    },
+    reviewItem: {
+        border: '1px solid #ebebe0',
+    },
+    editButtons: {
+        display: 'flex',
+        justifyContent: 'flex-end'
+    },
+    articleInfo: {
+        paddingTop: '20px'
+    }
 }));
 
 const PostInfoPage = props => {
@@ -64,7 +133,7 @@ const PostInfoPage = props => {
         const contentID = urlParams.get("content").split("//").pop().replace(/[/]/g, "-");
         const content = await getContentById(contentID).then((res) => {
             getImageWidth(res.photoUrl)
-            setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link});
+            setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link, numRatings: res.numRatings, avgRating: res.avgRating});
         }); 
     }
 
@@ -162,7 +231,7 @@ const PostInfoPage = props => {
     let myReviewContent;
     let reviewContentType;
     let postButton;
-    let ratingButtons = <div>
+    let ratingButtons = <div className={classes.ratingButtons}>
         <button
         style={{ backgroundColor: (myReview ? (myReview.rating >= 1 ? "yellow" : "") : null) }}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 1 }) : null}}
@@ -191,7 +260,7 @@ const PostInfoPage = props => {
         if(!editingMyReview) {
             reviewContentType = 
             <div>
-                <div>
+                <div className={classes.myReviewContent}>
                     <h3>{myReview.title}</h3>
                     <p>{myReview.comment}</p>
                     {ratingButtons}
@@ -242,37 +311,38 @@ const PostInfoPage = props => {
                         rows="10"
                         name="comment"
                         placeholder="Write your review here..."
-                        className={classes.textField}
+                        className={classes.writeReview}
                         margin="normal"
                         variant="filled"
                         value={myReview.comment}
                         onChange={reviewChangeHandler}
                     />
                 </div>
-                {ratingButtons}
-                <div>
-                    <Button
-                        color="primary"
-                        onClick={() => {
-                            handleEditSave();
-                        }}
-                        >
-                        SAVE
-                    </Button>
-                    <Button
-                        onClick={() => {
-                            handleEditCancel();
-                        }}
-                        color="primary"
-                        >
-                        CANCEL
-                    </Button>
+                <div className={classes.myReviewButtons}>
+                    {ratingButtons}
+                    <div className={classes.editButtons}>
+                        <Button
+                            color="primary"
+                            onClick={() => {
+                                handleEditSave();
+                            }}
+                            >
+                            SAVE
+                        </Button>
+                        <Button
+                            onClick={() => {
+                                handleEditCancel();
+                            }}
+                            color="primary"
+                            >
+                            CANCEL
+                        </Button>
+                    </div>
                 </div>
             </div>
         }
         myReviewContent = 
-            <div className={classes.myReview}>
-                <h2>My Review</h2>
+            <div>
                 {reviewContentType}
             </div>
         
@@ -302,7 +372,7 @@ const PostInfoPage = props => {
                     onChange={reviewChangeHandler}
                 />
             </div>
-            <div>
+            <div className={classes.myReviewButtons}>
                 {ratingButtons}
                 <Button
                     color="primary"
@@ -318,60 +388,107 @@ const PostInfoPage = props => {
     
     }
 
-    console.log(myReview)
+    console.log(contentInfo)
     console.log(imgWidth)
 
     return (
         <div className={classes.postPageWrapper}>
             <div>
-                <h1>{contentInfo.title}</h1>
+                <Card className={classes.content} >
+                    <h1 style={{paddingLeft: '10px'}}>{contentInfo.title}</h1>
                     <CardMedia
                         className={classes.media}
                         image={contentInfo.image ? contentInfo.image : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
                         />
-                <p>Author: {contentInfo.author}</p>
-                <h3>Description</h3>
-                <p>{contentInfo.description}</p>
-            </div>
-            <div>
-            <a href={contentInfo.link}>
-                <Button
-                    color="primary"
-                    onClick={() => {
-                        ;
-                    }}
-                >
-                CHECK IT OUT!
-                </Button>
-            </a>
-                {postButton}
-            </div>
-            {myReviewContent}
-            <div>
-                <List className={classes.reviewList}>
-                    {reviewContent.map(review => 
-                        <ListItem alignItems="flex-start">
-                            <ListItemAvatar>
-                            <Avatar alt="Remy Sharp" src={review.displayImage} />
-                            </ListItemAvatar>
-                            <ListItemText
-                            primary={review.title}
-                            secondary={
-                                <React.Fragment>
-                                <Typography
-                                    component="span"
-                                    className={classes.inline}
-                                    color="textPrimary"
+                    <div className={classes.articleInfo}>
+                        <Typography variant="h5" component="h3">
+                        Description
+                        </Typography>
+                        <Typography component="p">
+                            {contentInfo.description}
+                        </Typography>
+                        <div className={classes.author}>
+                            <Typography variant="Title" component="h4">
+                                Author: {contentInfo.author ? contentInfo.author: 'Not Included'}
+                            </Typography>
+                        </div>
+                        
+                        <div className={classes.extraInfo}>
+                            <div className={classes.ratingButtons}>
+                                <button
+                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 1 ? "yellow" : "") : null) }}
+                                />
+                                <button
+                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 2 ? "yellow" : "") : null)}}
+                                />
+                                <button
+                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 3 ? "yellow" : "") : null)}}
+                                />
+                                <button
+                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 4 ? "yellow" : "") : null)}}
+                                />
+                                <button
+                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 5 ? "yellow" : "") : null)}}
+                                />
+                                <p>({contentInfo.numRatings ? contentInfo.numRatings : '0'} Reviews)</p>
+                            </div>
+                            <a target='_blank' href={contentInfo.link} style={{ textDecoration: 'none' }}>
+                                <Button
+                                    className={classes.read}
+                                    variant="contained"
+                                    color="primary"
+                                    onClick={() => {
+                                        ;
+                                    }}
                                 >
-                                    {review.displayName}
-                                </Typography>
-                                {review.comment}
-                                </React.Fragment>
-                            }
-                            />
-                        </ListItem>
-                    )}
-                </List>
+                                READ MORE!
+                                </Button>
+                            </a>
+                        </div>
+                    </div>
+                </Card>
+
+                
+            </div>
+            
+                <Card className={classes.myReview}>
+                    <Typography variant="h4" component="h4" style={{paddingBottom: '20px', borderBottom: '1px solid black', marginBottom: '10px'}}>
+                        My Review
+                    </Typography>
+                    {postButton}
+                    {myReviewContent}
+                </Card>
+            <div>
+                <Card className={classes.reviewListWrapper}>
+                    <Typography variant="h4" component="h4" style={{paddingBottom: '20px', borderBottom: '1px solid black', marginBottom: '10px'}}>
+                        Reviews
+                    </Typography>
+                    <List className={classes.reviewList}>
+                        {reviewContent.map(review => 
+                            <ListItem alignItems="flex-start" className={classes.reviewItem}>
+                                <ListItemAvatar>
+                                <Avatar alt="Remy Sharp" src={review.displayImage} />
+                                </ListItemAvatar>
+                                <ListItemText
+                            
+                                secondary={
+                                    <React.Fragment>
+                                    <Typography
+                                        component="span"
+                                        className={classes.inline}
+                                        color="textPrimary"
+                                    >
+                                        {review.displayName}
+                                    </Typography>
+                                    {review.title}
+                                    {review.comment}
+                                    </React.Fragment>
+                                }
+                                />
+                            </ListItem>
+                        )}
+                    </List>
+                </Card>
             </div>
         </div>
     );

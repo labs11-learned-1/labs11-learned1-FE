@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, {useState, useContext} from "react";
+import React, {useState} from "react";
 import { Store } from "../store";
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
@@ -42,6 +42,7 @@ const Home = (props) => {
     const [recCourses, setRecCourses] = useState([]);
     const [userTags, setUserTags] = useState([]);
     const [loadingCourses, setLoadingCourses] = useState(false);
+    const { state, dispatch } = React.useContext(Store);
 
     const fetchTopBlogs = () => {
         // We will make a request to our server for the 
@@ -98,7 +99,6 @@ const Home = (props) => {
         })
     }
 
-    const { state, dispatch } = React.useContext(Store);
     React.useEffect(()=>{
         fetchRecommended()
     }, [])
