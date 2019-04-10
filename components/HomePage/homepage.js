@@ -19,6 +19,11 @@ const styles = {
     },
     homepageWrapper:{
         width:"100%",
+        display:"flex",
+        alignItems:"center",
+        flexDirection:"column",
+        boxSizing:"border-box",
+        padding:"0 10%"
     },
     recoCourses:{
         width:"80%",
@@ -105,15 +110,15 @@ const Home = (props) => {
     return (
         <div className={classes.homepageWrapper}>
             {loadingCourses ? <LinearProgress /> : <></>}
-            <div className={classes.popularBlogsWrapper}>
-                <h2>Popular Blog Posts</h2>
+            {/* <div className={classes.popularBlogsWrapper}> */}
+                {/* <h2>Popular Blog Posts</h2> */}
                 {/* <LoadingCard /> */}
-                {topBlogs.map(blog => {
+                {/* {topBlogs.map(blog => {
                     return (
                         <BlogCard  content={blog}/>
                     )
-                })}
-            </div>
+                })} */}
+            {/* </div> */}
             <div className={classes.recommendedCoursesWrapper}>
                 <h2>Recommended Courses For You</h2>
                 <button onClick={() => props.setOpen(true)}>Change Your Interests</button>

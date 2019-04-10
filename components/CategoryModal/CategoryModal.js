@@ -23,7 +23,7 @@ const useStyles = makeStyles(theme => ({
     fontSize: '5rem'
   },
   modalContainer: {
-      background: '#072242'
+      background: '#072242',
   }
 }));
 function CategoryModal(props) {

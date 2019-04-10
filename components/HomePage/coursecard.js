@@ -9,6 +9,7 @@ import { loadDB } from "../../firebaseConfig/firebase";
 import CircularProgress from '@material-ui/core/CircularProgress';
 import CheckIcon from '@material-ui/icons/Check';
 import SaveIcon from '@material-ui/icons/Save';
+import Tooltip from '@material-ui/core/Tooltip';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
 const styles = {
@@ -16,19 +17,16 @@ const styles = {
     width:"32%",
     marginBottom:"20px",
     borderRadius:"7px",
-    boxShadow: "-14px 24px 31px -9px rgba(0,0,0,0.6)",
+    // boxShadow: "-1px 2px 3px -9px rgba(0,0,0,0.6)",
+    transistion:".4s ease-in-out",
+    border:"1px solid black",
     '&:hover':{
       transform:"scale(1.02)",
-      transition:".4s ease",
+      transition:".4s ease-in-out",
     },
   },
   cardImg : {
     width:"100%",
-    '&:hover':{
-      opacity:".8",
-      transform:"scale(1.01)",
-      transition:".2s ease",
-    },
   },
   '@media(max-width: 600px)': {
     courseCardWrapper:{
@@ -129,8 +127,10 @@ const CourseCard = props => {
           B_currentlyAdding 
           ? <CircularProgress color="grey"/> 
           : 
-          B_alreadyAdded ? <CheckIcon /> :
-          <SaveIcon onClick={()=>addContent()}/> 
+          B_alreadyAdded ? <Tooltip title="Succesfully Added to your list" placement="top"><CheckIcon /></Tooltip> :
+          <Tooltip title="Add to Your List" placement="top">
+              <SaveIcon onClick={()=>addContent()}/> 
+          </Tooltip>
           }
       </Fab>
         <div className='courseCard-image'>
