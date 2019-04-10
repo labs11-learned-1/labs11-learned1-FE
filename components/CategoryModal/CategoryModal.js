@@ -73,7 +73,7 @@ function CategoryModal(props) {
     width: cardWidth,
     cursor: "pointer",
     border: "1px solid black",
-    boxShadow: "0px 4px 50px -4px rgba(46,54,199,1)",
+    boxShadow: "0px 4px 50px -4px #ff00ff",
     transform: "scale(1.01)"
   };
 
