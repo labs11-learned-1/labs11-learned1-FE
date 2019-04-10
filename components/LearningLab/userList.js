@@ -43,6 +43,15 @@ const useStyles = makeStyles(theme => ({
   userListWrap: {
 background: "white"
   },
+  saveButton:{
+    float: "right",
+    position: "relative",
+    top: "-55px",
+    borderRadius: "12px",
+    width: "100px",
+    backgroundColor: "#96c1d1",
+
+  },
 
   inline: {
     display: "inline"
@@ -81,10 +90,9 @@ background: "white"
     width: "100%"
   },
   myHeader: {
-    display: "flex",
-    borderBottom: "1.5px solid rgba(0,0,0,.1)",
-    margin: "20px",
-    paddingBottom: "20px",
+    display: "block",
+    background: "#e5f2f7",
+    padding: "20px",
     alignItems: "center",
     "& h1": {
       margin: "0 20px 0 20px"
@@ -142,6 +150,9 @@ const UserList = (props) => {
       });
   };
 
+  const clearText = () => {
+    console.log("clear the text")
+  }
   const addContent = async () => {
     let result = await loadDB();
     let db = result.firestore();
@@ -394,6 +405,7 @@ const UserList = (props) => {
         alert("ERROR");
       });
     setOpen(false);
+
   };
 
   const addReview = async (rating, comment, title, userId, postId) => {
@@ -628,10 +640,23 @@ const UserList = (props) => {
   return (
     <div className={classes.userListWrap}>
       <div className={classes.myHeader}>
-        <h1>My List</h1>
-        <Fab color="primary" aria-label="Add" onClick={() => setOpen(true)}>
-          <AddIcon />
+      
+        <h6 style={{margin: "0px"}}>Enter a Url to add to your list!</h6>
+        <TextField
+        style={{width: "80%", background: "white", borderRadius: "10px", display: "flex", justifyContent: "center"}}
+              autoFocus
+              margin="dense"
+              id="name"
+              label="www.coolexample.com/article"
+              fullWidth
+              multiline
+              onChange={onChangeHandler}
+              onSubmit={clearText}
+            />
+        <Fab color="primary" aria-label="Add" onClick={() => handleSubmit(props.state.userID, link)} className={classes.saveButton}>
+          Save
         </Fab>
+        
         <Dialog
           open={open}
           onClose={() => setOpen(false)}
@@ -642,15 +667,7 @@ const UserList = (props) => {
           </DialogTitle>
 
           <DialogContent>
-            <TextField
-              autoFocus
-              margin="dense"
-              id="name"
-              label="Link"
-              fullWidth
-              multiline
-              onChange={onChangeHandler}
-            />
+            
           </DialogContent>
 
           <DialogActions>

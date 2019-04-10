@@ -16,7 +16,7 @@ import PropTypes from "prop-types";
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding: 0 }}>
       {props.children}
     </Typography>
   );

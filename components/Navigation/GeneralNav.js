@@ -26,7 +26,7 @@ const styles = theme => ({
         borderBottom: '1px solid rgba(0,0,0,.1)',
         boxShadow: '0 5px 6px -6px black',
         height: '70px',
-        background: "#A2E9FF",
+        background: "white",
         zIndex: "40"
     },
     toolbar : {
@@ -35,6 +35,7 @@ const styles = theme => ({
         margin: '0 auto',
         justifyContent: "space-between",
         padding: '0',
+        zIndex: "30"
         
         
     },
