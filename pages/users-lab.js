@@ -97,6 +97,7 @@ const UsersLab = props => {
       let temp = urlParams.get("displayName")
       setDisplayName(temp);
   }
+  const [isFollowing, updateFollowing] = React.useState(true)
 
   
   // const getContentByUserId = async () => {
@@ -172,7 +173,8 @@ const UsersLab = props => {
                   followers: firebase.firestore.FieldValue.arrayRemove(
                     state.userID
                   )
-                }) //then remove "450" from 454's followers
+                })
+                updateFollowing(false) //then remove "450" from 454's followers
                 .then(() => {
                   console.log("success unfollowing");
                 })
@@ -199,7 +201,8 @@ const UsersLab = props => {
                   followers: firebase.firestore.FieldValue.arrayUnion(
                     state.userID
                   )
-                }) // .doc("theirId")  .arrayUnion("myUserId")
+                })
+                updateFollowing(true) // .doc("theirId")  .arrayUnion("myUserId")
                 .then(() => {
                   console.log("Success update follows");
                 })
@@ -235,6 +238,7 @@ const UsersLab = props => {
       {/* state = { displayName : paramse and userID: publicUser }*/}
         <div className={classes.userInfo}>
           <UserProfileInfo state={{displayName : displayName, userID : publicUser}} />
+          {isFollowing ? <button onClick={followOthers}>UnFollow</button> : <button onClick={followOthers}>Follow</button>}
         </div>
         <div className={classes.tabby}>
       <TabComponent state={{displayName : displayName, userID : publicUser}}/>
