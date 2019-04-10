@@ -15,6 +15,8 @@ import { withStyles } from "@material-ui/core/styles";
 import { Store } from "../components/store";
 
 import UserListCard from "../components/userLabCard";
+import TabComponent from '../components/LearningLab/tabComponent'
+import UserProfileInfo from '../components/LearningLab/userProfileInfo'
 
 const styles = theme => ({
   menu: {
@@ -44,12 +46,39 @@ const styles = theme => ({
       marginLeft: "20px"
     }
   },
-  learningLabWrap: {
-    marginTop: "40px"
+  tabby: {
+    float: "right",
+    zIndex: "0",
+    width: "600px",
   },
+ 
   currentCourses: {
     minHeight: "100px"
-  }
+  },
+  myList: {
+    display: "flex",
+    flexWrap: "wrap",
+    justifyContent: "center"
+  },
+  learningLabWrap: {
+    paddingTop: "70px",
+    background: "#E6ECF0",
+    display: "flex",
+    height: "100%",
+    justifyContent: "space-around",
+  },
+  userInfo: {
+    width: "200px",
+    height: "460px",
+    margin: "10px 30px 0 30px",
+    display: "flex",
+    position: "relative",
+    left: "0",
+    background: "#3f51b5",
+    alignItems: "flex-end",
+    borderRadius: "10px",
+    border: "1px solid #778178"
+  },
 });
 
 const UsersLab = props => {
@@ -59,75 +88,63 @@ const UsersLab = props => {
   const { state, dispatch } = React.useContext(Store);
   const [list, setList] = React.useState([]);
   const [publicUser, setUser] = React.useState("");
+  const [displayName, setDisplayName] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
+  const getUrlParams = () => {
+      const urlParams = new URLSearchParams(window.location.search);
+      const userID = urlParams.get("user");
+      setUser(userID);
+      let temp = urlParams.get("displayName")
+      setDisplayName(temp);
+  }
   const [isFollowing, updateFollowing] = React.useState(true)
 
-  const getContentByUserId = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userID = urlParams.get("user");
-    setUser(userID);
-    let arr = [];
-    let result = await loadDB();
-    let db = result.firestore();
-    db.collection("content-collection")
-      .where("userList", "array-contains", userID)
-      .get()
-      .then(async function(querySnapshot) {
-        querySnapshot.forEach(function(doc) {
-          const result = doc.data();
-          console.log("RESULT", result);
-          let newLink = result.link
-            .split("//")
-            .pop()
-            .replace(/[/]/g, "-");
-          db.collection("reviews")
-            .where("userId", "==", userID)
-            .where("contentCollectionId", "==", newLink)
-            .get()
-            .then(async res => {
-              let response;
-              if (res.docs.length > 0) {
-                response = res.docs[0].data();
-                response["reviewId"] = res.docs[0].id;
-              } else {
-                response = null;
-              }
-              result["review"] = response;
-              setList(list => [...list, result]);
-            })
-            .catch(err => {
-              console.log(err);
-            });
-        });
-      })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
-      });
-    console.log("MY ARRAY", arr);
-  };
+  
+  // const getContentByUserId = async () => {
+  //   const urlParams = new URLSearchParams(window.location.search);
+  //   const userID = urlParams.get("user");
+  //   setUser(userID);
+  //   let arr = [];
+  //   let result = await loadDB();
+  //   let db = result.firestore();
+  //   db.collection("content-collection")
+  //     .where("userList", "array-contains", userID)
+  //     .get()
+  //     .then(async function(querySnapshot) {
+  //       querySnapshot.forEach(function(doc) {
+  //         const result = doc.data();
+  //         console.log("RESULT", result);
+  //         let newLink = result.link
+  //           .split("//")
+  //           .pop()
+  //           .replace(/[/]/g, "-");
+  //         db.collection("reviews")
+  //           .where("userId", "==", userID)
+  //           .where("contentCollectionId", "==", newLink)
+  //           .get()
+  //           .then(async res => {
+  //             let response;
+  //             if (res.docs.length > 0) {
+  //               response = res.docs[0].data();
+  //               response["reviewId"] = res.docs[0].id;
+  //             } else {
+  //               response = null;
+  //             }
+  //             result["review"] = response;
+  //             setList(list => [...list, result]);
+  //           })
+  //           .catch(err => {
+  //             console.log(err);
+  //           });
+  //       });
+  //     })
+  //     .catch(function(error) {
+  //       console.log("Error getting documents: ", error);
+  //     });
+  //   console.log("MY ARRAY", arr);
+  // };
 
-  const getUdemyByUserId = async () => {
-    const urlParams = new URLSearchParams(window.location.search);
-    const userID = urlParams.get("user");
-    let arr = [];
-    let result = await loadDB();
-    let db = result.firestore();
-    db.collection("content-collection")
-      .where("UserList", "array-contains", userID)
-      .get()
-      .then(async function(querySnapshot) {
-        await querySnapshot.forEach(function(doc) {
-          const result = doc.data();
-          arr.push(result);
-          console.log("udemy result", result);
-        });
-        console.log("this is the array", arr);
-        setUdemyList([...arr]);
-      })
-      .catch(function(error) {
-        console.log("Error getting documents: ", error);
-      });
-  };
+ 
 
   const followOthers = async () => {
     // async (myUserId, theirId)
@@ -199,8 +216,8 @@ const UsersLab = props => {
   };
 
   React.useEffect(() => {
-    getContentByUserId();
-    getUdemyByUserId();
+    // getContentByUserId();
+    getUrlParams()
     followOthers();
   }, []);
 
@@ -218,32 +235,15 @@ const UsersLab = props => {
     <div>
       <GeneralNav/>
       <div className={classes.learningLabWrap}>
-        <div className={classes.myHeader}>
+      {/* state = { displayName : paramse and userID: publicUser }*/}
+        <div className={classes.userInfo}>
+          <UserProfileInfo state={{displayName : displayName, userID : publicUser}} />
           {isFollowing ? <button onClick={followOthers}>UnFollow</button> : <button onClick={followOthers}>Follow</button>}
-          <h1>Their Current Courses</h1>
         </div>
-        <div className={classes.userList}>
-          {UdemyList.length ? (
-            UdemyList.map(item => (
-              <UserListCard content={item} key={item.link} />
-            ))
-          ) : (
-            <p>This user has no courses or has not linked their account yet</p>
-          )}
-        </div>
-
-        <div className={classes.myHeader}>
-          <h1>Their List</h1>
-        </div>
-
-        <div className={classes.userList}>
-          {list.length ? (
-            list.map(item => <UserListCard key={item.link} content={item} />)
-          ) : (
-            <p>This user has not added anything to their list</p>
-          )}
-        </div>
+        <div className={classes.tabby}>
+      <TabComponent state={{displayName : displayName, userID : publicUser}}/>
       </div>
+    </div>
     </div>
   );
 };

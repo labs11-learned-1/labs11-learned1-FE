@@ -44,7 +44,7 @@ class Postcard extends React.Component {
         const { classes } = this.props;
       const imgSrc =  this.props.content.displayImage ? this.props.content.displayImage : this.props.content.userImage
       console.log(this.props)
-      const path = this.props.content.userId === this.props.state.userID ? "/learning-lab" : { pathname: '/users-lab', query: { user: this.props.content.userId }}
+      const path = this.props.content.userId === this.props.state.userID ? "/learning-lab" : { pathname: '/users-lab', query: { user: this.props.content.userId, displayName : this.props.content.displayName}}
         return (
         <Card className={classes.card}>
             {/* Replace with users google image */}
