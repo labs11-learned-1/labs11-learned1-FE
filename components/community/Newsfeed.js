@@ -115,8 +115,10 @@ const Newsfeed = props => {
             querySnapshot.forEach(post => {
               postsArray.push(post.data())
               //console.log("Post data: ", post.data())
-              setNewsFeed(newsfeed => [...newsfeed, post.data()])
+              // setNewsFeed(newsfeed => [...newsfeed, post.data().slice(0, newsfeed.length)])
             })
+            // let newArr = postsArray.slice(0, newsfeed.length)
+            setNewsFeed(postsArray)
             //console.log("Posts array: ", postsArray)
           })
           .catch(err => {

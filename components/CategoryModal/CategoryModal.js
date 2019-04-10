@@ -12,24 +12,22 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 const cardSize = 0.3;
-const cardHeight = "420px";
-const cardWidth = "420px";
+const cardHeight = "240px";
+const cardWidth = "240px";
 const useStyles = makeStyles(theme => ({
   hint: {
     color: "white"
   },
   instructions: {
     color: "white",
-    fontSize: '60rem'
+    fontSize: '5rem'
   },
   modalContainer: {
       background: '#072242'
   }
 }));
 function CategoryModal(props) {
-  function handleClose() {
-    setOpen(false);
-  }
+  
   const classes = useStyles();
   const [r, setR] = React.useState(0);
   // const handleAdd = name => {
@@ -74,7 +72,8 @@ function CategoryModal(props) {
     cursor: "pointer",
     border: "1px solid black",
     boxShadow: "0px 4px 50px -4px #ff00ff",
-    transform: "scale(1.01)"
+    transform: "scale(1.01)",
+    border: "3px solid white"
   };
 
   return (
@@ -82,7 +81,7 @@ function CategoryModal(props) {
       <Dialog
         fullScreen
         open={props.open}
-        onClose={handleClose}
+        onClose={props.handleClose}
         TransitionComponent={Transition}
       >
         {/* Business Design Development Health & Fitness IT & Software Lifestyle Marketing Music Office Productivity Personal Development Photography Teaching & Academics */}
@@ -303,7 +302,6 @@ function CategoryModal(props) {
             Save
           </Button>
         </GridList>
-
       </Dialog>
     </div>
   );

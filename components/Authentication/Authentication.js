@@ -72,6 +72,7 @@ const styles = {
     width: "314px",
     boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
     borderRadius: "2px",
+    background: "white"
   },
   
   brandingSection: {

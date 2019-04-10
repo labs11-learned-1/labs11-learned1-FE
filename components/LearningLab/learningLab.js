@@ -51,14 +51,22 @@ const styles = {
   userInfo: {
     width: "200px",
     height: "460px",
-    margin: "10px 30px 0 30px",
     display: "flex",
     position: "relative",
-    left: "0",
     background: "#3f51b5",
     alignItems: "flex-end",
     borderRadius: "10px",
-    border: "1px solid #778178"
+    float: "left",
+  },
+  otherInfo: {
+    width: "200px",
+    height: "460px",
+    display: "flex",
+    position: "relative",
+    background: "white",
+    alignItems: "flex-end",
+    borderRadius: "10px",
+    float: "right",
   },
   reviewDialog: {
     width: "548px",
@@ -71,8 +79,11 @@ const styles = {
   },
   tabby: {
     float: "right",
-    zIndex: "0",
     width: "600px",
+    background: "white",
+    margin: "0 10px",
+    height: "100%",
+    marginBottom: "20px"
   },
 
   toolbar: {
@@ -97,14 +108,19 @@ const styles = {
     justifyContent: "center"
   },
   learningLabWrap: {
-    paddingTop: "70px",
-    background: "#E6ECF0",
-    display: "flex",
+    padding: "12px 14px 15px",
+    
+    display: "block",
     height: "100%",
-    justifyContent: "space-around",
+    width: "1020px",
+    margin: "0 auto",
+    position: "relative",
   },
   currentCourses: {
     minHeight: "100px"
+  },
+  pageWrap: {
+    height: "100%"
   }
 }; //end styles
 
@@ -155,17 +171,26 @@ const LearningLab = props => {
   //         })}
 
   return (
-      <div>
+      <div className={classes.pageWrap}>
       <GeneralNav/>
       <div className={classes.learningLabWrap}>
+
         <div className={classes.userInfo}>
           <UserProfileInfo state={state} />
         </div>
-
+        
+        <div className={classes.otherInfo}>
+        
+        </div>
         <div className={classes.tabby}>
           <TabComponent state={state} />
+          
         </div>
+
+        
+       
       </div>
+      
     </div>
   );
 };

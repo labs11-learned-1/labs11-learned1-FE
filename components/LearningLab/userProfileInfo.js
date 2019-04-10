@@ -21,7 +21,7 @@ const useStyles = makeStyles(theme => ({
     width: "45%",
     height: "auto",
     position: "absolute",
-    top: "0px"
+    top: "10px"
   },
   sidebar: {
     display: "flex",
@@ -35,7 +35,7 @@ const useStyles = makeStyles(theme => ({
   displayName: {
     margin: "40px auto 0 auto",
     fontSize: "28px",
-    maxWidth: "80%"
+    maxWidth: "80%",
   }
 }));
 
