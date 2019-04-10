@@ -82,7 +82,8 @@ const styles = {
     width: "600px",
     background: "white",
     margin: "0 10px",
-    height: "100%"
+    height: "100%",
+    marginBottom: "20px"
   },
 
   toolbar: {

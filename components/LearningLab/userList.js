@@ -50,6 +50,7 @@ background: "white"
     borderRadius: "12px",
     width: "100px",
     backgroundColor: "#96c1d1",
+    
 
   },
 
@@ -82,7 +83,8 @@ background: "white"
     "% label": {
       padding: "0",
       tranform: ""
-    }
+    },
+    
   },
   reviewButtons: {
     display: "flex",
@@ -92,7 +94,7 @@ background: "white"
   myHeader: {
     display: "block",
     background: "#e5f2f7",
-    padding: "20px",
+    padding: "10px",
     alignItems: "center",
     "& h1": {
       margin: "0 20px 0 20px"
@@ -128,6 +130,8 @@ const UserList = (props) => {
   const [share, setShare] = React.useState(true);
   const [userReview, setUserReview] = React.useState(null);
   const [link, setLink] = React.useState("");
+
+  const [visible, setVisible] = React.useState(false)
   console.log(props);
   const listOnState = list;
   //===========FUNCTIONS===========
@@ -405,6 +409,7 @@ const UserList = (props) => {
         alert("ERROR");
       });
     setOpen(false);
+    setVisible(false)
 
   };
 
@@ -641,21 +646,25 @@ const UserList = (props) => {
     <div className={classes.userListWrap}>
       <div className={classes.myHeader}>
       
-        <h6 style={{margin: "0px"}}>Enter a Url to add to your list!</h6>
+        <h6 style={ visible ?  {margin: "0px"}   : {display:"none"}       }>Enter a Url to add to your list!</h6>
         <TextField
-        style={{width: "80%", background: "white", borderRadius: "10px", display: "flex", justifyContent: "center"}}
-              autoFocus
+        style={  visible ?     {width: "80%", background: "white", borderRadius: "10px", display: "flex", justifyContent: "center"}  : {width: "100%", background: "white", borderRadius: "10px", display: "flex", justifyContent: "center"}           }
               margin="dense"
               id="name"
-              label="www.coolexample.com/article"
+              label={visible ? "www.coolexample.com/article" : "Click here to save a link to your list!"}
               fullWidth
               multiline
+              disableUnderline
               onChange={onChangeHandler}
               onSubmit={clearText}
+              onClick={ () => setVisible(true)}
+              onBlur={() => setVisible(false)}
+              
             />
-        <Fab color="primary" aria-label="Add" onClick={() => handleSubmit(props.state.userID, link)} className={classes.saveButton}>
+            {visible ? 
+        <Fab color="primary" aria-label="Add" onClick={() => handleSubmit(props.state.userID, link)} className={classes.saveButton} >
           Save
-        </Fab>
+        </Fab> : null}
         
         <Dialog
           open={open}

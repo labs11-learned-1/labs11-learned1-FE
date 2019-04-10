@@ -21,11 +21,22 @@ import MenuList from '@material-ui/core/MenuList';
 
 const styles = theme => ({
     card: {
-      maxWidth: 400,
-      margin: '20px',
+      borderBottom: "2px solid #e5f2f7",
+      borderRadius: "0",
+      boxShadow: "0",
+      height: "180px"
+    },
+    cardHeader:{
+        float: "right",
+        width: "60%",
+    },
+    content:{
+        float: "right",
+        width: "60%",
+        padding: "0 16px 0 0"
     },
     media: {
-      
+      height: "78px",
       paddingTop: '56.25%', // 16:9
     },
     actions: {
@@ -52,7 +63,7 @@ const MyListCard = (props) => {
         <div>
             
                 <Card className={classes.card}>
-                    <CardHeader
+                    <CardHeader className={classes.cardHeader}
                     action={
                         <div>
                             <IconButton 
@@ -103,13 +114,13 @@ const MyListCard = (props) => {
                     }
                     title={props.content.title ? props.content.title : 'No title provided...'}
                     />
-                    <a target='_blank' href={props.content.link} style={{display: 'block', textDecoration: 'none'}}>
+                    <a target='_blank' href={props.content.link} style={{display: 'block', textDecoration: 'none', width: "34%", float: "left", position: "relative"}}>
                     <CardMedia
                     className={classes.media}
                     image={props.content.photoUrl ? props.content.photoUrl : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
                     />
                     </a>
-                    <CardContent>
+                    <CardContent className={classes.content}>
                     <Typography component="p">
                         {props.content.description ? props.content.description : 'No description provided...'}
                     </Typography>
