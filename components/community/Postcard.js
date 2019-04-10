@@ -20,18 +20,38 @@ const styles = theme => ({
         maxWidth: 800,
         marginTop:"15px",
         marginBottom:"20px",
-        border: "solid 1px #3f51b5",
-        boxShadow: "3px 6px #3f51b5",
+        border: "solid 1px lightskyblue",
+        backgroundColor: "ghostwhite",
+        boxShadow: "3px 6px lightskyblue",
+    },
+    cardHeader: {
+        display: "flex",
+        justifyContent: "flex-start"
+    },
+    displayName: {
+        margin: "25px 0 0 10px",
+        fontSize: "25px"
     },
     media: {
-        width:"60%",
+        width:"40%",
         height:"200px",
-        margin: "auto"
+        margin: "10px 0 0 25px"
     },
     avatar: {
-        height: "75px",
+        height: "65px",
         borderRadius: "50%",
-        cursor:"pointer"
+        cursor:"pointer",
+        margin: "10px 0 0 25px"
+    },
+    cardContent: {
+        display: "flex",
+        flexWrap: "wrap",
+        margin: "0 0 20px 0"
+    },
+    cardBody: {
+        display: "flex",
+        flexDirection: "column",
+        margin: "0 auto 0 auto"
     },
     textField:{
         width:"50%"
@@ -39,69 +59,32 @@ const styles = theme => ({
     actions:{
         display:"flex",
         justifyContent:"center"
-    },
-    cardContent: {
-        margin: "auto 15px auto 15px",
-        textAlign: "center"
-    },
-    styleOne: {
-        width: "95%",
-    },
-    title: {
-        fontSize: "18px",
-        textAlign: "center"
     }
 });
 
 class Postcard extends React.Component {
     render() {
         const { classes } = this.props;
-      const imgSrc =  this.props.content.displayImage ? this.props.content.displayImage : this.props.content.userImage
-      console.log(this.props)
-      const path = this.props.content.userId === this.props.state.userID ? "/learning-lab" : { pathname: '/users-lab', query: { user: this.props.content.userId, displayName : this.props.content.displayName}}
+        const imgSrc =  this.props.content.displayImage ? this.props.content.displayImage : this.props.content.userImage
+        const path = this.props.content.userId === this.props.state.userID ? "/learning-lab" : { pathname: '/users-lab', query: { user: this.props.content.userId, displayName : this.props.content.displayName}}
         return (
         <Card className={classes.card}>
-            {/* Replace with users google image */}
             <Link href={path}>
-                {/* <img className={classes.avatar} src={this.props.content.userImage} /> */}
-                <CardHeader 
-                    avatar={<img className={classes.avatar} src={imgSrc} />}
-                    //title={this.props.content.title}
-                    subheader={this.props.content.displayName}
-                />
+                <div className={classes.cardHeader}>
+                    <img className={classes.avatar} src={imgSrc} />
+                    <div className={classes.displayName}>{this.props.content.displayName}</div>
+                </div>
             </Link>
-            {/* Replace image url if present to one inputted in text */}
-            {this.props.content.photoUrl 
-            ?<CardMedia
-            className={classes.media}
-            image={this.props.content.photoUrl}
-            title="Website Image"
-            />
-            :
-            null
-            }
-            <p className={classes.title}>{this.props.content.title}</p>
-            <hr className={classes.styleOne} />
-            <CardContent>
-                {/* Replace with users own inputted text */}
-                <Typography component="p" className={classes.cardContent}>
-                    {this.props.content.content}
-                </Typography>
-            </CardContent>
-
-            {/* <CardActions className={classes.actions}>
-                {/* IDK if we will need or want this but I will leave in just in case */}
-                {/* <IconButton aria-label="Like">
-                    <FavoriteIcon />
-                </IconButton>
-                <TextField
-                    label="Comment"
-                    multiline
-                    className={classes.textField}
-                    margin="normal"
-                    variant="filled"
-                />
-            </CardActions> */}
+            <div className={classes.cardContent}>
+                {this.props.content.photoUrl ? 
+                <CardMedia className={classes.media} image={this.props.content.photoUrl} title="Website Image" /> : 
+                null
+                }
+                <div className={classes.cardBody}>
+                    <h4 className={classes.title}>{this.props.content.title}</h4>
+                    <p>{this.props.content.content}</p>
+                </div>
+            </div>
         </Card>
         );
     }
