@@ -94,7 +94,7 @@ background: "white"
     }
   }
 })); //end styles
-console.log(Store)
+
 const UserList = (props) => {
   const  classes  = useStyles();
   //===========HOOKS===========
@@ -120,7 +120,7 @@ const UserList = (props) => {
   const [share, setShare] = React.useState(true);
   const [userReview, setUserReview] = React.useState(null);
   const [link, setLink] = React.useState("");
-  console.log(props.state);
+  console.log(props);
   const listOnState = list;
   //===========FUNCTIONS===========
   const getContentByUserId = async () => {

@@ -68,7 +68,7 @@ const useStyles = makeStyles(theme => ({
 const TabComponent = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
-
+console.log("props",props)
   const handleChange = (event, newValue) => {
     setValue(newValue);
   };
