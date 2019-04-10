@@ -50,7 +50,7 @@ const UserProfileInfo = props => {
       : props.state.userID;
     let result = await loadDB();
     let db = result.firestore();
-
+console.log("we are getting this sers info",userID)
     db.collection("user")
       .doc(userID)
       .get()
@@ -72,7 +72,7 @@ const UserProfileInfo = props => {
     <div className={classes.sidebar}>
       <img
         className={classes.profileImage}
-        src={props.state.userImage}
+        src={userInfo.image}
         alt="Profile Image"
       />
       <div className={classes.displayName}>{userInfo.displayName}</div>
