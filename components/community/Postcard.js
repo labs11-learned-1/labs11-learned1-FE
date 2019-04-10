@@ -42,14 +42,16 @@ const styles = theme => ({
 class Postcard extends React.Component {
     render() {
         const { classes } = this.props;
-
+      const imgSrc =  this.props.content.displayImage ? this.props.content.displayImage : this.props.content.userImage
+      console.log(this.props)
+      const path = this.props.content.userId === this.props.state.userID ? "/learning-lab" : { pathname: '/users-lab', query: { user: this.props.content.userId }}
         return (
         <Card className={classes.card}>
             {/* Replace with users google image */}
-            <Link href={{ pathname: '/users-lab', query: { user: this.props.content.userId }}}>
+            <Link href={path}>
                 {/* <img className={classes.avatar} src={this.props.content.userImage} /> */}
                 <CardHeader 
-                    avatar={<img className={classes.avatar} src={this.props.content.userImage} />}
+                    avatar={<img className={classes.avatar} src={imgSrc} />}
                     title={this.props.content.title}
                     subheader={this.props.content.displayName}
                 />
