@@ -7,7 +7,7 @@ import React from 'react';
 class MyApp extends App {
 
   render() {
-    console.log("tis is props", this.props, "endprops\n")
+  
     const { Component, pageProps } = this.props;
 
     return (
