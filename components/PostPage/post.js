@@ -224,6 +224,13 @@ const PostInfoPage = props => {
         getReviewContent();
     }, [])
 
+    React.useEffect(()=>{
+        getPostContent();
+        getReviewContent();
+    }, [window.location.search])
+
+    
+
     //Conditional rendering variable initialization for following if statement...
     let addMyListButton;
 

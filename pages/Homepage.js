@@ -31,7 +31,7 @@ const styles = {
 const Homepage = (props) => {
  
   const [categories, setCategories] = React.useState([]);
-  const [open, setOpen] = React.useState(true);
+  const [open, setOpen] = React.useState(false);
   
   function handleClose() {
     setOpen(false);

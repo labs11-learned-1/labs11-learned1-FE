@@ -141,7 +141,7 @@ const Authentication =  props => {
               followerCount: 1,
               bio: ""
             });
-            onUserCreated({userID: result.user.uid, username: result.additionalUserInfo.profile.name})
+            onUserCreated({objectID: result.user.uid, username: result.additionalUserInfo.profile.name})
             return dispatch({
               type: "FIRST_TIME_LOGIN",
               payload: result.user
