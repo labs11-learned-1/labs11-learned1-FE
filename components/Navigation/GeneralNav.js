@@ -31,7 +31,8 @@ const styles = theme => ({
         borderBottom: '1px solid rgba(0,0,0,.1)',
         boxShadow: '0 5px 6px -6px black',
         height: '70px',
-        zIndex: "40"
+        zIndex: "40",
+        backgroundColor: 'white'
     },
     toolbar : {
         width:"70%",
@@ -40,7 +41,7 @@ const styles = theme => ({
         minHeight: '71px',
         justifyContent: "space-between",
         padding: '0',
-        alignItems: 'center'  
+        alignItems: 'center' 
     },
     logo : {
         height: '55px',
@@ -84,7 +85,8 @@ const styles = theme => ({
     tmIcons: {
         width: '25px !important',
         height: '25px', 
-        paddingLeft: '20px'
+        paddingLeft: '20px',
+        color: '#000051',
     },
     searchBox: {     
         display: 'flex',
