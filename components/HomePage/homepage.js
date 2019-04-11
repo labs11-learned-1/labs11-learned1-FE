@@ -13,6 +13,7 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CategoryModal from '../CategoryModal/CategoryModal'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 import LoadingCard from './LoadingCard'
+import SearchCourses from "./SearchCourses";
 const styles = {
     recommendedCoursesWrapper:{
         width:"100%",
@@ -104,11 +105,16 @@ const Home = (props) => {
         })
     }
 
+    const fetchSpecifiedCourses = () => {
+        
+    }
+
     React.useEffect(()=>{
         fetchRecommended()
     }, [])
     return (
         <div className={classes.homepageWrapper}>
+            <SearchCourses />
             {loadingCourses ? <LinearProgress /> : <></>}
             {/* <div className={classes.popularBlogsWrapper}> */}
                 {/* <h2>Popular Blog Posts</h2> */}

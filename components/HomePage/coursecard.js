@@ -14,7 +14,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 const styles = {
   courseCardWrapper:{
-    width:"32%",
+    width:"24%",
     marginBottom:"20px",
     borderRadius:"7px",
     // boxShadow: "-1px 2px 3px -9px rgba(0,0,0,0.6)",
