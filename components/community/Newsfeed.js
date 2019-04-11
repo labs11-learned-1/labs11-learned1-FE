@@ -142,27 +142,34 @@ const Newsfeed = props => {
         console.log(err);
       });
 
-    const postsArray = [];
+    
 
     console.log("Following array: ", followingArray);
-    followingArray.forEach(user =>
+    await followingArray.forEach(user =>
       postsRef
         .where("userId", "==", user)
         .get()
         .then(querySnapshot => {
           querySnapshot.forEach(post => {
+            let postsArray = [];
             postsArray.push(post.data());
-            //console.log("Post data: ", post.data())
+            
+            
+            setNewsFeed(newsfeed => newsfeed.concat(postsArray));
             // setNewsFeed(newsfeed => [...newsfeed, post.data().slice(0, newsfeed.length)])
           });
           // let newArr = postsArray.slice(0, newsfeed.length)
-          setNewsFeed(postsArray);
+          // console.log("posts array",postsArray)
+          
           //console.log("Posts array: ", postsArray)
         })
         .catch(err => {
           console.log(err);
         })
     );
+    // console.log("posts array before setNewsfeed: ",postsArray)
+    
+    
   };
 
   const onChangeHandler = e => {
@@ -261,6 +268,7 @@ const Newsfeed = props => {
         </Fab>
       </div>
       <div className={classes.cards}>
+      {console.log("NEWSFEED:  ", newsfeed)}
         {newsfeed.map((post, index) => (
           <Postcard content={post} state={state} key={index} />
         ))}

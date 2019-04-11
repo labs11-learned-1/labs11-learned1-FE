@@ -16,7 +16,7 @@ import { deleteContent } from "../firebaseAPI/firebaseCollection";
 import { addPost } from "../firebaseAPI/firebasePosts";
 
 //ALGOLIA
-import {onPostsCreated, onPostsDeleted} from '../Algolia/algoliaHandler';
+import { onPostsCreated, onPostsDeleted } from "../Algolia/algoliaHandler";
 
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
@@ -38,20 +38,16 @@ import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
-
-
   userListWrap: {
-background: "white"
+    background: "white"
   },
-  saveButton:{
+  saveButton: {
     float: "right",
     position: "relative",
     top: "-55px",
     borderRadius: "12px",
     width: "100px",
-    backgroundColor: "#96c1d1",
-    
-
+    backgroundColor: "#96c1d1"
   },
 
   inline: {
@@ -59,7 +55,7 @@ background: "white"
   },
   reviewList: {
     width: "100%",
-    maxWidth: 360,
+    maxWidth: 360
     // backgroundColor: theme.palette.background.paper
   },
   reviewListDialog: {
@@ -83,8 +79,7 @@ background: "white"
     "% label": {
       padding: "0",
       tranform: ""
-    },
-    
+    }
   },
   reviewButtons: {
     display: "flex",
@@ -105,11 +100,11 @@ background: "white"
   }
 })); //end styles
 
-const UserList = (props) => {
-  const  classes  = useStyles();
+const UserList = props => {
+  const classes = useStyles();
   //===========HOOKS===========
   // const { state, dispatch } = React.useContext(Store);
-  
+
   const [open, setOpen] = React.useState(false);
   const [openReview, setOpenReview] = React.useState(false);
   const [metaData, setMetaData] = React.useState({});
@@ -119,8 +114,8 @@ const UserList = (props) => {
     content: "",
     postId: "",
     reviewID: "",
-    photoUrl : "",
-    displayName : "",
+    photoUrl: "",
+    displayName: ""
   });
   const [submitType, setSubmitType] = React.useState("");
   const [list, setList] = React.useState([]);
@@ -130,33 +125,40 @@ const UserList = (props) => {
   const [share, setShare] = React.useState(true);
   const [userReview, setUserReview] = React.useState(null);
   const [link, setLink] = React.useState("");
+  const [visible, setVisible] = React.useState(false);
 
-  const [visible, setVisible] = React.useState(false)
-  console.log(props);
+  console.log("props1:", props);
+
   const listOnState = list;
   //===========FUNCTIONS===========
+
   const getContentByUserId = async () => {
     let arr = [];
+    console.log("myProps", props);
     let result = await loadDB();
     let db = result.firestore();
-    db.collection("content-collection")
+
+    await db.collection("content-collection")
       .where("userList", "array-contains", props.state.userID)
       .get()
       .then(async function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           const result = doc.data();
           arr.push(result);
+         
         });
-        setList(arr);
       })
       .catch(function(error) {
         console.log("Error getting documents: ", error);
       });
+      setList(list => arr);
   };
 
+/* #region */
+
   const clearText = () => {
-    console.log("clear the text")
-  }
+    console.log("clear the text");
+  };
   const addContent = async () => {
     let result = await loadDB();
     let db = result.firestore();
@@ -176,7 +178,9 @@ const UserList = (props) => {
           contentRef
             .doc(newLink)
             .update({
-              userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
+              userList: firebase.firestore.FieldValue.arrayUnion(
+                props.state.userID
+              )
             })
             .then(() => {
               db.collection("user")
@@ -215,10 +219,17 @@ const UserList = (props) => {
               numRatings: 0,
               avgRating: 0,
               // Pseudo code make a real array
-              userList: firebase.firestore.FieldValue.arrayUnion(props.state.userID)
+              userList: firebase.firestore.FieldValue.arrayUnion(
+                props.state.userID
+              )
             })
             .then(() => {
-              onPostsCreated({objectID: newLink, title: metaData.title, content: metaData.description, author: metaData.author})
+              onPostsCreated({
+                objectID: newLink,
+                title: metaData.title,
+                content: metaData.description,
+                author: metaData.author
+              });
               console.log("Added content to the db");
               db.collection("user")
                 .doc(props.state.userID)
@@ -268,15 +279,29 @@ const UserList = (props) => {
   };
 
   const prepareSharePost = (postLink, photoUrl, displayName, userImage) => {
-    setReviewContent({ ...reviewContent, postId: postLink, photoUrl : photoUrl, displayName: displayName, userImage : userImage });
+    setReviewContent({
+      ...reviewContent,
+      postId: postLink,
+      photoUrl: photoUrl,
+      displayName: displayName,
+      userImage: userImage
+    });
     setSubmitType("share");
     setOpenReview(true);
   };
-  
+
   //Share Handler
   const sharePost = () => {
-    const { title, content, postId, photoUrl, displayName} = reviewContent;
-    addPost(title, content, postId, props.state.userID, photoUrl, displayName, props.state.userImage);
+    const { title, content, postId, photoUrl, displayName } = reviewContent;
+    addPost(
+      title,
+      content,
+      postId,
+      props.state.userID,
+      photoUrl,
+      displayName,
+      props.state.userImage
+    );
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });
   };
@@ -409,8 +434,7 @@ const UserList = (props) => {
         alert("ERROR");
       });
     setOpen(false);
-    setVisible(false)
-
+    setVisible(false);
   };
 
   const addReview = async (rating, comment, title, userId, postId) => {
@@ -624,48 +648,74 @@ const UserList = (props) => {
       </div>
     );
   }
-
+  /* #endregion */
   //-----Effects-----
   React.useEffect(() => {
     getContentByUserId();
-  }, []);
-  //   React.useEffect(()=> {
-  //
-  //   }, []);
+  }, [props]);
+    // React.useEffect(()=> {
+    //   getContentByUserId()
+    // }, []);
   //------end effects-----
   //===========RENDER===========
 
-  React.useEffect(() => {
-    if (metaData.title) {
-      console.log("HEY IM BEING CALLED!");
-      addContent();
-    }
-  }, [metaData.title]);
+  // React.useEffect(() => {
+  //   if (metaData.title) {
+  //     console.log("HEY IM BEING CALLED!");
+  //     addContent();
+  //   }
+  // }, [metaData.title]);
 
   return (
     <div className={classes.userListWrap}>
       <div className={classes.myHeader}>
-      
-        <h6 style={ visible ?  {margin: "0px"}   : {display:"none"}       }>Enter a Url to add to your list!</h6>
+        <h6 style={visible ? { margin: "0px" } : { display: "none" }}>
+          Enter a Url to add to your list!
+        </h6>
         <TextField
-        style={  visible ?     {width: "80%", background: "white", borderRadius: "10px", display: "flex", justifyContent: "center"}  : {width: "100%", background: "white", borderRadius: "10px", display: "flex", justifyContent: "center"}           }
-              margin="dense"
-              id="name"
-              label={visible ? "www.coolexample.com/article" : "Click here to save a link to your list!"}
-              fullWidth
-              multiline
-              disableUnderline
-              onChange={onChangeHandler}
-              onSubmit={clearText}
-              onClick={ () => setVisible(true)}
-              onBlur={() => setVisible(false)}
-              
-            />
-            {visible ? 
-        <Fab color="primary" aria-label="Add" onClick={() => handleSubmit(props.state.userID, link)} className={classes.saveButton} >
-          Save
-        </Fab> : null}
-        
+          style={
+            visible
+              ? {
+                  width: "80%",
+                  background: "white",
+                  borderRadius: "10px",
+                  display: "flex",
+                  justifyContent: "center"
+                }
+              : {
+                  width: "100%",
+                  background: "white",
+                  borderRadius: "10px",
+                  display: "flex",
+                  justifyContent: "center"
+                }
+          }
+          margin="dense"
+          id="name"
+          label={
+            visible
+              ? "www.coolexample.com/article"
+              : "Click here to save a link to your list!"
+          }
+          fullWidth
+          multiline
+          disableUnderline
+          onChange={onChangeHandler}
+          onSubmit={clearText}
+          onClick={() => setVisible(true)}
+          onBlur={() => setVisible(false)}
+        />
+        {visible ? (
+          <Fab
+            color="primary"
+            aria-label="Add"
+            onClick={() => handleSubmit(props.state.userID, link)}
+            className={classes.saveButton}
+          >
+            Save
+          </Fab>
+        ) : null}
+
         <Dialog
           open={open}
           onClose={() => setOpen(false)}
@@ -675,9 +725,7 @@ const UserList = (props) => {
             Enter Link to Blog/Course
           </DialogTitle>
 
-          <DialogContent>
-            
-          </DialogContent>
+          <DialogContent />
 
           <DialogActions>
             <Button onClick={() => setOpen(false)} color="primary">
@@ -693,6 +741,7 @@ const UserList = (props) => {
           </DialogActions>
         </Dialog>
       </div>
+      {console.log("this is list, ", list)}
       {list.map(item => {
         return (
           <MyListCard

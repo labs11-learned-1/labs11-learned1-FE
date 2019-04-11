@@ -90,15 +90,20 @@ const UsersLab = props => {
   const [publicUser, setUser] = React.useState("");
   const [displayName, setDisplayName] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
+
+
   const getUrlParams = () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const userID = urlParams.get("user");
-      setUser(userID);
+      const theirId = urlParams.get("user");
+      
+      console.log(publicUser)
       let temp = urlParams.get("displayName")
+      console.log("\n\n\n temp:   ",temp)
+      setUser(theirId);
       setDisplayName(temp);
   }
   const [isFollowing, updateFollowing] = React.useState(true)
-
+console.log(displayName)
   
   // const getContentByUserId = async () => {
   //   const urlParams = new URLSearchParams(window.location.search);
@@ -174,15 +179,16 @@ const UsersLab = props => {
                     state.userID
                   )
                 })
-                updateFollowing(false) //then remove "450" from 454's followers
+                //then remove "450" from 454's followers
                 .then(() => {
+                  updateFollowing(false)
                   console.log("success unfollowing");
                 })
                 .catch(err =>
                   console.log("Error updating other users followers", err)
                 );
             })
-            .catch(err => console.log("Error removing from following"));
+            .catch(err => console.log("Error removing from following", err));
         } else {
           //=================follow section=====================
           //if user 450 is not following user 454 then adding 454 to following array
@@ -202,15 +208,16 @@ const UsersLab = props => {
                     state.userID
                   )
                 })
-                updateFollowing(true) // .doc("theirId")  .arrayUnion("myUserId")
+                 // .doc("theirId")  .arrayUnion("myUserId")
                 .then(() => {
+                  updateFollowing(true)
                   console.log("Success update follows");
                 })
                 .catch(err =>
                   console.log("ERROR updating other users followers")
                 );
             })
-            .catch(err => console.log("ERROR FOLLOWING USER"));
+            .catch(err => console.log("ERROR FOLLOWING USER", err));
         }
       });
   };
@@ -218,7 +225,7 @@ const UsersLab = props => {
   React.useEffect(() => {
     // getContentByUserId();
     getUrlParams()
-    followOthers();
+    
   }, []);
 
   // React.useEffect(
