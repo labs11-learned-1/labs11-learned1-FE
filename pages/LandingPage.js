@@ -20,7 +20,6 @@ const styles = {
         flexDirection:"column",
         alignItems:"center",
         background:"#F7F7F7",
-        height:"600px",
         boxSizing:"border-box",
         padding:"5%",
         justifyContent:"space-between",
@@ -32,6 +31,9 @@ const styles = {
         color:"grey",
         justifyContent:"space-between"
     },
+    keepTrackImg : {
+        height:"250px"
+    }
 }
 
 function LandingPage(props){
@@ -44,9 +46,7 @@ function LandingPage(props){
             <LandingNav/>
             <Header />
             <div className={classes.keepTrack}>
-            <svg style={{width:'100px',height:'100px', color:'blue'}} viewBox="0 0 24 24">
-                <path fill="#000000" d="M15,7H20.5L15,1.5V7M8,0H16L22,6V18A2,2 0 0,1 20,20H8C6.89,20 6,19.1 6,18V2A2,2 0 0,1 8,0M4,4V22H20V24H4A2,2 0 0,1 2,22V4H4Z" />
-            </svg>
+                <img className={classes.keepTrackImg} src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/portfolio_essv.svg" alt="keep track"/>
                 <h1>Keep Track of Your Important Articles/Courses</h1>
                 <div className={classes.keepTrackContent}>
                     <h1 style={{width:"20%"}}>Save your articles with a press of a button</h1>
