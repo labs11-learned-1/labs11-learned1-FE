@@ -12,8 +12,8 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 const cardSize = 0.3;
-const cardHeight = "240px";
-const cardWidth = "240px";
+const cardHeight = "500px";
+const cardWidth = "500px";
 const useStyles = makeStyles(theme => ({
   hint: {
     color: "white"
@@ -23,7 +23,8 @@ const useStyles = makeStyles(theme => ({
     fontSize: '5rem'
   },
   modalContainer: {
-      background: '#072242'
+      background: '#072242',
+      "height": "100%"
   }
 }));
 function CategoryModal(props) {
@@ -103,7 +104,7 @@ function CategoryModal(props) {
             style={{
               display: "block",
               height: cardHeight,
-              width: "840px",
+              width: "1000px",
               margin: "0",
               background: "#004ba8"
             }}

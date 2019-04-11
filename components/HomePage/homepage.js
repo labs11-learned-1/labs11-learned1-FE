@@ -13,12 +13,18 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CategoryModal from '../CategoryModal/CategoryModal'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 import LoadingCard from './LoadingCard'
+import SearchCourses from "./SearchCourses";
 const styles = {
     recommendedCoursesWrapper:{
         width:"100%",
     },
     homepageWrapper:{
         width:"100%",
+        display:"flex",
+        alignItems:"center",
+        flexDirection:"column",
+        boxSizing:"border-box",
+        padding:"0 10%"
     },
     recoCourses:{
         width:"80%",
@@ -99,21 +105,26 @@ const Home = (props) => {
         })
     }
 
+    const fetchSpecifiedCourses = () => {
+        
+    }
+
     React.useEffect(()=>{
         fetchRecommended()
     }, [])
     return (
         <div className={classes.homepageWrapper}>
+            <SearchCourses />
             {loadingCourses ? <LinearProgress /> : <></>}
-            <div className={classes.popularBlogsWrapper}>
-                
+            {/* <div className={classes.popularBlogsWrapper}> */}
+                {/* <h2>Popular Blog Posts</h2> */}
                 {/* <LoadingCard /> */}
-                {topBlogs.map(blog => {
+                {/* {topBlogs.map(blog => {
                     return (
                         <BlogCard  content={blog}/>
                     )
-                })}
-            </div>
+                })} */}
+            {/* </div> */}
             <div className={classes.recommendedCoursesWrapper}>
                 <h2>Recommended Courses For You</h2>
                 <button onClick={() => props.setOpen(true)}>Change Your Interests</button>
