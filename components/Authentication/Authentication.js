@@ -72,6 +72,7 @@ const styles = {
     width: "314px",
     boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
     borderRadius: "2px",
+    background: "white"
   },
   
   brandingSection: {
@@ -118,12 +119,13 @@ const Authentication =  props => {
             .update({
               id: result.user.uid,
               email: result.user.email,
-              image: result.user.photoURL
+              image: docSnapshot.data().image,
+              displayName: docSnapshot.data().displayName
             })
             
             return dispatch({
               type: "LOGGED_IN",
-              payload: result.user
+              payload: docSnapshot.data()
             });
           }else{
             //create a new user

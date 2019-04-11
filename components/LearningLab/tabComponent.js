@@ -16,14 +16,15 @@ import PropTypes from "prop-types";
 
 function TabContainer(props) {
   return (
-    <Typography component="div" style={{ padding: 8 * 3 }}>
+    <Typography component="div" style={{ padding: 0 }}>
       {props.children}
     </Typography>
   );
 }
 const useStyles = makeStyles(theme => ({
   tabWrap: {
-    maxWidth: "600px"
+    maxWidth: "600px",
+    height: "100%"
   },
   reviewDialog: {
     width: "548px",

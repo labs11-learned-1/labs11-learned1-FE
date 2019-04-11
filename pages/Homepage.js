@@ -32,6 +32,7 @@ const Homepage = (props) => {
  
   const [categories, setCategories] = React.useState([]);
   const [open, setOpen] = React.useState(false);
+  const [firstTimeUser, setFirstTimeUser] = React.useState(true);
   
   function handleClose() {
     setOpen(false);
@@ -104,8 +105,8 @@ const Homepage = (props) => {
         <div>
           {state.loggedIn ? <GeneralNav/> : <LandingNav/>}
           <Home open={open} setOpen={setOpen} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/>
-          <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/>
-          {state.firstTimeUser ? <CategoryModal open={open} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/> : null}
+          {/* <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/> */}
+          {state.firstTimeUser ? <CategoryModal open={firstTimeUser} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/> : null}
         </div>
       );
     }

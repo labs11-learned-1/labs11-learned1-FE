@@ -1,5 +1,5 @@
 import Link from "next/link";
-import React, {useState, useContext} from "react";
+import React, {useState} from "react";
 import { Store } from "../store";
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
@@ -13,12 +13,18 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import CategoryModal from '../CategoryModal/CategoryModal'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 import LoadingCard from './LoadingCard'
+import SearchCourses from "./SearchCourses";
 const styles = {
     recommendedCoursesWrapper:{
         width:"100%",
     },
     homepageWrapper:{
         width:"100%",
+        display:"flex",
+        alignItems:"center",
+        flexDirection:"column",
+        boxSizing:"border-box",
+        padding:"0 10%"
     },
     recoCourses:{
         width:"80%",
@@ -42,6 +48,7 @@ const Home = (props) => {
     const [recCourses, setRecCourses] = useState([]);
     const [userTags, setUserTags] = useState([]);
     const [loadingCourses, setLoadingCourses] = useState(false);
+    const { state, dispatch } = React.useContext(Store);
 
     const fetchTopBlogs = () => {
         // We will make a request to our server for the 
@@ -98,26 +105,30 @@ const Home = (props) => {
         })
     }
 
-    const { state, dispatch } = React.useContext(Store);
+    const fetchSpecifiedCourses = () => {
+        
+    }
+
     React.useEffect(()=>{
         fetchRecommended()
     }, [])
     return (
         <div className={classes.homepageWrapper}>
+            <SearchCourses />
             {loadingCourses ? <LinearProgress /> : <></>}
-            <div className={classes.popularBlogsWrapper}>
-                <h2>Popular Blog Posts</h2>
+            {/* <div className={classes.popularBlogsWrapper}> */}
+                {/* <h2>Popular Blog Posts</h2> */}
                 {/* <LoadingCard /> */}
-                {topBlogs.map(blog => {
+                {/* {topBlogs.map(blog => {
                     return (
                         <BlogCard  content={blog}/>
                     )
-                })}
-            </div>
+                })} */}
+            {/* </div> */}
             <div className={classes.recommendedCoursesWrapper}>
                 <h2>Recommended Courses For You</h2>
                 <button onClick={() => props.setOpen(true)}>Change Your Interests</button>
-                <CategoryModal open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories}/>
+            {props.open ? <CategoryModal open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories} /> : null }
                 {loadingCourses 
                     ? 
                     <div className={classes.recoCourses}>

@@ -12,24 +12,23 @@ function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
 const cardSize = 0.3;
-const cardHeight = "420px";
-const cardWidth = "420px";
+const cardHeight = "500px";
+const cardWidth = "500px";
 const useStyles = makeStyles(theme => ({
   hint: {
     color: "white"
   },
   instructions: {
     color: "white",
-    fontSize: '60rem'
+    fontSize: '5rem'
   },
   modalContainer: {
-      background: '#072242'
+      background: '#072242',
+      "height": "100%"
   }
 }));
 function CategoryModal(props) {
-  function handleClose() {
-    setOpen(false);
-  }
+  
   const classes = useStyles();
   const [r, setR] = React.useState(0);
   // const handleAdd = name => {
@@ -73,8 +72,9 @@ function CategoryModal(props) {
     width: cardWidth,
     cursor: "pointer",
     border: "1px solid black",
-    boxShadow: "0px 4px 50px -4px rgba(46,54,199,1)",
-    transform: "scale(1.01)"
+    boxShadow: "0px 4px 50px -4px #ff00ff",
+    transform: "scale(1.01)",
+    border: "3px solid white"
   };
 
   return (
@@ -82,7 +82,7 @@ function CategoryModal(props) {
       <Dialog
         fullScreen
         open={props.open}
-        onClose={handleClose}
+        onClose={props.handleClose}
         TransitionComponent={Transition}
       >
         {/* Business Design Development Health & Fitness IT & Software Lifestyle Marketing Music Office Productivity Personal Development Photography Teaching & Academics */}
@@ -104,7 +104,7 @@ function CategoryModal(props) {
             style={{
               display: "block",
               height: cardHeight,
-              width: "840px",
+              width: "1000px",
               margin: "0",
               background: "#004ba8"
             }}
@@ -299,10 +299,10 @@ function CategoryModal(props) {
             <img src="https://images.pexels.com/photos/7075/people-office-group-team.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
             <GridListTileBar title="Teaching & Academics" />
           </GridListTile>
+          <Button variant="contained" size="large" color="primary" style={{width:"53%", borderRadius: "12px", height: "71px", margin: "80px", backgroundColor: "#ff00ff"}} onClick={props.addTagsToUser}>
+            Save
+          </Button>
         </GridList>
-        <Button color="inherit" onClick={props.addTagsToUser}>
-          Save
-        </Button>
       </Dialog>
     </div>
   );

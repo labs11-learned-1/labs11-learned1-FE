@@ -15,7 +15,8 @@ import PropTypes from "prop-types";
 //styling
 const styles = {
   list: {
-    display: "flex"
+    display: "flex",
+    flexFlow: "column"
   }
 };
 

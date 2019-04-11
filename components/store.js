@@ -21,7 +21,7 @@ function reducer(state, action) {
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
         case 'LOGGED_IN':
-            return { ...state, loggedIn: true, userID: action.payload.uid, displayName: action.payload.displayName, userImage: action.payload.photoURL}
+            return { ...state, loggedIn: true, userID: action.payload.id, displayName: action.payload.displayName, userImage: action.payload.image}
         case 'LOGGED_OUT':
             return {...state, loggedIn: false, }
         case 'FORM_TOGGLE':

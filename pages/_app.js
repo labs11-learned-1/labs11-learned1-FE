@@ -11,12 +11,21 @@ class MyApp extends App {
       <Container>
         <style jsx global>{`
           html {
-            font-family: "Roboto", "Helvetica", "Arial", sans-serif
+            height: 100%;
+            font-family: "Roboto", "Helvetica", "Arial", sans-serif;
+            
           }
+          
         `}</style>
         <style jsx global>{`
           body {
-            margin: 0
+            margin: 0;
+            min-height: 100%;
+            background: rgb(230, 236, 240);
+            
+          }
+          #__next {
+            height: 100%;
           }
         `}</style>
         {/* Then we wrap our components with the provider */}

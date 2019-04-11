@@ -12,6 +12,7 @@ import DialogContent from '@material-ui/core/DialogContent';
 import DialogTitle from '@material-ui/core/DialogTitle';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import Input from '@material-ui/core/Input';
+import HowToLink from './HowToLink'
 //firebase import
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
@@ -360,7 +361,9 @@ const Settings = (props) => {
                         onChange={handleUpdateDisplayName}
                         placeholder={userInfo.displayName}
                         disabled= {(editDisplay) ? '': 'disabled'}
-                        maxLength="50"
+                        inputProps={{
+                            maxLength: 16,
+                          }}
                         />
                         
                     </div>
@@ -397,7 +400,9 @@ const Settings = (props) => {
                         value={bio}
                         placeholder={userInfo.bio}
                         onChange={handleUpdateBio}
-                        maxLength="144"
+                        inputProps={{
+                            maxLength: 144,
+                          }}
                         disabled= {(bioDisplay) ? '': 'disabled'}
                         />            
                     </div>
@@ -416,7 +421,7 @@ const Settings = (props) => {
                         </Button>
                         
                     </div>
-                    <Dialog open={udemyModal} onClose={() => setUdemyModal(false)}>
+                    <Dialog fullWidth={true} maxWidth={"sm"} open={udemyModal} onClose={() => setUdemyModal(false)}>
                         <DialogTitle>Public Profile Link</DialogTitle>
                         <DialogContent>
                             {
@@ -427,6 +432,7 @@ const Settings = (props) => {
                                 </div> 
                             : 
                             <React.Fragment>
+                                <HowToLink/>
                                 <TextField
                                     autoFocus
                                     margin="dense"
