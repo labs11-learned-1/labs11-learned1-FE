@@ -246,7 +246,8 @@ console.log(displayName)
     // getContentByUserId();
     getUrlParams()
     
-  }, []);
+    
+  }, [window.location.search]);
 
   // React.useEffect(
   //     () => {
