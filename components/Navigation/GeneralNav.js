@@ -19,6 +19,7 @@ import Popper from '@material-ui/core/Popper';
 import MenuItem from '@material-ui/core/MenuItem';
 import MenuList from '@material-ui/core/MenuList';
 import Avatar from '@material-ui/core/Avatar';
+import Tooltip from '@material-ui/core/Tooltip';
 
 //  https://balsamiq.cloud/snv27r3/pqwdr68/
 
@@ -77,16 +78,20 @@ const styles = theme => ({
         height: '25px', 
         minWidth: '25px',
         display: 'none',
-        marginLeft: '20px',
+        
         '& svg': {
-            padding: '0'
+            padding: '0',
+            margin: '0 !important',
         }
     },
     tmIcons: {
         width: '25px !important',
         height: '25px', 
-        paddingLeft: '20px',
+        marginLeft: '20px',
         color: '#000051',
+    },
+    searchIcon: {
+        display: 'none'
     },
     searchBox: {     
         display: 'flex',
@@ -131,12 +136,14 @@ const styles = theme => ({
     tmButtons: {
         display: 'flex',
         alignItems: 'center',
-        '& svg': {
-            '& :hover': {
-                color: '#e0e0eb',
-                cursor: 'pointer'
-            }
-        }  
+    },
+    mainIcons: {
+        marginRight: '240px',
+        display: 'flex',
+        '& p': {
+            margin: '0',
+            paddingLeft: '5px'
+        },
     },
     largeIcons: {
         display: 'flex',
@@ -156,6 +163,17 @@ const styles = theme => ({
         marginLeft: '20px'
         
     },
+    iconContent: {
+        display: 'flex',
+        alignItems: 'center',
+        '& :hover': {
+            color: '#e0e0eb',
+            cursor: 'pointer'
+        }
+    },
+    mobileSearch: {
+        display: 'none'
+    },
     ISearchWrapper: {
         '& h2': {
             padding: '6px 1rem 6px 1rem',
@@ -167,23 +185,29 @@ const styles = theme => ({
             position: 'relative',
             zIndex: '10'
         },
-        '& div': {
-            zIndex: '10',
-        },
-        zIndex: '10',
     },
-    '@media(min-width: 880px)': {
-        mobileSearch: {
-            display: 'none !important'
-        },
+    smallIcons: {
+        display: 'none'
+    },
+    '@media(min-width: 880px)': {  
         ISearchWrapper: {
             display: 'flex',
             justifyContent: 'center',
             flexDirection: 'column',
             position: 'absolute',
-            right: '250px',
-            top: '20px',       
+            right: '60px',
+            top: '20px', 
         }, 
+        mobileSearch: {
+            display: 'none !important'
+        },
+    },
+    '@media(max-width: 1150px)': {
+        iconContent: {
+            '& p': {
+                display: 'none'
+            }
+        },
     },
     '@media(max-width: 880px)': {
         navBarLinksLarge: {
@@ -194,23 +218,44 @@ const styles = theme => ({
             zIndex: '5',
             display: 'block'
         },
-        burgerWrapper: {
-            display: 'block'
-        },
-        largeIcons: {
-            display: 'none !important'
-        },
-        desktopSearch: {
-            display: 'none !important'
-        },
         searchBox: {
             width: '100%',
+            zIndex: '10',
+            
             '& form': {
                 width: '100% !important'
             },
             padding: '0'
         },
+        tmButtons: {
+            display: 'flex'
+        },
         
+        desktopSearch: {
+            display: 'none !important'
+        },
+        mainIcons: {
+            marginRight: 0
+        },    
+        smallIcons: {
+            display: 'none',
+            '& svg': {
+                marginRight: '20px'
+            }
+        },
+        burgerWrapper: {
+            display: 'none'
+        }, 
+        mobileDropdown: {
+            display: 'none'
+        },
+        searchIcon: {
+            display: 'flex',
+            width: '25px !important',
+            height: '25px', 
+            marginLeft: '20px',
+            color: '#000051',
+        },
     },
     '@media(max-width: 600px)': {
         toolbar : {
@@ -218,18 +263,32 @@ const styles = theme => ({
             width:"88%",
         },
         desktopSearch: {
-            display: 'none !important',
+            display: 'none',
             height: '29.59px'
         },
+        smallIcons: {
+            display: 'flex'
+        },
+        burgerWrapper: {
+            display: 'block'
+        },
+        largeIcons: {
+            display: 'none !important'
+        },
+        mobileDropdown: {
+            display: 'block'
+        }  
     },
     
 });
 
 const GeneralNav = (props) => {
 
-    const [open, setOpen] = useState(false);
+    const [accountOpen, setAccountOpen] = useState(false);
+    const [burgerOpen, setBurgerOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
     const [searchStatus, setSearchStatus] = useState(false);
+    const [tabs, setTabs] = useState(false);
 
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
@@ -278,9 +337,9 @@ const GeneralNav = (props) => {
            });
     };
 
-    const handleClose = event => {
-        setOpen(false);
-    };
+    React.useEffect(()=>{
+        console.log(innerWidth)
+    }, [window.innerWidth])
 
     const { classes } = props;
 
@@ -291,20 +350,21 @@ const GeneralNav = (props) => {
         <div className={classes.ISearchWrapper}>
             <SearchBox 
             className={classes.searchBox} 
-            translations={{placeholder: 'Search...'}}
+            translations={{placeholder: 'Search Erudition...'}}
             reset={false}
             poweredBy={true}
+            onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
             />
             <div>
                 <Index indexName="posts">
-                    <h2 className={classes.searchTitle}>Articles</h2>
+                    {tabs ? <h2 className={classes.searchTitle}>Articles</h2>: undefined}
                     <Configure hitsPerPage={5} />
                     <Content/>
                 </Index>
             </div>
             <div>
                 <Index indexName="users">
-                    <h2 className={classes.searchTitle}>Users</h2>
+                    {tabs ? <h2 className={classes.searchTitle}>Users</h2>: undefined}
                     <Configure hitsPerPage={5} />
                     <Content/>
                 </Index>   
@@ -321,47 +381,69 @@ const GeneralNav = (props) => {
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo}/>
                 <div className={classes.iconWrapper}>
-                    <div className={classes.desktopSearch} style={{display: (searchStatus ? 'block' : 'none')}}> 
+                    <div className={classes.desktopSearch}> 
                         {ISearch}
                     </div>  
                     <div className={classes.tmButtons}>
-                        <FontAwesomeIcon className={classes.tmIcons} icon={faSearch} size={100} onClick={() => {setSearchStatus(!searchStatus)}}/>
+                        
                         <div className={classes.smallIcons}>
+                            <FontAwesomeIcon className={classes.searchIcon} icon={faSearch} size={100} onClick={() => {setSearchStatus(!searchStatus)}}/>
                             <Button
                                 buttonRef={node => {
                                 Button.anchorEl = node;
                                 }}
-                                aria-owns={open ? 'menu-list-grow' : undefined}
+                                aria-owns={burgerOpen ? 'menu-list-grow' : undefined}
                                 aria-haspopup="true"
-                                onClick={() => {setOpen(!open)}}
+                                onClick={() => {setBurgerOpen(!burgerOpen)}}
                                 className={classes.burgerWrapper}
                             >
                                 <FontAwesomeIcon  className={classes.tmIcons} icon={faBars} size={200}/>   
                             </Button>
+                            
                         </div>
                         <div className={classes.largeIcons}>
-                            <Link href="/Homepage">
-                                <FontAwesomeIcon className={classes.tmIcons} icon={faHome} size={200}/>
-                            </Link>
-                            <Link href="/learning-lab">
-                                <FontAwesomeIcon className={classes.tmIcons} icon={faBookmark} size={200}/>
-                            </Link>
-                            <Link href="/community">
-                                <FontAwesomeIcon  className={classes.tmIcons} icon={faStream} size={200}/>
-                            </Link>
+                            <div className={classes.mainIcons}>
+                                <Link href="/Homepage">
+                                    <div className={classes.iconContent}>
+                                        <Tooltip title="Home" placement="bottom" className={classes.tooltip}>
+                                            <FontAwesomeIcon className={classes.tmIcons} icon={faHome} size={200}/>
+                                        </Tooltip>
+                                        <p>Home</p>
+                                    </div>
+                                </Link>
+                                <Link href="/learning-lab">
+                                    <div className={classes.iconContent}>
+                                        <Tooltip title="My List" placement="bottom" className={classes.tooltip}>
+                                            <FontAwesomeIcon className={classes.tmIcons} icon={faBookmark} size={200}/>
+                                        </Tooltip>
+                                        <p>My List</p>
+                                    </div>
+                                </Link>
+                                <Link href="/community">
+                                    <div className={classes.iconContent}>
+                                        <Tooltip title="News Feed" placement="bottom" className={classes.tooltip}>
+                                            <FontAwesomeIcon  className={classes.tmIcons} icon={faStream} size={200}/>
+                                        </Tooltip>
+                                        <p>News Feed</p>
+                                    </div>
+                                </Link>
+                                
+                            </div>
+                            
+                            <FontAwesomeIcon className={classes.searchIcon} icon={faSearch} size={100} onClick={() => {setSearchStatus(!searchStatus)}}/>
                             <div>
                                 <Button
                                     buttonRef={node => {
                                     Avatar.anchorEl = node;
                                     }}
-                                    aria-owns={open ? 'menu-list-grow' : undefined}
+                                    aria-owns={accountOpen ? 'menu-list-grow' : undefined}
                                     aria-haspopup="true"
-                                    onClick={() => {setOpen(!open)}}
+                                    onClick={() => {setAccountOpen(!accountOpen)}}
                                     className={classes.Account}
                                 >
                                     <Avatar src={state.userImage}/>
                                 </Button>
-                                <Popper open={open} anchorEl={Popper.anchorEl} style={{zIndex: '3', position: 'absolute'}}transition disablePortal>
+                                <Popper open={accountOpen} anchorEl={Popper.anchorEl} style={{zIndex: '3', position: 'absolute'}}transition disablePortal>
                                     {({ TransitionProps, placement }) => (
                                     <Grow
                                         {...TransitionProps}
@@ -384,15 +466,18 @@ const GeneralNav = (props) => {
                                     )}
                                 </Popper>
                             </div>
+                            
                         </div>
                     </div> 
+                    
                 </div>        
             </Toolbar>
-            <div className={classes.mobileSearch} style={{display: (searchStatus ? 'block' : 'none')}}>
+            <div className={classes.mobileSearch} style={{display: (searchStatus ? 'block': 'none')}}> 
                 {ISearch}
-            </div>
-            <div>
-                <Popper  className={classes.menuList} open={open} anchorEl={Popper.anchorEl} transition disablePortal>
+            </div>  
+            
+            <div className={classes.mobileDropdown}>
+                <Popper  className={classes.menuList} open={burgerOpen} anchorEl={Popper.anchorEl} transition disablePortal>
                     {({ TransitionProps, placement }) => (
                     <Grow
                         {...TransitionProps}
