@@ -169,7 +169,7 @@ const Authentication =  props => {
       <div className={classes.contentWrap}>
         <div className={classes.brandingSection}>
           <div className={classes.logo} />
-          <h2>Learned</h2>
+          <h2>Erudition</h2>
           <p>Remember everything important.</p>
         </div>
         <IconButton className={classes.googleButton} onClick={handleGoogle}>
