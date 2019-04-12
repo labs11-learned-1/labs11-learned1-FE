@@ -20,9 +20,7 @@ const styles = theme => ({
         maxWidth: 800,
         marginTop:"15px",
         marginBottom:"20px",
-        border: "solid 1px lightskyblue",
         backgroundColor: "ghostwhite",
-        boxShadow: "3px 6px lightskyblue",
     },
     cardHeader: {
         display: "flex",
