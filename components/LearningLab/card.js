@@ -58,6 +58,7 @@ const MyListCard = (props) => {
     const [openMenu, setOpenMenu] = React.useState(false);
     const {state, dispatch} = React.useContext(Store);
     const { classes } = props;
+    console.log(props)
         
     return(
         <div>
@@ -93,7 +94,7 @@ const MyListCard = (props) => {
                                     <MenuList>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
-                                        props.prepareReviewList(props.content.userList, props.content.link);
+                                        
                                     }}>Reviews</MenuItem>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
