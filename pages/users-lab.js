@@ -17,12 +17,18 @@ import { Store } from "../components/store";
 import UserListCard from "../components/userLabCard";
 import TabComponent from '../components/LearningLab/tabComponent'
 import UserProfileInfo from '../components/LearningLab/userProfileInfo'
+import RandomUsers from '../components/LearningLab/randomUsers'
 
 const styles = theme => ({
   menu: {
     borderRadius: "50%",
     fontWeight: "bold",
     fontSize: "20px"
+  },
+  followBtn:{
+    position: "absolute",
+    bottom: "20px",
+    left: "66px"
   },
   homepageWrapper: {
     width: "80%",
@@ -48,8 +54,21 @@ const styles = theme => ({
   },
   tabby: {
     float: "right",
-    zIndex: "0",
     width: "600px",
+    background: "white",
+    margin: "0 10px",
+    height: "100%",
+    marginBottom: "20px"
+  },
+  otherSidebar:{
+    width: "200px",
+    height: "460px",
+    display: "flex",
+    position: "relative",
+    background: "white",
+    alignItems: "flex-end",
+    borderRadius: "10px 10px 0 0",
+    float: "right",
   },
  
   currentCourses: {
@@ -61,23 +80,24 @@ const styles = theme => ({
     justifyContent: "center"
   },
   learningLabWrap: {
-    paddingTop: "70px",
-    background: "#E6ECF0",
-    display: "flex",
+    padding: "12px 14px 15px",
+    display: "block",
     height: "100%",
-    justifyContent: "space-around",
+    width: "1020px",
+    position: "relative",
+    margin: "0 auto"
+    
   },
   userInfo: {
     width: "200px",
     height: "460px",
-    margin: "10px 30px 0 30px",
     display: "flex",
     position: "relative",
-    left: "0",
-    background: "#3f51b5",
+    background: "#534bae",
     alignItems: "flex-end",
     borderRadius: "10px",
-    border: "1px solid #778178"
+    float: "left",
+    
   },
 });
 
@@ -245,7 +265,13 @@ console.log(displayName)
       {/* state = { displayName : paramse and userID: publicUser }*/}
         <div className={classes.userInfo}>
           <UserProfileInfo state={{displayName : displayName, userID : publicUser}} />
-          {isFollowing ? <button onClick={followOthers}>UnFollow</button> : <button onClick={followOthers}>Follow</button>}
+          {/* {isFollowing ? <button className={classes.followBtn} onClick={followOthers}>UnFollow</button> :
+           <button  className={classes.followBtn} onClick={followOthers}>Follow</button>} */}
+
+<button className={classes.followBtn} onClick={followOthers}>{isFollowing ? "Unfollow": "Follow"}</button>
+        </div>
+        <div className={classes.otherSidebar}>
+        <RandomUsers />
         </div>
         <div className={classes.tabby}>
       <TabComponent state={{displayName : displayName, userID : publicUser}}/>

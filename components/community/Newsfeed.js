@@ -7,6 +7,7 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
+import RandomUsers from '../LearningLab/randomUsers'
 
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
 
@@ -224,6 +225,7 @@ const Newsfeed = props => {
         <UserProfileInfo state={state} />
       </div>
       <div className={classes.randomUsers}>
+      <RandomUsers />
       </div>
       <div className={classes.newsWrap}>
       <h1>News Feed</h1>

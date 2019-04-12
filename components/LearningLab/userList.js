@@ -2,7 +2,7 @@
 import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
-import Store from "../../components/store";
+import { Store } from "../../components/store";
 
 //COMPONENTS
 import MyListCard from "./card";
@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
   },
   myHeader: {
     display: "block",
-    background: "#e5f2f7",
+    background: "#cfd8dc",
     padding: "10px",
     alignItems: "center",
     "& h1": {
@@ -126,7 +126,8 @@ const UserList = props => {
   const [userReview, setUserReview] = React.useState(null);
   const [link, setLink] = React.useState("");
   const [visible, setVisible] = React.useState(false);
-
+  const { state, dispatch } = React.useContext(Store);
+  console.log(state);
   console.log("props1:", props);
 
   const listOnState = list;
@@ -138,23 +139,23 @@ const UserList = props => {
     let result = await loadDB();
     let db = result.firestore();
 
-    await db.collection("content-collection")
+    await db
+      .collection("content-collection")
       .where("userList", "array-contains", props.state.userID)
       .get()
       .then(async function(querySnapshot) {
         querySnapshot.forEach(function(doc) {
           const result = doc.data();
           arr.push(result);
-         
         });
       })
       .catch(function(error) {
         console.log("Error getting documents: ", error);
       });
-      setList(list => arr);
+    setList(list => arr);
   };
 
-/* #region */
+  /* #region */
 
   const clearText = () => {
     console.log("clear the text");
@@ -653,9 +654,9 @@ const UserList = props => {
   React.useEffect(() => {
     getContentByUserId();
   }, [props]);
-    // React.useEffect(()=> {
-    //   getContentByUserId()
-    // }, []);
+  // React.useEffect(()=> {
+  //   getContentByUserId()
+  // }, []);
   //------end effects-----
   //===========RENDER===========
 
@@ -665,82 +666,84 @@ const UserList = props => {
   //     addContent();
   //   }
   // }, [metaData.title]);
-
+  // console.log(state)
   return (
     <div className={classes.userListWrap}>
-      <div className={classes.myHeader}>
-        <h6 style={visible ? { margin: "0px" } : { display: "none" }}>
-          Enter a Url to add to your list!
-        </h6>
-        <TextField
-          style={
-            visible
-              ? {
-                  width: "80%",
-                  background: "white",
-                  borderRadius: "10px",
-                  display: "flex",
-                  justifyContent: "center"
-                }
-              : {
-                  width: "100%",
-                  background: "white",
-                  borderRadius: "10px",
-                  display: "flex",
-                  justifyContent: "center"
-                }
-          }
-          margin="dense"
-          id="name"
-          label={
-            visible
-              ? "www.coolexample.com/article"
-              : "Click here to save a link to your list!"
-          }
-          fullWidth
-          multiline
-          disableUnderline
-          onChange={onChangeHandler}
-          onSubmit={clearText}
-          onClick={() => setVisible(true)}
-          onBlur={() => setVisible(false)}
-        />
-        {visible ? (
-          <Fab
-            color="primary"
-            aria-label="Add"
-            onClick={() => handleSubmit(props.state.userID, link)}
-            className={classes.saveButton}
-          >
-            Save
-          </Fab>
-        ) : null}
-
-        <Dialog
-          open={open}
-          onClose={() => setOpen(false)}
-          aria-labelledby="form-dialog-title"
-        >
-          <DialogTitle id="form-dialog-title">
-            Enter Link to Blog/Course
-          </DialogTitle>
-
-          <DialogContent />
-
-          <DialogActions>
-            <Button onClick={() => setOpen(false)} color="primary">
-              Cancel
-            </Button>
-            {/* Change this to handle submit */}
-            <Button
-              onClick={() => handleSubmit(props.state.userID, link)}
+      {props.state.userID !== state.userID ? null : (
+        <div className={classes.myHeader}>
+          <h6 style={visible ? { margin: "0px" } : { display: "none" }}>
+            Enter a Url to add to your list!
+          </h6>
+          <TextField
+            style={
+              visible
+                ? {
+                    width: "80%",
+                    background: "white",
+                    borderRadius: "10px",
+                    display: "flex",
+                    justifyContent: "center"
+                  }
+                : {
+                    width: "100%",
+                    background: "white",
+                    borderRadius: "10px",
+                    display: "flex",
+                    justifyContent: "center"
+                  }
+            }
+            margin="dense"
+            id="name"
+            label={
+              visible
+                ? "www.coolexample.com/article"
+                : "Click here to save a link to your list!"
+            }
+            fullWidth
+            multiline
+            disableUnderline
+            onChange={onChangeHandler}
+            onSubmit={clearText}
+            onClick={() => setVisible(true)}
+            onBlur={() => setVisible(false)}
+          />
+          {visible ? (
+            <Fab
               color="primary"
+              aria-label="Add"
+              onClick={() => handleSubmit(props.state.userID, link)}
+              className={classes.saveButton}
             >
-              Add
-            </Button>
-          </DialogActions>
-        </Dialog>
-      </div>
+              Save
+            </Fab>
+          ) : null}{" "}
+          <Dialog
+            open={open}
+            onClose={() => setOpen(false)}
+            aria-labelledby="form-dialog-title"
+          >
+            <DialogTitle id="form-dialog-title">
+              Enter Link to Blog/Course
+            </DialogTitle>
+
+            <DialogContent />
+
+            <DialogActions>
+              <Button onClick={() => setOpen(false)} color="primary">
+                Cancel
+              </Button>
+              {/* Change this to handle submit */}
+              <Button
+                onClick={() => handleSubmit(props.state.userID, link)}
+                color="primary"
+              >
+                Add
+              </Button>
+            </DialogActions>
+          </Dialog>
+        </div>
+      )}
+
       {console.log("this is list, ", list)}
       {list.map(item => {
         return (

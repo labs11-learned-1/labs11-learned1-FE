@@ -86,7 +86,7 @@ const styles = theme => ({
         width: '25px !important',
         height: '25px', 
         paddingLeft: '20px',
-        color: '#000051',
+        color: '#1a237e',
     },
     searchBox: {     
         display: 'flex',
