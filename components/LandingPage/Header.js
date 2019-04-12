@@ -7,7 +7,7 @@ import Link from 'next/link';
 const styles = {
     root:{
         height:"600px",
-        background:"url('https://www.photohdx.com/images/2016/10/abstract-grey-blue-blurred-shapes-background.jpg')",
+        background:"url('https://i.ibb.co/HHf65vV/trianglify-1.png')",
         backgroundSize:"cover",
         display:"flex",
         justifyContent:"center",
@@ -34,7 +34,7 @@ const styles = {
         }
     },
     img : {
-        height : "85%"
+        width:"15%",
     },
     '@media(max-width: 600px)': {
         root:{
@@ -86,7 +86,7 @@ function Header(props){
                     <Button className={classes.headerSignUp}>Sign Up for free</Button>
                 </Link>
             </div>
-            <img className={classes.img} src="https://camo.githubusercontent.com/ff5622df209d49b0beba25976acd665fac3e0522/68747470733a2f2f696d616765732e636f6e74656e7466756c2e636f6d2f666d6a6b31386b30647979692f364a62447530327848696d4f7561307773794f7977672f36323631363466396336653363353933383366333430643237386530656330362f53637265656e5f53686f745f323031382d30312d32395f61745f31352e32342e35332e706e67" />
+            <img className={classes.img} src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/process_e90d.svg" />
         </div>
     )
 }
