@@ -679,14 +679,14 @@ const UserList = props => {
               visible
                 ? {
                     width: "80%",
-                    background: "white",
+                    background: "ghostwhite",
                     borderRadius: "10px",
                     display: "flex",
                     justifyContent: "center"
                   }
                 : {
                     width: "100%",
-                    background: "white",
+                    background: "ghostwhite",
                     borderRadius: "10px",
                     display: "flex",
                     justifyContent: "center"

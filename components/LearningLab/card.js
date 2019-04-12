@@ -22,7 +22,8 @@ const styles = theme => ({
       borderBottom: "2px solid #e5f2f7",
       borderRadius: "0",
       boxShadow: "0",
-      height: "180px"
+      height: "180px",
+      backgroundColor: 'ghostwhite'
     },
     cardHeader:{
         float: "right",

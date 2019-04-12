@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     width: "200px",
     height: "400px",
     flexFlow: "column wrap",
-    background: "white",
+    background: "ghostwhite",
     alignItems: "center",
     borderRadius: "0 0 10p 10px"
   },

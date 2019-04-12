@@ -34,7 +34,7 @@ const styles = {
     height: "460px",
     display: "flex",
     position: "relative",
-    background: "white",
+    background: "ghostwhite",
     alignItems: "flex-end",
     borderRadius: "10px",
     float: "right"

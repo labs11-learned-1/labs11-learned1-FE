@@ -25,14 +25,14 @@ function TabContainer(props) {
 const useStyles = makeStyles(theme => ({
   tabWrap: {
     maxWidth: "600px",
-    height: "100%"
+    height: "100%",
   },
   reviewDialog: {
     width: "548px",
     margin: "0",
     backgroundColor: "#3f51b5",
     "& h2": {
-      color: "white",
+      color: "ghostwhite",
       fontWeight: "bold"
     }
   },
@@ -78,7 +78,7 @@ console.log("props",props)
 
   return (
     <div className={classes.tabWrap}>
-      <AppBar position="static" style={{backgroundColor: "#534bae"}}>
+      <AppBar position="static" style={{backgroundColor: "#3f51b5"}}>
         <Tabs value={value} onChange={handleChange}>
           <Tab label= {props.state.userID !== state.userID ? `${props.state.displayName}'s List` : "My List"} />
           <Tab label={props.state.userID !== state.userID ? `${props.state.displayName}'s Posts` : "My Posts"} />
