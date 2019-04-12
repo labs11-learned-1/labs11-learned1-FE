@@ -14,11 +14,12 @@ import UserProfileInfo from ".././LearningLab/userProfileInfo";
 const styles = {
   newsWrap: {
     float: "right",
-    margin: "10px",
+    margin: "0 10px",
     display: "flex",
     width: "592px",
     flexFlow: "column wrap",
     alignItems: "center",
+    background: "rgb(230,236,240)",
    
   },
   communityContent: {
@@ -33,9 +34,8 @@ const styles = {
     height: "460px",
     display: "flex",
     position: "relative",
-    background: "white",
+    background: "ghostwhite",
     alignItems: "flex-end",
-    borderRadius: "10px",
     float: "right"
   },
   userInfo: {
@@ -48,6 +48,18 @@ const styles = {
     borderRadius: "10px",
     float: "left"
   },
+  newsFeedTitle: {
+    fontSize: '28px',
+    fontWeight: '600',
+    marginBottom: '5px',
+    padding: '15px 0 6px 0',
+    textAlign: 'center',
+    height: '40px',
+    width: '100%',
+    background: "#3f51b5",
+    color: 'white',
+    borderRadius: '10px 10px 0 0'
+  },
   cards: {
     width: "100%",
     display: "flex",
@@ -59,9 +71,8 @@ const styles = {
     flexDirection: "column",
     width: "100%",
     justifyContent: "space-between",
-    background: "#A2E9FF",
+    background: "ghostwhite",
     height: "20%",
-    borderRadius: "10px"
   },
   postBtn: {
     width: "25%",
@@ -228,7 +239,7 @@ const Newsfeed = props => {
       <RandomUsers />
       </div>
       <div className={classes.newsWrap}>
-      <h1>News Feed</h1>
+      <div className={classes.newsFeedTitle}>News Feed</div>
       <div className={classes.addPostContainer}>
         <TextField
           name="title"
