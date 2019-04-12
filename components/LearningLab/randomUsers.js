@@ -8,6 +8,7 @@ import { loadDB } from "../../firebaseConfig/firebase";
 
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
+import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles(theme => ({
   avatar: {
@@ -66,16 +67,15 @@ const RandomUsers = props => {
           return obj.id !== state.userID
       }) //filter out the element that is the signed in user
       
-      console.log(filteredArr)
+  console.log("RANDOM faUserSecret", filteredArr)
       setUserList(userList => filteredArr);
-    console.log(arr);
-    console.log(userList);
+   
 
   };
 
   React.useEffect(() => {
     getRandomUsers();
-  }, []);
+  }, [window.location.search]);
 
   return (
     <div className={classes.userContainer}>
@@ -90,7 +90,7 @@ const RandomUsers = props => {
               <Link
                 href={{
                   pathname: "/users-lab",
-                  query: { user: item.userID, displayName: item.displayName }
+                  query: { user: item.id, displayName: item.displayName }
                 }}
               >
                 <div className={classes.userWrap}>

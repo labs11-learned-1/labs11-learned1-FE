@@ -58,6 +58,9 @@ const styles = {
     alignItems: "flex-end",
     borderRadius: "10px",
     float: "left",
+    '@media(max-width: 600px)': {
+      display: "none"
+  }
   },
   otherInfo: {
     width: "200px",
@@ -67,7 +70,15 @@ const styles = {
     background: "ghostwhite",
     alignItems: "flex-end",
     float: "right",
+    '@media(max-width: 1050px)': {
+      float: "left"
   },
+    '@media(max-width: 600px)': {
+        display: "none"
+    }
+  },
+
+ 
   reviewDialog: {
     width: "548px",
     margin: "0",
@@ -83,7 +94,12 @@ const styles = {
     background: "ghostwhite",
     margin: "0 10px",
     height: "100%",
-    marginBottom: "20px"
+    marginBottom: "20px",
+    '@media(max-width: 600px)': {
+      float: "left",
+      width: "100%"
+
+  }
   },
 
   toolbar: {
@@ -115,6 +131,11 @@ const styles = {
     width: "1020px",
     margin: "0 auto",
     position: "relative",
+    '@media(max-width: 600px)': {
+      display: "flex",
+      width: "100%",
+      padding: "0px"
+  }
   },
   currentCourses: {
     minHeight: "100px"
