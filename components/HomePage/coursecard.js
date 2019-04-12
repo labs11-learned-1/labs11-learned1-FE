@@ -20,7 +20,7 @@ justifyContent: "flex-start",
 alignItems: "center"
   },
   courseCardWrapper:{
-    background: "white",
+    background: "ghostwhite",
     width:"24%",
     marginBottom:"20px",
     borderRadius:"7px",

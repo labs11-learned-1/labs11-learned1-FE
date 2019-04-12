@@ -23,7 +23,7 @@ const styles = theme => ({
     logo : {
         height: '100px',
         width: '150px',
-        backgroundImage: `url(https://i.ibb.co/vHLKCnG/low-res.png)`, 
+        backgroundImage: `url(https://i.ibb.co/6y24GKH/mediumsmall-res.png)`, 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         '&:hover': {
@@ -41,7 +41,8 @@ const styles = theme => ({
         },
         Button: {
             fontSize: '11px',
-            width: '125px'
+            width: '125px',
+            border: '1px red'
         }
     },
 })

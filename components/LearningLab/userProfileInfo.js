@@ -28,7 +28,7 @@ const useStyles = makeStyles(theme => ({
     width: "200px",
     height: "400px",
     flexFlow: "column wrap",
-    background: "white",
+    background: "ghostwhite",
     alignItems: "center",
     borderRadius: "0 0 10p 10px"
   },
@@ -66,7 +66,7 @@ console.log("we are getting this sers info",userID)
  
   React.useEffect(() => {
     getUserInfo();
-  }, []);
+  }, [window.location.search]);
 
   return (
     <div className={classes.sidebar}>

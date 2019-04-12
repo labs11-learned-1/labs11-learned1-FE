@@ -102,14 +102,14 @@ const styles = theme => ({
         flexDirection: 'column',
         justifyContent: 'start',
         width: '265px',
-        backgroundColor: 'white',
+        backgroundColor: 'ghostwhite',
         paddingLeft: '20px'
 
     },
     content: {
         width: '100%',
         maxWidth: '760px',
-        backgroundColor: 'white',
+        backgroundColor: 'ghostwhite',
         paddingRight: '20px'
     },
     signOutButton: {
