@@ -87,7 +87,7 @@ const styles = theme => ({
     tmIcons: {
         width: '25px !important',
         height: '25px', 
-        marginLeft: '20px',
+        
         color: '#1a237e',
     },
     searchIcon: {
@@ -164,12 +164,21 @@ const styles = theme => ({
         
     },
     iconContent: {
+        display: 'block',
+
+        paddingLeft: '20px',
+        '& :hover': {
+            color: '#e0e0eb !important',
+            cursor: 'pointer !important',  
+            '& svg': {
+                color: '#e0e0eb !important',
+                cursor: 'pointer !important',  
+            }
+        }
+    },
+    extraDivIcon: {
         display: 'flex',
         alignItems: 'center',
-        '& :hover': {
-            color: '#e0e0eb',
-            cursor: 'pointer'
-        }
     },
     mobileSearch: {
         display: 'none'
@@ -383,7 +392,9 @@ const GeneralNav = (props) => {
                     <div className={classes.tmButtons}>
                         
                         <div className={classes.smallIcons}>
-                            <FontAwesomeIcon className={classes.searchIcon} icon={faSearch} size={100} onClick={() => {setSearchStatus(!searchStatus)}}/>
+                            <Tooltip title="Search" placement="bottom" className={classes.tooltip}>
+                                <FontAwesomeIcon className={classes.searchIcon} icon={faSearch} size={100} onClick={() => {setSearchStatus(!searchStatus)}}/>
+                            </Tooltip>
                             <Button
                                 buttonRef={node => {
                                 Button.anchorEl = node;
@@ -401,32 +412,39 @@ const GeneralNav = (props) => {
                             <div className={classes.mainIcons}>
                                 <Link href="/Homepage">
                                     <div className={classes.iconContent}>
-                                        <Tooltip title="Home" placement="bottom" className={classes.tooltip}>
-                                            <FontAwesomeIcon className={classes.tmIcons} icon={faHome} size={200}/>
-                                        </Tooltip>
-                                        <p>Home</p>
+                                        <div className={classes.extraDivIcon}>
+                                            <Tooltip title="Home" placement="bottom" className={classes.tooltip}>
+                                                <FontAwesomeIcon className={classes.tmIcons} icon={faHome} size={200}/>
+                                            </Tooltip>
+                                            <p>Home</p>
+                                        </div>
                                     </div>
                                 </Link>
-                                <Link href="/learning-lab">
+                                <Link href="/learning-lab" >
                                     <div className={classes.iconContent}>
-                                        <Tooltip title="My List" placement="bottom" className={classes.tooltip}>
-                                            <FontAwesomeIcon className={classes.tmIcons} icon={faBookmark} size={200}/>
-                                        </Tooltip>
-                                        <p>My List</p>
+                                        <div className={classes.extraDivIcon}>
+                                            <Tooltip title="My List" placement="bottom" className={classes.tooltip}>
+                                                <FontAwesomeIcon className={classes.tmIcons} icon={faBookmark} size={200}/>
+                                            </Tooltip>
+                                            <p>My List</p>
+                                        </div>
                                     </div>
                                 </Link>
-                                <Link href="/community">
+                                <Link href="/community" >
                                     <div className={classes.iconContent}>
-                                        <Tooltip title="News Feed" placement="bottom" className={classes.tooltip}>
-                                            <FontAwesomeIcon  className={classes.tmIcons} icon={faStream} size={200}/>
-                                        </Tooltip>
-                                        <p>News Feed</p>
+                                        <div className={classes.extraDivIcon}>
+                                            <Tooltip title="News Feed" placement="bottom" className={classes.tooltip}>
+                                                <FontAwesomeIcon className={classes.tmIcons} icon={faStream} size={200}/>
+                                            </Tooltip>
+                                            <p>News Feed</p>
+                                        </div>
                                     </div>
                                 </Link>
                                 
                             </div>
-                            
-                            <FontAwesomeIcon className={classes.searchIcon} icon={faSearch} size={100} onClick={() => {setSearchStatus(!searchStatus)}}/>
+                            <Tooltip title="Search" placement="bottom" className={classes.tooltip}>
+                                <FontAwesomeIcon className={classes.searchIcon} icon={faSearch} size={100} onClick={() => {setSearchStatus(!searchStatus)}}/>
+                            </Tooltip>
                             <div>
                                 <Button
                                     buttonRef={node => {

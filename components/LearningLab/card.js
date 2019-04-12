@@ -113,12 +113,14 @@ const MyListCard = (props) => {
                     }
                     title={props.content.title ? props.content.title : 'No title provided...'}
                     />
-                    <Link href={`/postPage?content=${props.content.link}`} style={{display: 'block', textDecoration: 'none', width: "34%", float: "left", position: "relative"}}>
-                    <CardMedia
-                    className={classes.media}
-                    image={props.content.photoUrl ? props.content.photoUrl : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
-                    />
-                    </Link>
+                    <div style={{display: 'block', textDecoration: 'none', width: "34%", float: "left", position: "relative"}}>
+                        <Link href={`/postPage?content=${props.content.link}`} >
+                            <CardMedia
+                            className={classes.media}
+                            image={props.content.photoUrl ? props.content.photoUrl : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
+                            />
+                        </Link>
+                    </div>
                     <CardContent className={classes.content}>
                     <Typography component="p">
                         {props.content.description ? props.content.description : 'No description provided...'}
