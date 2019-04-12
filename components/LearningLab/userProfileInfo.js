@@ -63,7 +63,7 @@ console.log("we are getting this sers info",userID)
         console.log(err);
       });
   };
-  console.log("userinfo: ", userInfo)
+ 
   React.useEffect(() => {
     getUserInfo();
   }, []);

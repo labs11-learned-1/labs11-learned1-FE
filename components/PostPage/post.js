@@ -175,11 +175,8 @@ const PostInfoPage = props => {
             if(baseReview.rating != myReview.rating) {
                 addRating(contentInfo.link, myReview.rating, "edit", baseReview.rating);
             }
-            setBaseReview({...myReview, title: myReview.title, comment: myReview.comment, rating: myReview.rating});
-            
-        })
-        
-        
+            setBaseReview({...myReview, title: myReview.title, comment: myReview.comment, rating: myReview.rating}); 
+        })  
     }
 
     // When an edit is cancelled we reset the values back to the original.
@@ -222,7 +219,9 @@ const PostInfoPage = props => {
     React.useEffect(()=>{
         getPostContent();
         getReviewContent();
-    }, [])
+    }, [window.location.search])
+
+    
 
     //Conditional rendering variable initialization for following if statement...
     let addMyListButton;

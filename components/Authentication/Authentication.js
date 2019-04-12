@@ -93,11 +93,11 @@ const Authentication =  props => {
   const handleGoogle = async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
+    let randomInt = await Math.floor(Math.random() * Math.floor(2)); //returns 0 or 1
    
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(()=> {
       var provider = new firebase.auth.GoogleAuthProvider();
       
-    
     // myVal
     return firebase.auth()
     .signInWithPopup(provider)
@@ -120,7 +120,8 @@ const Authentication =  props => {
               id: result.user.uid,
               email: result.user.email,
               image: docSnapshot.data().image,
-              displayName: docSnapshot.data().displayName
+              displayName: docSnapshot.data().displayName,
+              randomAccessor: randomInt
             })
             
             return dispatch({
@@ -141,9 +142,10 @@ const Authentication =  props => {
               myList: [],
               followingCount: 1,
               followerCount: 1,
-              bio: ""
+              bio: "",
+              randomAccessor: randomInt
             });
-            onUserCreated({userID: result.user.uid, username: result.additionalUserInfo.profile.name})
+            onUserCreated({objectID: result.user.uid, username: result.additionalUserInfo.profile.name})
             return dispatch({
               type: "FIRST_TIME_LOGIN",
               payload: result.user

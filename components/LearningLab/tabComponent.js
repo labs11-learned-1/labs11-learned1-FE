@@ -8,6 +8,7 @@ import AppBar from "@material-ui/core/AppBar";
 import Tabs from "@material-ui/core/Tabs";
 import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
+import {Store} from '../../components/store'
 
 import { makeStyles } from "@material-ui/styles";
 
@@ -69,6 +70,7 @@ const useStyles = makeStyles(theme => ({
 const TabComponent = props => {
   const classes = useStyles();
   const [value, setValue] = React.useState(0);
+  const { state , dispatch } = React.useContext(Store)
 console.log("props",props)
   const handleChange = (event, newValue) => {
     setValue(newValue);
@@ -76,11 +78,11 @@ console.log("props",props)
 
   return (
     <div className={classes.tabWrap}>
-      <AppBar position="static">
+      <AppBar position="static" style={{backgroundColor: "#534bae"}}>
         <Tabs value={value} onChange={handleChange}>
-          <Tab label="My List" />
-          <Tab label={`${props.state.displayName}'s Posts`} />
-          <Tab label={`${props.state.displayName}'s Reviews`} />
+          <Tab label= {props.state.userID !== state.userID ? `${props.state.displayName}'s List` : "My List"} />
+          <Tab label={props.state.userID !== state.userID ? `${props.state.displayName}'s Posts` : "My Posts"} />
+          <Tab label={props.state.userID !== state.userID ? `${props.state.displayName}'s Reviews` : "My Reviews"} />
         </Tabs>
       </AppBar>
       {value === 0 && (
