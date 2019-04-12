@@ -66,7 +66,6 @@ const styles = {
     position: "relative",
     background: "ghostwhite",
     alignItems: "flex-end",
-    borderRadius: "10px",
     float: "right",
   },
   reviewDialog: {

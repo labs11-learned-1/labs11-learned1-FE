@@ -39,7 +39,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
   userListWrap: {
-    background: "white"
+    background: "ghostwhite",
   },
   saveButton: {
     float: "right",

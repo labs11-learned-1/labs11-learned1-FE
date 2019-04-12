@@ -27,7 +27,7 @@ const useStyles = makeStyles(theme => ({
     height: "100%",
     display: "flex",
     flexFlow: "column",
-    width: "100%"
+    width: "100%",
   },
   sectionTitle: {
     backgroundColor: "#3f51b5",

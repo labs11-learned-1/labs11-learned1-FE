@@ -18,9 +18,9 @@ const styles = theme => ({
     card: {
         width: "100%",
         maxWidth: 800,
-        marginTop:"15px",
-        marginBottom:"20px",
         backgroundColor: "ghostwhite",
+        borderRadius: 0,
+        borderTop: 'solid rgb(230,236,240)'
     },
     cardHeader: {
         display: "flex",

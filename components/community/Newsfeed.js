@@ -19,7 +19,7 @@ const styles = {
     width: "592px",
     flexFlow: "column wrap",
     alignItems: "center",
-    background: "rgb(230,236,240)"
+    background: "rgb(230,236,240)",
    
   },
   communityContent: {
@@ -36,7 +36,6 @@ const styles = {
     position: "relative",
     background: "ghostwhite",
     alignItems: "flex-end",
-    borderRadius: "10px",
     float: "right"
   },
   userInfo: {
@@ -53,12 +52,13 @@ const styles = {
     fontSize: '28px',
     fontWeight: '600',
     marginBottom: '5px',
-    padding: '15px 0 5px 0',
+    padding: '15px 0 6px 0',
     textAlign: 'center',
     height: '40px',
     width: '100%',
     background: "#3f51b5",
-    color: 'white'
+    color: 'white',
+    borderRadius: '10px 10px 0 0'
   },
   cards: {
     width: "100%",
@@ -73,7 +73,6 @@ const styles = {
     justifyContent: "space-between",
     background: "ghostwhite",
     height: "20%",
-    borderRadius: "10px"
   },
   postBtn: {
     width: "25%",
