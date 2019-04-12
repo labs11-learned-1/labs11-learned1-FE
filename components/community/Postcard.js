@@ -30,7 +30,9 @@ const styles = theme => ({
     },
     displayName: {
         margin: "25px 0 0 10px",
-        fontSize: "25px"
+        fontSize: "25px",
+        display:"flex",
+        flexDirection:"column",
     },
     media: {
         width:"40%",
@@ -59,6 +61,9 @@ const styles = theme => ({
     actions:{
         display:"flex",
         justifyContent:"center"
+    },
+    date:{
+        fontSize:".75rem"
     }
 });
 
@@ -67,14 +72,20 @@ class Postcard extends React.Component {
         const { classes } = this.props;
         const imgSrc =  this.props.content.displayImage ? this.props.content.displayImage : this.props.content.userImage
         const path = this.props.content.userId === this.props.state.userID ? "/learning-lab" : { pathname: '/users-lab', query: { user: this.props.content.userId, displayName : this.props.content.displayName}}
+        let finalDate = new Date(this.props.content.createdAt)
+        console.log(finalDate)
         return (
         <Card className={classes.card}>
             <Link href={path}>
                 <div className={classes.cardHeader}>
                     <img className={classes.avatar} src={imgSrc} />
-                    <div className={classes.displayName}>{this.props.content.displayName}</div>
+                    <div className={classes.displayName}>
+                        {this.props.content.displayName}
+                        <p className={classes.date}>{finalDate.toString().substring(0, 21)}</p>
+                    </div>
                 </div>
             </Link>
+            
             <div className={classes.cardContent}>
                 {this.props.content.photoUrl ? 
                 <CardMedia className={classes.media} image={this.props.content.photoUrl} title="Website Image" /> : 
