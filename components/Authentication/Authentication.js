@@ -93,7 +93,7 @@ const Authentication =  props => {
   const handleGoogle = async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
-    let randomInt = await Math.floor(Math.random() * Math.floor(5)); //returns 0,1,2,3 or 4
+    let randomInt = await Math.floor(Math.random() * Math.floor(2)); //returns 0 or 1
    
     firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(()=> {
       var provider = new firebase.auth.GoogleAuthProvider();

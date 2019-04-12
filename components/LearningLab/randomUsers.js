@@ -46,12 +46,11 @@ const RandomUsers = props => {
     let result = await loadDB();
     let db = result.firestore();
 
-    let randomInt = await Math.floor(Math.random() * Math.floor(5)); //returns 0,1,2,3 or 4
-    let test = 2
+    let randomInt = await Math.floor(Math.random() * Math.floor(2)); //returns 0 or 1
+    
 
     await db.collection("user")
-    //   .where("randomAccessor", "==", randomInt)
-      .where("randomAccessor", "==",test).limit(4) //you will only ever get 4 users back
+      .where("randomAccessor", "==",randomInt).limit(4) //you will only ever get 4 users back
       .get()
       .then(querySnapshot => {
         querySnapshot.forEach(doc => {
