@@ -79,8 +79,9 @@ function Header(props){
             <div className={classes.textArea}>
                 <h1 className={classes.headerTitle}>Never be <br />Unproductive Again!</h1>
                 <p className={classes.headerText}>
-                    Learned helps you find the perfect courses and blog posts without any hassle, all while keeping
-                    you updated with your friends and follows.
+                    Erudition utilizes a social community to help you find the most effective resources in a modern
+                    era of infinite information, all while allowing you to update your platform of friends and peers on your 
+                    latest finds!
                 </p>
                 <Link href="/Homepage">
                     <Button className={classes.headerSignUp}>Sign Up for free</Button>

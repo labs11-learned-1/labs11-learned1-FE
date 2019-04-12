@@ -54,7 +54,7 @@ const styles = {
     height: "460px",
     display: "flex",
     position: "relative",
-    background: "#534bae",
+    background: "#3f51b5",
     alignItems: "flex-end",
     borderRadius: "10px",
     float: "left",
@@ -64,9 +64,8 @@ const styles = {
     height: "460px",
     display: "flex",
     position: "relative",
-    background: "white",
+    background: "ghostwhite",
     alignItems: "flex-end",
-    borderRadius: "10px",
     float: "right",
   },
   reviewDialog: {
@@ -81,7 +80,7 @@ const styles = {
   tabby: {
     float: "right",
     width: "600px",
-    background: "white",
+    background: "ghostwhite",
     margin: "0 10px",
     height: "100%",
     marginBottom: "20px"
