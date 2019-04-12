@@ -17,12 +17,18 @@ import { Store } from "../components/store";
 import UserListCard from "../components/userLabCard";
 import TabComponent from '../components/LearningLab/tabComponent'
 import UserProfileInfo from '../components/LearningLab/userProfileInfo'
+import RandomUsers from '../components/LearningLab/randomUsers'
 
 const styles = theme => ({
   menu: {
     borderRadius: "50%",
     fontWeight: "bold",
     fontSize: "20px"
+  },
+  followBtn:{
+    position: "absolute",
+    bottom: "20px",
+    left: "66px"
   },
   homepageWrapper: {
     width: "80%",
@@ -48,8 +54,21 @@ const styles = theme => ({
   },
   tabby: {
     float: "right",
-    zIndex: "0",
     width: "600px",
+    background: "white",
+    margin: "0 10px",
+    height: "100%",
+    marginBottom: "20px"
+  },
+  otherSidebar:{
+    width: "200px",
+    height: "460px",
+    display: "flex",
+    position: "relative",
+    background: "white",
+    alignItems: "flex-end",
+    borderRadius: "10px 10px 0 0",
+    float: "right",
   },
  
   currentCourses: {
@@ -61,23 +80,24 @@ const styles = theme => ({
     justifyContent: "center"
   },
   learningLabWrap: {
-    paddingTop: "70px",
-    background: "#E6ECF0",
-    display: "flex",
+    padding: "12px 14px 15px",
+    display: "block",
     height: "100%",
-    justifyContent: "space-around",
+    width: "1020px",
+    position: "relative",
+    margin: "0 auto"
+    
   },
   userInfo: {
     width: "200px",
     height: "460px",
-    margin: "10px 30px 0 30px",
     display: "flex",
     position: "relative",
-    left: "0",
-    background: "#3f51b5",
+    background: "#534bae",
     alignItems: "flex-end",
     borderRadius: "10px",
-    border: "1px solid #778178"
+    float: "left",
+    
   },
 });
 
@@ -90,15 +110,20 @@ const UsersLab = props => {
   const [publicUser, setUser] = React.useState("");
   const [displayName, setDisplayName] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
+
+
   const getUrlParams = () => {
       const urlParams = new URLSearchParams(window.location.search);
-      const userID = urlParams.get("user");
-      setUser(userID);
+      const theirId = urlParams.get("user");
+      
+      console.log(publicUser)
       let temp = urlParams.get("displayName")
+      console.log("\n\n\n temp:   ",temp)
+      setUser(theirId);
       setDisplayName(temp);
   }
   const [isFollowing, updateFollowing] = React.useState(true)
-
+console.log(displayName)
   
   // const getContentByUserId = async () => {
   //   const urlParams = new URLSearchParams(window.location.search);
@@ -174,15 +199,16 @@ const UsersLab = props => {
                     state.userID
                   )
                 })
-                updateFollowing(false) //then remove "450" from 454's followers
+                //then remove "450" from 454's followers
                 .then(() => {
+                  updateFollowing(false)
                   console.log("success unfollowing");
                 })
                 .catch(err =>
                   console.log("Error updating other users followers", err)
                 );
             })
-            .catch(err => console.log("Error removing from following"));
+            .catch(err => console.log("Error removing from following", err));
         } else {
           //=================follow section=====================
           //if user 450 is not following user 454 then adding 454 to following array
@@ -202,15 +228,16 @@ const UsersLab = props => {
                     state.userID
                   )
                 })
-                updateFollowing(true) // .doc("theirId")  .arrayUnion("myUserId")
+                 // .doc("theirId")  .arrayUnion("myUserId")
                 .then(() => {
+                  updateFollowing(true)
                   console.log("Success update follows");
                 })
                 .catch(err =>
                   console.log("ERROR updating other users followers")
                 );
             })
-            .catch(err => console.log("ERROR FOLLOWING USER"));
+            .catch(err => console.log("ERROR FOLLOWING USER", err));
         }
       });
   };
@@ -218,7 +245,7 @@ const UsersLab = props => {
   React.useEffect(() => {
     // getContentByUserId();
     getUrlParams()
-    followOthers();
+    
   }, []);
 
   // React.useEffect(
@@ -238,7 +265,13 @@ const UsersLab = props => {
       {/* state = { displayName : paramse and userID: publicUser }*/}
         <div className={classes.userInfo}>
           <UserProfileInfo state={{displayName : displayName, userID : publicUser}} />
-          {isFollowing ? <button onClick={followOthers}>UnFollow</button> : <button onClick={followOthers}>Follow</button>}
+          {/* {isFollowing ? <button className={classes.followBtn} onClick={followOthers}>UnFollow</button> :
+           <button  className={classes.followBtn} onClick={followOthers}>Follow</button>} */}
+
+<button className={classes.followBtn} onClick={followOthers}>{isFollowing ? "Unfollow": "Follow"}</button>
+        </div>
+        <div className={classes.otherSidebar}>
+        <RandomUsers />
         </div>
         <div className={classes.tabby}>
       <TabComponent state={{displayName : displayName, userID : publicUser}}/>

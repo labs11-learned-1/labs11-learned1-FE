@@ -13,13 +13,19 @@ import Tooltip from '@material-ui/core/Tooltip';
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
 const styles = {
+  courseCardcontent:{
+padding: "10px",
+display: "flex",
+justifyContent: "flex-start",
+alignItems: "center"
+  },
   courseCardWrapper:{
+    background: "white",
     width:"24%",
     marginBottom:"20px",
     borderRadius:"7px",
     // boxShadow: "-1px 2px 3px -9px rgba(0,0,0,0.6)",
     transistion:".4s ease-in-out",
-    border:"1px solid black",
     '&:hover':{
       transform:"scale(1.02)",
       transition:".4s ease-in-out",
@@ -27,6 +33,7 @@ const styles = {
   },
   cardImg : {
     width:"100%",
+    borderBottom: "2px solid #534bae"
   },
   '@media(max-width: 600px)': {
     courseCardWrapper:{
@@ -118,7 +125,7 @@ const CourseCard = props => {
     return (
       <div  className={classes.courseCardWrapper}/*onClick={() => {window.location.href = props.url}}*/>
       <Fab 
-      style={{position:"absolute",zIndex:"1"}} 
+      style={{position:"absolute",zIndex:"1", margin: "5px", backgroundColor: "#534bae"}} 
       size="small" 
       color="primary" 
       aria-label="Add"
@@ -136,8 +143,8 @@ const CourseCard = props => {
         <div className='courseCard-image'>
             <a href={props.info.url} target="_blank"><img className={classes.cardImg} src={props.info.image_480x270} /></a>
         </div>
-        <div className='courseCard-content'>
-            <h4>{props.info.title}</h4>
+        <div className={classes.courseCardcontent}>
+            <h5>{props.info.title}</h5>
             {/* <p>{props.description}</p> */}
         </div>
       </div>

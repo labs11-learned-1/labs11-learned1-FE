@@ -9,6 +9,7 @@ import MyListCard from "./card";
 import GeneralNav from '../Navigation/GeneralNav'
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
 import TabComponent from ".././LearningLab/tabComponent";
+import RandomUsers from './randomUsers'
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -53,7 +54,7 @@ const styles = {
     height: "460px",
     display: "flex",
     position: "relative",
-    background: "#3f51b5",
+    background: "#534bae",
     alignItems: "flex-end",
     borderRadius: "10px",
     float: "left",
@@ -180,7 +181,7 @@ const LearningLab = props => {
         </div>
         
         <div className={classes.otherInfo}>
-        
+        <RandomUsers />
         </div>
         <div className={classes.tabby}>
           <TabComponent state={state} />
