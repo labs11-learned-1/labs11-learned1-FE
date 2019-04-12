@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Store} from '../store';
+import Link from "next/link";
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
@@ -112,12 +113,12 @@ const MyListCard = (props) => {
                     }
                     title={props.content.title ? props.content.title : 'No title provided...'}
                     />
-                    <a target='_blank' href={props.content.link} style={{display: 'block', textDecoration: 'none', width: "34%", float: "left", position: "relative"}}>
+                    <Link href={`/postPage?content=${props.content.link}`} style={{display: 'block', textDecoration: 'none', width: "34%", float: "left", position: "relative"}}>
                     <CardMedia
                     className={classes.media}
                     image={props.content.photoUrl ? props.content.photoUrl : 'https://www.honeystinger.com/c.3410322/sca-dev-elbrus/img/no_image_available.jpeg'}
                     />
-                    </a>
+                    </Link>
                     <CardContent className={classes.content}>
                     <Typography component="p">
                         {props.content.description ? props.content.description : 'No description provided...'}

@@ -88,7 +88,7 @@ const styles = theme => ({
         width: '25px !important',
         height: '25px', 
         marginLeft: '20px',
-        color: '#000051',
+        color: '#1a237e',
     },
     searchIcon: {
         display: 'none'
@@ -254,7 +254,7 @@ const styles = theme => ({
             width: '25px !important',
             height: '25px', 
             marginLeft: '20px',
-            color: '#000051',
+            color: '#1a237e',
         },
     },
     '@media(max-width: 600px)': {
@@ -336,10 +336,6 @@ const GeneralNav = (props) => {
              alert("Error signing out");
            });
     };
-
-    React.useEffect(()=>{
-        console.log(innerWidth)
-    }, [window.innerWidth])
 
     const { classes } = props;
 
