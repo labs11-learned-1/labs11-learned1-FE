@@ -87,6 +87,7 @@ const Homepage = (props) => {
         console.log("after adding", categories);
     }
   }
+ 
 
  
 

@@ -39,7 +39,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
   userListWrap: {
-    background: "white"
+    background: "ghostwhite",
   },
   saveButton: {
     float: "right",
@@ -354,14 +354,14 @@ const UserList = props => {
               visible
                 ? {
                     width: "80%",
-                    background: "white",
+                    background: "ghostwhite",
                     borderRadius: "10px",
                     display: "flex",
                     justifyContent: "center"
                   }
                 : {
                     width: "100%",
-                    background: "white",
+                    background: "ghostwhite",
                     borderRadius: "10px",
                     display: "flex",
                     justifyContent: "center"
