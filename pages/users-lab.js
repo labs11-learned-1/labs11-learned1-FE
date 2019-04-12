@@ -245,7 +245,7 @@ console.log(displayName)
   React.useEffect(() => {
     // getContentByUserId();
     getUrlParams()
-    
+
     
   }, [window.location.search]);
 
@@ -266,10 +266,10 @@ console.log(displayName)
       {/* state = { displayName : paramse and userID: publicUser }*/}
         <div className={classes.userInfo}>
           <UserProfileInfo state={{displayName : displayName, userID : publicUser}} />
-          {/* {isFollowing ? <button className={classes.followBtn} onClick={followOthers}>UnFollow</button> :
-           <button  className={classes.followBtn} onClick={followOthers}>Follow</button>} */}
+          {isFollowing ? <button className={classes.followBtn} onClick={followOthers}>UnFollow</button> :
+           <button  className={classes.followBtn} onClick={followOthers}>Follow</button>}
 
-<button className={classes.followBtn} onClick={followOthers}>{isFollowing ? "Unfollow": "Follow"}</button>
+{/* <button className={classes.followBtn} onClick={followOthers}>{isFollowing ? "Unfollow": "Follow"}</button> */}
         </div>
         <div className={classes.otherSidebar}>
         <RandomUsers />
