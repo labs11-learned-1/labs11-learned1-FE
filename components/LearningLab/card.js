@@ -1,6 +1,7 @@
 import React from 'react';
 import PropTypes from 'prop-types';
 import {Store} from '../store';
+import Link from 'next/link'
 
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';

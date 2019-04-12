@@ -66,10 +66,9 @@ const RandomUsers = props => {
           return obj.id !== state.userID
       }) //filter out the element that is the signed in user
       
-      console.log(filteredArr)
+  
       setUserList(userList => filteredArr);
-    console.log(arr);
-    console.log(userList);
+   
 
   };
 
