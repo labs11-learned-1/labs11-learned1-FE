@@ -217,7 +217,7 @@ function LandingPage(props){
 
             </div>
 
-            <div className={classes.Section3Header} style={{margin:"150px 0 50px 0"}}>
+            <div className={classes.Section3Header} style={{margin:"150px 0 50px 0",paddingTop:"50px", borderTop:"1px solid black"}}>
                 Sign Up Today At Zero Cost!
             </div>
             <div className={classes.getStartedBtn}>Sign Up!</div>
