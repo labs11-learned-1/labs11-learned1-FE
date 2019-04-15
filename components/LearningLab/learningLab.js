@@ -6,16 +6,14 @@ import PropTypes from "prop-types";
 //COMPONENTS
 
 import MyListCard from "./card";
-import GeneralNav from '../Navigation/GeneralNav'
+import GeneralNav from "../Navigation/GeneralNav";
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
 import TabComponent from ".././LearningLab/tabComponent";
-import RandomUsers from './randomUsers'
+import RandomUsers from "./randomUsers";
 
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-
-
 
 //MaterialUI
 import { withStyles } from "@material-ui/core/styles";
@@ -27,7 +25,6 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
-
 //===========TABS IMPORTS===========
 // import SwipeableViews from 'react-swipeable-views';
 import AppBar from "@material-ui/core/AppBar";
@@ -36,7 +33,6 @@ import Tab from "@material-ui/core/Tab";
 import Typography from "@material-ui/core/Typography";
 import FormControlLabel from "@material-ui/core/FormControlLabel";
 import Checkbox from "@material-ui/core/Checkbox";
-
 
 //==========TABS FUNCTIONS=========
 function TabContainer(props) {
@@ -49,7 +45,6 @@ function TabContainer(props) {
 
 //learning labs styles
 const styles = {
- 
   otherInfo: {
     width: "200px",
     height: "460px",
@@ -58,15 +53,23 @@ const styles = {
     background: "ghostwhite",
     alignItems: "flex-end",
     float: "right",
-    '@media(max-width: 1050px)': {
+    "@media(max-width: 1050px)": {
       float: "left"
-  },
-    '@media(max-width: 600px)': {
-        display: "none"
+    },
+    "@media(max-width: 600px)": {
+      display: "none"
     }
   },
+  banners: {
+    position: 'fixed',
+    height: "100%",
+    width: '1024px',
+    margin: "0",
+    '@media(max-width: 840px)': {
+      display: "none"
+  },
+  },
 
- 
   reviewDialog: {
     width: "548px",
     margin: "0",
@@ -77,17 +80,19 @@ const styles = {
     }
   },
   tabby: {
-    float: "right",
-    width: "600px",
+    float: "left",
+    right: "-20%",
+    width: "592px",
     background: "ghostwhite",
     margin: "0 10px",
     height: "100%",
     marginBottom: "20px",
-    '@media(max-width: 600px)': {
+    position: "relative",
+    "@media(max-width: 600px)": {
       float: "left",
-      width: "100%"
-
-  }
+      right: "0"
+      
+    }
   },
 
   toolbar: {
@@ -102,10 +107,6 @@ const styles = {
     fontWeight: "bold",
     fontSize: "20px"
   },
-  homepageWrapper: {
-    width: "80%",
-    marginLeft: "26%"
-  },
   myList: {
     display: "flex",
     flexWrap: "wrap",
@@ -113,17 +114,17 @@ const styles = {
   },
   learningLabWrap: {
     padding: "12px 14px 15px",
-    
+
     display: "block",
     height: "100%",
     width: "1020px",
-    margin: "0 auto",
+    margin: "70px auto 0 auto",
     position: "relative",
-    '@media(max-width: 600px)': {
+    "@media(max-width: 600px)": {
       display: "flex",
       width: "100%",
       padding: "0px"
-  }
+    }
   },
   currentCourses: {
     minHeight: "100px"
@@ -144,10 +145,9 @@ const LearningLab = props => {
   const [UdemyList, setUdemyList] = React.useState([]);
   const [open, setOpen] = React.useState(false);
 
-
   //=====END TABS HANDLING STATE=====
 
-/* #region udemy-handling */
+  /* #region udemy-handling */
   const getUdemyByUserId = async () => {
     let arr = [];
     let result = await loadDB();
@@ -180,32 +180,23 @@ const LearningLab = props => {
   //         })}
 
   return (
-      <div className={classes.pageWrap}>
-      <GeneralNav/>
+    
+      
       <div className={classes.learningLabWrap}>
-
-        
+        <div className={classes.banners}>
           <UserProfileInfo state={state} />
-        
-        
-        <div className={classes.otherInfo}>
-        <RandomUsers />
+          <RandomUsers />
         </div>
         <div className={classes.tabby}>
           <TabComponent state={state} />
-          
         </div>
-
-        
-       
       </div>
-      
-    </div>
+    
   );
 };
 
 LearningLab.propTypes = {
-  classes: PropTypes.object.isRequired,
+  classes: PropTypes.object.isRequired
 };
 
 export default withStyles(styles)(LearningLab);

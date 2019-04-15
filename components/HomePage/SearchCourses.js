@@ -7,9 +7,13 @@ import Radio from '@material-ui/core/Radio';
 import axios from 'axios';
 import TextField from '@material-ui/core/TextField';
 import CourseCard from './coursecard';
+import LinearProgress from '@material-ui/core/LinearProgress';
+import {Store} from '../store';
+import { from } from 'rxjs';
+import { defaultProps } from 'recompose';
 
 
-export default function SearchCourses(){
+export default function SearchCourses(props){
     const [courses, setCourses] = React.useState([]);
     const cats = [
         'Business' ,
@@ -26,8 +30,10 @@ export default function SearchCourses(){
         'Photography',
         'Teaching & Academics'
     ];
+    const { state, dispatch } = React.useContext(Store);
     const [parameters, setParameters] = React.useState({category : "", searchTerm : "", isPaid : ""})
     const [Paginated, setPaginated] = React.useState([]);
+    const [loadingSpecifiedCourses, setLoadingSpecifiedCourses] = React.useState(false)
 
     function handleRadio(event) {
         setParameters({...parameters, isPaid : event.target.value});
@@ -46,13 +52,16 @@ export default function SearchCourses(){
     }
 
     async function getCourses(){
+        setLoadingSpecifiedCourses(true)
         await axios.post('https://metadatatesting.herokuapp.com/get-courses', {"parameters" : parameters})
         .then(res => {
             console.log("Searched Courses", res.data)
             setCourses(res.data)
+            setLoadingSpecifiedCourses(false)
         })
         .catch(err => {
             alert("Error recieveing the courses")
+            setLoadingSpecifiedCourses(false)
         })
         console.log("courses", courses)
     }
@@ -102,9 +111,10 @@ export default function SearchCourses(){
                     </div> : null}
 
                     <div style={{display:"flex", width:"100%", flexDirection:"row", flexWrap :"wrap", justifyContent:"space-between"}}>
-                        {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard key={course.title} info={course} />)}
+                        {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard openSnackbar={props.openSnackbar} userId={state.userID} key={course.url} info={course} />)}
                     </div>
             </div>
+            {loadingSpecifiedCourses ? <LinearProgress style={{width:"100%", marginTop:"10px"}}/> : <></>}
         </div>
     )
 }

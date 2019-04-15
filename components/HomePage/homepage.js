@@ -14,6 +14,10 @@ import CategoryModal from '../CategoryModal/CategoryModal'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 import LoadingCard from './LoadingCard'
 import SearchCourses from "./SearchCourses";
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
+import WarningIcon from '@material-ui/icons/Warning';
+
 const styles = {
     recommendedCoursesWrapper:{
         width:"100%",
@@ -24,7 +28,8 @@ const styles = {
         alignItems:"center",
         flexDirection:"column",
         boxSizing:"border-box",
-        padding:"0 10%"
+        padding:"0 10%",
+        marginTop:"70px"
     },
     recoCourses:{
         width:"80%",
@@ -49,6 +54,7 @@ const Home = (props) => {
     const [userTags, setUserTags] = useState([]);
     const [loadingCourses, setLoadingCourses] = useState(false);
     const { state, dispatch } = React.useContext(Store);
+    const [openSnackBar, setOpenSnackBar]= useState(false);
 
     const fetchTopBlogs = () => {
         // We will make a request to our server for the 
@@ -109,13 +115,21 @@ const Home = (props) => {
         
     }
 
+    const handleSnackBarClose=()=>{
+        setOpenSnackBar(false);
+    }
+
+    const handleSnackBarOpen=()=>{
+        setOpenSnackBar(true)
+    }
+
     React.useEffect(()=>{
         fetchRecommended()
     }, [])
     return (
         <div className={classes.homepageWrapper}>
-            <SearchCourses />
-            {loadingCourses ? <LinearProgress /> : <></>}
+            <SearchCourses openSnackbar={handleSnackBarOpen}/>
+            {loadingCourses ? <LinearProgress style={{width:"80%", marginTop:"10px"}}/> : null}
             {/* <div className={classes.popularBlogsWrapper}> */}
                 {/* <h2>Popular Blog Posts</h2> */}
                 {/* <LoadingCard /> */}
@@ -148,11 +162,27 @@ const Home = (props) => {
                     : 
                     <div className={classes.recoCourses}>
                     {recCourses.map(course => {
-                        return <CourseCard userId={state.userID} key={course.url} info={course}/>
+                        return <CourseCard openSnackbar={handleSnackBarOpen} userId={state.userID} key={course.url} info={course}/>
                     })}
                 </div>
                 }
             </div>
+            <Snackbar
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+                }}
+                open={openSnackBar}
+                autoHideDuration={5000}
+                onClose={handleSnackBarClose}
+            >   
+            <SnackbarContent
+                onClose={handleSnackBarClose}
+                variant="success"
+                message="Success Adding Course"
+                style={{backgroundColor:"green"}}
+            />
+            </Snackbar>
         </div>
     );
 }
