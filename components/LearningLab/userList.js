@@ -279,13 +279,15 @@ const UserList = props => {
     setOpenReviewList(true);
   };
 
-  const prepareSharePost = (postLink, photoUrl, displayName, userImage) => {
+  const prepareSharePost = (postLink, photoUrl, displayName, userImage, articleTitle, articleDescription) => {
     setReviewContent({
       ...reviewContent,
       postId: postLink,
       photoUrl: photoUrl,
       displayName: displayName,
-      userImage: userImage
+      userImage: userImage,
+      articleTitle : articleTitle,
+      articleDescription : articleDescription
     });
     setSubmitType("share");
     setOpenReview(true);
@@ -293,7 +295,7 @@ const UserList = props => {
 
   //Share Handler
   const sharePost = () => {
-    const { title, content, postId, photoUrl, displayName } = reviewContent;
+    const { title, content, postId, photoUrl, displayName, articleTitle, articleDescription } = reviewContent;
     addPost(
       title,
       content,
@@ -301,7 +303,9 @@ const UserList = props => {
       props.state.userID,
       photoUrl,
       displayName,
-      props.state.userImage
+      props.state.userImage,
+      articleTitle,
+      articleDescription,
     );
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });

@@ -98,7 +98,7 @@ const MyListCard = (props) => {
                                     }}>Reviews</MenuItem>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
-                                        props.prepareSharePost(props.content.link, props.content.photoUrl, state.displayName, state.userImage);//add props.metadata
+                                        props.prepareSharePost(props.content.link, props.content.photoUrl, state.displayName, state.userImage, props.content.title, props.content.description);//add props.metadata
                                     }}>Share Post</MenuItem>
                                     </MenuList>
                                     <MenuItem onClick={(ev) => {
