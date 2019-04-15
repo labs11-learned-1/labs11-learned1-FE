@@ -123,16 +123,12 @@ const PostInfoPage = props => {
     const [editingMyReview, setEditingMyReview] = useState(true);
     const [baseReview, setBaseReview] = useState(null);
 
-    //State for styling purpose
-    const [imgWidth, setImgWidth] = useState(null);
-
     //Gets the review id from the url parameters and uses the id retrieved to get the article information
     //from our database. Then sets the contentInfo state equal to that information.
     const getPostContent = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const contentID = urlParams.get("content").split("//").pop().replace(/[/]/g, "-");
         const content = await getContentById(contentID).then((res) => {
-            getImageWidth(res.photoUrl)
             setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link, numRatings: res.numRatings, avgRating: res.avgRating});
         }); 
     }
@@ -203,20 +199,14 @@ const PostInfoPage = props => {
         })
     }
 
-    const getImageWidth = (url) => {   
-        let img = new Image();
-        img.addEventListener("load", function(){
-            setImgWidth(this.naturalWidth);
-        });
-        img.src = url;
-    }
-
     //Handler used to update myReview depending on content type.
     const reviewChangeHandler = (ev) => {
         setMyReview({ ...myReview, [ev.target.name]: ev.target.value });
     }
 
     React.useEffect(()=>{
+        setBaseReview(null);
+        setMyReview({title: "", comment: "", rating: 5})
         getPostContent();
         getReviewContent();
     }, [window.location.search])
@@ -388,7 +378,6 @@ const PostInfoPage = props => {
     }
 
     console.log(contentInfo)
-    console.log(imgWidth)
 
     return (
         <div className={classes.postPageWrapper}>
