@@ -438,67 +438,6 @@ const UserList = props => {
     setVisible(false);
   };
 
-  // const addReview = async (rating, comment, title, userId, postId) => {
-  //   //load db instance
-  //   let result = await loadDB();
-  //   let db = result.firestore();
-  //   let newLink = postId
-  //     .split("//")
-  //     .pop()
-  //     .replace(/[/]/g, "-");
-  //   db.collection("reviews")
-  //     .add({
-  //       // adding a new review in 'reviews' collection
-  //       rating: rating, //<---- firestore review system (drew's resource that he posted)
-  //       comment: comment,
-  //       title: title,
-  //       userId: userId, //<--- id of user who left review, in this case is state.userId
-  //       contentCollectionId: newLink, // id of content that is being reviewed, should be accsesed through state that has content-collection in it. state.contentId
-  //       displayImage: props.state.userImage,
-  //       displayName: props.state.displayName
-  //     })
-  //     .then(ref => {
-  //       db.collection("user")
-  //         .doc(userId) //<--- id of user who left erview, same as above, state.userId
-  //         .update({ reviews: firebase.firestore.FieldValue.arrayUnion(ref.id) })
-  //         .then(() => {
-  //           console.log("review ID:  ", ref.id, "has been added to the user");
-  //           db.collection("content-collection")
-  //             .doc(newLink) //<---this is contentCollectionId, which should be on state when state.contentId
-  //             .update({
-  //               reviews: firebase.firestore.FieldValue.arrayUnion(ref.id)
-  //             })
-  //             .then(() => {
-  //               setUserReview({
-  //                 comment: comment,
-  //                 contentCollectionId: postId,
-  //                 rating: rating,
-  //                 reviewID: ref.id,
-  //                 title: title,
-  //                 userId: props.state.userID,
-  //                 displayImage: props.state.userImage,
-  //                 displayName: props.state.displayName
-  //               });
-
-  //               console.log(
-  //                 "reviewID",
-  //                 ref.id,
-  //                 "has been added to the reviews array in the content"
-  //               );
-  //             })
-  //             .catch(err => {
-  //               console.log(
-  //                 "error adding reviewID to the reviews array in content collection"
-  //               );
-  //             });
-  //         })
-  //         .catch(err => {
-  //           console.log("error adding reviewid to reviews array in user");
-  //         });
-  //     })
-  //     .catch(err => console.log("Error adding review", err));
-  // };
-
   let reviewBody;
   let reviewButtons;
   let userContent;

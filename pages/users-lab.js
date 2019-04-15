@@ -4,7 +4,7 @@ import React from "react";
 import axios from "axios";
 import PropTypes from "prop-types";
 import MyListCard from "../components/LearningLab/card";
-import GeneralNav from '../components/Navigation/GeneralNav'
+import GeneralNav from "../components/Navigation/GeneralNav";
 
 //FIREBASE
 import * as firebase from "firebase";
@@ -15,9 +15,9 @@ import { withStyles } from "@material-ui/core/styles";
 import { Store } from "../components/store";
 
 import UserListCard from "../components/userLabCard";
-import TabComponent from '../components/LearningLab/tabComponent'
-import UserProfileInfo from '../components/LearningLab/userProfileInfo'
-import RandomUsers from '../components/LearningLab/randomUsers'
+import TabComponent from "../components/LearningLab/tabComponent";
+import UserProfileInfo from "../components/LearningLab/userProfileInfo";
+import RandomUsers from "../components/LearningLab/randomUsers";
 
 const styles = theme => ({
   menu: {
@@ -25,7 +25,7 @@ const styles = theme => ({
     fontWeight: "bold",
     fontSize: "20px"
   },
-  followBtn:{
+  followBtn: {
     position: "absolute",
     bottom: "20px",
     left: "66px"
@@ -53,14 +53,21 @@ const styles = theme => ({
     }
   },
   tabby: {
-    float: "right",
-    width: "600px",
-    background: "white",
+    float: "left",
+    right: "-20%",
+    width: "592px",
+    background: "ghostwhite",
     margin: "0 10px",
     height: "100%",
-    marginBottom: "20px"
+    marginBottom: "20px",
+    position: "relative",
+    "@media(max-width: 600px)": {
+      float: "left",
+      right:"0"
+      
+    }
   },
-  otherSidebar:{
+  otherSidebar: {
     width: "200px",
     height: "460px",
     display: "flex",
@@ -68,9 +75,9 @@ const styles = theme => ({
     background: "white",
     alignItems: "flex-end",
     borderRadius: "10px 10px 0 0",
-    float: "right",
+    float: "right"
   },
- 
+
   currentCourses: {
     minHeight: "100px"
   },
@@ -81,12 +88,17 @@ const styles = theme => ({
   },
   learningLabWrap: {
     padding: "12px 14px 15px",
+
     display: "block",
     height: "100%",
     width: "1020px",
+    margin: "70px auto 0 auto",
     position: "relative",
-    margin: "0 auto"
-    
+    "@media(max-width: 600px)": {
+      display: "flex",
+      width: "100%",
+      padding: "0px"
+    }
   },
   userInfo: {
     width: "200px",
@@ -96,8 +108,16 @@ const styles = theme => ({
     background: "#534bae",
     alignItems: "flex-end",
     borderRadius: "10px",
-    float: "left",
-    
+    float: "left"
+  },
+  banners: {
+    position: 'fixed',
+    height: "100%",
+    width: '1024px',
+    margin: "0",
+    '@media(max-width: 840px)': {
+      display: "none"
+  },
   },
 });
 
@@ -111,20 +131,19 @@ const UsersLab = props => {
   const [displayName, setDisplayName] = React.useState("");
   const [UdemyList, setUdemyList] = React.useState([]);
 
-
   const getUrlParams = () => {
-      const urlParams = new URLSearchParams(window.location.search);
-      const theirId = urlParams.get("user");
-      
-      console.log(publicUser)
-      let temp = urlParams.get("displayName")
-      console.log("\n\n\n temp:   ",temp)
-      setUser(theirId);
-      setDisplayName(temp);
-  }
-  const [isFollowing, updateFollowing] = React.useState(true)
-console.log(displayName)
-  
+    const urlParams = new URLSearchParams(window.location.search);
+    const theirId = urlParams.get("user");
+
+    console.log(publicUser);
+    let temp = urlParams.get("displayName");
+    console.log("\n\n\n temp:   ", temp);
+    setUser(theirId);
+    setDisplayName(temp);
+  };
+  const [isFollowing, updateFollowing] = React.useState(true);
+  console.log(displayName);
+
   // const getContentByUserId = async () => {
   //   const urlParams = new URLSearchParams(window.location.search);
   //   const userID = urlParams.get("user");
@@ -169,8 +188,6 @@ console.log(displayName)
   //   console.log("MY ARRAY", arr);
   // };
 
- 
-
   const followOthers = async () => {
     // async (myUserId, theirId)
     let result = await loadDB();
@@ -201,7 +218,7 @@ console.log(displayName)
                 })
                 //then remove "450" from 454's followers
                 .then(() => {
-                  updateFollowing(false)
+                  updateFollowing(false);
                   console.log("success unfollowing");
                 })
                 .catch(err =>
@@ -228,9 +245,9 @@ console.log(displayName)
                     state.userID
                   )
                 })
-                 // .doc("theirId")  .arrayUnion("myUserId")
+                // .doc("theirId")  .arrayUnion("myUserId")
                 .then(() => {
-                  updateFollowing(true)
+                  updateFollowing(true);
                   console.log("Success update follows");
                 })
                 .catch(err =>
@@ -244,40 +261,40 @@ console.log(displayName)
 
   React.useEffect(() => {
     // getContentByUserId();
-    getUrlParams()
-
-    
+    getUrlParams();
   }, [window.location.search]);
 
-  // React.useEffect(
-  //     () => {
-
-  //         if (metaData.title) {
-  //             console.log("HEY IM BEING CALLED!")
-  //             addContent()
-  //         }
-  //     },
-  //     [metaData.title]
-  // );
   return (
     <div>
-      <GeneralNav/>
+      <GeneralNav />
       <div className={classes.learningLabWrap}>
-      {/* state = { displayName : paramse and userID: publicUser }*/}
-        <div className={classes.userInfo}>
-          <UserProfileInfo state={{displayName : displayName, userID : publicUser}} />
-          {isFollowing ? <button className={classes.followBtn} onClick={followOthers}>UnFollow</button> :
-           <button  className={classes.followBtn} onClick={followOthers}>Follow</button>}
+        {/* state = { displayName : paramse and userID: publicUser }*/}
+        <div className={classes.banners}>
+          <div className={classes.userInfo}>
+            <UserProfileInfo
+              state={{ displayName: displayName, userID: publicUser }}
+            />
+            {isFollowing ? (
+              <button className={classes.followBtn} onClick={followOthers}>
+                UnFollow
+              </button>
+            ) : (
+              <button className={classes.followBtn} onClick={followOthers}>
+                Follow
+              </button>
+            )}
 
-{/* <button className={classes.followBtn} onClick={followOthers}>{isFollowing ? "Unfollow": "Follow"}</button> */}
-        </div>
-        <div className={classes.otherSidebar}>
-        <RandomUsers />
+            {/* <button className={classes.followBtn} onClick={followOthers}>{isFollowing ? "Unfollow": "Follow"}</button> */}
+          </div>
+
+          <RandomUsers />
         </div>
         <div className={classes.tabby}>
-      <TabComponent state={{displayName : displayName, userID : publicUser}}/>
+          <TabComponent
+            state={{ displayName: displayName, userID: publicUser }}
+          />
+        </div>
       </div>
-    </div>
     </div>
   );
 };
