@@ -49,19 +49,7 @@ function TabContainer(props) {
 
 //learning labs styles
 const styles = {
-  userInfo: {
-    width: "200px",
-    height: "460px",
-    display: "flex",
-    position: "relative",
-    background: "#3f51b5",
-    alignItems: "flex-end",
-    borderRadius: "10px",
-    float: "left",
-    '@media(max-width: 600px)': {
-      display: "none"
-  }
-  },
+ 
   otherInfo: {
     width: "200px",
     height: "460px",
@@ -196,9 +184,9 @@ const LearningLab = props => {
       <GeneralNav/>
       <div className={classes.learningLabWrap}>
 
-        <div className={classes.userInfo}>
+        
           <UserProfileInfo state={state} />
-        </div>
+        
         
         <div className={classes.otherInfo}>
         <RandomUsers />

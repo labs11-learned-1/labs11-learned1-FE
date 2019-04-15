@@ -34,7 +34,8 @@ const styles = theme => ({
         height: '70px',
         zIndex: "40",
         backgroundColor: 'ghostwhite',
-        position: 'fixed'
+        position: 'fixed',
+        top: "0"
     },
     toolbar : {
         width:"70%",

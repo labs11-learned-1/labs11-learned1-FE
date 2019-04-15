@@ -13,41 +13,38 @@ import UserProfileInfo from ".././LearningLab/userProfileInfo";
 
 const styles = {
   newsWrap: {
-    float: "right",
-    margin: "70px 10px 0 10px",
+    margin: "0 10px",
     display: "flex",
     width: "592px",
     flexFlow: "column wrap",
     alignItems: "center",
     background: "rgb(230,236,240)",
+    float: 'left',
+    right: "-20%",
+    position: "relative",
+
+    '@media(max-width: 840px)': {
+      right: "0"
+  },
+  },
+  banners: {
+    position: 'fixed',
+    height: "100%",
+    width: '1024px',
+    margin: "0",
+    '@media(max-width: 840px)': {
+      display: "none"
+  },
+  },
+   recommendUsersCard: {
+    position: 'fixed',
+    left: '70%',
   },
   communityContent: {
     width: "1012px",
     display: "block",
-    margin: "0 auto",
+    margin: "70px auto 0px auto",
     padding: "12px 14px 15px",
-   
-  },
-  randomUsers: {
-    width: "200px",
-    height: "460px",
-    marginTop: ' 70px',
-    display: "flex",
-    position: "relative",
-    background: "ghostwhite",
-    alignItems: "flex-end",
-    float: "right"
-  },
-  userInfo: {
-    width: "200px",
-    height: "460px",
-    display: "flex",
-    marginTop: '70px',
-    position: "relative",
-    background: "#3f51b5",
-    alignItems: "flex-end",
-    borderRadius: "10px",
-    float: "left"
   },
   newsFeedTitle: {
     fontSize: '28px',
@@ -233,61 +230,62 @@ const Newsfeed = props => {
 
   return (
     <div className={classes.communityContent}>
-      <div className={classes.userInfo}>
+      <div className={classes.banners}>
         <UserProfileInfo state={state} />
+        <RandomUsers state={state} />
       </div>
-      <div className={classes.randomUsers}>
-      <RandomUsers />
-      </div>
-      <div className={classes.newsWrap}>
-      <div className={classes.newsFeedTitle}>News Feed</div>
-      <div className={classes.addPostContainer}>
-        <TextField
-          name="title"
-          id="filled-full-width"
-          label={`${titleLength} / 32`}
-          style={{ margin: 10, background: "white" }}
-          placeholder="Post title here"
-          multiline
-          margin="normal"
-          variant="filled"
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={postInfo.title}
-          onChange={onChangeHandler}
-        />
-        <TextField
-          name="content"
-          id="filled-full-width"
-          label={`${contentLength} / 255`}
-          style={{ margin: 10, background: "white" }}
-          placeholder="Whats on your mind?"
-          multiline
-          margin="normal"
-          variant="filled"
-          InputLabelProps={{
-            shrink: true
-          }}
-          value={postInfo.content}
-          onChange={onChangeHandler}
-        />
-        <Fab
-          variant="extended"
-          color="primary"
-          onClick={() => submitPost()}
-          className={classes.postBtn}
-        >
-          Post
-        </Fab>
-      </div>
-      <div className={classes.cards}>
       
-        {newsfeed.map((post, index) => (
-          <Postcard content={post} state={state} key={index} />
-        ))}
+      <div className={classes.newsWrap}>
+        <div className={classes.newsFeedTitle}>News Feed</div>
+        <div className={classes.addPostContainer}>
+          <TextField
+            name="title"
+            id="filled-full-width"
+            label={`${titleLength} / 32`}
+            style={{ margin: 10, background: "white" }}
+            placeholder="Post title here"
+            multiline
+            margin="normal"
+            variant="filled"
+            InputLabelProps={{
+              shrink: true
+            }}
+            value={postInfo.title}
+            onChange={onChangeHandler}
+          />
+          <TextField
+            name="content"
+            id="filled-full-width"
+            label={`${contentLength} / 255`}
+            style={{ margin: 10, background: "white" }}
+            placeholder="Whats on your mind?"
+            multiline
+            margin="normal"
+            variant="filled"
+            InputLabelProps={{
+              shrink: true
+            }}
+            value={postInfo.content}
+            onChange={onChangeHandler}
+          />
+          <Fab
+            variant="extended"
+            color="primary"
+            onClick={() => submitPost()}
+            className={classes.postBtn}
+          >
+            Post
+          </Fab>
+        </div>
+
+        <div className={classes.cards}>
+          {newsfeed.map((post, index) => (
+            <Postcard content={post} state={state} key={index} />
+          ))}
+        </div>
       </div>
-      </div>
+
+      
     </div>
   );
 };
