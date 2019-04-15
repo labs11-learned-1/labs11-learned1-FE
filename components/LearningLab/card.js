@@ -2,7 +2,7 @@ import React from 'react';
 import PropTypes from 'prop-types';
 import {Store} from '../store';
 import Link from "next/link";
-
+// Material UI imports
 import { withStyles } from '@material-ui/core/styles';
 import Card from '@material-ui/core/Card';
 import CardHeader from '@material-ui/core/CardHeader';
@@ -58,6 +58,7 @@ const MyListCard = (props) => {
     const [openMenu, setOpenMenu] = React.useState(false);
     const {state, dispatch} = React.useContext(Store);
     const { classes } = props;
+    console.log(props)
         
     return(
         <div>
@@ -93,11 +94,11 @@ const MyListCard = (props) => {
                                     <MenuList>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
-                                        props.prepareReviewList(props.content.userList, props.content.link);
+                                        
                                     }}>Reviews</MenuItem>
                                     <MenuItem onClick={(ev) => {
                                         ev.preventDefault();
-                                        props.prepareSharePost(props.content.link, props.content.photoUrl, state.displayName, state.userImage);
+                                        props.prepareSharePost(props.content.link, props.content.photoUrl, state.displayName, state.userImage, props.content.title, props.content.description);//add props.metadata
                                     }}>Share Post</MenuItem>
                                     </MenuList>
                                     <MenuItem onClick={(ev) => {
@@ -114,7 +115,7 @@ const MyListCard = (props) => {
                     }
                     title={props.content.title ? props.content.title : 'No title provided...'}
                     />
-                    <div style={{display: 'block', textDecoration: 'none', width: "34%", float: "left", position: "relative"}}>
+                    <div style={{display: 'block', textDecoration: 'none', width: "34%", float: "left", position: "relative", cursor: "pointer"}}>
                         <Link href={`/postPage?content=${props.content.link}`} >
                             <CardMedia
                             className={classes.media}

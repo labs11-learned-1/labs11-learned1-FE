@@ -75,6 +75,7 @@ const CourseCard = props => {
                   console.log("Success adding to myList!")
                   setCurrentlyAdding(false)
                   setAlreadyAdded(true)
+                  props.openSnackbar()
                 });
             })
             .catch(err => {
@@ -104,6 +105,7 @@ const CourseCard = props => {
                 .then(() => {
                   console.log("success adding to myList")
                   setCurrentlyAdding(false)
+                  props.openSnackbar()
                   setAlreadyAdded(true)
                 });
             })

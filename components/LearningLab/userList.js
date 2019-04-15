@@ -39,7 +39,7 @@ import AddIcon from "@material-ui/icons/Add";
 
 const useStyles = makeStyles(theme => ({
   userListWrap: {
-    background: "ghostwhite",
+    background: "white"
   },
   saveButton: {
     float: "right",
@@ -88,7 +88,7 @@ const useStyles = makeStyles(theme => ({
   },
   myHeader: {
     display: "block",
-    background: "#cfd8dc",
+    background: "#e5f2f7",
     padding: "10px",
     alignItems: "center",
     "& h1": {
@@ -269,16 +269,33 @@ const UserList = props => {
   };
 
   //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
-  
+  const reviewChange = ev => {
+    setReviewContent({ ...reviewContent, [ev.target.name]: ev.target.value });
+  };
 
+  const prepareReviewList = async (userList, link) => {
+    setReviewContent({ ...reviewContent, postId: link });
+    await getReviewList(userList, link);
+    setOpenReviewList(true);
+  };
+
+<<<<<<< HEAD
   const prepareSharePost = (postLink, photoUrl, displayName, userImage, metaData) => {
+=======
+  const prepareSharePost = (postLink, photoUrl, displayName, userImage, articleTitle, articleDescription) => {
+>>>>>>> 6366ff69329080a07c4caabc5ca688188dcc9d5c
     setReviewContent({
       ...reviewContent,
       postId: postLink,
       photoUrl: photoUrl,
       displayName: displayName,
       userImage: userImage,
+<<<<<<< HEAD
       metaData: metaData
+=======
+      articleTitle : articleTitle,
+      articleDescription : articleDescription
+>>>>>>> 6366ff69329080a07c4caabc5ca688188dcc9d5c
     });
     setSubmitType("share");
     setOpenReview(true);
@@ -286,7 +303,7 @@ const UserList = props => {
 
   //Share Handler
   const sharePost = () => {
-    const { title, content, postId, photoUrl, displayName, metaData } = reviewContent;
+    const { title, content, postId, photoUrl, displayName, articleTitle, articleDescription } = reviewContent;
     addPost(
       title,
       content,
@@ -295,16 +312,124 @@ const UserList = props => {
       photoUrl,
       displayName,
       props.state.userImage,
-      metaData
+      articleTitle,
+      articleDescription,
     );
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });
   };
 
+  const getReviewList = async (userList, link) => {
+    let result = await loadDB();
+    let db = result.firestore();
+    let newLink = link
+      .split("//")
+      .pop()
+      .replace(/[/]/g, "-");
+    await userList.forEach(async id => {
+      db.collection("reviews")
+        .where("contentCollectionId", "==", newLink)
+        .where("userId", "==", id) //<--- this id should be the reviewId of the review you want to delete. on state
+        .get()
+        .then(res => {
+          setGettingInfo(false);
+          if (res.docs.length > 0) {
+            let item = res.docs[0].data();
+            if (item.userId == props.state.userID) {
+              setUserReview({
+                title: item.title,
+                rating: item.rating,
+                content: item.comment,
+                postId: item.contentCollectionId,
+                reviewID: res.docs[0].id,
+                displayName: item.displayName,
+                displayImage: item.displayImage
+              });
+              setReviewContent({
+                ...reviewContent,
+                rating: item.rating,
+                content: item.comment,
+                title: item.title,
+                postId: item.contentCollectionId,
+                reviewID: res.docs[0].id
+              });
+            } else {
+              setReviewList(prevReview => [
+                ...prevReview,
+                { ...res.docs[0].data(), reviewID: res.docs[0].id }
+              ]);
+            }
+          }
+        })
+        .catch(err => err);
+    });
+  };
 
-  
+  const updateReview = () => {
+    const { rating, title, content, reviewID, postId } = reviewContent;
+    if (share) {
+      console.log("SHARE");
+      addPost(title, content, postId, props.state.userID);
+    }
+    editReview(reviewID, content, title, rating);
+    setOpenReview(false);
+  };
 
-  const handleSubmit = (id, link) => {
+  const editReview = async (reviewID, comment, title, rating) => {
+    let result = await loadDB();
+    let db = result.firestore();
+
+    db.collection("reviews")
+      .doc(reviewID) // <--this is the reviewId on state
+      .update({
+        comment: comment,
+        title: title,
+        rating: rating
+      })
+      .then(res => {
+        setUserReview({
+          ...userReview,
+          comment: comment,
+          rating: rating,
+          reviewID: reviewID,
+          title: title
+        });
+        console.log("Success updating review", res);
+      })
+      .catch(err => console.log("Failed to update review", err));
+  };
+
+  const deleteReview = async () => {
+    let result = await loadDB();
+    let db = result.firestore();
+    db.collection("reviews")
+      .doc(userReview.reviewID) //<--- this id should be the reviewId of the review you want to delete. on state
+      .delete()
+      .then(res => {
+        setUserReview(null);
+        setReviewContent({
+          rating: 5,
+          title: "",
+          content: "",
+          postId: "",
+          reviewID: ""
+        });
+        console.log("Success deleting:", res);
+      })
+      .catch(err => console.log("Failed to delete review", err));
+  };
+
+  // const postReview = () => {
+  //   const { rating, content, title, postId } = reviewContent;
+  //   if (share) {
+  //     console.log("SHARE");
+  //     addPost(title, content, postId, props.state.userID);
+  //   }
+  //   addReview(rating, content, title, props.state.userID, postId);
+  //   setOpenReview(false);
+  // };
+
+  const handleSubmit = () => {
     // sending link to web scraping backend that returns meta tags
     axios
       .post("https://getmetatag.herokuapp.com/get-meta", { url: link })
@@ -325,8 +450,12 @@ const UserList = props => {
     setVisible(false);
   };
 
-  
-  /* #endregion */
+  let reviewBody;
+  let reviewButtons;
+  let userContent;
+  let nonShareButtons;
+
+
   //-----Effects-----
   React.useEffect(() => {
     getContentByUserId();
@@ -356,14 +485,14 @@ const UserList = props => {
               visible
                 ? {
                     width: "80%",
-                    background: "ghostwhite",
+                    background: "white",
                     borderRadius: "10px",
                     display: "flex",
                     justifyContent: "center"
                   }
                 : {
                     width: "100%",
-                    background: "ghostwhite",
+                    background: "white",
                     borderRadius: "10px",
                     display: "flex",
                     justifyContent: "center"
@@ -380,7 +509,7 @@ const UserList = props => {
             multiline
             disableUnderline
             onChange={onChangeHandler}
-            // onSubmit={clearText}
+            onSubmit={clearText}
             onClick={() => setVisible(true)}
             onBlur={() => setVisible(false)}
           />
@@ -426,8 +555,13 @@ const UserList = props => {
         return (
           <MyListCard
             content={item}
+<<<<<<< HEAD
             prepareSharePost={prepareSharePost}
             
+=======
+            prepareReviewList={prepareReviewList}
+            prepareSharePost={prepareSharePost}
+>>>>>>> 6366ff69329080a07c4caabc5ca688188dcc9d5c
             deleteContent={() =>
               deleteContent(
                 item.link,
@@ -442,8 +576,115 @@ const UserList = props => {
       })}
 
       {/*  THIS IS THE REVIEW POSTING POPUP COMPONENT */}
-     
-      
+      <Dialog
+        className={classes.reviewListDialog}
+        open={openReview}
+        onClose={() => {
+          submitType == "share"
+            ? (setOpenReview(false),
+              setReviewContent({
+                ...reviewContent,
+                rating: 5,
+                title: "",
+                content: ""
+              }))
+            : setOpenReview(false);
+        }}
+        aria-labelledby="simple-dialog-title"
+      >
+        <DialogTitle
+          className={classes.reviewListDialog}
+          id="simple-dialog-title"
+        >
+          {submitType == "post"
+            ? "POST REVIEW"
+            : submitType == "share"
+            ? "SHARE POST"
+            : "EDIT REVIEW"}
+        </DialogTitle>
+        <DialogContent>
+          <TextField
+            autoFocus
+            margin="dense"
+            id="name"
+            name="title"
+            placeholder="Title"
+            className={classes.textField}
+            fullWidth
+            value={reviewContent.title}
+            onChange={reviewChange}
+          />
+          <TextField
+            id="filled-multiline-static"
+            multiline
+            rows="10"
+            name="content"
+            placeholder="Write your review here..."
+            className={classes.textField}
+            margin="normal"
+            variant="filled"
+            value={reviewContent.content}
+            onChange={reviewChange}
+          />
+          <div className={classes.reviewButtons}>
+            {nonShareButtons}
+            <Button
+              color="primary"
+              onClick={() => {
+                submitType == "post"
+                  ? postReview()
+                  : submitType == "share"
+                  ? sharePost()
+                  : updateReview();
+              }}
+            >
+              SAVE
+            </Button>
+            <Button
+              onClick={() => {
+                submitType == "edit"
+                  ? setOpenReview(false)
+                  : (setOpenReview(false),
+                    setReviewContent({
+                      ...reviewContent,
+                      rating: 5,
+                      title: "",
+                      content: ""
+                    }));
+              }}
+              color="primary"
+            >
+              CANCEL
+            </Button>
+          </div>
+        </DialogContent>
+      </Dialog>
+      <Dialog
+        fullWidth={true}
+        maxWidth={"md"}
+        open={openReviewList}
+        onClose={() => {
+          setOpenReviewList(false);
+          setReviewList([]);
+          setReviewContent({
+            rating: 5,
+            title: "",
+            content: "",
+            postId: "",
+            reivewID: ""
+          });
+          setGettingInfo(true);
+        }}
+        aria-labelledby="simple-dialog-title"
+      >
+        <DialogTitle
+          className={classes.reviewListDialog}
+          id="simple-dialog-title"
+        >
+          Reviews
+        </DialogTitle>
+        {reviewBody}
+      </Dialog>
     </div>
   );
 }; //end UserList
