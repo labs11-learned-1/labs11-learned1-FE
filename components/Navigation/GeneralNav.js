@@ -352,29 +352,35 @@ const GeneralNav = (props) => {
         indexName="posts"                   
         searchClient={searchClient}                    
     >
+        <ClickAwayListener onClickAway={() => setTabs(false)} >
         <div className={classes.ISearchWrapper}>
-            <SearchBox 
-            className={classes.searchBox} 
-            translations={{placeholder: 'Search Erudition...'}}
-            reset={false}
-            poweredBy={true}
-            onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
-            />
-            <div>
-                <Index indexName="posts">
-                    {tabs ? <h2 className={classes.searchTitle}>Articles</h2>: undefined}
-                    <Configure hitsPerPage={5} />
-                    <Content/>
-                </Index>
+            
+                <SearchBox 
+                className={classes.searchBox} 
+                translations={{placeholder: 'Search Erudition...'}}
+                reset={false}
+                poweredBy={true}
+                onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
+                onClick={(ev) => {ev.target.value != '' ? setTabs(true) : null}}
+                />
+                <div>
+                    <Index indexName="posts">
+                        {tabs ? <h2 className={classes.searchTitle}>Articles</h2>: undefined}
+                        <Configure hitsPerPage={5} />
+                        {tabs ? <Content/> : undefined}
+                    </Index>
+                </div>
+                <div>
+                    <Index indexName="users">
+                        {tabs ? <h2 className={classes.searchTitle}>Users</h2>: undefined}
+                        <Configure hitsPerPage={5} />
+                        {tabs ? <Content/>: undefined}
+                    </Index>   
+                </div>
+                
             </div>
-            <div>
-                <Index indexName="users">
-                    {tabs ? <h2 className={classes.searchTitle}>Users</h2>: undefined}
-                    <Configure hitsPerPage={5} />
-                    <Content/>
-                </Index>   
-            </div>
-        </div>          
+            </ClickAwayListener>   
+              
     </InstantSearch>
 
     return(
