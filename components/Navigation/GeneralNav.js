@@ -349,36 +349,42 @@ const GeneralNav = (props) => {
 
     const { classes } = props;
 
-    let ISearch = <InstantSearch
-        indexName="posts"                   
-        searchClient={searchClient}                    
-    >
-                <ClickAwayListener onClickAway={() => setTimeout(() => {setTabs(false)})} >       
-            <div className={classes.ISearchWrapper}> 
-                    <SearchBox 
-                    className={classes.searchBox} 
-                    translations={{placeholder: 'Search Erudition...'}}
-                    reset={false}
-                    poweredBy={true}
-                    onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
-                    onClick={(ev) => {ev.target.value != '' ? setTabs(true) : ev.target.value}}
-                    />
-                    {tabs ?
-                    <div>
-                        <Index indexName="posts">
-                            <h2 className={classes.searchTitle}>Articles</h2>
-                            <Configure hitsPerPage={5} />
-                            <Content/>
-                        </Index> 
-                        <Index indexName="users">
-                            <h2 className={classes.searchTitle}>Users</h2>
-                            <Configure hitsPerPage={5} />
-                            <Content/>
-                        </Index>
-                    </div> : undefined}  
-                </div> 
-            </ClickAwayListener>      
-    </InstantSearch>
+    let ISearch = 
+    <ClickAwayListener onClickAway={() => {setTabs(false)}}>       
+        <InstantSearch
+            indexName="posts"                   
+            searchClient={searchClient}                    
+        >
+                
+                <div className={classes.ISearchWrapper}> 
+                    
+                        <SearchBox 
+                        className={classes.searchBox} 
+                        translations={{placeholder: 'Search Erudition...'}}
+                        reset={false}
+                        poweredBy={true}
+                        onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
+                        onClick={(ev) => {ev.target.value != '' ? setTabs(true) : null}}
+                        />
+                        {tabs ?
+                        <div>
+                            <Index indexName="posts">
+                                <h2 className={classes.searchTitle}>Articles</h2>
+                                <Configure hitsPerPage={5} />
+                                <Content/>
+                            </Index> 
+                            <Index indexName="users">
+                                <h2 className={classes.searchTitle}>Users</h2>
+                                <Configure hitsPerPage={5} />
+                                <Content/>
+                            </Index>
+                        </div> : undefined}  
+                            
+                    </div> 
+                
+        </InstantSearch>
+    </ClickAwayListener>
+
 
     return(
         <div className={classes.nav}>

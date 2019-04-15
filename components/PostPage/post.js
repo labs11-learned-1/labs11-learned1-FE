@@ -9,6 +9,10 @@ import {getReviewList, editReview, addReview, deleteReview} from '../firebaseAPI
 import {getContentById, addRating} from '../firebaseAPI/firebaseCollection'
 import { addPost } from "../firebaseAPI/firebasePosts";
 
+//TOASTIFY
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -123,6 +127,51 @@ const PostInfoPage = props => {
     const [editingMyReview, setEditingMyReview] = useState(true);
     const [baseReview, setBaseReview] = useState(null);
 
+    const notifyHandler = (type, success) => {
+        if(type === 'post') {
+            if (success) {
+                toast.success("Successfuly posted review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error posting review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        } else if (type === 'delete') {
+            if (success) {
+                toast.success("Successfuly deleted review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error deleting review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        } else if (type === 'edit') {
+            if (success) {
+                toast.success("Successfuly saved review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error saving review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        } else {
+            if (success) {
+                toast.success("Successfuly shared review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error sharing review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        }
+        
+    }
+
     //Gets the review id from the url parameters and uses the id retrieved to get the article information
     //from our database. Then sets the contentInfo state equal to that information.
     const getPostContent = async () => {
@@ -157,9 +206,12 @@ const PostInfoPage = props => {
     //Calls the function holding the api call to delete the review in database, and removes local myReview.
     const handleReviewDelete = async() => { 
         await deleteReview(myReview.reviewID).then(() => {
+            notifyHandler('delete', true);
             setMyReview({title: "", comment: "", rating: 5});
             addRating(contentInfo.link, null, "delete", baseReview.rating);
             setBaseReview(null);
+        }).catch(err => {
+            notifyHandler('delete', false);
         })
 
     }
@@ -168,11 +220,14 @@ const PostInfoPage = props => {
     const handleEditSave = async() => {
         setEditingMyReview(false);
         await editReview(myReview.reviewID, myReview.comment, myReview.title, myReview.rating).then(() => {
+            notifyHandler('edit', true);
             if(baseReview.rating != myReview.rating) {
                 addRating(contentInfo.link, myReview.rating, "edit", baseReview.rating);
             }
             setBaseReview({...myReview, title: myReview.title, comment: myReview.comment, rating: myReview.rating}); 
-        })  
+        }).catch(err => {
+            notifyHandler('edit', false);
+        })
     }
 
     // When an edit is cancelled we reset the values back to the original.
@@ -190,12 +245,21 @@ const PostInfoPage = props => {
         .then((res) => {
             console.log(res);
             if(res) {
+                notifyHandler('post', true);
                 setMyReview({...myReview, reviewID: res});
                 setBaseReview({title: myReview.title, comment: myReview.comment, rating: myReview.rating});
                 addRating(contentInfo.link ,myReview.rating, "post", null);
             } else {
-                alert("Error creating review");
+                notifyHandler('post', false);
             }
+        })
+    }
+
+    const handleSharePost = () => {                                                            
+        addPost(myReview.title, myReview.comment, myReview.contentCollectionId, state.userID, null, state.userID, state.displayName, state.displayImage).then(() => {
+            notifyHandler('share', true);
+        }).catch(err => {
+            notifyHandler('share', false);
         })
     }
 
@@ -257,7 +321,7 @@ const PostInfoPage = props => {
                 <Button
                 color="primary"
                 onClick={() => {
-                    addPost(myReview.title, myReview.comment, myReview.contentCollectionId, state.userID);
+                    handleSharePost();
                 }}
                 >
                     SHARE REVIEW

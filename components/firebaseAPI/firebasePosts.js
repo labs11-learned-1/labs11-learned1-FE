@@ -12,7 +12,7 @@ export const addPost = async (title, content, url, userId, photoUrl, displayName
   let db = result.firestore();
   console.log("this is the user image", userImage)
   // add post to "posts" collection, creating a unique document/postId with .add()
-  db.collection("posts")
+  return db.collection("posts")
     .add({
       title: title, // <--- provide input form
       content: content, //<--- provide input form

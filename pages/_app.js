@@ -2,7 +2,8 @@ import App, { Container } from "next/app";
 /* First we import our provider */
 import StoreProvider from "../components/store";
 import React from 'react';
-
+import 'react-toastify/dist/ReactToastify.css';
+import { toast } from 'react-toastify';
 
 class MyApp extends App {
 
@@ -10,6 +11,7 @@ class MyApp extends App {
   
     const { Component, pageProps } = this.props;
 
+    toast.configure()
     return (
       <Container>
         <style jsx global>{`
