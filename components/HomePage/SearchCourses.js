@@ -13,7 +13,7 @@ import { from } from 'rxjs';
 import { defaultProps } from 'recompose';
 
 
-export default function SearchCourses(){
+export default function SearchCourses(props){
     const [courses, setCourses] = React.useState([]);
     const cats = [
         'Business' ,
@@ -111,7 +111,7 @@ export default function SearchCourses(){
                     </div> : null}
 
                     <div style={{display:"flex", width:"100%", flexDirection:"row", flexWrap :"wrap", justifyContent:"space-between"}}>
-                        {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard openSnackbar={defaultProps.openSnackbar} userId={state.userID} key={course.url} info={course} />)}
+                        {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard openSnackbar={props.openSnackbar} userId={state.userID} key={course.url} info={course} />)}
                     </div>
             </div>
             {loadingSpecifiedCourses ? <LinearProgress style={{width:"100%", marginTop:"10px"}}/> : <></>}
