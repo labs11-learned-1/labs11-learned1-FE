@@ -11,6 +11,15 @@ import { makeStyles } from "@material-ui/styles";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 
 const useStyles = makeStyles(theme => ({
+  randomUsers: {
+    width: "200px",
+    height: "460px",
+    display: "flex",
+    position: "relative",
+    background: "ghostwhite",
+    alignItems: "flex-end",
+    left: "60.25%"
+  },
   avatar: {
     height: "40px",
     borderRadius: "50%",
@@ -78,30 +87,33 @@ const RandomUsers = props => {
   }, [window.location.search]);
 
   return (
-    <div className={classes.userContainer}>
-      <div className={classes.sectionTitle}>
-        <h5 style={{ color: "white" }}>Users recommended for you:</h5>
+    <div className={classes.randomUsers}>
+      <div className={classes.userContainer}>
+        <div className={classes.sectionTitle}>
+          <h5 style={{ color: "white" }}>Users recommended for you:</h5>
+        </div>
+        {/* begin ternary map */}
+        
+        {userList.length
+          ? userList.map(item => {
+              return  (
+                <Link
+                  href={{
+                    pathname: "/users-lab",
+                    query: { user: item.id, displayName: item.displayName }
+                  }}
+                >
+                  <div className={classes.userWrap}>
+                    <img src={item.image} className={classes.avatar} />
+                    <h5>{item.displayName}</h5>
+                  </div>
+                </Link> 
+              ) 
+            })
+          : null}
+        {/* end ternary */}
       </div>
-      {/* begin ternary map */}
-      
-      {userList.length
-        ? userList.map(item => {
-            return  (
-              <Link
-                href={{
-                  pathname: "/users-lab",
-                  query: { user: item.id, displayName: item.displayName }
-                }}
-              >
-                <div className={classes.userWrap}>
-                  <img src={item.image} className={classes.avatar} />
-                  <h5>{item.displayName}</h5>
-                </div>
-              </Link> 
-            ) 
-          })
-        : null}
-      {/* end ternary */}
+
     </div>
   );
 };
