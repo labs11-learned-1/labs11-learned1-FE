@@ -33,7 +33,9 @@ const styles = theme => ({
         boxShadow: '0 5px 6px -6px black',
         height: '70px',
         zIndex: "40",
-        backgroundColor: 'ghostwhite'
+        backgroundColor: 'ghostwhite',
+        position: 'fixed',
+        top: "0"
     },
     toolbar : {
         width:"70%",

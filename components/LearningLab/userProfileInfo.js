@@ -14,6 +14,17 @@ import PropTypes from "prop-types";
 //     position: "absolute",
 //     top: "0px"
 const useStyles = makeStyles(theme => ({
+  userInfo: {
+    width: "200px",
+    height: "460px",
+    display: "flex",
+    position: "relative",
+    background: "#3f51b5",
+    alignItems: "flex-end",
+    borderRadius: "10px",
+    float: "left",
+    left: "0",
+  },
   profileImage: {
     borderRadius: "50%",
     width: "80%",
@@ -69,16 +80,18 @@ console.log("we are getting this sers info",userID)
   }, [window.location.search]);
 
   return (
-    <div className={classes.sidebar}>
-      <img
-        className={classes.profileImage}
-        src={userInfo.image}
-        alt="Profile Image"
-      />
-      <div className={classes.displayName}>{userInfo.displayName}</div>
-      {userInfo.bio ? (<h5>{userInfo.bio}</h5>) : null}
-      <h3>Following: {userInfo.followingCount}</h3>
-      <h3>Followers: {userInfo.followerCount}</h3>
+    <div className={classes.userInfo}>
+      <div className={classes.sidebar}>
+        <img
+          className={classes.profileImage}
+          src={userInfo.image}
+          alt="Profile Image"
+        />
+        <div className={classes.displayName}>{userInfo.displayName}</div>
+        {userInfo.bio ? (<h5>{userInfo.bio}</h5>) : null}
+        <h3>Following: {userInfo.followingCount}</h3>
+        <h3>Followers: {userInfo.followerCount}</h3>
+      </div>
     </div>
   );
 };
