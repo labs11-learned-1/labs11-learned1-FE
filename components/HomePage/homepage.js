@@ -129,7 +129,7 @@ const Home = (props) => {
     return (
         <div className={classes.homepageWrapper}>
             <SearchCourses openSnackbar={handleSnackBarOpen}/>
-            {loadingCourses ? <LinearProgress style={{width:"80%", marginTop:"10px"}}/> : <></>}
+            {loadingCourses ? <LinearProgress style={{width:"80%", marginTop:"10px"}}/> : null}
             {/* <div className={classes.popularBlogsWrapper}> */}
                 {/* <h2>Popular Blog Posts</h2> */}
                 {/* <LoadingCard /> */}
