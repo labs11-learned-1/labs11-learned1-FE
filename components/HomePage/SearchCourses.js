@@ -67,55 +67,43 @@ export default function SearchCourses(){
     }, [courses])
 
     return(
-        <div>
-            <div style={{display: 'flex', justifyContent:"space-between", flexDirection:"row", width:"70%", alignItems:"center"}}>
-                <div>
-                    <InputLabel htmlFor="select-multiple">Categories</InputLabel>
-                    <Select input={<Input id="select-multiple" />} value={parameters.category} onChange={addCategory}>
-                        {cats.map(name => (
-                            <MenuItem key={name} value={name}>
-                            {name}
-                            </MenuItem>
-                        ))}
-                    </Select>
-                </div>
+        <div style={{width:"80%"}}>
+            <div style={{display: 'flex', justifyContent:"space-around", flexDirection:"row", width:"100%", alignItems:"center", background:"#cfd8dc", borderRadius:"10px", marginTop:"45px"}}>
+                <div style={{width:"40%", display:"flex", justifyContent:"space-between", alignItems:"flex-end"}}>
+                    <div>
+                        <InputLabel htmlFor="select-multiple">Categories</InputLabel>
+                        <Select input={<Input id="select-multiple" />} value={parameters.category} onChange={addCategory}>
+                            {cats.map(name => (
+                                <MenuItem key={name} value={name}>
+                                {name}
+                                </MenuItem>
+                            ))}
+                        </Select>
+                    </div>
 
-                <div style={{display:"flex", justifyContent:"center"}}>
-                    <p>Paid</p>
-                    <Radio
-                        checked={parameters.isPaid === 'price-paid'}
-                        onChange={handleRadio}
-                        value="price-paid"
-                        name="price-paid"
-                        aria-label="A"
+                    <TextField
+                        onChange={handleChange}
+                        id="standard-search"
+                        label="Search Term"
+                        type="search"
+                        margin="none"
                     />
-                    <p>Free</p>
-                    <Radio
-                        checked={parameters.isPaid === 'price-free'}
-                        onChange={handleRadio}
-                        value="price-free"
-                        name="price-free"
-                        aria-label="B"
-                    />
+                    <button style={{border:"1px solid black", background:"#534bae", borderRadius:"5px", height:"30px", color:"white", cursor:"pointer"}} onClick={getCourses}>Search for Courses</button>
                 </div>
-
-                <TextField
-                    onChange={handleChange}
-                    id="standard-search"
-                    label="Search Term"
-                    type="search"
-                    margin="normal"
-                />
-                <button onClick={getCourses}>Get Courses</button>
             </div>
-            <div>
-                <button onClick={()=>MyPaginationAttempt(12, 1)}>Page 1 test</button>
-                <button onClick={()=>MyPaginationAttempt(12, 2)}>Page 2 test</button>
-                <button onClick={()=>MyPaginationAttempt(12, 3)}>Page 3 test</button>
-                <button onClick={()=>MyPaginationAttempt(12, 4)}>Page 4 test</button>
-                <div style={{display:"flex", width:"100%", flexDirection:"row", flexWrap :"wrap", justifyContent:"space-between"}}>
-                    {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard key={course.title} info={course} />)}
-                </div>
+
+                <div>
+                    {courses.length ? <div style={{width:"20%",display:"flex", justifyContent:"space-between", margin:"20px 0"}}>
+                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 1)}>1</div>
+                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 2)}>2</div>
+                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 3)}>3</div>
+                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 4)}>4</div>
+                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 5)}>5</div>
+                    </div> : null}
+
+                    <div style={{display:"flex", width:"100%", flexDirection:"row", flexWrap :"wrap", justifyContent:"space-between"}}>
+                        {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard key={course.title} info={course} />)}
+                    </div>
             </div>
         </div>
     )
