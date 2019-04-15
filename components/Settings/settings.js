@@ -31,7 +31,7 @@ const styles = theme => ({
         margin: '0 auto',
         width: '100%',
         height: '100%',
-        marginTop: '30px',
+        marginTop: '80px',
         '& h3': {
             '&:hover': {
                 cursor: 'pointer'

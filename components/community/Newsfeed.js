@@ -62,7 +62,7 @@ const styles = {
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   addPostContainer: {
     display: "flex",
@@ -163,7 +163,6 @@ const Newsfeed = props => {
           querySnapshot.forEach(post => {
             let postsArray = [];
             postsArray.push(post.data());
-            
             
             setNewsFeed(newsfeed => newsfeed.concat(postsArray));
             // setNewsFeed(newsfeed => [...newsfeed, post.data().slice(0, newsfeed.length)])
@@ -280,6 +279,7 @@ const Newsfeed = props => {
 
         <div className={classes.cards}>
           {newsfeed.map((post, index) => (
+            //console.log('post info', postInfo)
             <Postcard content={post} state={state} key={index} />
           ))}
         </div>

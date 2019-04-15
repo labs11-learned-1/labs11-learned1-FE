@@ -24,29 +24,38 @@ const styles = theme => ({
     },
     cardHeader: {
         display: "flex",
-        justifyContent: "flex-start"
+        justifyContent: "space-between"
+    },
+    display: {
+        fontSize: "15px",
+        display:"flex",
+        fontWeight: 700
     },
     displayName: {
-        margin: "25px 0 0 10px",
-        fontSize: "25px",
-        display:"flex",
-        flexDirection:"column",
+        margin: '18px 0 0 10px'
+    },
+    date:{
+        fontSize:".75rem",
+        margin: '15px 15px 0 0'
+    },
+    postContent: {
+        fontSize: '14px'
     },
     media: {
         width:"40%",
-        height:"200px",
-        margin: "10px 0 0 25px"
+        height:"120px",
+        margin: "10px 0"
     },
     avatar: {
-        height: "65px",
+        height: "35px",
         borderRadius: "50%",
         cursor:"pointer",
-        margin: "10px 0 0 25px"
+        margin: "10px 0 0 15px"
     },
     cardContent: {
         display: "flex",
-        flexWrap: "wrap",
-        margin: "0 0 20px 0"
+        margin: '10px 30px 15px 60px',
+        flexDirection: 'column'
     },
     cardBody: {
         display: "flex",
@@ -59,9 +68,6 @@ const styles = theme => ({
     actions:{
         display:"flex",
         justifyContent:"center"
-    },
-    date:{
-        fontSize:".75rem"
     }
 });
 
@@ -76,23 +82,22 @@ class Postcard extends React.Component {
         <Card className={classes.card}>
             <Link href={path}>
                 <div className={classes.cardHeader}>
-                    <img className={classes.avatar} src={imgSrc} />
-                    <div className={classes.displayName}>
-                        {this.props.content.displayName}
-                        <p className={classes.date}>{finalDate.toString().substring(0, 21)}</p>
+                    <div className={classes.display}>
+                        <img className={classes.avatar} src={imgSrc} />
+                        <div className={classes.displayName}>{this.props.content.displayName}</div>
                     </div>
+                    <p className={classes.date}>{finalDate.toString().substring(0, 21)}</p>
                 </div>
             </Link>
             
             <div className={classes.cardContent}>
+                <div className={classes.postContent}>{this.props.content.content}</div>
                 {this.props.content.photoUrl ? 
                 <CardMedia className={classes.media} image={this.props.content.photoUrl} title="Website Image" /> : 
                 null
                 }
-                <div className={classes.cardBody}>
-                    <h4 className={classes.title}>{this.props.content.title}</h4>
-                    <p>{this.props.content.content}</p>
-                </div>
+                {console.log('post', this.props.content)}
+                {console.log('state', this.props.state)}
             </div>
         </Card>
         );

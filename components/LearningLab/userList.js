@@ -271,13 +271,14 @@ const UserList = props => {
   //UPDATES REVIEW CONTENT WHEN INPUT CHANGES
   
 
-  const prepareSharePost = (postLink, photoUrl, displayName, userImage) => {
+  const prepareSharePost = (postLink, photoUrl, displayName, userImage, metaData) => {
     setReviewContent({
       ...reviewContent,
       postId: postLink,
       photoUrl: photoUrl,
       displayName: displayName,
-      userImage: userImage
+      userImage: userImage,
+      metaData: metaData
     });
     setSubmitType("share");
     setOpenReview(true);
@@ -285,7 +286,7 @@ const UserList = props => {
 
   //Share Handler
   const sharePost = () => {
-    const { title, content, postId, photoUrl, displayName } = reviewContent;
+    const { title, content, postId, photoUrl, displayName, metaData } = reviewContent;
     addPost(
       title,
       content,
@@ -293,7 +294,8 @@ const UserList = props => {
       props.state.userID,
       photoUrl,
       displayName,
-      props.state.userImage
+      props.state.userImage,
+      metaData
     );
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });
@@ -424,7 +426,7 @@ const UserList = props => {
         return (
           <MyListCard
             content={item}
-            
+            prepareSharePost={prepareSharePost}
             
             deleteContent={() =>
               deleteContent(
