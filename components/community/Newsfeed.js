@@ -14,13 +14,12 @@ import UserProfileInfo from ".././LearningLab/userProfileInfo";
 const styles = {
   newsWrap: {
     float: "right",
-    margin: "0 10px",
+    margin: "70px 10px 0 10px",
     display: "flex",
     width: "592px",
     flexFlow: "column wrap",
     alignItems: "center",
     background: "rgb(230,236,240)",
-   
   },
   communityContent: {
     width: "1012px",
@@ -32,6 +31,7 @@ const styles = {
   randomUsers: {
     width: "200px",
     height: "460px",
+    marginTop: ' 70px',
     display: "flex",
     position: "relative",
     background: "ghostwhite",
@@ -42,6 +42,7 @@ const styles = {
     width: "200px",
     height: "460px",
     display: "flex",
+    marginTop: '70px',
     position: "relative",
     background: "#3f51b5",
     alignItems: "flex-end",
