@@ -279,23 +279,15 @@ const UserList = props => {
     setOpenReviewList(true);
   };
 
-<<<<<<< HEAD
-  const prepareSharePost = (postLink, photoUrl, displayName, userImage, metaData) => {
-=======
   const prepareSharePost = (postLink, photoUrl, displayName, userImage, articleTitle, articleDescription) => {
->>>>>>> 6366ff69329080a07c4caabc5ca688188dcc9d5c
     setReviewContent({
       ...reviewContent,
       postId: postLink,
       photoUrl: photoUrl,
       displayName: displayName,
       userImage: userImage,
-<<<<<<< HEAD
-      metaData: metaData
-=======
       articleTitle : articleTitle,
       articleDescription : articleDescription
->>>>>>> 6366ff69329080a07c4caabc5ca688188dcc9d5c
     });
     setSubmitType("share");
     setOpenReview(true);
@@ -511,7 +503,7 @@ const UserList = props => {
             onChange={onChangeHandler}
             onSubmit={clearText}
             onClick={() => setVisible(true)}
-            onBlur={() => setVisible(false)}
+            onBlur={() => setVisible(true)}
           />
           {visible ? (
             <Fab
@@ -555,13 +547,8 @@ const UserList = props => {
         return (
           <MyListCard
             content={item}
-<<<<<<< HEAD
-            prepareSharePost={prepareSharePost}
-            
-=======
             prepareReviewList={prepareReviewList}
             prepareSharePost={prepareSharePost}
->>>>>>> 6366ff69329080a07c4caabc5ca688188dcc9d5c
             deleteContent={() =>
               deleteContent(
                 item.link,

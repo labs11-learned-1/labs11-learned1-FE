@@ -65,6 +65,22 @@ const styles = theme => ({
     textField:{
         width:"50%"
     },
+    textContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 0 2px 15px',
+        width: '50%'
+    },
+    articleTitle: {
+        fontSize: '14px',
+    },
+    articleDescription: {
+        fontSize: '12px',
+        margin: '0 0 8px 0'
+    },
+    articleContent: {
+        display: 'flex',
+    },
     actions:{
         display:"flex",
         justifyContent:"center"
@@ -92,12 +108,16 @@ class Postcard extends React.Component {
             
             <div className={classes.cardContent}>
                 <div className={classes.postContent}>{this.props.content.content}</div>
-                {this.props.content.photoUrl ? 
-                <CardMedia className={classes.media} image={this.props.content.photoUrl} title="Website Image" /> : 
-                null
-                }
-                {console.log('post', this.props.content)}
-                {console.log('state', this.props.state)}
+                <div className={classes.articleContent}>
+                    {this.props.content.photoUrl ? 
+                    <CardMedia className={classes.media} image={this.props.content.photoUrl} title="Website Image" /> : 
+                    null
+                    }
+                    <div className={classes.textContent}>
+                        <h3 className={classes.articleTitle}>{this.props.content.articleTitle}</h3>
+                        <p className={classes.articleDescription}>{this.props.content.articleDescription}</p>
+                    </div>
+                </div>
             </div>
         </Card>
         );

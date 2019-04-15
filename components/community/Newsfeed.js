@@ -278,13 +278,8 @@ const Newsfeed = props => {
         </div>
 
         <div className={classes.cards}>
-<<<<<<< HEAD
-          {newsfeed.map((post, index) => (
-            //console.log('post info', postInfo)
-=======
           {newsfeed.map((post, index) => 
             
->>>>>>> 6366ff69329080a07c4caabc5ca688188dcc9d5c
             <Postcard content={post} state={state} key={index} />
             
           )}
