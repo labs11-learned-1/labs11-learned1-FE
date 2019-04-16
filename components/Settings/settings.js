@@ -19,6 +19,7 @@ import { loadDB } from "../../firebaseConfig/firebase";
 
 //style imports
 import { withStyles } from "@material-ui/core/styles";
+import { red } from "@material-ui/core/colors";
 
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
@@ -31,7 +32,7 @@ const styles = theme => ({
         margin: '0 auto',
         width: '100%',
         height: '100%',
-        marginTop: '30px',
+        marginTop: '80px',
         '& h3': {
             '&:hover': {
                 cursor: 'pointer'
@@ -39,30 +40,30 @@ const styles = theme => ({
         },
 
     },
-    sidebar: {
-
-    },
     title: {
-        borderBottom: '1.5px solid rgba(0,0,0,.1)',
+        borderBottom: '1.5px solid #e76d89',
     '& h1':{
-        margin: '0px',
+        margin: '10px 0 0 20px',
         paddingBottom: '10px'
         },
     },
     profilePic: {
         borderRadius: '50%',
-        
+        margin: '15px 0 0 20px'
+    },
+    profilePicTitle: {
+        margin: '15px 0 0 20px'
     },
     row: {
         
-        borderBottom: '1px solid rgba(0,0,0,.1)',
+        borderBottom: '1px solid #e76d89',
         paddingBottom: '20px',
         paddingTop: '20px',
         alignItems: 'center',
     },
     profilePicWrap: {
         display: 'block',
-        borderBottom: '1px solid rgba(0,0,0,.1)',
+        borderBottom: '1px solid #e76d89',
         paddingBottom: '20px'
     },
     usernameA: {
@@ -100,11 +101,10 @@ const styles = theme => ({
     sidebar: {
         display: 'flex',
         flexDirection: 'column',
-        justifyContent: 'start',
+        alignItems: 'center',
         width: '265px',
         backgroundColor: 'ghostwhite',
-        paddingLeft: '20px'
-
+        borderRight: '2px solid midnightblue',
     },
     content: {
         width: '100%',
@@ -324,7 +324,7 @@ const Settings = (props) => {
                         <h1>Account</h1>
                     </div>
                     <div className={classes.profilePicWrap}>
-                        <h3>Profile Picture</h3>
+                        <h3 className={classes.profilePicTitle}>Profile Picture</h3>
                         <div className={classes.profilePic} style={imageStyle} onClick={() => setImagePopup(true)}></div> {/*Make this a circle and the background image will be*/}
                     </div>
                     {selectImage}

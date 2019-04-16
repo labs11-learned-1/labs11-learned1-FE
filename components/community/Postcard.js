@@ -24,29 +24,42 @@ const styles = theme => ({
     },
     cardHeader: {
         display: "flex",
-        justifyContent: "flex-start"
+        justifyContent: "space-between"
+    },
+    display: {
+        fontSize: "15px",
+        display:"flex",
+        fontWeight: 700
     },
     displayName: {
-        margin: "25px 0 0 10px",
-        fontSize: "25px",
-        display:"flex",
-        flexDirection:"column",
+        margin: '18px 0 0 10px'
+    },
+    date:{
+        fontSize:".75rem",
+        margin: '15px 15px 0 0'
+    },
+    postContent: {
+        fontSize: '14px'
+    },
+    anchor: {
+        width: '40%',
     },
     media: {
-        width:"40%",
-        height:"200px",
-        margin: "10px 0 0 25px"
+        width: '94%',
+        height:"120px",
+        margin: "10px 0 0 10px",
+        borderRadius: '12px'
     },
     avatar: {
-        height: "65px",
+        height: "35px",
         borderRadius: "50%",
         cursor:"pointer",
-        margin: "10px 0 0 25px"
+        margin: "10px 0 0 15px"
     },
     cardContent: {
         display: "flex",
-        flexWrap: "wrap",
-        margin: "0 0 20px 0"
+        margin: '10px 60px 15px 60px',
+        flexDirection: 'column'
     },
     cardBody: {
         display: "flex",
@@ -56,12 +69,28 @@ const styles = theme => ({
     textField:{
         width:"50%"
     },
+    textContent: {
+        display: 'flex',
+        flexDirection: 'column',
+        margin: '0 0 2px 15px',
+        width: '50%'
+    },
+    articleTitle: {
+        fontSize: '14px',
+    },
+    articleDescription: {
+        fontSize: '12px',
+        margin: '0 0 8px 0'
+    },
+    articleContent: {
+        display: 'flex',
+        background: 'rgb(242,161,161, 0.3)',
+        borderRadius: '12px',
+        margin: '10px 0 0 0'
+    },
     actions:{
         display:"flex",
         justifyContent:"center"
-    },
-    date:{
-        fontSize:".75rem"
     }
 });
 
@@ -76,23 +105,30 @@ class Postcard extends React.Component {
         <Card className={classes.card}>
             <Link href={path}>
                 <div className={classes.cardHeader}>
-                    <img className={classes.avatar} src={imgSrc} />
-                    <div className={classes.displayName}>
-                        {this.props.content.displayName}
-                        <p className={classes.date}>{finalDate.toString().substring(0, 21)}</p>
+                    <div className={classes.display}>
+                        <img className={classes.avatar} src={imgSrc} />
+                        <div className={classes.displayName}>{this.props.content.displayName}</div>
                     </div>
+                    <p className={classes.date}>{finalDate.toString().substring(0, 21)}</p>
                 </div>
             </Link>
             
             <div className={classes.cardContent}>
-                {this.props.content.photoUrl ? 
-                <CardMedia className={classes.media} image={this.props.content.photoUrl} title="Website Image" /> : 
-                null
-                }
-                <div className={classes.cardBody}>
-                    <h4 className={classes.title}>{this.props.content.title}</h4>
-                    <p>{this.props.content.content}</p>
-                </div>
+                <div className={classes.postContent}>{this.props.content.content}</div>
+                    {this.props.content.photoUrl ? 
+                    <div className={classes.articleContent}>
+                        <a className={classes.anchor} href={`${this.props.content.url}`}>
+                            <img className={classes.media} src={this.props.content.photoUrl} title='Website Image'/>
+                        </a>
+                        <div className={classes.textContent}>
+                            <h3 className={classes.articleTitle}>{this.props.content.articleTitle}</h3>
+                            <p className={classes.articleDescription}>{this.props.content.articleDescription}</p>
+                        </div>
+                    </div> : 
+                    null
+                    }
+                    
+                
             </div>
         </Card>
         );

@@ -40,7 +40,7 @@ const useStyles = makeStyles(theme => ({
     width: "100%",
   },
   sectionTitle: {
-    backgroundColor: "#3f51b5",
+    backgroundColor: "#191970",
     borderRadius: "10px 10px 0 0",
     display: "flex",
     justifyContent: "center"
