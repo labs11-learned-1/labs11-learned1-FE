@@ -149,7 +149,7 @@ console.log("we are getting this sers info",userID)
 
   return (
     <div className={classes.userInfo}>
-    <span style={{width: "100%", position: "absolute", height: "5px",background: "midnightblue", top: "65px"}}></span>
+    <span style={{width: "100%", position: "absolute", height: "5px", background: "midnightblue", top: "65px"}}></span>
       <div className={classes.sidebar}>
       <span className={classes.circle}>
         <img
