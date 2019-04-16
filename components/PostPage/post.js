@@ -31,7 +31,9 @@ import Paper from '@material-ui/core/Paper';
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from "@fortawesome/free-solid-svg-icons"
 
-const useStyles = makeStyles(theme => ({
+const useStyles = makeStyles(theme => {
+    console.log(theme)
+    return {
     postPageWrapper: {
         margin: '0 auto',
         maxWidth: '900px',
@@ -60,7 +62,11 @@ const useStyles = makeStyles(theme => ({
         paddingTop: '20px',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        '& button': {
+            
+            color: 'white'
+        }
     },
     author: {
         display: 'flex',
@@ -140,10 +146,10 @@ const useStyles = makeStyles(theme => ({
             display: 'block'
         }
     }
-}));
+}});
 
 const PostInfoPage = props => {
-    const classes = useStyles();
+    const classes = useStyles(props.theme);
     const {state, dispatch} = React.useContext(Store);
 
     //General Post Infomration States
@@ -465,7 +471,7 @@ const PostInfoPage = props => {
     }
 
     console.log(contentInfo)
-
+    
     return (
         <div className={classes.postPageWrapper}>
             <div>
@@ -509,9 +515,7 @@ const PostInfoPage = props => {
                             </div>
                             <a target='_blank' href={contentInfo.link} style={{ textDecoration: 'none' }}>
                                 <Button
-                                    className={classes.read}
                                     variant="contained"
-                                    style={{backgroundColor: '#003366', color: 'white'}}
                                     onClick={() => {
                                         ;
                                     }}

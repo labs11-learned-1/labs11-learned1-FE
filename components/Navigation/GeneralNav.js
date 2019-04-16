@@ -25,6 +25,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import algoliasearch from 'algoliasearch';
 import { InstantSearch, SearchBox, Hits, connectStateResults, Index, Configure } from 'react-instantsearch-dom';
+import { withTheme } from '@material-ui/core/styles';
+
 
 const styles = theme => ({
     nav : {
@@ -293,7 +295,7 @@ const styles = theme => ({
 });
 
 const GeneralNav = (props) => {
-
+    console.log(props)
     const [accountOpen, setAccountOpen] = useState(false);
     const [burgerOpen, setBurgerOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
@@ -385,7 +387,7 @@ const GeneralNav = (props) => {
         </InstantSearch>
     </ClickAwayListener>
 
-
+    
     return(
         <div className={classes.nav}>
             <Head>

@@ -1,9 +1,25 @@
+import "../components/bootstrap"; 
 import App, { Container } from "next/app";
 /* First we import our provider */
 import StoreProvider from "../components/store";
 import React from 'react';
 import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
+import { createMuiTheme } from '@material-ui/core/styles';
+import { ThemeProvider } from '@material-ui/styles';
+
+const theme = createMuiTheme({
+  mixins: {
+    deepBlue: '#003366',
+    trapperGreen: '#0db4b9',
+    pinkBoot: '#f2a1a1',
+    modernPink: '#e76d89'
+  },
+  overrides: {
+    //This can be used to override the materialUI component styling, can get weird for some
+  }
+  
+});
 
 class MyApp extends App {
 
@@ -34,11 +50,16 @@ class MyApp extends App {
           }
         `}</style>
         {/* Then we wrap our components with the provider */}
-        <StoreProvider>
-          <Component {...pageProps} />
-        </StoreProvider>
+          
+            <StoreProvider>
+              <ThemeProvider theme={theme}>
+                <Component {...pageProps} />
+              </ThemeProvider>
+            </StoreProvider>
+          
       </Container>
-    );
+      
+      );
   }
 }
 
