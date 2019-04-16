@@ -18,7 +18,10 @@ const useStyles = makeStyles(theme => ({
     position: "relative",
     background: "ghostwhite",
     alignItems: "flex-end",
-    left: "60.25%"
+    left: "60.25%",
+    '@media(max-width: 1040px)': {
+      left: "0"
+  },
   },
   avatar: {
     height: "40px",

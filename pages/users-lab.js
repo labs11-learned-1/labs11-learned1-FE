@@ -188,7 +188,7 @@ const UsersLab = props => {
   //   console.log("MY ARRAY", arr);
   // };
 
-  const followOthers = async () => {
+   const followOthers = async () => {
     // async (myUserId, theirId)
     let result = await loadDB();
     let db = result.firestore();
