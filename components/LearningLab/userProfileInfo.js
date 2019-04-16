@@ -19,11 +19,7 @@ const useStyles = makeStyles(theme => ({
     height: "460px",
     display: "flex",
     position: "relative",
-<<<<<<< HEAD
     background: "midnightblue",
-=======
-    background: "#191970",
->>>>>>> f0cc143358cf42f09e93a49ef4340d91c956c79b
     alignItems: "flex-end",
     borderRadius: "10px",
     float: "left",
@@ -113,7 +109,7 @@ const useStyles = makeStyles(theme => ({
     color: "#50585b",
     fontStyle: "italic",
     border: "2px solid #d0e1e8",
-    
+
   }
 }));
 

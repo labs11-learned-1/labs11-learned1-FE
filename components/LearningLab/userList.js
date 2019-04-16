@@ -508,11 +508,7 @@ const UserList = props => {
             onChange={onChangeHandler}
             onSubmit={clearText}
             onClick={() => setVisible(true)}
-<<<<<<< HEAD
             
-=======
-            onBlur={() => setVisible(true)}
->>>>>>> f0cc143358cf42f09e93a49ef4340d91c956c79b
           />
           {visible ? (
             <Fab
