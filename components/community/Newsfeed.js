@@ -239,21 +239,6 @@ const Newsfeed = props => {
         <div className={classes.newsFeedTitle}>News Feed</div>
         <div className={classes.addPostContainer}>
           <TextField
-            name="title"
-            id="filled-full-width"
-            label={`${titleLength} / 32`}
-            style={{ margin: 10, background: "white" }}
-            placeholder="Post title here"
-            multiline
-            margin="normal"
-            variant="filled"
-            InputLabelProps={{
-              shrink: true
-            }}
-            value={postInfo.title}
-            onChange={onChangeHandler}
-          />
-          <TextField
             name="content"
             id="filled-full-width"
             label={`${contentLength} / 255`}
