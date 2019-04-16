@@ -25,6 +25,7 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 
+
 //===========TABS IMPORTS===========
 // import SwipeableViews from 'react-swipeable-views';
 import AppBar from "@material-ui/core/AppBar";
@@ -65,8 +66,12 @@ const styles = {
     height: "100%",
     width: '1024px',
     margin: "0",
-    '@media(max-width: 840px)': {
-      display: "none"
+    '@media(max-width: 1040px)': {
+      display: "flex",
+      flexFlow: "column wrap"
+  },
+  "@media(max-width: 600px)": {
+    display: "none"
   },
   },
 
