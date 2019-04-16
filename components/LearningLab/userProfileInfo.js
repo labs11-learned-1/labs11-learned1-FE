@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     height: "460px",
     display: "flex",
     position: "relative",
-    background: "midnightblue",
+    background: theme.mixins.deepBlue,
     alignItems: "flex-end",
     borderRadius: "10px",
     float: "left",

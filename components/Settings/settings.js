@@ -24,11 +24,32 @@ import { red } from "@material-ui/core/colors";
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 
 const styles = theme => ({
+  account: {
+    boxSizing: "border-box",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    cursor: "pointer",
+    borderTop: `2px solid ${theme.mixins.trapperGreen}`,
+    borderLeft: `2px solid ${theme.mixins.trapperGreen}`,
+    
+  },
+  connections:{
+    boxSizing: "border-box",
+    width: "100%",
+    display: "flex",
+    justifyContent: "center",
+    cursor: "pointer",
+    borderTop: `2px solid ${theme.mixins.trapperGreen}`,
+    borderLeft: `2px solid ${theme.mixins.trapperGreen}`,
+    borderRight: `2px solid ${theme.mixins.trapperGreen}`,
+    borderBottom: `2px solid ${theme.mixins.trapperGreen}`,
+  },
   settingsWrapper: {
     display: "flex",
     justifyContent: "center",
     margin: "0 auto",
-    width: "100%",
+    width: "70%",
     height: "100%",
     marginTop: "80px",
     "& h3": {
@@ -98,8 +119,10 @@ const styles = theme => ({
     flexDirection: "column",
     alignItems: "center",
     width: "265px",
-    backgroundColor: "ghostwhite",
-    borderRight: "2px solid midnightblue"
+    backgroundColor: `#efe2d2`,
+    boxSizing: "border-box",
+    position: "relative"
+    
   },
   content: {
     width: "100%",
@@ -110,7 +133,11 @@ const styles = theme => ({
   signOutButton: {
     margin: "0",
     width: "120px",
-    fontWeight: "bold"
+    fontWeight: "bold",
+    background: `${theme.mixins.pinkBoot}`,
+    position: "absolute",
+    bottom: "10px"
+
   },
   button: {
     margin: "0",
@@ -156,8 +183,11 @@ const styles = theme => ({
     accountTab: {
       borderBottom: "40px solid rgba(0,0,0,.1)",
       display: "block !important"
-    }
-  }
+    },
+   
+  } //end media query
+
+
 });
 
 const Settings = props => {
@@ -317,12 +347,17 @@ const Settings = props => {
   return (
     <div className={classes.settingsWrapper}>
       <div className={classes.sidebar}>
-        <h3 id="account" onClick={() => setActiveTab("account")}>
+     <div className={classes.account} style={{borderRight : activeTab === "account" ? "none" :  `2px solid #0db4b9`, background: activeTab === "account" ? "ghostwhite" :  `none` } } onClick={() => setActiveTab("account")}>
+     <h3  id="account" >
           Account
         </h3>
-        <h3 id="connections" onClick={() => setActiveTab("connections")}>
+      </div>
+        <div className={classes.connections}  style={{borderRight : activeTab === "connections" ? "none" :  `2px solid #0db4b9`, background: activeTab === "connections" ? "ghostwhite" :  `none` } } onClick={() => setActiveTab("connections")}>
+        <h3 >
           Connections
         </h3>
+        </div>
+        
         <Button
           variant="contained"
           color="red"
