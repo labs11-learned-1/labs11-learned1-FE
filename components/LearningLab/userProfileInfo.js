@@ -110,7 +110,6 @@ const useStyles = makeStyles(theme => ({
     color: "#50585b",
     fontStyle: "italic",
     border: "2px solid #d0e1e8",
-
   }
 }));
 
