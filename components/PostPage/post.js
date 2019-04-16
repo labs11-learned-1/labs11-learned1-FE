@@ -28,13 +28,16 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import Paper from '@material-ui/core/Paper';
 
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from "@fortawesome/free-solid-svg-icons"
+
 const useStyles = makeStyles(theme => ({
     postPageWrapper: {
         margin: '0 auto',
         maxWidth: '900px',
         width: '100%',
         marginBottom: '40px',
-        marginTop: '40px'
+        marginTop: '90px',
     },
     myReview: {
 
@@ -85,12 +88,20 @@ const useStyles = makeStyles(theme => ({
     ratingButtons: {
         display: 'flex',
         alignItems: 'center',
+        padding: ' 5px 5px 5px 0',
         '& p': {
-            paddingLeft: '5px'
+            paddingLeft: '10px'
         },
         '& button': {
             margin: '2px',
             height: '15px'
+        }
+    },
+    star : {
+        padding: '2px',
+        '& path': {
+            stroke: 'black', 
+            strokeWidth: 10,
         }
     },
     writeReview: {
@@ -111,6 +122,23 @@ const useStyles = makeStyles(theme => ({
     },
     articleInfo: {
         paddingTop: '20px'
+    },
+    reviewListTR: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    noReviews: {
+        fontSize: '1.3rem',
+        textAlign: 'center',
+        '& img': {
+            width: '250px',
+            height: '250px'
+        }
+    },
+    '@media(max-width: 400px)': {
+        extraInfo: {
+            display: 'block'
+        }
     }
 }));
 
@@ -285,24 +313,19 @@ const PostInfoPage = props => {
     let reviewContentType;
     let postButton;
     let ratingButtons = <div className={classes.ratingButtons}>
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 1 ? "yellow" : "") : null) }}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 1 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 1 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 2 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 2 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 2 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 3 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 3 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 3 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 4 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 4 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 4 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 5 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 5 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 5 }) : null}}
         />
     </div>
@@ -467,20 +490,20 @@ const PostInfoPage = props => {
                         
                         <div className={classes.extraInfo}>
                             <div className={classes.ratingButtons}>
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 1 ? "yellow" : "") : null) }}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 1 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 2 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 2 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 3 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 3 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 4 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 4 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 5 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 5 ? "yellow" : "white") : null)}}
                                 />
                                 <p>({contentInfo.numRatings ? contentInfo.numRatings : '0'} Reviews)</p>
                             </div>
@@ -488,7 +511,7 @@ const PostInfoPage = props => {
                                 <Button
                                     className={classes.read}
                                     variant="contained"
-                                    color="primary"
+                                    style={{backgroundColor: '#003366', color: 'white'}}
                                     onClick={() => {
                                         ;
                                     }}
@@ -516,7 +539,8 @@ const PostInfoPage = props => {
                         Reviews
                     </Typography>
                     <List className={classes.reviewList}>
-                        {reviewContent.map(review => 
+                        {reviewContent.length === 0 ?  <div className={classes.noReviews}><p>No Reviews...</p> <img src="https://seeklogo.com/images/F/facebook-cry-emoji-logo-DE407E489C-seeklogo.com.png"></img> </div> :
+                            reviewContent.map(review => 
                             <ListItem alignItems="flex-start" className={classes.reviewItem}>
                                 <ListItemAvatar>
                                 <Avatar alt="Remy Sharp" src={review.displayImage} />
@@ -525,15 +549,36 @@ const PostInfoPage = props => {
                             
                                 secondary={
                                     <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        {review.displayName}
-                                    </Typography>
-                                    {review.title}
-                                    {review.comment}
+                                        <Typography
+                                            component="span"
+                                            className={classes.inline}
+                                            color="textPrimary"
+                                        >   
+                                            <div className={classes.reviewListTR}>
+                                                {review.displayName}
+                                                <div className={classes.ratingButtons} style={{marginLeft: '15px'}}>
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 1 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 2 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 3 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 4 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 5 ? "yellow" : "white") : null)}}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div style={{width: '100%', fontWeight: 'bold', marginBottom: '5px'}}>
+                                                {review.title} 
+                                            </div>
+                                            {review.comment}
+                                        </Typography>                                   
                                     </React.Fragment>
                                 }
                                 />

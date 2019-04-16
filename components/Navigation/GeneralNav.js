@@ -513,10 +513,10 @@ const GeneralNav = (props) => {
                                     <MenuItem>Home</MenuItem>
                                 </Link>
                                 <Link href="/learning-lab">
-                                    <MenuItem className={classes.menuItem}>Learning Lab</MenuItem>
+                                    <MenuItem className={classes.menuItem}>My List</MenuItem>
                                 </Link>
                                 <Link href="/community">
-                                    <MenuItem>Community</MenuItem>
+                                    <MenuItem>News Feed</MenuItem>
                                 </Link>
                                 <Link href='/settings'>
                                     <MenuItem>Settings</MenuItem>
