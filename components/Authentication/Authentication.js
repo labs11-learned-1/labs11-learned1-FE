@@ -26,7 +26,7 @@ const styles = {
     color: "#737373",
     borderRadius: "5px",
     whiteSpace: "nowrap",
-    boxShadow: "1px 1px 0px 1px rgba(0,0,0,0.05)",
+    boxShadow: "2px 2px 1px 2px rgba(0,0,0,0.05)",
     transitionProperty: "background-color, box-shadow",
     transitionDuration: "150ms",
     transitionTimingFunction: "ease-in-out",
@@ -56,9 +56,15 @@ const styles = {
     display: "flex",
     flexFlow: "column wrap",
     alignItems: "center",
-    width: "100%"
+    width: "100%",
+    marginBottom: '40px'
   },
-
+  appName: {
+    
+  },
+  motto: {
+    margin: '20px 0 40px 0'
+  },
   verifyPage: {
     display: "flex",
     justifyContent: "center",
@@ -73,7 +79,7 @@ const styles = {
     width: "314px",
     boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
     borderRadius: "2px",
-    background: "white"
+    background: "ghostwhite"
   },
   
   brandingSection: {
@@ -81,7 +87,7 @@ const styles = {
     flexFlow: "column wrap",
     justifyContent: "center",
     alignItems: "center",
-    width: "100%"
+    width: "100%",
   },
   logo: {
     display: "flex"
@@ -170,8 +176,8 @@ const Authentication =  props => {
       <div className={classes.contentWrap}>
         <div className={classes.brandingSection}>
           <div className={classes.logo} />
-          <h2>Erudition</h2>
-          <p>Remember everything important.</p>
+          <h2 className={classes.appName}>Erudition</h2>
+          <p className={classes.motto}>Remember everything important.</p>
         </div>
         <IconButton className={classes.googleButton} onClick={handleGoogle}>
           <SvgIcon
