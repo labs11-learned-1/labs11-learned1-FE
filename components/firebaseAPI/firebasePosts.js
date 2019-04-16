@@ -6,7 +6,7 @@ import * as firebase from "firebase";
 
 
 //// =============ADD POST==============
-export const addPost = async (title, content, url, userId, photoUrl, displayName, userImage, articleTitle, articleDescription) => {
+export const addPost = async (content, url, userId, photoUrl, displayName, userImage, articleTitle, articleDescription) => {
   //load db instance
   let result = await loadDB();
   let db = result.firestore();
@@ -14,7 +14,7 @@ export const addPost = async (title, content, url, userId, photoUrl, displayName
   // add post to "posts" collection, creating a unique document/postId with .add()
   return db.collection("posts")
     .add({
-      title: title, // <--- provide input form
+       // <--- provide input form
       content: content, //<--- provide input form
       createdAt: Date.now(),
       url: url,

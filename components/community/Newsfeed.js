@@ -100,27 +100,21 @@ const Newsfeed = props => {
   const { classes } = props;
 
   const addPost = async (
-    title,
+
     content,
-    url,
     userId,
-    photoUrl,
     displayName,
     userImage
   ) => {
     //load db instance
     let result = await loadDB();
     let db = result.firestore();
-
     // add post to "posts" collection, creating a unique document/postId with .add()
     db.collection("posts")
-      .add({
-        title: title, // <--- provide input form
+      .add({ // <--- provide input form
         content: content, //<--- provide input form
         createdAt: Date.now(),
-        url: url,
         userId: userId, //<--- make dynamic with state.userId
-        photoUrl: photoUrl,
         displayName: displayName,
         userImage: userImage
       })
@@ -137,7 +131,9 @@ const Newsfeed = props => {
           })
       )
       .catch(err => console.log("error adding post", err)); // addition to "posts" collection failed
-  };
+      }
+    
+  
 
   const getPostsOfFollowing = async () => {
     let result = await loadDB();
@@ -184,7 +180,7 @@ const Newsfeed = props => {
   };
 
   const onChangeHandler = e => {
-    console.log("On change handler 82 : ", e.target.name, e.target.value);
+    
     setPostInfo({ ...postInfo, [e.target.name]: e.target.value });
     console.log("POST INFO", postInfo);
     if (e.target.name === "title") {
@@ -206,17 +202,15 @@ const Newsfeed = props => {
   };
 
   const submitPost = () => {
-    if (postInfo.title.length == 0 || postInfo.content.length == 0) {
+    console.log("postInfo",postInfo)
+    if (postInfo.content.length == 0) {
       console.log("error not all fields filled out");
-      alert("fill out all fields");
-    } else {
+      alert("Please write something!");
+    } else  {
       console.log("adding post");
       addPost(
-        postInfo.title,
         postInfo.content,
-        "",
         state.userID,
-        "",
         state.displayName,
         state.userImage
       );
@@ -276,7 +270,7 @@ const Newsfeed = props => {
             Post
           </Fab>
         </div>
-
+{console.log("NEWSFEED ON STATE ARRAY",newsfeed)}
         <div className={classes.cards}>
             <InfiniteScroll
               dataLength={scrollNumber}

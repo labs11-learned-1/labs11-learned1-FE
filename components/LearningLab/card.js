@@ -159,7 +159,7 @@ const MyListCard = props => {
             cursor: "pointer"
           }}
         >
-          <Link href={`/postPage?content=${props.content.link}`}>
+          <Link href={`${props.content.url}`}>
             <CardMedia
               className={classes.media}
               image={
@@ -185,19 +185,20 @@ const MyListCard = props => {
               props.content.link,
               props.content.photoUrl,
               state.displayName,
-              state.userImage
-            ); //add props.metadata
+              state.userImage,
+              props.content.title,
+              props.content.description
+            ); //add props.metadata //link, photourl, displayname, userimgae, articletitle,articledescrtiption
+            console.log("===============",props.content)
           }}
         >
           Share Post
         </Button>
-        <Button
-          children={<Link href={`/postPage?content=${props.content.link}`} />}
-          className={classes.reviewsButton}
-        >
-          REVIEWS
+        <Link href={`/postPage?content=${props.content.link}`}>
           
-        </Button>
+          <Button className={classes.reviewsButton}>REVIEWS</Button>
+        </Link>
+
         <Button
           className={classes.deleteButton}
           onClick={ev => {

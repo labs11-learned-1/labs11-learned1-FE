@@ -20,7 +20,7 @@ const useStyles = makeStyles(theme => ({
     height: "460px",
     display: "flex",
     position: "relative",
-    background: "midnightblue",
+    background: theme.mixins.deepBlue,
     alignItems: "flex-end",
     borderRadius: "10px",
     float: "left",
@@ -110,6 +110,7 @@ const useStyles = makeStyles(theme => ({
     color: "#50585b",
     fontStyle: "italic",
     border: "2px solid #d0e1e8",
+    padding: "7px 3px 7px 3px"
 
   }
 }));
@@ -139,13 +140,16 @@ console.log("we are getting this sers info",userID)
       });
   };
  
-  React.useEffect(() => {
-    getUserInfo();
-  }, [window.location.search]);
+    React.useEffect(() => {
+      getUserInfo();
+    }, [window.location.search]); 
+
+  
+
 
   return (
     <div className={classes.userInfo}>
-    <span style={{width: "100%", position: "absolute", height: "5px",background: "midnightblue", top: "65px"}}></span>
+    <span style={{width: "100%", position: "absolute", height: "5px", background: "midnightblue", top: "65px"}}></span>
       <div className={classes.sidebar}>
       <span className={classes.circle}>
         <img
