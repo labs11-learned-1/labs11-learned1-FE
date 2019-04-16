@@ -145,7 +145,7 @@ const Newsfeed = props => {
       .doc(state.userID)
       .get(firebase.firestore.FieldPath("following"))
       .then(docSnapshot => {
-        console.log(docSnapshot.data().following);
+        // console.log(docSnapshot.data().following);
         return docSnapshot.data().following;
       })
       .catch(err => {
@@ -154,7 +154,7 @@ const Newsfeed = props => {
 
     
 
-    console.log("Following array: ", followingArray);
+    // console.log("Following array: ", followingArray);
     await followingArray.forEach(user =>
       postsRef
         .where("userId", "==", user)
@@ -178,8 +178,6 @@ const Newsfeed = props => {
         })
     );
     // console.log("posts array before setNewsfeed: ",postsArray)
-    
-    
   };
 
   const onChangeHandler = e => {
@@ -225,8 +223,14 @@ const Newsfeed = props => {
   };
 
   React.useEffect(() => {
-    getPostsOfFollowing();
+    getPostsOfFollowing(); 
   }, []);
+
+  React.useEffect(() => {
+    let sorted = newsfeed.sort(function(a, b) { 
+      return ( b.createdAt - a.createdAt  );
+    })
+  }, [newsfeed])
 
   return (
     <div className={classes.communityContent}>
