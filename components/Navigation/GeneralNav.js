@@ -301,7 +301,7 @@ const GeneralNav = (props) => {
     const [searchStatus, setSearchStatus] = useState(false);
     const [tabs, setTabs] = useState(false);
 
-    const newRef = React.createRef();
+    const newRef = useRef(null);
 
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
@@ -342,21 +342,23 @@ const GeneralNav = (props) => {
            .auth()
            .signOut()
            .then((result) => {
-             console.log("logout success", result)
-             return dispatch({ type: "LOGGED_OUT" });
+             console.log('logout success', result)
+             return dispatch({ type: 'LOGGED_OUT' });
            })
            .catch(e => {
-             alert("Error signing out");
+             alert('Error signing out');
            });
     };
 
     const handleClickOutside = (event) => {
-        console.log(newRef.current)
-        console.log(event.target)
-        if (newRef && !newRef.current.contains(event.target)) {
-            console.log(event.target);
-            console.log(newRef.current)
-          }
+        
+        if ((event.target).classList.contains('ais-SearchBox-input') && newRef && newRef.current != null && 
+        newRef.current.classList.contains('GeneralNav-ISearchWrapper-hmlj63') && (((event.target).parentNode).parentNode).parentNode.classList.contains("GeneralNav-ISearchWrapper-hmlj63")) {
+            console.log('inside')    
+        } else {
+            console.log('outside')
+            setTimeout(() => { setTabs(false)}, 500);
+        }
         
     }
 

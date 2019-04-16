@@ -150,14 +150,12 @@ const PostInfoPage = props => {
 
     //General Post Infomration States
     const [contentInfo, setContentInfo] = useState({});
-    const [gettingContentInfo, setGettingContentInfo] = (true);
 
     //Review States
     const [reviewContent, setReviewContent] = useState([]);
     const [myReview, setMyReview] = useState({title: "", comment: "", rating: 5});
     const [editingMyReview, setEditingMyReview] = useState(true);
     const [baseReview, setBaseReview] = useState(null);
-    const [gettingReviewContent, setGettingReviewContent] = (true);
 
     const notifyHandler = (type, success) => {
         if(type === 'post') {
@@ -210,7 +208,6 @@ const PostInfoPage = props => {
         const urlParams = new URLSearchParams(window.location.search);
         const contentID = urlParams.get("content").split("//").pop().replace(/[/]/g, "-");
         const content = await getContentById(contentID).then((res) => {
-            setGettingContentInfo(false);
             setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link, numRatings: res.numRatings, avgRating: res.avgRating});
         }); 
     }
@@ -233,7 +230,7 @@ const PostInfoPage = props => {
                 }
             })
             setReviewContent(reviewArr);
-            setGettingReviewContent(false);
+
         })  
     }
 
@@ -551,7 +548,6 @@ const PostInfoPage = props => {
                     <Typography variant="h4" component="h4" style={{paddingBottom: '20px', borderBottom: '1px solid black', marginBottom: '10px'}}>
                         Reviews
                     </Typography>
-                    {gettingContentInfo ? <div>Loading...</div> :
                     <List className={classes.reviewList}>
                         {reviewContent.length === 0 ?  <div className={classes.noReviews}><p>No Reviews...</p> <img src="https://seeklogo.com/images/F/facebook-cry-emoji-logo-DE407E489C-seeklogo.com.png"></img> </div> :
                             reviewContent.map(review => 
@@ -599,7 +595,6 @@ const PostInfoPage = props => {
                             </ListItem>
                         )}
                     </List>
-                    }
                 </Card>
             </div>
         </div>
