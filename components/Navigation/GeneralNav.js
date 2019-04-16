@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Head from 'next/head'
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useRef} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSearch, faHome, faBookmark, faStream } from '@fortawesome/free-solid-svg-icons'
 
@@ -91,7 +91,6 @@ const styles = theme => ({
     tmIcons: {
         width: '25px !important',
         height: '25px', 
-        
         color: '#1a237e',
     },
     searchIcon: {
@@ -302,6 +301,8 @@ const GeneralNav = (props) => {
     const [searchStatus, setSearchStatus] = useState(false);
     const [tabs, setTabs] = useState(false);
 
+    const newRef = React.createRef();
+
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
         `${process.env.ALGOLIA_SEARCH_KEY}`
@@ -349,16 +350,30 @@ const GeneralNav = (props) => {
            });
     };
 
+    const handleClickOutside = (event) => {
+        console.log(newRef.current)
+        console.log(event.target)
+        if (newRef && !newRef.current.contains(event.target)) {
+            console.log(event.target);
+            console.log(newRef.current)
+          }
+        
+    }
+
+    React.useEffect(()=>{
+        document.addEventListener('mousedown', handleClickOutside);
+    }, [])
+    
+
     const { classes } = props;
 
-    let ISearch = 
-    <ClickAwayListener onClickAway={() => {setTabs(false)}}>       
+    let ISearch =     
         <InstantSearch
             indexName="posts"                   
             searchClient={searchClient}                    
         >
                 
-                <div className={classes.ISearchWrapper}> 
+                <div className={classes.ISearchWrapper} id='temp' ref={newRef}> 
                     
                         <SearchBox 
                         className={classes.searchBox} 
@@ -367,6 +382,7 @@ const GeneralNav = (props) => {
                         poweredBy={true}
                         onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
                         onClick={(ev) => {ev.target.value != '' ? setTabs(true) : null}}
+                        
                         />
                         {tabs ?
                         <div>
@@ -385,7 +401,6 @@ const GeneralNav = (props) => {
                     </div> 
                 
         </InstantSearch>
-    </ClickAwayListener>
 
     
     return(
