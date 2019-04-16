@@ -44,7 +44,8 @@ const styles = theme => ({
     media: {
         width:"40%",
         height:"120px",
-        margin: "10px 0"
+        margin: "10px 0",
+        borderRadius: '12px'
     },
     avatar: {
         height: "35px",
@@ -54,7 +55,7 @@ const styles = theme => ({
     },
     cardContent: {
         display: "flex",
-        margin: '10px 30px 15px 60px',
+        margin: '10px 60px 15px 60px',
         flexDirection: 'column'
     },
     cardBody: {
@@ -80,6 +81,9 @@ const styles = theme => ({
     },
     articleContent: {
         display: 'flex',
+        background: 'rgb(242,161,161, 0.3)',
+        borderRadius: '12px',
+        margin: '10px 0 0 0'
     },
     actions:{
         display:"flex",
@@ -108,16 +112,18 @@ class Postcard extends React.Component {
             
             <div className={classes.cardContent}>
                 <div className={classes.postContent}>{this.props.content.content}</div>
-                <div className={classes.articleContent}>
                     {this.props.content.photoUrl ? 
-                    <CardMedia className={classes.media} image={this.props.content.photoUrl} title="Website Image" /> : 
+                    <div className={classes.articleContent}>
+                        <img className={classes.media} src={this.props.content.photoUrl} title='Website Image'/>
+                        <div className={classes.textContent}>
+                            <h3 className={classes.articleTitle}>{this.props.content.articleTitle}</h3>
+                            <p className={classes.articleDescription}>{this.props.content.articleDescription}</p>
+                        </div>
+                    </div> : 
                     null
                     }
-                    <div className={classes.textContent}>
-                        <h3 className={classes.articleTitle}>{this.props.content.articleTitle}</h3>
-                        <p className={classes.articleDescription}>{this.props.content.articleDescription}</p>
-                    </div>
-                </div>
+                    
+                
             </div>
         </Card>
         );

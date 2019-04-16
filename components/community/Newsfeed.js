@@ -54,7 +54,7 @@ const styles = {
     textAlign: 'center',
     height: '40px',
     width: '100%',
-    background: "#3f51b5",
+    background: "#191970",
     color: 'white',
     borderRadius: '10px 10px 0 0'
   },
@@ -74,7 +74,8 @@ const styles = {
   },
   postBtn: {
     width: "25%",
-    margin: "5px auto 15px auto"
+    margin: "5px auto 15px auto",
+    background: '#e76d89',
   },
   "@media(max-width: 600px)": {
     cards: {
