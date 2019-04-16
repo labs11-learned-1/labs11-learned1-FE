@@ -11,7 +11,8 @@ const styles = theme => ({
     nav : {
         width:"100%",
         borderBottom: '1px solid rgba(0,0,0,.1)',
-        boxShadow: '0 5px 6px -6px black'
+        boxShadow: '0 5px 6px -6px black',
+        background: 'ghostwhite'
     },
     toolbar : {
         padding:0,
@@ -20,10 +21,15 @@ const styles = theme => ({
         display: 'flex',
         justifyContent: "space-between",
     },
+    Button: {
+        background: '#e76d89',
+        borderRadius: '24px',
+        color: 'white',
+    },
     logo : {
         height: '100px',
         width: '150px',
-        backgroundImage: `url(https://i.ibb.co/6y24GKH/mediumsmall-res.png)`, 
+        backgroundImage: `url(https://i.ibb.co/6y24GKH/mediumsmall-res.png)`,
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         '&:hover': {

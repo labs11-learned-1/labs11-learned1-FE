@@ -17,25 +17,36 @@ const styles = {
     },
     textArea:{
         color:"white",
-        width:"30%"
+        width:"35%",
+        display: 'flex',
+        marginBottom: '40px',
+        flexDirection: 'column',
+        justifyContent: 'center',
+        alignItems: 'center'
     },
     headerTitle : {
-        fontSize:"2.7rem"
+        fontSize:"2.7rem",
+        textAlign: 'center'
     },
     headerText:{
-        fontSize:"1.6rem"
+        fontSize:"1.6rem",
+        textAlign: 'center',
+        marginBottom: '60px'
     },
     headerSignUp : {
         fontSize:"1.2rem",
-        backgroundColor:"white",
-        color:"#094A8D",
+        backgroundColor: '#e76d89',
+        width: '80%',
+        color:"white",
+        borderRadius: '24px',
         '&:hover' : {
             color:"white",
-            backgroundColor:"#094A8D",
+            backgroundColor:"#0db4b9",
         }
     },
     img : {
-        width:"15%",
+        width:"20%",
+        marginLeft: '80px'
     },
     '@media(max-width: 600px)': {
         root:{
