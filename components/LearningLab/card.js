@@ -191,13 +191,11 @@ const MyListCard = props => {
         >
           Share Post
         </Button>
-        <Button
-          children={<Link href={`/postPage?content=${props.content.link}`} />}
-          className={classes.reviewsButton}
-        >
-          REVIEWS
+        <Link href={`/postPage?content=${props.content.link}`}>
           
-        </Button>
+          <Button className={classes.reviewsButton}>REVIEWS</Button>
+        </Link>
+
         <Button
           className={classes.deleteButton}
           onClick={ev => {
