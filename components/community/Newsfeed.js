@@ -279,7 +279,7 @@ const Newsfeed = props => {
 
         <div className={classes.cards}>
             <InfiniteScroll
-              dataLength={newsfeed.length}
+              dataLength={scrollNumber}
               loader={<h3>Loading Posts ...</h3>}
               hasMore={hasMore}
               next={RenderMorePosts}
