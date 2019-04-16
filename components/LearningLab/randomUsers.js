@@ -5,7 +5,7 @@ import { Store } from "../../components/store";
 //FIREBASE
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
-
+import { followOthers } from '../firebaseAPI/firebaseFollow';
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
 import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
@@ -24,20 +24,37 @@ const useStyles = makeStyles(theme => ({
     height: "40px",
     borderRadius: "50%",
     cursor: "pointer",
-    margin: "5px"
+    margin: "10px 5px 5px 10px"
   },
   userWrap: {
     display: "flex",
     width: "100%",
-    flexFlow: "row wrap",
-    borderBottom: "1px solid #000051"
+    borderBottom: "1px solid #0db4b9",
+    background: 'rgb(13, 180, 185, 0.1)'
   },
-
+  userInfo: {
+    display: 'flex',
+    flexDirection: 'column',
+    justifyContent: 'center',
+  },
   userContainer: {
     height: "100%",
     display: "flex",
     flexFlow: "column",
     width: "100%",
+  },
+  name: {
+    marginLeft: '8px'
+  },
+  followButton: {
+    width: '50px',
+    borderRadius: '5px',
+    height: '20px',
+    fontSize: '12px',
+    margin: '-15px 0 15px 20px',
+    background: '#e76d89',
+    border: 'none',
+    color: 'white'
   },
   sectionTitle: {
     backgroundColor: "#191970",
@@ -103,10 +120,13 @@ const RandomUsers = props => {
                     query: { user: item.id, displayName: item.displayName }
                   }}
                 >
-                  <div className={classes.userWrap}>
-                    <img src={item.image} className={classes.avatar} />
-                    <h5>{item.displayName}</h5>
-                  </div>
+                    <div className={classes.userWrap}>
+                      <img src={item.image} className={classes.avatar} />
+                      <div className={classes.userInfo}>
+                        <h5 className={classes.name}>{item.displayName}</h5>
+                        <button className={classes.followButton} onClick={() => followOthers(item.id, state.userID)}>Follow</button>
+                      </div>
+                    </div>
                 </Link> 
               ) 
             })
