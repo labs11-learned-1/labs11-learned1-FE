@@ -9,6 +9,10 @@ import {getReviewList, editReview, addReview, deleteReview} from '../firebaseAPI
 import {getContentById, addRating} from '../firebaseAPI/firebaseCollection'
 import { addPost } from "../firebaseAPI/firebasePosts";
 
+//TOASTIFY
+import { ToastContainer, toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
 import PropTypes from "prop-types";
@@ -24,13 +28,18 @@ import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
 import Paper from '@material-ui/core/Paper';
 
-const useStyles = makeStyles(theme => ({
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import { faStar } from "@fortawesome/free-solid-svg-icons"
+
+const useStyles = makeStyles(theme => {
+    console.log(theme)
+    return {
     postPageWrapper: {
         margin: '0 auto',
         maxWidth: '900px',
         width: '100%',
         marginBottom: '40px',
-        marginTop: '40px'
+        marginTop: '90px',
     },
     myReview: {
 
@@ -53,7 +62,11 @@ const useStyles = makeStyles(theme => ({
         paddingTop: '20px',
         display: 'flex',
         justifyContent: 'space-between',
-        alignItems: 'center'
+        alignItems: 'center',
+        '& button': {
+            
+            color: 'white'
+        }
     },
     author: {
         display: 'flex',
@@ -81,12 +94,20 @@ const useStyles = makeStyles(theme => ({
     ratingButtons: {
         display: 'flex',
         alignItems: 'center',
+        padding: ' 5px 5px 5px 0',
         '& p': {
-            paddingLeft: '5px'
+            paddingLeft: '10px'
         },
         '& button': {
             margin: '2px',
             height: '15px'
+        }
+    },
+    star : {
+        padding: '2px',
+        '& path': {
+            stroke: 'black', 
+            strokeWidth: 10,
         }
     },
     writeReview: {
@@ -107,11 +128,28 @@ const useStyles = makeStyles(theme => ({
     },
     articleInfo: {
         paddingTop: '20px'
+    },
+    reviewListTR: {
+        display: 'flex',
+        alignItems: 'center'
+    },
+    noReviews: {
+        fontSize: '1.3rem',
+        textAlign: 'center',
+        '& img': {
+            width: '250px',
+            height: '250px'
+        }
+    },
+    '@media(max-width: 400px)': {
+        extraInfo: {
+            display: 'block'
+        }
     }
-}));
+}});
 
 const PostInfoPage = props => {
-    const classes = useStyles();
+    const classes = useStyles(props.theme);
     const {state, dispatch} = React.useContext(Store);
 
     //General Post Infomration States
@@ -123,8 +161,50 @@ const PostInfoPage = props => {
     const [editingMyReview, setEditingMyReview] = useState(true);
     const [baseReview, setBaseReview] = useState(null);
 
-    //State for styling purpose
-    const [imgWidth, setImgWidth] = useState(null);
+    const notifyHandler = (type, success) => {
+        if(type === 'post') {
+            if (success) {
+                toast.success("Successfuly posted review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error posting review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        } else if (type === 'delete') {
+            if (success) {
+                toast.success("Successfuly deleted review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error deleting review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        } else if (type === 'edit') {
+            if (success) {
+                toast.success("Successfuly saved review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error saving review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        } else {
+            if (success) {
+                toast.success("Successfuly shared review!", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            } else {
+                toast.error("Error sharing review D:", {
+                    position: toast.POSITION.BOTTOM_RIGHT
+                  });
+            }
+        }
+        
+    }
 
     //Gets the review id from the url parameters and uses the id retrieved to get the article information
     //from our database. Then sets the contentInfo state equal to that information.
@@ -132,7 +212,6 @@ const PostInfoPage = props => {
         const urlParams = new URLSearchParams(window.location.search);
         const contentID = urlParams.get("content").split("//").pop().replace(/[/]/g, "-");
         const content = await getContentById(contentID).then((res) => {
-            getImageWidth(res.photoUrl)
             setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link, numRatings: res.numRatings, avgRating: res.avgRating});
         }); 
     }
@@ -161,9 +240,12 @@ const PostInfoPage = props => {
     //Calls the function holding the api call to delete the review in database, and removes local myReview.
     const handleReviewDelete = async() => { 
         await deleteReview(myReview.reviewID).then(() => {
+            notifyHandler('delete', true);
             setMyReview({title: "", comment: "", rating: 5});
             addRating(contentInfo.link, null, "delete", baseReview.rating);
             setBaseReview(null);
+        }).catch(err => {
+            notifyHandler('delete', false);
         })
 
     }
@@ -172,11 +254,14 @@ const PostInfoPage = props => {
     const handleEditSave = async() => {
         setEditingMyReview(false);
         await editReview(myReview.reviewID, myReview.comment, myReview.title, myReview.rating).then(() => {
+            notifyHandler('edit', true);
             if(baseReview.rating != myReview.rating) {
                 addRating(contentInfo.link, myReview.rating, "edit", baseReview.rating);
             }
             setBaseReview({...myReview, title: myReview.title, comment: myReview.comment, rating: myReview.rating}); 
-        })  
+        }).catch(err => {
+            notifyHandler('edit', false);
+        })
     }
 
     // When an edit is cancelled we reset the values back to the original.
@@ -194,21 +279,22 @@ const PostInfoPage = props => {
         .then((res) => {
             console.log(res);
             if(res) {
+                notifyHandler('post', true);
                 setMyReview({...myReview, reviewID: res});
                 setBaseReview({title: myReview.title, comment: myReview.comment, rating: myReview.rating});
                 addRating(contentInfo.link ,myReview.rating, "post", null);
             } else {
-                alert("Error creating review");
+                notifyHandler('post', false);
             }
         })
     }
 
-    const getImageWidth = (url) => {   
-        let img = new Image();
-        img.addEventListener("load", function(){
-            setImgWidth(this.naturalWidth);
-        });
-        img.src = url;
+    const handleSharePost = () => {                                                            
+        addPost(myReview.title, myReview.comment, myReview.contentCollectionId, state.userID, null, state.userID, state.displayName, state.displayImage).then(() => {
+            notifyHandler('share', true);
+        }).catch(err => {
+            notifyHandler('share', false);
+        })
     }
 
     //Handler used to update myReview depending on content type.
@@ -217,6 +303,8 @@ const PostInfoPage = props => {
     }
 
     React.useEffect(()=>{
+        setBaseReview(null);
+        setMyReview({title: "", comment: "", rating: 5})
         getPostContent();
         getReviewContent();
     }, [window.location.search])
@@ -231,24 +319,19 @@ const PostInfoPage = props => {
     let reviewContentType;
     let postButton;
     let ratingButtons = <div className={classes.ratingButtons}>
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 1 ? "yellow" : "") : null) }}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 1 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 1 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 2 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 2 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 2 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 3 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 3 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 3 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 4 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 4 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 4 }) : null}}
         />
-        <button
-        style={{ backgroundColor: (myReview ? (myReview.rating >= 5 ? "yellow" : "") : null)}}
+        <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 5 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 5 }) : null}}
         />
     </div>
@@ -267,7 +350,7 @@ const PostInfoPage = props => {
                 <Button
                 color="primary"
                 onClick={() => {
-                    addPost(myReview.title, myReview.comment, myReview.contentCollectionId, state.userID);
+                    handleSharePost();
                 }}
                 >
                     SHARE REVIEW
@@ -388,8 +471,7 @@ const PostInfoPage = props => {
     }
 
     console.log(contentInfo)
-    console.log(imgWidth)
-
+    
     return (
         <div className={classes.postPageWrapper}>
             <div>
@@ -414,28 +496,26 @@ const PostInfoPage = props => {
                         
                         <div className={classes.extraInfo}>
                             <div className={classes.ratingButtons}>
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 1 ? "yellow" : "") : null) }}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 1 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 2 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 2 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 3 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 3 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 4 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 4 ? "yellow" : "white") : null)}}
                                 />
-                                <button
-                                style={{ backgroundColor: (contentInfo ? (contentInfo.avgRating >= 5 ? "yellow" : "") : null)}}
+                                <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                    style={{color: (contentInfo ? (contentInfo.avgRating >= 5 ? "yellow" : "white") : null)}}
                                 />
                                 <p>({contentInfo.numRatings ? contentInfo.numRatings : '0'} Reviews)</p>
                             </div>
                             <a target='_blank' href={contentInfo.link} style={{ textDecoration: 'none' }}>
                                 <Button
-                                    className={classes.read}
                                     variant="contained"
-                                    color="primary"
                                     onClick={() => {
                                         ;
                                     }}
@@ -463,7 +543,8 @@ const PostInfoPage = props => {
                         Reviews
                     </Typography>
                     <List className={classes.reviewList}>
-                        {reviewContent.map(review => 
+                        {reviewContent.length === 0 ?  <div className={classes.noReviews}><p>No Reviews...</p> <img src="https://seeklogo.com/images/F/facebook-cry-emoji-logo-DE407E489C-seeklogo.com.png"></img> </div> :
+                            reviewContent.map(review => 
                             <ListItem alignItems="flex-start" className={classes.reviewItem}>
                                 <ListItemAvatar>
                                 <Avatar alt="Remy Sharp" src={review.displayImage} />
@@ -472,15 +553,36 @@ const PostInfoPage = props => {
                             
                                 secondary={
                                     <React.Fragment>
-                                    <Typography
-                                        component="span"
-                                        className={classes.inline}
-                                        color="textPrimary"
-                                    >
-                                        {review.displayName}
-                                    </Typography>
-                                    {review.title}
-                                    {review.comment}
+                                        <Typography
+                                            component="span"
+                                            className={classes.inline}
+                                            color="textPrimary"
+                                        >   
+                                            <div className={classes.reviewListTR}>
+                                                {review.displayName}
+                                                <div className={classes.ratingButtons} style={{marginLeft: '15px'}}>
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 1 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 2 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 3 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 4 ? "yellow" : "white") : null)}}
+                                                    />
+                                                    <FontAwesomeIcon className={classes.star} icon={faStar} 
+                                                        style={{color: (review ? (review.rating >= 5 ? "yellow" : "white") : null)}}
+                                                    />
+                                                </div>
+                                            </div>
+                                            <div style={{width: '100%', fontWeight: 'bold', marginBottom: '5px'}}>
+                                                {review.title} 
+                                            </div>
+                                            {review.comment}
+                                        </Typography>                                   
                                     </React.Fragment>
                                 }
                                 />
