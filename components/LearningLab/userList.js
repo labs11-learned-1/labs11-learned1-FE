@@ -283,7 +283,7 @@ const UserList = props => {
     await getReviewList(userList, link);
     setOpenReviewList(true);
   };
-
+//link, photourl, displayname, userimgae, articletitle,articledescrtiption
   const prepareSharePost = (postLink, photoUrl, displayName, userImage, articleTitle, articleDescription) => {
     setReviewContent({
       ...reviewContent,
@@ -300,9 +300,8 @@ const UserList = props => {
 
   //Share Handler
   const sharePost = () => {
-    const { title, content, postId, photoUrl, displayName, articleTitle, articleDescription } = reviewContent;
+    const {content, postId, photoUrl, displayName, articleTitle, articleDescription } = reviewContent;
     addPost(
-      title,
       content,
       postId,
       props.state.userID,
@@ -366,7 +365,7 @@ const UserList = props => {
     const { rating, title, content, reviewID, postId } = reviewContent;
     if (share) {
       console.log("SHARE");
-      addPost(title, content, postId, props.state.userID);
+      addPost(content, postId, props.state.userID);
     }
     editReview(reviewID, content, title, rating);
     setOpenReview(false);
@@ -474,7 +473,7 @@ const UserList = props => {
   return (
     <div className={classes.userListWrap}>
       {props.state.userID !== state.userID ? null : (
-        <div className={classes.myHeader} onBlur={() => setVisible(false)}>
+        <div className={classes.myHeader} onBlur={() => setVisible(true)}>
           <h6 style={visible ? { margin: "0px" } : { display: "none" }}>
             Enter a Url to add to your list!
           </h6>

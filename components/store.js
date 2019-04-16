@@ -3,7 +3,6 @@ import React from 'react'
 export const Store = React.createContext(); //creates context object
 
 const initialState = {
-    message : "Are you working?",
     loggedIn: false,
     userId: "",
     openForm:false,
