@@ -58,14 +58,15 @@ const useStyles = makeStyles(theme => {
         marginTop: '20px'
     },
     extraInfo: {
-        
-        paddingTop: '20px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
         '& button': {
-            
-            color: 'white'
+            backgroundColor: theme.mixins.modernPink,
+            color: 'white',
+            '& hover': {
+                backgroundColor: theme.mixins.pinkBoot,
+            }
         }
     },
     author: {
