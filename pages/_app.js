@@ -10,10 +10,11 @@ import { ThemeProvider } from '@material-ui/styles';
 
 const theme = createMuiTheme({
   mixins: {
-    deepBlue: '#003366',
+    deepBlue: '#191970',
     trapperGreen: '#0db4b9',
     pinkBoot: '#f2a1a1',
-    modernPink: '#e76d89'
+    modernPink: '#e76d89',
+    lightBlue: '#9cf3f4'
   },
   overrides: {
     //This can be used to override the materialUI component styling, can get weird for some
@@ -34,7 +35,7 @@ class MyApp extends App {
           html {
             height: 100%;
             font-family: "Roboto", "Helvetica", "Arial", sans-serif;
-            
+            box-sizing: border-box;
           }
           
         `}</style>

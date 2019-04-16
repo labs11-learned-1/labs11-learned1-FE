@@ -101,7 +101,7 @@ class Postcard extends React.Component {
         const imgSrc =  this.props.content.displayImage ? this.props.content.displayImage : this.props.content.userImage
         const path = this.props.content.userId === this.props.state.userID ? "/learning-lab" : { pathname: '/users-lab', query: { user: this.props.content.userId, displayName : this.props.content.displayName}}
         let finalDate = new Date(this.props.content.createdAt)
-        console.log(finalDate)
+       
         return (
         <Card className={classes.card}>
             <Link href={path}>
