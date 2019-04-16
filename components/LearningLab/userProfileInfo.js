@@ -139,9 +139,12 @@ console.log("we are getting this sers info",userID)
       });
   };
  
-  React.useEffect(() => {
-    getUserInfo();
-  }, [window.location.search]);
+    React.useEffect(() => {
+      getUserInfo();
+    }, [window.location.search]); 
+
+  
+
 
   return (
     <div className={classes.userInfo}>

@@ -159,7 +159,7 @@ const MyListCard = props => {
             cursor: "pointer"
           }}
         >
-          <Link href={`/postPage?content=${props.content.link}`}>
+          <Link href={`${props.content.url}`}>
             <CardMedia
               className={classes.media}
               image={
