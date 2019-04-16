@@ -41,10 +41,13 @@ const styles = theme => ({
     postContent: {
         fontSize: '14px'
     },
+    anchor: {
+        width: '40%',
+    },
     media: {
-        width:"40%",
+        width: '94%',
         height:"120px",
-        margin: "10px 0",
+        margin: "10px 0 0 10px",
         borderRadius: '12px'
     },
     avatar: {
@@ -114,7 +117,9 @@ class Postcard extends React.Component {
                 <div className={classes.postContent}>{this.props.content.content}</div>
                     {this.props.content.photoUrl ? 
                     <div className={classes.articleContent}>
-                        <img className={classes.media} src={this.props.content.photoUrl} title='Website Image'/>
+                        <a className={classes.anchor} href={`${this.props.content.url}`}>
+                            <img className={classes.media} src={this.props.content.photoUrl} title='Website Image'/>
+                        </a>
                         <div className={classes.textContent}>
                             <h3 className={classes.articleTitle}>{this.props.content.articleTitle}</h3>
                             <p className={classes.articleDescription}>{this.props.content.articleDescription}</p>

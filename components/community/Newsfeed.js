@@ -280,7 +280,6 @@ const Newsfeed = props => {
 
         <div className={classes.cards}>
           {newsfeed.map((post, index) => 
-            
             <Postcard content={post} state={state} key={index} />
             
           )}
