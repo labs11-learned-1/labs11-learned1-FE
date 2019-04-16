@@ -72,7 +72,7 @@ const UserPosts = props => {
       {postList.length ? (
         postList.map((post, index) => <Postcard content={post} state={props.state} key={index} />)
       ) : (
-        <p>"nothing"</p>
+        <p>LOADING...</p>
       )}
     </div>
   );

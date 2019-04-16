@@ -79,7 +79,7 @@ console.log("props",props)
 
   return (
     <div className={classes.tabWrap}>
-      <AppBar position="static" style={{backgroundColor: "#3f51b5", borderRadius: "10px 10px 0 0", padding: "6px 0 6px 0"}}>
+      <AppBar position="static" style={{backgroundColor: "midnightblue", borderRadius: "10px 10px 0 0", padding: "6px 0 6px 0"}}>
         <Tabs value={value} onChange={handleChange}>
           <Tab label= {props.state.userID !== state.userID ? `${props.state.displayName}'s List` : "My List"} />
           <Tab label={props.state.userID !== state.userID ? `${props.state.displayName}'s Posts` : "My Posts"} />
