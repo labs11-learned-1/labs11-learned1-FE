@@ -37,9 +37,13 @@ import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
 
+
 const useStyles = makeStyles(theme => ({
   userListWrap: {
-    background: "white"
+    background: "#E5F2F7"
+  },
+  cardListWrapper : {
+    marginTop: "0px"
   },
   saveButton: {
     float: "right",
@@ -417,9 +421,9 @@ const UserList = props => {
   //   setOpenReview(false);
   // };
 
-  const handleSubmit = () => {
+  const handleSubmit = async() => {
     // sending link to web scraping backend that returns meta tags
-    axios
+    await axios
       .post("https://getmetatag.herokuapp.com/get-meta", { url: link })
       .then(res => {
         // saves useful meta tags to local state
@@ -430,12 +434,13 @@ const UserList = props => {
           author: author,
           img: image
         });
+        setVisible(false);
       })
       .catch(err => {
         alert("ERROR");
       });
     setOpen(false);
-    setVisible(false);
+    
   };
 
   let reviewBody;
@@ -464,7 +469,7 @@ const UserList = props => {
   return (
     <div className={classes.userListWrap}>
       {props.state.userID !== state.userID ? null : (
-        <div className={classes.myHeader}>
+        <div className={classes.myHeader} onBlur={() => setVisible(false)}>
           <h6 style={visible ? { margin: "0px" } : { display: "none" }}>
             Enter a Url to add to your list!
           </h6>
@@ -499,7 +504,7 @@ const UserList = props => {
             onChange={onChangeHandler}
             onSubmit={clearText}
             onClick={() => setVisible(true)}
-            onBlur={() => setVisible(false)}
+            
           />
           {visible ? (
             <Fab
@@ -537,7 +542,8 @@ const UserList = props => {
           </Dialog>
         </div>
       )}
-
+      {/* this wraps the userList cards */}
+      <div className={classes.cardListWrapper} style={ visible ? {marginTop: "50px"} : null}>
       {console.log("this is list, ", list)}
       {list.map(item => {
         return (
@@ -557,7 +563,7 @@ const UserList = props => {
           />
         );
       })}
-
+  </div>
       {/*  THIS IS THE REVIEW POSTING POPUP COMPONENT */}
       <Dialog
         className={classes.reviewListDialog}
@@ -587,17 +593,6 @@ const UserList = props => {
         </DialogTitle>
         <DialogContent>
           <TextField
-            autoFocus
-            margin="dense"
-            id="name"
-            name="title"
-            placeholder="Title"
-            className={classes.textField}
-            fullWidth
-            value={reviewContent.title}
-            onChange={reviewChange}
-          />
-          <TextField
             id="filled-multiline-static"
             multiline
             rows="10"
@@ -608,6 +603,7 @@ const UserList = props => {
             variant="filled"
             value={reviewContent.content}
             onChange={reviewChange}
+            
           />
           <div className={classes.reviewButtons}>
             {nonShareButtons}
