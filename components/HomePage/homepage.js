@@ -18,6 +18,7 @@ import SearchCourses from "./SearchCourses";
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
+import InfiniteScroll from "react-infinite-scroll-component";
 
 const styles = {
     recommendedCoursesWrapper:{
@@ -129,7 +130,6 @@ const Home = (props) => {
     }, [])
     return (
         <div className={classes.homepageWrapper}>
-            <SearchCourses openSnackbar={handleSnackBarOpen}/>
             {loadingCourses ? <LinearProgress style={{width:"80%", marginTop:"10px"}}/> : null}
             {/* <div className={classes.popularBlogsWrapper}> */}
                 {/* <h2>Popular Blog Posts</h2> */}
@@ -168,6 +168,7 @@ const Home = (props) => {
                 </div>
                 }
             </div>
+            <SearchCourses openSnackbar={handleSnackBarOpen}/>
             <Snackbar
                 anchorOrigin={{
                 vertical: 'bottom',

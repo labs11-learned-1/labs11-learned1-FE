@@ -9,7 +9,7 @@ import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
 import RandomUsers from '../LearningLab/randomUsers'
-
+import InfiniteScroll from "react-infinite-scroll-component";
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
 
 const styles = {
@@ -95,6 +95,8 @@ const Newsfeed = props => {
   const [contentLength, setContentLength] = React.useState(0);
   const [titleLength, setTitleLength] = React.useState(0);
   const { state, dispatch } = React.useContext(Store);
+  const [scrollNumber, setScrollNumber] = React.useState(10);
+  const [hasMore, setHasMore] = React.useState(true);
   const { classes } = props;
 
   const addPost = async (
@@ -223,6 +225,13 @@ const Newsfeed = props => {
     }
   };
 
+  const RenderMorePosts = () => {
+    setScrollNumber(scrollNumber + 10)
+    if(scrollNumber > newsfeed.length){
+      setHasMore(false)
+    }
+  }
+
   React.useEffect(() => {
     getPostsOfFollowing(); 
   }, []);
@@ -269,10 +278,22 @@ const Newsfeed = props => {
         </div>
 
         <div className={classes.cards}>
-          {newsfeed.map((post, index) => 
-            <Postcard content={post} state={state} key={index} />
-            
-          )}
+            <InfiniteScroll
+              dataLength={newsfeed.length}
+              loader={<h3>Loading Posts ...</h3>}
+              hasMore={hasMore}
+              next={RenderMorePosts}
+              endMessage={
+                <p style={{textAlign: 'center'}}>
+                  <b>No more Posts available. Try following more users!</b>
+                </p>
+              }
+            >
+              {newsfeed.slice(0, scrollNumber).map((post, index) => 
+              <Postcard content={post} state={state} key={index} />
+              )}
+            </InfiniteScroll>
+
         </div>
       </div>
 
