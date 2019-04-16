@@ -4,6 +4,10 @@ import React from "react";
 import { Store } from "../components/store";
 import PropTypes from 'prop-types';
 
+//FONT AWESOME
+import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
+import {faStarHalf} from '@fortawesome/free-solid-svg-icons'
+
 //firebase imports
 import * as firebase from "firebase";
 import { loadDB } from "../firebaseConfig/firebase";

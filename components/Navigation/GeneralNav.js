@@ -25,6 +25,8 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import algoliasearch from 'algoliasearch';
 import { InstantSearch, SearchBox, Hits, connectStateResults, Index, Configure } from 'react-instantsearch-dom';
+import { withTheme } from '@material-ui/core/styles';
+
 
 const styles = theme => ({
     nav : {
@@ -107,8 +109,7 @@ const styles = theme => ({
         flexDirection: 'column',
         justifyContent: 'center',
         '& ul': {
-            marginTop: '0',
-            marginLeft: '0',
+            margin: 0,
             display: 'flex',
             flexDirection: 'column',
             width: '500px'
@@ -294,7 +295,7 @@ const styles = theme => ({
 });
 
 const GeneralNav = (props) => {
-
+    console.log(props)
     const [accountOpen, setAccountOpen] = useState(false);
     const [burgerOpen, setBurgerOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
@@ -310,12 +311,12 @@ const GeneralNav = (props) => {
         let hitItem;
         if(hit.title) {
             hitItem = <Link href={`/postPage?content=${hit.objectID}`}>
-            <p>{hit.title}</p>
-        </Link>
+                            <p>{hit.title}</p>
+                        </Link>
         } else {
             hitItem = <Link href={`/users-lab?user=${hit.objectID}`}>
-            <p>{hit.username}</p>
-        </Link>
+                            <p>{hit.username}</p>
+                        </Link>
         }
         return (
             <div className="hit">
@@ -328,7 +329,7 @@ const GeneralNav = (props) => {
 
     const Content = connectStateResults(({ searchState }) =>
       searchState && searchState.query
-        ? <div className={classes.list}>
+        ? <div style={{margin: '0 !important'}} className={classes.list}>
             <Hits hitComponent = {Hit} />
           </div>
         : <div></div>
@@ -350,35 +351,43 @@ const GeneralNav = (props) => {
 
     const { classes } = props;
 
-    let ISearch = <InstantSearch
-        indexName="posts"                   
-        searchClient={searchClient}                    
-    >
-        <div className={classes.ISearchWrapper}>
-            <SearchBox 
-            className={classes.searchBox} 
-            translations={{placeholder: 'Search Erudition...'}}
-            reset={false}
-            poweredBy={true}
-            onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
-            />
-            <div>
-                <Index indexName="posts">
-                    {tabs ? <h2 className={classes.searchTitle}>Articles</h2>: undefined}
-                    <Configure hitsPerPage={5} />
-                    <Content/>
-                </Index>
-            </div>
-            <div>
-                <Index indexName="users">
-                    {tabs ? <h2 className={classes.searchTitle}>Users</h2>: undefined}
-                    <Configure hitsPerPage={5} />
-                    <Content/>
-                </Index>   
-            </div>
-        </div>          
-    </InstantSearch>
+    let ISearch = 
+    <ClickAwayListener onClickAway={() => {setTabs(false)}}>       
+        <InstantSearch
+            indexName="posts"                   
+            searchClient={searchClient}                    
+        >
+                
+                <div className={classes.ISearchWrapper}> 
+                    
+                        <SearchBox 
+                        className={classes.searchBox} 
+                        translations={{placeholder: 'Search Erudition...'}}
+                        reset={false}
+                        poweredBy={true}
+                        onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
+                        onClick={(ev) => {ev.target.value != '' ? setTabs(true) : null}}
+                        />
+                        {tabs ?
+                        <div>
+                            <Index indexName="posts">
+                                <h2 className={classes.searchTitle}>Articles</h2>
+                                <Configure hitsPerPage={5} />
+                                <Content/>
+                            </Index> 
+                            <Index indexName="users">
+                                <h2 className={classes.searchTitle}>Users</h2>
+                                <Configure hitsPerPage={5} />
+                                <Content/>
+                            </Index>
+                        </div> : undefined}  
+                            
+                    </div> 
+                
+        </InstantSearch>
+    </ClickAwayListener>
 
+    
     return(
         <div className={classes.nav}>
             <Head>
@@ -506,10 +515,10 @@ const GeneralNav = (props) => {
                                     <MenuItem>Home</MenuItem>
                                 </Link>
                                 <Link href="/learning-lab">
-                                    <MenuItem className={classes.menuItem}>Learning Lab</MenuItem>
+                                    <MenuItem className={classes.menuItem}>My List</MenuItem>
                                 </Link>
                                 <Link href="/community">
-                                    <MenuItem>Community</MenuItem>
+                                    <MenuItem>News Feed</MenuItem>
                                 </Link>
                                 <Link href='/settings'>
                                     <MenuItem>Settings</MenuItem>
