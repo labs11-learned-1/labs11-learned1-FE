@@ -54,7 +54,7 @@ const styles = {
     textAlign: 'center',
     height: '40px',
     width: '100%',
-    background: "#3f51b5",
+    background: "#191970",
     color: 'white',
     borderRadius: '10px 10px 0 0'
   },
@@ -62,7 +62,7 @@ const styles = {
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center"
+    alignItems: "center",
   },
   addPostContainer: {
     display: "flex",
@@ -74,7 +74,8 @@ const styles = {
   },
   postBtn: {
     width: "25%",
-    margin: "5px auto 15px auto"
+    margin: "5px auto 15px auto",
+    background: '#e76d89',
   },
   "@media(max-width: 600px)": {
     cards: {
@@ -163,7 +164,6 @@ const Newsfeed = props => {
           querySnapshot.forEach(post => {
             let postsArray = [];
             postsArray.push(post.data());
-            
             
             setNewsFeed(newsfeed => newsfeed.concat(postsArray));
             // setNewsFeed(newsfeed => [...newsfeed, post.data().slice(0, newsfeed.length)])
@@ -280,7 +280,6 @@ const Newsfeed = props => {
 
         <div className={classes.cards}>
           {newsfeed.map((post, index) => 
-            
             <Postcard content={post} state={state} key={index} />
             
           )}
