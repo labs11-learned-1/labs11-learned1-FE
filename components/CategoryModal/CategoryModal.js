@@ -21,10 +21,17 @@ const useStyles = makeStyles(theme => ({
   },
   instructions: {
     color: "white",
-    fontSize: '5rem'
+    fontSize: '4rem',
+    textAlign: 'center',
+    marginTop: '100px'
+  },
+  instructionBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   modalContainer: {
-      background: '#072242',
+      background: 'rgb(13,180,185, 0.4)',
       "height": "100%"
   }
 }));
@@ -72,10 +79,10 @@ function CategoryModal(props) {
     height: cardHeight,
     width: cardWidth,
     cursor: "pointer",
-    border: "1px solid black",
-    boxShadow: "0px 4px 50px -4px #ff00ff",
+    //border: "1px solid black",
+    boxShadow: "0px 4px 50px -4px #e76d89",
     transform: "scale(1.01)",
-    border: "3px solid white"
+    border: "2px solid #e76d89"
   };
 
   return (
@@ -107,13 +114,15 @@ function CategoryModal(props) {
               height: cardHeight,
               width: "1000px",
               margin: "0",
-              background: "#004ba8"
+              background: "rgb(25,25,112)"
             }}
-          >
-            <h1 className={classes.instructions}>
-              Please Choose Your 3 Favorite Categories
-            </h1>
-            <p className={classes.hint}>3 are required!</p>
+          > 
+            <div className={classes.instructionBox}>
+              <h1 className={classes.instructions}>
+                Please Choose Your 3 Favorite Categories
+              </h1>
+              <h2 className={classes.hint}>3 are required!</h2>
+            </div>
           </GridListTile>
 
           {/* <GridListTile cols={cardSize} style={{ display: 'block', margin: '0', height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { props.handleAdd("Technology") }} >
@@ -300,7 +309,7 @@ function CategoryModal(props) {
             <img src="https://images.pexels.com/photos/7075/people-office-group-team.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
             <GridListTileBar title="Teaching & Academics" />
           </GridListTile>
-          <Button variant="contained" size="large" color="primary" style={{width:"53%", borderRadius: "12px", height: "71px", margin: "80px", backgroundColor: "#ff00ff"}} onClick={props.addTagsToUser}>
+          <Button variant="contained" size="large" color="primary" style={{width:"53%", borderRadius: "24px", height: "71px", margin: "80px", backgroundColor: "#e76d89"}} onClick={props.addTagsToUser}>
             Save
           </Button>
         </GridList>

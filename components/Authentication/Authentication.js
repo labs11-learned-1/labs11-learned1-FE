@@ -59,9 +59,6 @@ const styles = {
     width: "100%",
     marginBottom: '40px'
   },
-  appName: {
-    
-  },
   motto: {
     margin: '20px 0 40px 0'
   },
