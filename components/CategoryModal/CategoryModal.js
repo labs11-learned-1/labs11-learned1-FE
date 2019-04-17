@@ -24,9 +24,17 @@ const useStyles = makeStyles(theme => ({
   },
   instructions: {
     color: "white",
-    fontSize: '5rem'
+    fontSize: '4rem',
+    textAlign: 'center',
+    marginTop: '100px'
+  },
+  instructionBox: {
+    display: 'flex',
+    flexDirection: 'column',
+    alignItems: 'center',
   },
   modalContainer: {
+<<<<<<< HEAD
       boxSizing:"border-box",
       background: '#1A237E',
       "height": "100%",
@@ -57,6 +65,10 @@ const useStyles = makeStyles(theme => ({
     instructions:{
       fontSize:"3rem"
     }
+=======
+      background: 'rgb(13,180,185, 0.4)',
+      "height": "100%"
+>>>>>>> d01bf96ed83318f51f3551b6b656463f27656d37
   }
 }));
 function CategoryModal(props) {
@@ -108,6 +120,24 @@ function CategoryModal(props) {
   //   transform: "scale(1.01)",
   //   border: "3px solid white"
   // };
+  const cardStyle = {
+    display: "block",
+    margin: "0",
+    height: cardHeight,
+    width: cardWidth,
+    cursor: "pointer"
+  };
+  const selectedStyle = {
+    display: "block",
+    margin: "0",
+    height: cardHeight,
+    width: cardWidth,
+    cursor: "pointer",
+    //border: "1px solid black",
+    boxShadow: "0px 4px 50px -4px #e76d89",
+    transform: "scale(1.01)",
+    border: "2px solid #e76d89"
+  };
 
   return (
     <div>
@@ -133,13 +163,16 @@ function CategoryModal(props) {
               margin: "0",
               boxSizing:"border-box",
               textAlign:"center",
-              paddingTop:"10%"
+              paddingTop:"10%",
+              background: "rgb(25,25,112)"
             }}
-          >
-            <h1 className={classes.instructions}>
-              Please Choose Your 3 Favorite Categories
-            </h1>
-            <p className={classes.hint}>3 are required!</p>
+          > 
+            <div className={classes.instructionBox}>
+              <h1 className={classes.instructions}>
+                Please Choose Your 3 Favorite Categories
+              </h1>
+              <h2 className={classes.hint}>3 are required!</h2>
+            </div>
           </GridListTile>
 
           {/* <GridListTile cols={cardSize} style={{ display: 'block', margin: '0', height: cardHeight, width: cardWidth, cursor: 'pointer' }} onClick={() => { props.handleAdd("Technology") }} >
@@ -322,7 +355,7 @@ function CategoryModal(props) {
             <img src="https://images.pexels.com/photos/7075/people-office-group-team.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
             <GridListTileBar title="Teaching & Academics" />
           </GridListTile>
-          <Button variant="contained" size="large" color="primary" style={{width:"53%", borderRadius: "12px", height: "71px", margin: "80px", backgroundColor: "#E76D89"}} onClick={props.addTagsToUser}>
+          <Button variant="contained" size="large" color="primary" style={{width:"53%", borderRadius: "24px", height: "71px", margin: "80px", backgroundColor: "#e76d89"}} onClick={props.addTagsToUser}>
             Save
           </Button>
         </GridList>

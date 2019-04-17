@@ -29,28 +29,24 @@ const styles = theme => ({
     width: "100%",
     display: "flex",
     justifyContent: "center",
+    color: 'white',
     cursor: "pointer",
-    borderTop: `2px solid ${theme.mixins.trapperGreen}`,
-    borderLeft: `2px solid ${theme.mixins.trapperGreen}`,
     
   },
   connections:{
     boxSizing: "border-box",
     width: "100%",
+    color: 'white',
     display: "flex",
     justifyContent: "center",
     cursor: "pointer",
-    borderTop: `2px solid ${theme.mixins.trapperGreen}`,
-    borderLeft: `2px solid ${theme.mixins.trapperGreen}`,
-    borderRight: `2px solid ${theme.mixins.trapperGreen}`,
-    borderBottom: `2px solid ${theme.mixins.trapperGreen}`,
   },
   settingsWrapper: {
     display: "flex",
     justifyContent: "center",
     margin: "0 auto",
-    width: "70%",
-    height: "100%",
+    width: "60%",
+    height: "600px",
     marginTop: "80px",
     "& h3": {
       "&:hover": {
@@ -65,31 +61,36 @@ const styles = theme => ({
       paddingBottom: "10px"
     }
   },
+  profilePicTitle: {
+    marginLeft: '5%'
+  },
   profilePic: {
     borderRadius: "50%",
-    margin: "15px 0 0 20px"
+    marginLeft: '5%'
   },
-  profilePicTitle: {
-    margin: "15px 0 0 20px"
+  accountTab: {
+    
   },
   row: {
-    borderBottom: "1px solid #e76d89",
-    paddingBottom: "20px",
-    paddingTop: "20px",
-    alignItems: "center"
+    borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
+    paddingBottom: '40px',
   },
   profilePicWrap: {
     display: "block",
-    borderBottom: "1px solid #e76d89",
+    borderBottom: "1.2px solid #e76d89",
     paddingBottom: "20px"
+  },
+  connectUdemy: {
+    marginLeft: '5%'
   },
   usernameA: {
     width: "100%",
     display: "flex",
+    marginLeft: '5%',
     justifyContent: "space-between",
     flexWrap: "nowrap",
     alignItems: "center",
-    paddingBottom: "60px"
+    paddingBottom: "30px"
   },
   "& input": {
     backgroundColor: "white"
@@ -119,7 +120,7 @@ const styles = theme => ({
     flexDirection: "column",
     alignItems: "center",
     width: "265px",
-    backgroundColor: `#efe2d2`,
+    backgroundColor: `${theme.mixins.deepBlue}`,
     boxSizing: "border-box",
     position: "relative"
     
@@ -128,14 +129,15 @@ const styles = theme => ({
     width: "100%",
     maxWidth: "760px",
     backgroundColor: "ghostwhite",
-    paddingRight: "20px"
   },
   signOutButton: {
     margin: "0",
     width: "120px",
     fontWeight: "bold",
     background: `${theme.mixins.pinkBoot}`,
+    color: 'red',
     position: "absolute",
+    borderRadius: '24px',
     bottom: "10px"
 
   },
@@ -143,19 +145,22 @@ const styles = theme => ({
     margin: "0",
     fontWeight: "bold"
   },
-  textField: {
-    margin: "0"
+  textInput: {
+    marginLeft: '5%'
   },
   udemyButton: {
-    backgroundColor: "#bf302d",
-    color: "white",
-    fontWeight: "bold"
-  },
-  saveButton: {
-    backgroundColor: "#7bbc36",
+    backgroundColor: `${theme.mixins.pinkBoot}`,
+    borderRadius: '24px',
+    marginTop: '8px',
     color: "white",
     fontWeight: "bold",
-    margin: "0 10px 0 10px"
+  },
+  saveChanges: {
+    backgroundColor: `${theme.mixins.pinkBoot}`,
+    color: "white",
+    marginTop: "30px",
+    marginLeft: '5%',
+    borderRadius: '24px'
   },
   button: {
     margin: "0 10px 0 10px"
@@ -347,36 +352,33 @@ const Settings = props => {
   return (
     <div className={classes.settingsWrapper}>
       <div className={classes.sidebar}>
-     <div className={classes.account} style={{borderRight : activeTab === "account" ? "none" :  `2px solid #0db4b9`, background: activeTab === "account" ? "ghostwhite" :  `none` } } onClick={() => setActiveTab("account")}>
-     <h3  id="account" >
-          Account
-        </h3>
-      </div>
-        <div className={classes.connections}  style={{borderRight : activeTab === "connections" ? "none" :  `2px solid #0db4b9`, background: activeTab === "connections" ? "ghostwhite" :  `none` } } onClick={() => setActiveTab("connections")}>
-        <h3 >
-          Connections
-        </h3>
+        <div className={classes.account} 
+        style={{background: activeTab === "account" ? "ghostwhite" :  `none`, color: activeTab === "account" ? "black" : "white" } } onClick={() => setActiveTab("account")}>
+          <h3  id="account" >
+            Account
+          </h3>
         </div>
-        
-        <Button
-          variant="contained"
-          color="red"
-          onClick={() => handleSignOut()}
-          className={classes.signOutButton}
-        >
-          Sign Out
-        </Button>
+        <div className={classes.connections}  
+        style={{background: activeTab === "connections" ? "ghostwhite" :  `none`, color: activeTab === "connections" ? "black" : "white" } } onClick={() => setActiveTab("connections")}>
+          <h3 >
+            Connections
+          </h3>
+        </div>
+          
+          <Button
+            variant="contained"
+            color="red"
+            onClick={() => handleSignOut()}
+            className={classes.signOutButton}
+          >
+            Sign Out
+          </Button>
       </div>
+
       <div className={`${classes.content}`}>
         <div>
-          <div
-            className={classes.accountTab}
-            style={{ display: activeTab === "account" ? "block" : "none" }}
-          >
-            <div className={classes.title}>
-              <h1>Account</h1>
-            </div>
-            <div className={classes.profilePicWrap}>
+          <div className={classes.accountTab} style={{ display: activeTab === "account" ? "block" : "none" }}>
+            <div className={classes.row}>
               <h3 className={classes.profilePicTitle}>Profile Picture</h3>
               <div
                 className={classes.profilePic}
@@ -394,7 +396,7 @@ const Settings = props => {
               {/* UPDATE DISPLAY NAME */}
               <TextField
                 id="filled-name"
-                className={classes.textField}
+                className={classes.textInput}
                 value={displayName}
                 onChange={handleUpdateDisplayName}
                 placeholder={userInfo.displayName}
@@ -414,7 +416,7 @@ const Settings = props => {
               {/* UPDATE BIO */}
               <TextField
                 id="bio"
-                className={classes.bio}
+                className={classes.textInput}
                 value={bio}
                 placeholder={userInfo.bio}
                 onChange={handleUpdateBio}
@@ -435,23 +437,20 @@ const Settings = props => {
             className={classes.connectionsTab}
             style={{ display: activeTab === "connections" ? "block" : "none" }}
           >
-            <div className={classes.title}>
-              <h1>Connections</h1>
-            </div>
-            <div>
+            <div className={classes.connectUdemy}>
               <h2>Connect to Udemy</h2>
               <p>
                 Get access to all your Udemy courses with the click of a button
               </p>
+              <Button
+                variant="contained"
+                color="red"
+                className={classes.udemyButton}
+                onClick={() => setUdemyModal(true)}
+              >
+                Connect to Udemy
+              </Button>
             </div>
-            <Button
-              variant="contained"
-              color="red"
-              className={classes.udemyButton}
-              onClick={() => setUdemyModal(true)}
-            >
-              Connect to Udemy
-            </Button>
           </div>
           <Dialog
             fullWidth={true}
