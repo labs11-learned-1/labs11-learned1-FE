@@ -216,7 +216,8 @@ const styles = theme => ({
     accountPopper: {
         zIndex: '3', 
         position: 'absolute',
-        right: '5px'
+        right: '5px',
+        top: '60px'
     },
     '@media(min-width: 880px)': {  
         ISearchWrapper: {
@@ -431,7 +432,9 @@ const GeneralNav = (props) => {
             </Head>
 
             <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo}/>
+                <Link href="/learning-lab">
+                    <div className={classes.logo}/>
+                </Link>
                 <div className={classes.iconWrapper}>
                     <div className={classes.desktopSearch}> 
                         {ISearch}
@@ -500,7 +503,12 @@ const GeneralNav = (props) => {
                                     aria-owns={accountOpen ? 'menu-list-grow' : undefined}
                                     aria-haspopup="true"
                                     onClick={() => { 
-                                        setClickAwayDropdownActive(true); 
+                                        if(!clickAwayDropdownActive) {
+                                            console.log("SET CLICK AWAY TRUE")
+                                            setClickAwayDropdownActive(true);   
+                                        } else {
+                                            console.log("DO NOTHING BUTTON")
+                                        }
                                         setAccountOpen(!accountOpen);
                                     }}
                                     className={classes.Account}
@@ -515,11 +523,16 @@ const GeneralNav = (props) => {
                                             id="menu-list-grow"
                                             style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
                                         >
-                                         <ClickAwayListener onClickAway={() => { 
-                                            if(clickAwayDropdownActive) {
+                                         <ClickAwayListener onClickAway={(ev) => { 
+                                            if(clickAwayDropdownActive && !ev.target.classList.contains('MuiAvatar-img-1g7it8w')) {
+                                                console.log(ev.target.classList)
+                                                console.log("SET CLICKAWAY FALSE")
                                                 setAccountOpen(false); 
                                                 setClickAwayDropdownActive(false);
+                                            } else {
+                                                console.log("DO NOTHING CLICKAWAY")
                                             }
+                                            
                                         }}>
                                             <Paper className={classes.accountDropdown}>                                    
                                                 <MenuList>
