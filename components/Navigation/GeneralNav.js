@@ -502,28 +502,32 @@ const GeneralNav = (props) => {
                                 >
                                     <Avatar src={state.userImage}/>
                                 </Button>
-                                <Popper open={accountOpen} anchorEl={Popper.anchorEl} className={classes.accountPopper} transition disablePortal>
-                                    {({ TransitionProps, placement }) => (
-                                    <Grow
-                                        {...TransitionProps}
-                                        id="menu-list-grow"
-                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
-                                    >
-                                        <Paper className={classes.accountDropdown}>                                    
-                                            <MenuList>
-                                                <Link href='/settings'>
-                                                    <MenuItem>Settings</MenuItem>
-                                                </Link>
-                                            
-                                                <Link href='/Homepage'>
-                                                    <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-                                                </Link>
-                                            
-                                            </MenuList>
-                                        </Paper>
-                                    </Grow>
-                                    )}
-                                </Popper>
+                               
+                                    <Popper open={accountOpen} anchorEl={Popper.anchorEl} className={classes.accountPopper} transition disablePortal>
+                                        {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            id="menu-list-grow"
+                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
+                                        >
+                                         <ClickAwayListener onClickAway={() => { setAccountOpen(false)}}>
+                                            <Paper className={classes.accountDropdown}>                                    
+                                                <MenuList>
+                                                    <Link href='/settings'>
+                                                        <MenuItem>Settings</MenuItem>
+                                                    </Link>
+                                                
+                                                    <Link href='/Homepage'>
+                                                        <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                                                    </Link>
+                                                
+                                                </MenuList>
+                                            </Paper>
+                                            </ClickAwayListener>
+                                        </Grow>
+                                        )}
+                                    </Popper>
+                               
                             </div>
                             
                         </div>
