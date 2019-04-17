@@ -200,6 +200,23 @@ const styles = theme => ({
     smallIcons: {
         display: 'none'
     },
+    accountDropdown: {
+        width: '300px',
+        borderBottom: `10px solid ${theme.mixins.deepBlue}`,
+        '& ul': {
+            padding: '10px 0 0 0',
+            '& li': {
+                marginLeft: '10px',
+                marginRight: '10px',
+                borderTop: `1px solid ${theme.mixins.deepBlue}`
+            }
+        }
+    },
+    accountPopper: {
+        zIndex: '3', 
+        position: 'absolute',
+        right: '5px'
+    },
     '@media(min-width: 880px)': {  
         ISearchWrapper: {
             display: 'flex',
@@ -485,14 +502,14 @@ const GeneralNav = (props) => {
                                 >
                                     <Avatar src={state.userImage}/>
                                 </Button>
-                                <Popper open={accountOpen} anchorEl={Popper.anchorEl} style={{zIndex: '3', position: 'absolute'}}transition disablePortal>
+                                <Popper open={accountOpen} anchorEl={Popper.anchorEl} className={classes.accountPopper} transition disablePortal>
                                     {({ TransitionProps, placement }) => (
                                     <Grow
                                         {...TransitionProps}
                                         id="menu-list-grow"
-                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
+                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
                                     >
-                                        <Paper>                                    
+                                        <Paper className={classes.accountDropdown}>                                    
                                             <MenuList>
                                                 <Link href='/settings'>
                                                     <MenuItem>Settings</MenuItem>
