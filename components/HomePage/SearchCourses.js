@@ -11,6 +11,8 @@ import CourseCard from './coursecard';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {Store} from '../store';
 import InfiniteScroll from "react-infinite-scroll-component";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
 
 
 
@@ -94,7 +96,7 @@ export default function SearchCourses(props){
                         type="search"
                         margin="none"
                     />
-                    <button style={{border:"1px solid black", background:"#534bae", borderRadius:"5px", height:"30px", color:"white", cursor:"pointer"}} onClick={getCourses}>Search for Courses</button>
+                    {loadingSpecifiedCourses ? <CircularProgress/> : <button style={{border:"1px solid black", background:"#534bae", borderRadius:"5px", height:"30px", color:"white", cursor:"pointer"}} onClick={getCourses}>Search for Courses</button>}
                 </div>
             </div>
             {loadingSpecifiedCourses ? <LinearProgress style={{width:"100%", marginTop:"10px"}}/> : <></>}

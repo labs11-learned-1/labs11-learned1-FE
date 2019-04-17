@@ -220,10 +220,12 @@ const Newsfeed = props => {
   };
 
   const RenderMorePosts = () => {
-    setScrollNumber(scrollNumber + 10)
-    if(scrollNumber > newsfeed.length){
-      setHasMore(false)
-    }
+    setTimeout(()=>{
+      setScrollNumber(scrollNumber + 10)
+      if(scrollNumber > newsfeed.length){
+        setHasMore(false)
+      }
+    }, 500)
   }
 
   React.useEffect(() => {
