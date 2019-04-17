@@ -329,6 +329,7 @@ const Settings = props => {
 
   const HandleProfileImgChange = e => {
     let base64;
+    let url = "";
     console.log(e.target.files[0])
     var file = e.target.files[0]
     if(!file){return}
@@ -338,14 +339,37 @@ const Settings = props => {
       console.log(reader.result)
       base64 = reader.result;
       axios.post('http://localhost:3333/upload', {img : reader.result})
-      .then(res => {
-      console.log("image upload success response :", res.data)
-                  })
-      .catch(err => {alert("File was too large")})
+        .then(res => {
+          console.log("image upload success response :", res.data)
+          url = res.data.url;
+          HandleProfileImageChangeFirebase(url)
+          return dispatch({
+            type: "UPDATE_USER_IMAGE",
+            payload: url
+          });
+        })
+        .catch(err => {
+          alert("File was too large")
+        })
       };
       reader.onerror = function (error) {
         alert("There was a Problem Reading that File")
       };
+  }
+
+  const HandleProfileImageChangeFirebase = async (url) => {
+    let result = await loadDB();
+    let db = result.firestore();
+
+    db.collection("user")
+      .doc(state.userID)
+      .update({
+        image: url
+      })
+      .then(() => {
+        console.log("success changing image url")
+      })
+      .catch(err => alert("Error updating display name"));
   }
 
   let selectImage;
