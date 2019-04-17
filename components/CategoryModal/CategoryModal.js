@@ -8,11 +8,14 @@ import GridList from "@material-ui/core/GridList";
 import GridListTileBar from "@material-ui/core/GridListTileBar";
 import PropTypes from "prop-types";
 import { makeStyles } from "@material-ui/styles";
+import CheckIcon from '@material-ui/icons/Check';
 
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
-const cardSize = 0.3;
+let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
+
+let cardSize = width>1700 ?0.5:2;
 const cardHeight = "500px";
 const cardWidth = "500px";
 const useStyles = makeStyles(theme => ({
@@ -31,8 +34,38 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   modalContainer: {
-      background: 'rgb(13,180,185, 0.4)',
-      "height": "100%"
+      boxSizing:"border-box",
+      background: '#1A237E',
+      "height": "100%",
+      display: "flex",
+      flexFlow: "row wrap",
+      alignItems: "center",
+      justifyContent: "center",
+      padding:"10px 10%",
+      maxWidth:"100%",
+  },
+  cardStyle : {
+    display: "block",
+    margin: "0",
+    height: "1000px",
+    width: cardWidth,
+    cursor: "pointer",
+  },
+  selectedStyle : {
+    display: "block",
+    margin: "0",
+    height: cardHeight,
+    width: cardWidth,
+    cursor: "pointer",
+    border: "15px solid #1A237E",
+    // boxShadow: "0px 4px 50px -4px #ff00ff",
+  },
+  '@media(max-width: 1700px)':{
+    instructions:{
+      fontSize:"3rem"
+    }
+      // background: 'rgb(13,180,185, 0.4)',
+      // "height": "100%"
   }
 }));
 function CategoryModal(props) {
@@ -66,6 +99,24 @@ function CategoryModal(props) {
   //     }
 
   // }
+  // const cardStyle = {
+  //   display: "block",
+  //   margin: "0",
+  //   height: cardHeight,
+  //   width: cardWidth,
+  //   cursor: "pointer",
+  // };
+  // const selectedStyle = {
+  //   display: "block",
+  //   margin: "0",
+  //   height: cardHeight,
+  //   width: cardWidth,
+  //   cursor: "pointer",
+  //   border: "1px solid black",
+  //   boxShadow: "0px 4px 50px -4px #ff00ff",
+  //   transform: "scale(1.01)",
+  //   border: "3px solid white"
+  // };
   const cardStyle = {
     display: "block",
     margin: "0",
@@ -95,15 +146,8 @@ function CategoryModal(props) {
       >
         {/* Business Design Development Health & Fitness IT & Software Lifestyle Marketing Music Office Productivity Personal Development Photography Teaching & Academics */}
         <GridList
-          cellHeight={200}
+          cellHeight={400}
           className={classes.modalContainer}
-          style={{
-            display: "flex",
-            flexFlow: "row wrap",
-            alignItems: "center",
-            justifyContent: "center",
-            padding: "20px 160px 0 160px"
-          }}
         >
           {/* <GridList cellHeight={200} style={{boxSizing:"border-box", display: 'block', verticalAlign: 'baseline',  padding: '120px 160px 0 160px'}}> */}
 
@@ -111,9 +155,12 @@ function CategoryModal(props) {
             cols={cardSize}
             style={{
               display: "block",
-              height: cardHeight,
-              width: "1000px",
+              height: '50%',
+              width: "100%",
               margin: "0",
+              boxSizing:"border-box",
+              textAlign:"center",
+              paddingTop:"10%",
               background: "rgb(25,25,112)"
             }}
           > 
@@ -132,9 +179,7 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
-              props.categories.includes("Music") ? selectedStyle : cardStyle
-            }
+            className={props.categories.includes("Music") ? classes.selectedStyle : classes.cardStyle}
             onClick={() => {
               props.handleAdd("Music");
               setR(r + 1);
@@ -146,9 +191,7 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
-              props.categories.includes("Business") ? selectedStyle : cardStyle
-            }
+            className={props.categories.includes("Business") ? classes.selectedStyle : classes.cardStyle}
             onClick={() => {
               props.handleAdd("Business");
               setR(r + 1);
@@ -160,8 +203,8 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
-              props.categories.includes("Design") ? selectedStyle : cardStyle
+            className={
+              props.categories.includes("Design") ? classes.selectedStyle : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Design");
@@ -174,10 +217,10 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
+            className={
               props.categories.includes("Development")
-                ? selectedStyle
-                : cardStyle
+                ? classes.selectedStyle
+                : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Development");
@@ -190,13 +233,13 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
+            className={
               props.categories.includes("Health & Fitness")
-                ? selectedStyle
-                : cardStyle
+                ? classes.selectedStyle
+                : classes.cardStyle
             }
             onClick={() => {
-              props.handleAdd("Health & Fitness");
+              props.handleAdd("Health&Fitness");
               setR(r + 1);
             }}
           >
@@ -206,10 +249,10 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
+            className={
               props.categories.includes("IT & Software")
-                ? selectedStyle
-                : cardStyle
+                ? classes.selectedStyle
+                : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("IT & Software");
@@ -222,8 +265,8 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
-              props.categories.includes("Lifestyle") ? selectedStyle : cardStyle
+            className={
+              props.categories.includes("Lifestyle") ? classes.selectedStyle : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Lifestyle");
@@ -236,8 +279,8 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
-              props.categories.includes("Marketing") ? selectedStyle : cardStyle
+            className={
+              props.categories.includes("Marketing") ? classes.selectedStyle : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Marketing");
@@ -250,8 +293,8 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
-              props.categories.includes("Office") ? selectedStyle : cardStyle
+            className={
+              props.categories.includes("Office") ? classes.selectedStyle : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Office");
@@ -264,10 +307,10 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
+            className={
               props.categories.includes("Personal Development")
-                ? selectedStyle
-                : cardStyle
+                ? classes.selectedStyle
+                : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Personal Development");
@@ -280,10 +323,10 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
+            className={
               props.categories.includes("Photography")
-                ? selectedStyle
-                : cardStyle
+                ? classes.selectedStyle
+                : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Photography");
@@ -296,10 +339,10 @@ function CategoryModal(props) {
 
           <GridListTile
             cols={cardSize}
-            style={
+            className={
               props.categories.includes("Teaching & Academics")
-                ? selectedStyle
-                : cardStyle
+                ? classes.selectedStyle
+                : classes.cardStyle
             }
             onClick={() => {
               props.handleAdd("Teaching & Academics");
