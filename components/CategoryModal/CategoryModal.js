@@ -34,7 +34,6 @@ const useStyles = makeStyles(theme => ({
     alignItems: 'center',
   },
   modalContainer: {
-<<<<<<< HEAD
       boxSizing:"border-box",
       background: '#1A237E',
       "height": "100%",
@@ -65,10 +64,8 @@ const useStyles = makeStyles(theme => ({
     instructions:{
       fontSize:"3rem"
     }
-=======
-      background: 'rgb(13,180,185, 0.4)',
-      "height": "100%"
->>>>>>> d01bf96ed83318f51f3551b6b656463f27656d37
+      // background: 'rgb(13,180,185, 0.4)',
+      // "height": "100%"
   }
 }));
 function CategoryModal(props) {
