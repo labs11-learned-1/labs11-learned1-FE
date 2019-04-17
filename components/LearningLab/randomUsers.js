@@ -20,6 +20,7 @@ const useStyles = makeStyles(theme => ({
     background: "ghostwhite",
     alignItems: "flex-end",
     left: "60.25%",
+    borderRadius: "10px 10px 0 0",
     '@media(max-width: 1040px)': {
       left: "0"
   },
@@ -46,6 +47,7 @@ const useStyles = makeStyles(theme => ({
     display: "flex",
     flexFlow: "column",
     width: "100%",
+    borderRadius: "10px 10px 0 0",
   },
   name: {
     marginLeft: '8px'

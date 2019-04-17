@@ -94,6 +94,7 @@ const styles = {
     height: "100%",
     marginBottom: "20px",
     position: "relative",
+    borderRadius: "10px 10px 0 0",
     "@media(max-width: 600px)": {
       float: "left",
       right: "0"
