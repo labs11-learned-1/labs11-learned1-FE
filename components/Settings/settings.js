@@ -47,7 +47,6 @@ const styles = theme => ({
     margin: "0 auto",
     width: "60%",
     height: "600px",
-    border: `1.2px solid ${theme.mixins.trapperGreen}`,
     marginTop: "80px",
     "& h3": {
       "&:hover": {
@@ -73,12 +72,12 @@ const styles = theme => ({
     
   },
   row: {
-    borderBottom: `1px solid ${theme.mixins.trapperGreen}`,
+    borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
     paddingBottom: '40px',
   },
   profilePicWrap: {
     display: "block",
-    borderBottom: "1px solid #e76d89",
+    borderBottom: "1.2px solid #e76d89",
     paddingBottom: "20px"
   },
   connectUdemy: {
