@@ -46,7 +46,7 @@ const styles = theme => ({
     justifyContent: "center",
     margin: "0 auto",
     width: "60%",
-    height: "600px",
+    height: "624px",
     marginTop: "80px",
     "& h3": {
       "&:hover": {
