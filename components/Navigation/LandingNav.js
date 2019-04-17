@@ -20,11 +20,33 @@ const styles = theme => ({
         margin: '0 auto',
         display: 'flex',
         justifyContent: "space-between",
+        alignItems: 'center'
     },
-    Button: {
+    loginButton: {
+        color: theme.mixins.modernPink,
+        fontSize: '1rem',
+        textTransform: 'none'
+    },
+    signUpButton: {
         background: '#e76d89',
         borderRadius: '24px',
         color: 'white',
+        marginLeft: '10px',
+        fontSize: '1.1rem',
+        paddingLeft: '25px',
+        paddingRight: '25px',
+        textTransform: 'none',
+        '&:hover' : {
+            background: theme.mixins.pinkBoot
+        }
+    },
+    landingButtons: {
+        display: 'flex',
+        height: '45px',
+        alignItems: 'center',
+        '& p': {
+            margin: '0 8px 0 10px'
+        }
     },
     logo : {
         height: '100px',
@@ -61,9 +83,13 @@ const LandingNav = (props) => {
         <div className={classes.nav}>
             <Toolbar variant="regular" className={classes.toolbar}>
                 <div className={classes.logo}/>
-                <div>
+                <div className={classes.landingButtons}>
+                    <Link>
+                        <Button className={classes.loginButton} color="#69178A">Login</Button>
+                    </Link>
+                    <p>or</p>
                     <Link href="/Homepage">
-                        <Button className={classes.Button} color="#69178A">Login / Sign Up</Button>
+                        <Button className={classes.signUpButton} color="#69178A">Sign Up</Button>
                     </Link>
                 </div>
             </Toolbar>
