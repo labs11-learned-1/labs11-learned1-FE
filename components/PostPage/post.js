@@ -41,9 +41,6 @@ const useStyles = makeStyles(theme => {
         marginBottom: '40px',
         marginTop: '90px',
     },
-    myReview: {
-
-    },
     card: {
         width: '900px',
     },
@@ -58,15 +55,9 @@ const useStyles = makeStyles(theme => {
         marginTop: '20px'
     },
     extraInfo: {
-        
-        paddingTop: '20px',
         display: 'flex',
         justifyContent: 'space-between',
         alignItems: 'center',
-        '& button': {
-            
-            color: 'white'
-        }
     },
     author: {
         display: 'flex',
@@ -75,14 +66,14 @@ const useStyles = makeStyles(theme => {
     myReview: {
         boxShadow: '0 4px 8px 0 rgba(0, 0, 0, 0.2), 0 6px 20px 0 rgba(0, 0, 0, 0.19)',
         marginTop: '20px',
-        padding: '20px',
+        padding: '20px 40px 20px 40px',
         '& div': {
             width: '100%'
-        }
+        },
+        
     },
     myReviewContent: {
         boxShadow: 'none',
-        paddingLeft: '8px',
         paddingBottom: '20px',
         width: '100%'
     },
@@ -90,6 +81,15 @@ const useStyles = makeStyles(theme => {
         display: 'flex',
         justifyContent: 'space-between',
         
+    },
+    presentReviewButtons: {
+        '& button': {
+            backgroundColor: theme.mixins.modernPink,
+            color: 'white',      
+        },
+        '& :hover': {
+            backgroundColor: `${theme.mixins.pinkBoot} !important`,
+        }
     },
     ratingButtons: {
         display: 'flex',
@@ -121,10 +121,6 @@ const useStyles = makeStyles(theme => {
     },
     reviewItem: {
         border: '1px solid #ebebe0',
-    },
-    editButtons: {
-        display: 'flex',
-        justifyContent: 'flex-end'
     },
     articleInfo: {
         paddingTop: '20px'
@@ -234,6 +230,7 @@ const PostInfoPage = props => {
                 }
             })
             setReviewContent(reviewArr);
+
         })  
     }
 
@@ -343,35 +340,40 @@ const PostInfoPage = props => {
             reviewContentType = 
             <div>
                 <div className={classes.myReviewContent}>
-                    <h3>{myReview.title}</h3>
-                    <p>{myReview.comment}</p>
+                    <h3 style={{wordBreak: 'break-all'}}>{myReview.title}</h3>
+                    <p style={{wordBreak: 'break-all'}}>{myReview.comment}</p>
                     {ratingButtons}
                 </div>
-                <Button
-                color="primary"
-                onClick={() => {
-                    handleSharePost();
-                }}
-                >
-                    SHARE REVIEW
-                </Button>
-                <Button
+                <div className={classes.presentReviewButtons}>
+                    <Button
+                        color="primary"
+                        onClick={() => {
+                            handleSharePost();
+                        }}
+                        style={{marginRight: '10px'}}
+                        >
+                            SHARE REVIEW
+                    </Button>
+                    <Button
                         color="primary"
                         onClick={() => {
                             setEditingMyReview(true);
                         }}
+                        style={{marginRight: '10px'}}
                         >
                         EDIT
-                </Button>
-                <Button
+                    </Button>
+                    <Button
                         color="primary"
                         onClick={() => {
                             handleReviewDelete()
                         }}
+                        style={{marginRight: '10px'}}
                         >
                         DELETE
-                </Button>
-            </div>   
+                    </Button>
+                </div>
+            </div>  
         } else {
             reviewContentType= 
             <div>
@@ -402,12 +404,13 @@ const PostInfoPage = props => {
                 </div>
                 <div className={classes.myReviewButtons}>
                     {ratingButtons}
-                    <div className={classes.editButtons}>
+                    <div className={classes.presentReviewButtons} style={{display: 'flex', justifyContent: 'flex-end'}}>
                         <Button
                             color="primary"
                             onClick={() => {
                                 handleEditSave();
                             }}
+                            style={{marginLeft: '10px'}}
                             >
                             SAVE
                         </Button>
@@ -416,6 +419,7 @@ const PostInfoPage = props => {
                                 handleEditCancel();
                             }}
                             color="primary"
+                            style={{marginLeft: '10px'}}
                             >
                             CANCEL
                         </Button>
@@ -454,16 +458,18 @@ const PostInfoPage = props => {
                     onChange={reviewChangeHandler}
                 />
             </div>
-            <div className={classes.myReviewButtons}>
+            <div style={{display: 'flex', justifyContent: 'space-between'}}>
                 {ratingButtons}
-                <Button
-                    color="primary"
-                    onClick={() => {
-                        handleReviewPost();
-                    }}
-                >
-                POST
-                </Button>
+                <div  className={classes.presentReviewButtons} style={{width: 'auto'}}>
+                    <Button
+                        color="primary"
+                        onClick={() => {
+                            handleReviewPost();
+                        }}
+                    >
+                    POST
+                    </Button>
+                </div>
             </div>
         </div>
     
@@ -513,7 +519,7 @@ const PostInfoPage = props => {
                                 />
                                 <p>({contentInfo.numRatings ? contentInfo.numRatings : '0'} Reviews)</p>
                             </div>
-                            <a target='_blank' href={contentInfo.link} style={{ textDecoration: 'none' }}>
+                            <a target='_blank' href={contentInfo.link} className={classes.presentReviewButtons} style={{ textDecoration: 'none' }}>
                                 <Button
                                     variant="contained"
                                     onClick={() => {
@@ -578,10 +584,10 @@ const PostInfoPage = props => {
                                                     />
                                                 </div>
                                             </div>
-                                            <div style={{width: '100%', fontWeight: 'bold', marginBottom: '5px'}}>
+                                            <div style={{width: '100%', fontWeight: 'bold', marginBottom: '5px', wordBreak: 'break-all'}}>
                                                 {review.title} 
                                             </div>
-                                            {review.comment}
+                                            <p style={{wordBreak: 'break-all'}}>{review.comment}</p>
                                         </Typography>                                   
                                     </React.Fragment>
                                 }

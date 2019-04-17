@@ -1,6 +1,6 @@
 import Link from "next/link";
 import Head from 'next/head'
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useRef} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSearch, faHome, faBookmark, faStream } from '@fortawesome/free-solid-svg-icons'
 
@@ -91,7 +91,6 @@ const styles = theme => ({
     tmIcons: {
         width: '25px !important',
         height: '25px', 
-        
         color: '#1a237e',
     },
     searchIcon: {
@@ -201,6 +200,23 @@ const styles = theme => ({
     smallIcons: {
         display: 'none'
     },
+    accountDropdown: {
+        width: '300px',
+        borderBottom: `10px solid ${theme.mixins.deepBlue}`,
+        '& ul': {
+            padding: '10px 0 0 0',
+            '& li': {
+                marginLeft: '10px',
+                marginRight: '10px',
+                borderTop: `1px solid ${theme.mixins.deepBlue}`
+            }
+        }
+    },
+    accountPopper: {
+        zIndex: '3', 
+        position: 'absolute',
+        right: '5px'
+    },
     '@media(min-width: 880px)': {  
         ISearchWrapper: {
             display: 'flex',
@@ -302,6 +318,8 @@ const GeneralNav = (props) => {
     const [searchStatus, setSearchStatus] = useState(false);
     const [tabs, setTabs] = useState(false);
 
+    const newRef = useRef(null);
+
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
         `${process.env.ALGOLIA_SEARCH_KEY}`
@@ -341,24 +359,40 @@ const GeneralNav = (props) => {
            .auth()
            .signOut()
            .then((result) => {
-             console.log("logout success", result)
-             return dispatch({ type: "LOGGED_OUT" });
+             console.log('logout success', result)
+             return dispatch({ type: 'LOGGED_OUT' });
            })
            .catch(e => {
-             alert("Error signing out");
+             alert('Error signing out');
            });
     };
 
+    const handleClickOutside = (event) => {
+        
+        if ((event.target).classList.contains('ais-SearchBox-input') && newRef && newRef.current != null && 
+        newRef.current.classList.contains('GeneralNav-ISearchWrapper-hmlj63') && (((event.target).parentNode).parentNode).parentNode.classList.contains("GeneralNav-ISearchWrapper-hmlj63")) {
+            console.log('inside')    
+        } else {
+            console.log('outside')
+            setTimeout(() => { setTabs(false)}, 500);
+        }
+        
+    }
+
+    React.useEffect(()=>{
+        document.addEventListener('mousedown', handleClickOutside);
+    }, [])
+    
+
     const { classes } = props;
 
-    let ISearch = 
-    <ClickAwayListener onClickAway={() => {setTabs(false)}}>       
+    let ISearch =     
         <InstantSearch
             indexName="posts"                   
             searchClient={searchClient}                    
         >
                 
-                <div className={classes.ISearchWrapper}> 
+                <div className={classes.ISearchWrapper} id='temp' ref={newRef}> 
                     
                         <SearchBox 
                         className={classes.searchBox} 
@@ -367,6 +401,7 @@ const GeneralNav = (props) => {
                         poweredBy={true}
                         onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
                         onClick={(ev) => {ev.target.value != '' ? setTabs(true) : null}}
+                        
                         />
                         {tabs ?
                         <div>
@@ -385,7 +420,6 @@ const GeneralNav = (props) => {
                     </div> 
                 
         </InstantSearch>
-    </ClickAwayListener>
 
     
     return(
@@ -468,28 +502,32 @@ const GeneralNav = (props) => {
                                 >
                                     <Avatar src={state.userImage}/>
                                 </Button>
-                                <Popper open={accountOpen} anchorEl={Popper.anchorEl} style={{zIndex: '3', position: 'absolute'}}transition disablePortal>
-                                    {({ TransitionProps, placement }) => (
-                                    <Grow
-                                        {...TransitionProps}
-                                        id="menu-list-grow"
-                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                    >
-                                        <Paper>                                    
-                                            <MenuList>
-                                                <Link href='/settings'>
-                                                    <MenuItem>Settings</MenuItem>
-                                                </Link>
-                                            
-                                                <Link href='/Homepage'>
-                                                    <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-                                                </Link>
-                                            
-                                            </MenuList>
-                                        </Paper>
-                                    </Grow>
-                                    )}
-                                </Popper>
+                               
+                                    <Popper open={accountOpen} anchorEl={Popper.anchorEl} className={classes.accountPopper} transition disablePortal>
+                                        {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            id="menu-list-grow"
+                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
+                                        >
+                                         <ClickAwayListener onClickAway={() => { setAccountOpen(false)}}>
+                                            <Paper className={classes.accountDropdown}>                                    
+                                                <MenuList>
+                                                    <Link href='/settings'>
+                                                        <MenuItem>Settings</MenuItem>
+                                                    </Link>
+                                                
+                                                    <Link href='/Homepage'>
+                                                        <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                                                    </Link>
+                                                
+                                                </MenuList>
+                                            </Paper>
+                                            </ClickAwayListener>
+                                        </Grow>
+                                        )}
+                                    </Popper>
+                               
                             </div>
                             
                         </div>
