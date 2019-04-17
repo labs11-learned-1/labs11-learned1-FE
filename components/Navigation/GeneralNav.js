@@ -49,9 +49,9 @@ const styles = theme => ({
         alignItems: 'center' 
     },
     logo : {
-        height: '55px',
-        width: '150px',
-        backgroundImage: `url(https://i.ibb.co/6y24GKH/mediumsmall-res.png)`, 
+        height: '71px',
+        width: '170px',
+        backgroundImage: `url(https://i.ibb.co/jMv4F19/medium-res.png)`, 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         '&:hover': {
