@@ -134,8 +134,8 @@ const styles = theme => ({
     margin: "0",
     width: "120px",
     fontWeight: "bold",
-    background: `${theme.mixins.pinkBoot}`,
-    color: 'red',
+    background: `#E76D89`,
+    color:'white',
     position: "absolute",
     borderRadius: '24px',
     bottom: "10px"
@@ -149,14 +149,14 @@ const styles = theme => ({
     marginLeft: '5%'
   },
   udemyButton: {
-    backgroundColor: `${theme.mixins.pinkBoot}`,
+    backgroundColor: `#E76D89`,
     borderRadius: '24px',
     marginTop: '8px',
     color: "white",
     fontWeight: "bold",
   },
   saveChanges: {
-    backgroundColor: `${theme.mixins.pinkBoot}`,
+    backgroundColor: `#E76D89`,
     color: "white",
     marginTop: "30px",
     marginLeft: '5%',
