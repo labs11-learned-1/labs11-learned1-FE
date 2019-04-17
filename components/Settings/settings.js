@@ -327,6 +327,27 @@ const Settings = props => {
       });
   };
 
+  const HandleProfileImgChange = e => {
+    let base64;
+    console.log(e.target.files[0])
+    var file = e.target.files[0]
+    if(!file){return}
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      console.log(reader.result)
+      base64 = reader.result;
+      axios.post('http://localhost:3333/upload', {img : reader.result})
+      .then(res => {
+      console.log("image upload success response :", res.data)
+                  })
+      .catch(err => {alert("File was too large")})
+      };
+      reader.onerror = function (error) {
+        alert("There was a Problem Reading that File")
+      };
+  }
+
   let selectImage;
   let imageStyle = {
     backgroundImage:
@@ -385,6 +406,7 @@ const Settings = props => {
                 style={imageStyle}
                 onClick={() => setImagePopup(true)}
               />{" "}
+              <input type="file" accept=".jpg, .jpeg, .png" onChange={HandleProfileImgChange}/>
               {/*Make this a circle and the background image will be*/}
             </div>
             {selectImage}
