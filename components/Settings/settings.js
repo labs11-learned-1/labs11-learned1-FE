@@ -46,7 +46,7 @@ const styles = theme => ({
     justifyContent: "center",
     margin: "0 auto",
     width: "60%",
-    height: "600px",
+    height: "624px",
     marginTop: "80px",
     "& h3": {
       "&:hover": {
@@ -134,8 +134,8 @@ const styles = theme => ({
     margin: "0",
     width: "120px",
     fontWeight: "bold",
-    background: `${theme.mixins.pinkBoot}`,
-    color: 'red',
+    background: `#E76D89`,
+    color:'white',
     position: "absolute",
     borderRadius: '24px',
     bottom: "10px"
@@ -149,14 +149,14 @@ const styles = theme => ({
     marginLeft: '5%'
   },
   udemyButton: {
-    backgroundColor: `${theme.mixins.pinkBoot}`,
+    backgroundColor: `#E76D89`,
     borderRadius: '24px',
     marginTop: '8px',
     color: "white",
     fontWeight: "bold",
   },
   saveChanges: {
-    backgroundColor: `${theme.mixins.pinkBoot}`,
+    backgroundColor: `#E76D89`,
     color: "white",
     marginTop: "30px",
     marginLeft: '5%',
@@ -327,6 +327,51 @@ const Settings = props => {
       });
   };
 
+  const HandleProfileImgChange = e => {
+    let base64;
+    let url = "";
+    console.log(e.target.files[0])
+    var file = e.target.files[0]
+    if(!file){return}
+    let reader = new FileReader()
+    reader.readAsDataURL(file)
+    reader.onload = () => {
+      console.log(reader.result)
+      base64 = reader.result;
+      axios.post('http://localhost:3333/upload', {img : reader.result})
+        .then(res => {
+          console.log("image upload success response :", res.data)
+          url = res.data.url;
+          HandleProfileImageChangeFirebase(url)
+          return dispatch({
+            type: "UPDATE_USER_IMAGE",
+            payload: url
+          });
+        })
+        .catch(err => {
+          alert("File was too large")
+        })
+      };
+      reader.onerror = function (error) {
+        alert("There was a Problem Reading that File")
+      };
+  }
+
+  const HandleProfileImageChangeFirebase = async (url) => {
+    let result = await loadDB();
+    let db = result.firestore();
+
+    db.collection("user")
+      .doc(state.userID)
+      .update({
+        image: url
+      })
+      .then(() => {
+        console.log("success changing image url")
+      })
+      .catch(err => alert("Error updating display name"));
+  }
+
   let selectImage;
   let imageStyle = {
     backgroundImage:
@@ -385,6 +430,7 @@ const Settings = props => {
                 style={imageStyle}
                 onClick={() => setImagePopup(true)}
               />{" "}
+              <input type="file" accept=".jpg, .jpeg, .png" onChange={HandleProfileImgChange}/>
               {/*Make this a circle and the background image will be*/}
             </div>
             {selectImage}
