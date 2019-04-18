@@ -37,6 +37,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 
 const useStyles = makeStyles(theme => ({
@@ -135,8 +137,18 @@ const UserList = props => {
   const [link, setLink] = React.useState("");
   const [visible, setVisible] = React.useState(false);
   const { state, dispatch } = React.useContext(Store);
+  const [openSnackBar, setOpenSnackBar]= React.useState(false);
   console.log(state);
   console.log("props1:", props);
+
+
+  const handleSnackBarClose=()=>{
+    setOpenSnackBar(false);
+  }
+
+  const handleSnackBarOpen=()=>{
+      setOpenSnackBar(true)
+  }
 
   const listOnState = list;
   //===========FUNCTIONS===========
@@ -316,6 +328,7 @@ const UserList = props => {
     );
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });
+    handleSnackBarOpen();
   };
 
   const getReviewList = async (userList, link) => {
@@ -673,6 +686,22 @@ const UserList = props => {
         </DialogTitle>
         {reviewBody}
       </Dialog>
+      <Snackbar
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+                }}
+                open={openSnackBar}
+                autoHideDuration={5000}
+                onClose={handleSnackBarClose}
+            >   
+            <SnackbarContent
+                onClose={handleSnackBarClose}
+                variant="success"
+                message="Success Adding Post"
+                style={{backgroundColor:"green"}}
+            />
+            </Snackbar>
     </div>
   );
 }; //end UserList
