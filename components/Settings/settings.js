@@ -189,7 +189,6 @@ const styles = theme => ({
       borderBottom: "40px solid rgba(0,0,0,.1)",
       display: "block !important"
     },
-   
   } //end media query
 
 
