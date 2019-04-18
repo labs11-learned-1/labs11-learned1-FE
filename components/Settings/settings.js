@@ -67,13 +67,13 @@ const styles = theme => ({
   },
   row1: {
     borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
-    paddingBottom: '25px',
+    paddingBottom: '45px',
     display: 'flex',
     marginLeft: '4%'
   },
   row2: {
     borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
-    paddingBottom: '25px',
+    paddingBottom: '45px',
     display: 'flex',
     margin: '20px 0 0 4%'
   },
@@ -84,7 +84,7 @@ const styles = theme => ({
   bio: {
     display: 'flex',
     flexDirection: 'column',
-    marginLeft: '10%'
+    marginLeft: '5%'
   },
   connectUdemy: {
     marginLeft: '5%'
@@ -468,7 +468,7 @@ const Settings = props => {
                 </div>
                 <TextField
                   id="bio"
-                  className={classes.textInput}
+                  className={classes.textInputBio}
                   value={bio}
                   placeholder={userInfo.bio}
                   onChange={handleUpdateBio}
