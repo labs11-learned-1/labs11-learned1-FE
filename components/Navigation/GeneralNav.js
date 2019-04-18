@@ -371,15 +371,11 @@ const GeneralNav = (props) => {
     };
 
     const handleClickOutside = (event) => {
-        
         if ((event.target).classList.contains('ais-SearchBox-input') && newRef && newRef.current != null && 
-        newRef.current.classList.contains('GeneralNav-ISearchWrapper-hmlj63') && (((event.target).parentNode).parentNode).parentNode.classList.contains("GeneralNav-ISearchWrapper-hmlj63")) {
-            console.log('inside')    
+        newRef.current.id === "iSearch" && (event.target.parentNode.parentNode.parentNode.id === 'iSearch')) {
+            console.log('inside')   
         } else {
-            console.log('outside')
-            if(tabs) {
-                setTimeout(() => { setTabs(false)}, 500);
-            }
+            setTimeout(() => { setTabs(false)}, 500);
         }
         
     }
@@ -397,9 +393,10 @@ const GeneralNav = (props) => {
             searchClient={searchClient}                    
         >
                 
-                <div className={classes.ISearchWrapper} id='temp' ref={newRef}> 
+                <div className={classes.ISearchWrapper} id='iSearch' ref={newRef}> 
                     
                         <SearchBox 
+                        id='iSearch'
                         className={classes.searchBox} 
                         translations={{placeholder: 'Search Erudition...'}}
                         reset={false}

@@ -2,15 +2,13 @@ import React, {useState} from "react";
 import Link from "next/link";
 
 //FIREBASE
-import * as firebase from "firebase";
-import { loadDB } from "../../firebaseConfig/firebase";
 import {Store} from '../store'
 import {getReviewList, editReview, addReview, deleteReview} from '../firebaseAPI/firebaseReviews'
 import {getContentById, addRating} from '../firebaseAPI/firebaseCollection'
 import { addPost } from "../firebaseAPI/firebasePosts";
 
 //TOASTIFY
-import { ToastContainer, toast } from 'react-toastify';
+import { toast } from 'react-toastify';
 import 'react-toastify/dist/ReactToastify.css';
 
 //MATERIAL UI
@@ -164,7 +162,7 @@ const PostInfoPage = props => {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             } else {
-                toast.error("Error posting review D:", {
+                toast.error("Error posting review...", {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             }
@@ -174,7 +172,7 @@ const PostInfoPage = props => {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             } else {
-                toast.error("Error deleting review D:", {
+                toast.error("Error deleting review...", {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             }
@@ -184,7 +182,7 @@ const PostInfoPage = props => {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             } else {
-                toast.error("Error saving review D:", {
+                toast.error("Error saving review...", {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             }
@@ -194,7 +192,7 @@ const PostInfoPage = props => {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             } else {
-                toast.error("Error sharing review D:", {
+                toast.error("Error sharing review...", {
                     position: toast.POSITION.BOTTOM_RIGHT
                   });
             }

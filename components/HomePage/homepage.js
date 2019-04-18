@@ -41,6 +41,11 @@ const styles = {
         flexWrap:"wrap",
         justifyContent:"space-between",
     },
+    '@media(max-width: 800px)': {
+        recoCourses:{
+            width: '95%'
+        }
+    },
     '@media(max-width: 600px)': {
         recoCourses:{
             width:"100%",
