@@ -28,7 +28,13 @@ const styles = theme => ({
   followBtn: {
     position: "absolute",
     bottom: "20px",
-    left: "66px"
+    left: "66px",
+    color: 'white',
+    height: '20px',
+    border: 'none',
+    fontSize: '12px',
+    background: '#e76d89',
+    borderRadius: '5px'
   },
   homepageWrapper: {
     width: "80%",

@@ -18,6 +18,9 @@ const styles = {
   list: {
     display: "flex",
     flexFlow: "column"
+  },
+  pTag: {
+    textAlign: 'center'
   }
 };
 
@@ -72,7 +75,8 @@ const UserPosts = props => {
       {postList.length ? (
         postList.map((post, index) => <Postcard content={post} state={props.state} key={index} />)
       ) : (
-        <p>LOADING...</p>
+        <p className={classes.pTag} >You don't have any posts yet! You can save a content to your list and click "Share Post" to share with your 
+          followers. </p>
       )}
     </div>
   );

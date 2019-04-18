@@ -16,7 +16,7 @@ import PostCard from '../community/Postcard'
 const useStyles = makeStyles(theme => ({
 reviewList: {
     display: "flex",
-    background: "#cccccc",
+    //background: "#cccccc",
     flexFlow: "column wrap",
     width: "100%"
 },
@@ -24,8 +24,9 @@ reviewContainer:{
   display: "flex",
   flexFlow: 'row wrap', 
   width: "100%"
-
-
+},
+pTag: {
+  textAlign: 'center'
 }
 })); //end styles
 
@@ -83,14 +84,12 @@ console.log("userID",props.state.userID)
 
 return(
     <div className={classes.reviewList}>
-      {console.log("reviewlist in jsx", reviewList)}
-        {reviewList.map((review, index) => 
+      {reviewList.length ? (reviewList.map((review, index) => 
         <PostCard content={review} state={props.state} key={index}/>
-            
-         
-            
-        )
-    }
+        )) : ( <p className={classes.pTag}>You don't have any reviews yet! Save a content in your list and click "Reviews" to leave
+          feedback.
+        </p>) }
+        
 
 
     </div>

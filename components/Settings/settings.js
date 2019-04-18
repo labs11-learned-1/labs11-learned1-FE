@@ -48,6 +48,7 @@ const styles = theme => ({
     width: "60%",
     height: "624px",
     marginTop: "80px",
+    border: ` 1.5px solid ${theme.mixins.deepBlue}`,
     "& h3": {
       "&:hover": {
         cursor: "pointer"
@@ -61,24 +62,29 @@ const styles = theme => ({
       paddingBottom: "10px"
     }
   },
-  profilePicTitle: {
-    marginLeft: '5%'
-  },
   profilePic: {
     borderRadius: "50%",
-    marginLeft: '5%'
   },
-  accountTab: {
-    
-  },
-  row: {
+  row1: {
     borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
-    paddingBottom: '40px',
+    paddingBottom: '45px',
+    display: 'flex',
+    marginLeft: '4%'
   },
-  profilePicWrap: {
-    display: "block",
-    borderBottom: "1.2px solid #e76d89",
-    paddingBottom: "20px"
+  row2: {
+    borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
+    paddingBottom: '45px',
+    display: 'flex',
+    margin: '20px 0 0 4%'
+  },
+  name: {
+    display: 'flex',
+    flexDirection: 'column'
+  },
+  bio: {
+    display: 'flex',
+    flexDirection: 'column',
+    marginLeft: '5%'
   },
   connectUdemy: {
     marginLeft: '5%'
@@ -86,7 +92,6 @@ const styles = theme => ({
   usernameA: {
     width: "100%",
     display: "flex",
-    marginLeft: '5%',
     justifyContent: "space-between",
     flexWrap: "nowrap",
     alignItems: "center",
@@ -98,10 +103,6 @@ const styles = theme => ({
   container: {
     display: "flex",
     flexWrap: "wrap"
-  },
-  textField: {
-    marginLeft: theme.spacing.unit,
-    marginRight: theme.spacing.unit
   },
   dense: {
     marginTop: 16
@@ -145,9 +146,6 @@ const styles = theme => ({
     margin: "0",
     fontWeight: "bold"
   },
-  textInput: {
-    marginLeft: '5%'
-  },
   udemyButton: {
     backgroundColor: `#E76D89`,
     borderRadius: '24px',
@@ -155,11 +153,15 @@ const styles = theme => ({
     color: "white",
     fontWeight: "bold",
   },
+  chooseFile: {
+    marginTop: '20px'
+  },
   saveChanges: {
     backgroundColor: `#E76D89`,
     color: "white",
-    marginTop: "30px",
-    marginLeft: '5%',
+    margin: '60px 0 0 5%',
+    height: '32px',
+    fontSize: '14px',
     borderRadius: '24px'
   },
   button: {
@@ -175,11 +177,21 @@ const styles = theme => ({
     sidebar: {
       display: "none"
     },
+    settingsWrapper: {
+      height: '100%'
+    },
     content: {
       padding: "0 10px 0 10px",
       display: "flex",
       flexDirection: "column",
       paddingBottom: "20px"
+    },
+    row2: {
+      display: 'flex',
+      flexDirection: 'column'
+    },
+    bio: {
+      marginLeft: '0'
     },
     connectionsTab: {
       paddingTop: "20px",
@@ -379,8 +391,8 @@ const Settings = props => {
         ? `url(${state.userImage})`
         : `url(https://vignette.wikia.nocookie.net/blogclan-2/images/b/b9/Random-image-15.jpg/revision/latest?cb=20160706220047)`,
     backgroundSize: "cover",
-    height: "100px",
-    width: "100px"
+    height: "60px",
+    width: "60px"
   };
 
   if (imagePopup) {
@@ -409,7 +421,6 @@ const Settings = props => {
             Connections
           </h3>
         </div>
-          
           <Button
             variant="contained"
             color="red"
@@ -423,60 +434,53 @@ const Settings = props => {
       <div className={`${classes.content}`}>
         <div>
           <div className={classes.accountTab} style={{ display: activeTab === "account" ? "block" : "none" }}>
-            <div className={classes.row}>
-              <h3 className={classes.profilePicTitle}>Profile Picture</h3>
-              <div
-                className={classes.profilePic}
-                style={imageStyle}
-                onClick={() => setImagePopup(true)}
-              />{" "}
-              <input type="file" accept=".jpg, .jpeg, .png" onChange={HandleProfileImgChange}/>
-              {/*Make this a circle and the background image will be*/}
+            <div className={classes.row1}>
+              <div>
+                <h4 className={classes.profilePicTitle}>Profile Picture</h4>
+                <div className={classes.profilePic} style={imageStyle} onClick={() => setImagePopup(true)} />
+                {" "}
+                <input className={classes.chooseFile } type="file" accept=".jpg, .jpeg, .png" onChange={HandleProfileImgChange}/>
+                {selectImage}
+              </div>
             </div>
-            {selectImage}
-            <div className={classes.row}>
-              <div className={classes.usernameA}>
-                <h3>Display Name</h3>
+            
+          
+
+            <div className={classes.row2}>
+              <div className={classes.name}>
+                <h4>Display Name</h4>
+                <TextField
+                  id="filled-name"
+                  className={classes.textInput}
+                  value={displayName}
+                  onChange={handleUpdateDisplayName}
+                  placeholder={userInfo.displayName}
+                  inputProps={{
+                    maxLength: 20
+                  }}
+                />
               </div>
 
-              {/* UPDATE DISPLAY NAME */}
-              <TextField
-                id="filled-name"
-                className={classes.textInput}
-                value={displayName}
-                onChange={handleUpdateDisplayName}
-                placeholder={userInfo.displayName}
-                inputProps={{
-                  maxLength: 20
-                }}
-              />
-            </div>
-            <div className={classes.row}>
-              <div className={classes.usernameA}>
-                <h3>Bio</h3>
+              <div className={classes.bio}>
+                <h4>Bio</h4>
                 <div>
                   <div className={classes.saveCancel} />
                 </div>
+                <TextField
+                  id="bio"
+                  className={classes.textInputBio}
+                  value={bio}
+                  placeholder={userInfo.bio}
+                  onChange={handleUpdateBio}
+                  inputProps={{
+                    maxLength: 144
+                  }}
+                />
               </div>
-
-              {/* UPDATE BIO */}
-              <TextField
-                id="bio"
-                className={classes.textInput}
-                value={bio}
-                placeholder={userInfo.bio}
-                onChange={handleUpdateBio}
-                inputProps={{
-                  maxLength: 144
-                }}
-              />
+              <Button className={classes.saveChanges} onClick={() => handleSaveChanges()} >
+                Save Changes
+              </Button>
             </div>
-            <Button
-              className={classes.saveChanges}
-              onClick={() => handleSaveChanges()}
-            >
-              Save Changes
-            </Button>
           </div>
 
           <div
