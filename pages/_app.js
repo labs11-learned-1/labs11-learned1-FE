@@ -7,7 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles'
-import {LibraryBooks} from '@material-ui/icons';;
+import {LibraryBooks} from '@material-ui/icons';
+import flush from 'styled-jsx/server';
 
 const theme = createMuiTheme({
   mixins: {
@@ -55,6 +56,7 @@ class MyApp extends App {
           
             <StoreProvider>
               <ThemeProvider theme={theme}>
+              {flush()}
                 <Component {...pageProps} />
               </ThemeProvider>
             </StoreProvider>
