@@ -286,8 +286,8 @@ const PostInfoPage = props => {
         })
     }
 
-    const handleSharePost = () => {                                                            
-        addPost(myReview.title, myReview.comment, myReview.contentCollectionId, state.userID, null, state.userID, state.displayName, state.displayImage).then(() => {
+    const handleSharePost = () => {         
+        addPost(myReview.comment, contentInfo.link, state.userID, contentInfo.image, state.displayName, state.userImage, contentInfo.title, contentInfo.description).then(() => {
             notifyHandler('share', true);
         }).catch(err => {
             notifyHandler('share', false);

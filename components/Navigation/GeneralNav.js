@@ -377,7 +377,9 @@ const GeneralNav = (props) => {
             console.log('inside')    
         } else {
             console.log('outside')
-            setTimeout(() => { setTabs(false)}, 500);
+            if(tabs) {
+                setTimeout(() => { setTabs(false)}, 500);
+            }
         }
         
     }

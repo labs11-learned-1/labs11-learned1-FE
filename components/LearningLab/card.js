@@ -159,7 +159,7 @@ const MyListCard = props => {
             cursor: "pointer"
           }}
         >
-          <Link href={`${props.content.url}`}>
+          <Link href={`postPage?content=${props.content.link}`}>
             <CardMedia
               className={classes.media}
               image={
@@ -194,7 +194,7 @@ const MyListCard = props => {
         >
           Share Post
         </Button>
-        <Link href={`/postPage?content=${props.content.link}`}>
+        <Link href={`postPage?content=${props.content.link}`}>
           
           <Button className={classes.reviewsButton}>REVIEWS</Button>
         </Link>
