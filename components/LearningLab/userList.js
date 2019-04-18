@@ -65,11 +65,13 @@ const useStyles = makeStyles(theme => ({
   },
   reviewListDialog: {
     margin: "0",
-    backgroundColor: "#3f51b5",
-    "& h2": {
-      color: "white",
-      fontWeight: "bold"
-    }
+    
+    
+  },
+  reviewListDialogTitle: {
+    margin: "0",
+    
+    
   },
   textField: {
     width: "100%",
@@ -577,6 +579,12 @@ const UserList = props => {
   </div>
       {/*  THIS IS THE REVIEW POSTING POPUP COMPONENT */}
       <Dialog
+      fullWidth={true}
+      maxWidth={"md"}
+      classes={
+        {paperWidthMd: "20%",
+      paperFullWidth: "20%"}
+      }
         className={classes.reviewListDialog}
         open={openReview}
         onClose={() => {
@@ -590,11 +598,11 @@ const UserList = props => {
               }))
             : setOpenReview(false);
         }}
-        aria-labelledby="simple-dialog-title"
+        aria-labelledby="form-dialog-title"
       >
         <DialogTitle
-          className={classes.reviewListDialog}
-          id="simple-dialog-title"
+          className={classes.reviewListDialogTitle}
+          id="form-dialog-title"
         >
           {submitType == "post"
             ? "POST REVIEW"
@@ -602,7 +610,9 @@ const UserList = props => {
             ? "SHARE POST"
             : "EDIT REVIEW"}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent
+        
+        >
           <TextField
             id="filled-multiline-static"
             multiline
