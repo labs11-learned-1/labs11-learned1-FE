@@ -31,9 +31,9 @@ const styles = theme => ({
     position: "relative",
     height: "100%",
     "@media(max-width: 600px)": {
-      display:"flex",
+      display: "flex",
       flexFlow: "column wrap"
-    },
+    }
   },
   headerRoot: {
     maxHeight: "64px"
@@ -53,7 +53,7 @@ const styles = theme => ({
     left: "59%",
     "@media(max-width: 600px)": {
       left: "42%"
-    },
+    }
   },
   shareButton: {
     position: "absolute",
@@ -73,7 +73,7 @@ const styles = theme => ({
     "@media(max-width: 600px)": {
       width: "94%",
       order: "1"
-    },
+    }
   },
   content: {
     float: "right",
@@ -83,14 +83,14 @@ const styles = theme => ({
     "@media(max-width: 600px)": {
       width: "94%",
       order: "2"
-    },
+    }
   },
   media: {
     height: "78px",
     paddingTop: "56.25%", // 16:9
     "@media(max-width: 600px)": {
       width: "100%"
-    },
+    }
   },
   actions: {
     display: "flex"
@@ -108,30 +108,25 @@ const styles = theme => ({
   body: {
     padding: "0 0 0 8px"
   },
-  cardSize:{
+  cardSize: {
     "@media(max-width: 600px)": {
-      height:"527px"
+      height: "527px"
     },
     "@media(max-width: 435px)": {
-      height:"475px"
-    },
-    
-
+      height: "475px"
+    }
   },
-  linkStyle:{
-    
-      display: "block",
-      textDecoration: "none",
-      width: "34%",
-      float: "left",
-      position: "relative",
-      cursor: "pointer",
-      "@media(max-width: 600px)": {
-        width: "100%"
-      },
-    
-  },
-
+  linkStyle: {
+    display: "block",
+    textDecoration: "none",
+    width: "34%",
+    float: "left",
+    position: "relative",
+    cursor: "pointer",
+    "@media(max-width: 600px)": {
+      width: "100%"
+    }
+  }
 });
 
 const MyListCard = props => {
@@ -150,48 +145,6 @@ const MyListCard = props => {
             content: classes.headerContent
           }}
           className={classes.cardHeader}
-          action={
-            <div>
-              <IconButton
-                style={{ zIndex: "3" }}
-                buttonRef={node => {
-                  IconButton.anchorEl = node;
-                }}
-                aria-owns={openMenu ? "menu-list-grow" : undefined}
-                aria-haspopup="true"
-                onClick={ev => {
-                  ev.preventDefault();
-                  setOpenMenu(!openMenu);
-                }}
-                className={classes.menu}
-              >
-                <MoreVertIcon />
-              </IconButton>
-              <Popper
-                open={openMenu}
-                anchorEl={Popper.anchorEl}
-                transition
-                disablePortal
-              >
-                {({ TransitionProps, placement }) => (
-                  <Grow
-                    {...TransitionProps}
-                    id="menu-list-grow"
-                    style={{
-                      transformOrigin:
-                        placement === "bottom" ? "center top" : "center bottom"
-                    }}
-                  >
-                    <Paper>
-                      <ClickAwayListener
-                        onClickAway={() => setOpenMenu(false)}
-                      />
-                    </Paper>
-                  </Grow>
-                )}
-              </Popper>
-            </div>
-          }
           title={
             props.content.title
               ? props.content.title.length > 55
@@ -200,9 +153,7 @@ const MyListCard = props => {
               : "No title provided..."
           }
         />
-        <div className={classes.linkStyle}
-         
-        >
+        <div className={classes.linkStyle}>
           <Link href={`${props.content.url}`}>
             <CardMedia
               className={classes.media}
@@ -248,19 +199,23 @@ const MyListCard = props => {
           Share Post
         </Button>
         <Link href={`/postPage?content=${props.content.link}`}>
-          <Button className={classes.reviewsButton}>REVIEWS</Button>
+          <Button className={classes.reviewsButton} style=
+          {props.id === state.userID ? {left:"59%"} : {left: "84%"} }>REVIEWS</Button>
         </Link>
 
-        <Button
-          className={classes.deleteButton}
-          onClick={ev => {
-            ev.preventDefault();
-            props.deleteContent();
-          }}
-        >
-          DELETE
-          <DeleteIcon className={classes.rightIcon} />
-        </Button>
+        {/* delete button render if on your own page */}
+        {props.id === state.userID ? (
+          <Button
+            className={classes.deleteButton}
+            onClick={ev => {
+              ev.preventDefault();
+              props.deleteContent();
+            }}
+          >
+            DELETE
+            <DeleteIcon className={classes.rightIcon} />
+          </Button>
+        ) : null}
       </Card>
     </div>
   );

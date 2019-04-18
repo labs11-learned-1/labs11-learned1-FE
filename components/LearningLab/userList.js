@@ -559,6 +559,7 @@ const UserList = props => {
         return (
           <MyListCard
             content={item}
+            id={props.state.userID}
             prepareReviewList={prepareReviewList}
             prepareSharePost={prepareSharePost}
             deleteContent={() =>

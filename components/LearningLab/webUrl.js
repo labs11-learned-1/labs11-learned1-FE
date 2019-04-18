@@ -128,7 +128,7 @@ const WebUrl = props => {
         <SnackbarContent
           onClose={handleSnackBarClose}
           variant="success"
-          message="Success Adding Course"
+          message="Success Linking Website!"
           style={{ backgroundColor: "green" , zIndex: "20"}}
         />
       </Snackbar>
