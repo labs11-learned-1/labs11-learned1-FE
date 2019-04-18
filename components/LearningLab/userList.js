@@ -102,6 +102,9 @@ const useStyles = makeStyles(theme => ({
     "& button": {
       marginLeft: "20px"
     }
+  },
+  label:{
+    padding: "0 0 0 10px"
   }
 })); //end styles
 
@@ -485,14 +488,16 @@ const UserList = props => {
                     background: "white",
                     borderRadius: "10px",
                     display: "flex",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    
                   }
                 : {
                     width: "100%",
                     background: "white",
                     borderRadius: "10px",
                     display: "flex",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    
                   }
             }
             margin="dense"
@@ -508,6 +513,7 @@ const UserList = props => {
             onChange={onChangeHandler}
             onSubmit={clearText}
             onClick={() => setVisible(true)}
+            InputLabelProps={classes.label}
             
           />
           {visible ? (

@@ -28,7 +28,12 @@ const styles = theme => ({
     borderRadius: "0",
     boxShadow: "0",
     backgroundColor: "ghostwhite",
-    position: "relative"
+    position: "relative",
+    height: "100%",
+    "@media(max-width: 600px)": {
+      display:"flex",
+      flexFlow: "column wrap"
+    },
   },
   headerRoot: {
     maxHeight: "64px"
@@ -45,32 +50,47 @@ const styles = theme => ({
   reviewsButton: {
     position: "absolute",
     bottom: "0",
-    left: "59%"
+    left: "59%",
+    "@media(max-width: 600px)": {
+      left: "42%"
+    },
   },
   shareButton: {
     position: "absolute",
-    bottom: "0"
+    bottom: "0",
+    margin: "10px 0 0 7px"
   },
   deleteButton: {
     position: "absolute",
     bottom: "0",
-    right: "2px"
+    right: "7px"
   },
   cardHeader: {
     float: "right",
     width: "60%",
     padding: "8px",
-    maxHeight: "64px"
+    maxHeight: "64px",
+    "@media(max-width: 600px)": {
+      width: "94%",
+      order: "1"
+    },
   },
   content: {
     float: "right",
     width: "60%",
     padding: "0 16px 0 0",
-    maxHeight: "60px"
+    maxHeight: "60px",
+    "@media(max-width: 600px)": {
+      width: "94%",
+      order: "2"
+    },
   },
   media: {
     height: "78px",
-    paddingTop: "56.25%" // 16:9
+    paddingTop: "56.25%", // 16:9
+    "@media(max-width: 600px)": {
+      width: "100%"
+    },
   },
   actions: {
     display: "flex"
@@ -84,7 +104,34 @@ const styles = theme => ({
   },
   expandOpen: {
     transform: "rotate(180deg)"
-  }
+  },
+  body: {
+    padding: "0 0 0 8px"
+  },
+  cardSize:{
+    "@media(max-width: 600px)": {
+      height:"527px"
+    },
+    "@media(max-width: 435px)": {
+      height:"475px"
+    },
+    
+
+  },
+  linkStyle:{
+    
+      display: "block",
+      textDecoration: "none",
+      width: "34%",
+      float: "left",
+      position: "relative",
+      cursor: "pointer",
+      "@media(max-width: 600px)": {
+        width: "100%"
+      },
+    
+  },
+
 });
 
 const MyListCard = props => {
@@ -94,7 +141,7 @@ const MyListCard = props => {
   console.log(props);
 
   return (
-    <div>
+    <div className={classes.cardSize}>
       <Card className={classes.card}>
         <CardHeader
           classes={{
@@ -146,18 +193,15 @@ const MyListCard = props => {
             </div>
           }
           title={
-            props.content.title ? props.content.title : "No title provided..."
+            props.content.title
+              ? props.content.title.length > 55
+                ? props.content.title.substring(0, 50) + "..."
+                : props.content.title
+              : "No title provided..."
           }
         />
-        <div
-          style={{
-            display: "block",
-            textDecoration: "none",
-            width: "34%",
-            float: "left",
-            position: "relative",
-            cursor: "pointer"
-          }}
+        <div className={classes.linkStyle}
+         
         >
           <Link href={`${props.content.url}`}>
             <CardMedia
@@ -170,10 +214,19 @@ const MyListCard = props => {
             />
           </Link>
         </div>
-        <CardContent className={classes.content}>
-          <Typography component="p">
+        <CardContent
+          //  className={classes.content}
+          classes={{
+            root: classes.content,
+            content: classes.content,
+            body: classes.body
+          }}
+        >
+          <Typography classes={{ root: classes.body }} component="p">
             {props.content.description
-              ? props.content.description
+              ? props.content.description.length > 150
+                ? props.content.description.substring(0, 140) + "..."
+                : props.content.description
               : "No description provided..."}
           </Typography>
         </CardContent>
@@ -189,13 +242,12 @@ const MyListCard = props => {
               props.content.title,
               props.content.description
             ); //add props.metadata //link, photourl, displayname, userimgae, articletitle,articledescrtiption
-            console.log("===============",props.content)
+            console.log("===============", props.content);
           }}
         >
           Share Post
         </Button>
         <Link href={`/postPage?content=${props.content.link}`}>
-          
           <Button className={classes.reviewsButton}>REVIEWS</Button>
         </Link>
 
