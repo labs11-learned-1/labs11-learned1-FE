@@ -3,6 +3,7 @@ import Head from 'next/head'
 import React, {useContext, useState, useRef} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSearch, faHome, faBookmark, faStream } from '@fortawesome/free-solid-svg-icons'
+import {LibraryBooks} from '@material-ui/icons';
 
 import { loadDB } from "../../firebaseConfig/firebase";
 import * as firebase from "firebase";
@@ -25,7 +26,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import algoliasearch from 'algoliasearch';
 import { InstantSearch, SearchBox, Hits, connectStateResults, Index, Configure } from 'react-instantsearch-dom';
-import { withTheme } from '@material-ui/core/styles';
+
 
 
 const styles = theme => ({
@@ -215,7 +216,8 @@ const styles = theme => ({
     accountPopper: {
         zIndex: '3', 
         position: 'absolute',
-        right: '5px'
+        right: '5px',
+        top: '60px'
     },
     '@media(min-width: 880px)': {  
         ISearchWrapper: {
@@ -317,6 +319,7 @@ const GeneralNav = (props) => {
     const {state, dispatch} = useContext(Store);
     const [searchStatus, setSearchStatus] = useState(false);
     const [tabs, setTabs] = useState(false);
+    const [clickAwayDropdownActive, setClickAwayDropdownActive] = useState(false);
 
     const newRef = useRef(null);
 
@@ -429,7 +432,9 @@ const GeneralNav = (props) => {
             </Head>
 
             <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo}/>
+                <Link href="/learning-lab">
+                    <div className={classes.logo}/>
+                </Link>
                 <div className={classes.iconWrapper}>
                     <div className={classes.desktopSearch}> 
                         {ISearch}
@@ -455,7 +460,7 @@ const GeneralNav = (props) => {
                         </div>
                         <div className={classes.largeIcons}>
                             <div className={classes.mainIcons}>
-                                <Link href="/Homepage">
+                                <Link href="/learning-lab">
                                     <div className={classes.iconContent}>
                                         <div className={classes.extraDivIcon}>
                                             <Tooltip title="Home" placement="bottom" className={classes.tooltip}>
@@ -465,13 +470,13 @@ const GeneralNav = (props) => {
                                         </div>
                                     </div>
                                 </Link>
-                                <Link href="/learning-lab" >
+                                <Link href="/Homepage" >
                                     <div className={classes.iconContent}>
                                         <div className={classes.extraDivIcon}>
-                                            <Tooltip title="My List" placement="bottom" className={classes.tooltip}>
-                                                <FontAwesomeIcon className={classes.tmIcons} icon={faBookmark} size={200}/>
+                                            <Tooltip title='Browse' placement="bottom" className={classes.tooltip}>        
+                                                <LibraryBooks className={classes.tmIcons}/>
                                             </Tooltip>
-                                            <p>My List</p>
+                                            <p>Browse</p>
                                         </div>
                                     </div>
                                 </Link>
@@ -497,7 +502,15 @@ const GeneralNav = (props) => {
                                     }}
                                     aria-owns={accountOpen ? 'menu-list-grow' : undefined}
                                     aria-haspopup="true"
-                                    onClick={() => {setAccountOpen(!accountOpen)}}
+                                    onClick={() => { 
+                                        if(!clickAwayDropdownActive) {
+                                            console.log("SET CLICK AWAY TRUE")
+                                            setClickAwayDropdownActive(true);   
+                                        } else {
+                                            console.log("DO NOTHING BUTTON")
+                                        }
+                                        setAccountOpen(!accountOpen);
+                                    }}
                                     className={classes.Account}
                                 >
                                     <Avatar src={state.userImage}/>
@@ -510,13 +523,23 @@ const GeneralNav = (props) => {
                                             id="menu-list-grow"
                                             style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
                                         >
-                                         <ClickAwayListener onClickAway={() => { setAccountOpen(false)}}>
+                                         <ClickAwayListener onClickAway={(ev) => { 
+                                            if(clickAwayDropdownActive && !ev.target.classList.contains('MuiAvatar-img-1g7it8w')) {
+                                                console.log(ev.target.classList)
+                                                console.log("SET CLICKAWAY FALSE")
+                                                setAccountOpen(false); 
+                                                setClickAwayDropdownActive(false);
+                                            } else {
+                                                console.log("DO NOTHING CLICKAWAY")
+                                            }
+                                            
+                                        }}>
                                             <Paper className={classes.accountDropdown}>                                    
                                                 <MenuList>
                                                     <Link href='/settings'>
                                                         <MenuItem>Settings</MenuItem>
                                                     </Link>
-                                                
+                                                    <MenuItem>Change Interests</MenuItem>
                                                     <Link href='/Homepage'>
                                                         <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
                                                     </Link>
