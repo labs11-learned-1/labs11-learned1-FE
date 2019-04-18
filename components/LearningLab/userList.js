@@ -65,8 +65,8 @@ const useStyles = makeStyles(theme => ({
   },
   reviewListDialog: {
     margin: "0",
-    backgroundColor: "#3f51b5",
     "& h2": {
+      backgroundColor: "#3f51b5",
       color: "white",
       fontWeight: "bold"
     }
@@ -102,6 +102,9 @@ const useStyles = makeStyles(theme => ({
     "& button": {
       marginLeft: "20px"
     }
+  },
+  reviewListTitle:{
+    backgroundColor :"#3f51b5"
   }
 })); //end styles
 
@@ -584,9 +587,11 @@ const UserList = props => {
             : setOpenReview(false);
         }}
         aria-labelledby="simple-dialog-title"
+        fullWidth={true}
+        maxWidth={"sm"}
       >
         <DialogTitle
-          className={classes.reviewListDialog}
+          className={classes.reviewListTitle}
           id="simple-dialog-title"
         >
           {submitType == "post"
