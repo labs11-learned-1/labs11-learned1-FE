@@ -1,8 +1,6 @@
 import React from 'react';
 import Header from '../components/LandingPage/Header';
-import SearchCourses from '../components/searchCourses';
 import LandingNav from '../components/Navigation/LandingNav';
-import { Store } from "../components/store";
 import { withStyles } from "@material-ui/core/styles";
 import PropTypes from "prop-types";
 
@@ -253,10 +251,7 @@ const styles = {
     }
 }
 
-function LandingPage(props){
-
-    const { state } = React.useContext(Store)
-    console.log(state)
+const LandingPage = (props) =>{
     const {classes} = props;
     return(
         <div className={classes.root}>
