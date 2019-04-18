@@ -11,6 +11,8 @@ import Fab from "@material-ui/core/Fab";
 import RandomUsers from '../LearningLab/randomUsers'
 import InfiniteScroll from "react-infinite-scroll-component";
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 const styles = {
   newsWrap: {
@@ -98,6 +100,7 @@ const Newsfeed = props => {
   const [scrollNumber, setScrollNumber] = React.useState(10);
   const [hasMore, setHasMore] = React.useState(true);
   const { classes } = props;
+  const [openSnackBar, setOpenSnackBar]= React.useState(false);
 
   const addPost = async (
 
@@ -125,6 +128,7 @@ const Newsfeed = props => {
           .update({ posts: firebase.firestore.FieldValue.arrayUnion(ref.id) }) // <--- updates the array of postId's within user, for future reference
           .then(() => {
             console.log("Success adding a post, this is the postId:  ", ref.id);
+            handleSnackBarOpen()
           })
           .catch(err => {
             console.log("error adding post to user array", err); // inner addition to the array failed
@@ -219,6 +223,14 @@ const Newsfeed = props => {
     }
   };
 
+  const handleSnackBarClose=()=>{
+    setOpenSnackBar(false);
+  }
+
+  const handleSnackBarOpen=()=>{
+    setOpenSnackBar(true)
+  }
+
   const RenderMorePosts = () => {
     setTimeout(()=>{
       setScrollNumber(scrollNumber + 10)
@@ -291,9 +303,24 @@ const Newsfeed = props => {
             </InfiniteScroll>
 
         </div>
+        
       </div>
-
-      
+      <Snackbar
+        anchorOrigin={{
+        vertical: 'bottom',
+        horizontal: 'right',
+        }}
+        open={openSnackBar}
+        autoHideDuration={2000}
+        onClose={handleSnackBarClose}
+      >   
+      <SnackbarContent
+        onClose={handleSnackBarClose}
+        variant="success"
+        message="Success Adding Post"
+        style={{backgroundColor:"green"}}
+      />
+      </Snackbar>
     </div>
   );
 };
