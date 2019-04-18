@@ -45,6 +45,8 @@ function reducer(state, action) {
             return{...state, bio: action.payload}
         case 'UPDATE_WEB_URL':
             return {...state, webUrl: action.payload}
+        case "UPDATE_USER_IMAGE":
+            return{...state, userImage: action.payload}
         default:
             return state;
     }

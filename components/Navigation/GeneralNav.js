@@ -1,8 +1,9 @@
 import Link from "next/link";
 import Head from 'next/head'
-import React, {useContext, useState} from "react";
+import React, {useContext, useState, useRef} from "react";
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSearch, faHome, faBookmark, faStream } from '@fortawesome/free-solid-svg-icons'
+import {LibraryBooks} from '@material-ui/icons';
 
 import { loadDB } from "../../firebaseConfig/firebase";
 import * as firebase from "firebase";
@@ -26,7 +27,7 @@ import Tooltip from '@material-ui/core/Tooltip';
 
 import algoliasearch from 'algoliasearch';
 import { InstantSearch, SearchBox, Hits, connectStateResults, Index, Configure } from 'react-instantsearch-dom';
-import { withTheme } from '@material-ui/core/styles';
+
 
 
 const styles = theme => ({
@@ -50,9 +51,9 @@ const styles = theme => ({
         alignItems: 'center' 
     },
     logo : {
-        height: '55px',
-        width: '150px',
-        backgroundImage: `url(https://i.ibb.co/6y24GKH/mediumsmall-res.png)`, 
+        height: '71px',
+        width: '170px',
+        backgroundImage: `url(https://i.ibb.co/jMv4F19/medium-res.png)`, 
         backgroundSize: 'cover',
         backgroundPosition: 'center',
         '&:hover': {
@@ -92,7 +93,6 @@ const styles = theme => ({
     tmIcons: {
         width: '25px !important',
         height: '25px', 
-        
         color: '#1a237e',
     },
     searchIcon: {
@@ -202,6 +202,24 @@ const styles = theme => ({
     smallIcons: {
         display: 'none'
     },
+    accountDropdown: {
+        width: '300px',
+        borderBottom: `10px solid ${theme.mixins.deepBlue}`,
+        '& ul': {
+            padding: '10px 0 0 0',
+            '& li': {
+                marginLeft: '10px',
+                marginRight: '10px',
+                borderTop: `1px solid ${theme.mixins.deepBlue}`
+            }
+        }
+    },
+    accountPopper: {
+        zIndex: '3', 
+        position: 'absolute',
+        right: '5px',
+        top: '60px'
+    },
     '@media(min-width: 880px)': {  
         ISearchWrapper: {
             display: 'flex',
@@ -302,6 +320,9 @@ const GeneralNav = (props) => {
     const {state, dispatch} = useContext(Store);
     const [searchStatus, setSearchStatus] = useState(false);
     const [tabs, setTabs] = useState(false);
+    const [clickAwayDropdownActive, setClickAwayDropdownActive] = useState(false);
+
+    const newRef = useRef(null);
 
     const searchClient = algoliasearch(
         `${process.env.ALGOLIA_APP_ID}`,
@@ -342,24 +363,40 @@ const GeneralNav = (props) => {
            .auth()
            .signOut()
            .then((result) => {
-             console.log("logout success", result)
-             return dispatch({ type: "LOGGED_OUT" });
+             console.log('logout success', result)
+             return dispatch({ type: 'LOGGED_OUT' });
            })
            .catch(e => {
-             alert("Error signing out");
+             alert('Error signing out');
            });
     };
 
+    const handleClickOutside = (event) => {
+        
+        if ((event.target).classList.contains('ais-SearchBox-input') && newRef && newRef.current != null && 
+        newRef.current.classList.contains('GeneralNav-ISearchWrapper-hmlj63') && (((event.target).parentNode).parentNode).parentNode.classList.contains("GeneralNav-ISearchWrapper-hmlj63")) {
+            console.log('inside')    
+        } else {
+            console.log('outside')
+            setTimeout(() => { setTabs(false)}, 500);
+        }
+        
+    }
+
+    React.useEffect(()=>{
+        document.addEventListener('mousedown', handleClickOutside);
+    }, [])
+    
+
     const { classes } = props;
 
-    let ISearch = 
-    <ClickAwayListener onClickAway={() => {setTabs(false)}}>       
+    let ISearch =     
         <InstantSearch
             indexName="posts"                   
             searchClient={searchClient}                    
         >
                 
-                <div className={classes.ISearchWrapper}> 
+                <div className={classes.ISearchWrapper} id='temp' ref={newRef}> 
                     
                         <SearchBox 
                         className={classes.searchBox} 
@@ -368,6 +405,7 @@ const GeneralNav = (props) => {
                         poweredBy={true}
                         onChange={(ev) => {ev.target.value === '' ? setTabs(false) : setTabs(true)}}
                         onClick={(ev) => {ev.target.value != '' ? setTabs(true) : null}}
+                        
                         />
                         {tabs ?
                         <div>
@@ -386,7 +424,6 @@ const GeneralNav = (props) => {
                     </div> 
                 
         </InstantSearch>
-    </ClickAwayListener>
 
     
     return(
@@ -396,7 +433,9 @@ const GeneralNav = (props) => {
             </Head>
 
             <Toolbar variant="regular" className={classes.toolbar}>
-                <div className={classes.logo}/>
+                <Link href="/learning-lab">
+                    <div className={classes.logo}/>
+                </Link>
                 <div className={classes.iconWrapper}>
                     <div className={classes.desktopSearch}> 
                         {ISearch}
@@ -422,7 +461,7 @@ const GeneralNav = (props) => {
                         </div>
                         <div className={classes.largeIcons}>
                             <div className={classes.mainIcons}>
-                                <Link href="/Homepage">
+                                <Link href="/learning-lab">
                                     <div className={classes.iconContent}>
                                         <div className={classes.extraDivIcon}>
                                             <Tooltip title="Home" placement="bottom" className={classes.tooltip}>
@@ -432,13 +471,13 @@ const GeneralNav = (props) => {
                                         </div>
                                     </div>
                                 </Link>
-                                <Link href="/learning-lab" >
+                                <Link href="/Homepage" >
                                     <div className={classes.iconContent}>
                                         <div className={classes.extraDivIcon}>
-                                            <Tooltip title="My List" placement="bottom" className={classes.tooltip}>
-                                                <FontAwesomeIcon className={classes.tmIcons} icon={faBookmark} size={200}/>
+                                            <Tooltip title='Browse' placement="bottom" className={classes.tooltip}>        
+                                                <LibraryBooks className={classes.tmIcons}/>
                                             </Tooltip>
-                                            <p>My List</p>
+                                            <p>Browse</p>
                                         </div>
                                     </div>
                                 </Link>
@@ -464,33 +503,55 @@ const GeneralNav = (props) => {
                                     }}
                                     aria-owns={accountOpen ? 'menu-list-grow' : undefined}
                                     aria-haspopup="true"
-                                    onClick={() => {setAccountOpen(!accountOpen)}}
+                                    onClick={() => { 
+                                        if(!clickAwayDropdownActive) {
+                                            console.log("SET CLICK AWAY TRUE")
+                                            setClickAwayDropdownActive(true);   
+                                        } else {
+                                            console.log("DO NOTHING BUTTON")
+                                        }
+                                        setAccountOpen(!accountOpen);
+                                    }}
                                     className={classes.Account}
                                 >
                                     <Avatar src={state.userImage}/>
                                 </Button>
-                                <Popper open={accountOpen} anchorEl={Popper.anchorEl} style={{zIndex: '3', position: 'absolute'}}transition disablePortal>
-                                    {({ TransitionProps, placement }) => (
-                                    <Grow
-                                        {...TransitionProps}
-                                        id="menu-list-grow"
-                                        style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'center bottom' }}
-                                    >
-                                        <Paper>                                    
-                                            <MenuList>
-                                                <Link href='/settings'>
-                                                    <MenuItem>Settings</MenuItem>
-                                                </Link>
+                               
+                                    <Popper open={accountOpen} anchorEl={Popper.anchorEl} className={classes.accountPopper} transition disablePortal>
+                                        {({ TransitionProps, placement }) => (
+                                        <Grow
+                                            {...TransitionProps}
+                                            id="menu-list-grow"
+                                            style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
+                                        >
+                                         <ClickAwayListener onClickAway={(ev) => { 
+                                            if(clickAwayDropdownActive && !ev.target.classList.contains('MuiAvatar-img-1g7it8w')) {
+                                                console.log(ev.target.classList)
+                                                console.log("SET CLICKAWAY FALSE")
+                                                setAccountOpen(false); 
+                                                setClickAwayDropdownActive(false);
+                                            } else {
+                                                console.log("DO NOTHING CLICKAWAY")
+                                            }
                                             
-                                                <Link href='/Homepage'>
-                                                    <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
-                                                </Link>
-                                            
-                                            </MenuList>
-                                        </Paper>
-                                    </Grow>
-                                    )}
-                                </Popper>
+                                        }}>
+                                            <Paper className={classes.accountDropdown}>                                    
+                                                <MenuList>
+                                                    <Link href='/settings'>
+                                                        <MenuItem>Settings</MenuItem>
+                                                    </Link>
+                                                    <MenuItem>Change Interests</MenuItem>
+                                                    <Link href='/Homepage'>
+                                                        <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
+                                                    </Link>
+                                                
+                                                </MenuList>
+                                            </Paper>
+                                            </ClickAwayListener>
+                                        </Grow>
+                                        )}
+                                    </Popper>
+                               
                             </div>
                             
                         </div>

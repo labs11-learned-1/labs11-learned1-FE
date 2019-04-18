@@ -10,8 +10,10 @@ import TextField from '@material-ui/core/TextField';
 import CourseCard from './coursecard';
 import LinearProgress from '@material-ui/core/LinearProgress';
 import {Store} from '../store';
-import { from } from 'rxjs';
-import { defaultProps } from 'recompose';
+import InfiniteScroll from "react-infinite-scroll-component";
+import CircularProgress from '@material-ui/core/CircularProgress';
+
+
 
 
 export default function SearchCourses(props){
@@ -34,7 +36,8 @@ export default function SearchCourses(props){
     const { state, dispatch } = React.useContext(Store);
     const [parameters, setParameters] = React.useState({category : "", searchTerm : "", isPaid : ""})
     const [Paginated, setPaginated] = React.useState([]);
-    const [loadingSpecifiedCourses, setLoadingSpecifiedCourses] = React.useState(false)
+    const [loadingSpecifiedCourses, setLoadingSpecifiedCourses] = React.useState(false);
+    const [loadingNumber, setLoadingNumber] = React.useState(12)
 
     function handleRadio(event) {
         setParameters({...parameters, isPaid : event.target.value});
@@ -67,18 +70,13 @@ export default function SearchCourses(props){
         console.log("courses", courses)
     }
 
-    function MyPaginationAttempt(pageSize, pageNumber){
-        let final = courses.slice(pageNumber * pageSize, (pageNumber + 1) * pageSize);
-        setPaginated(final)
+    const fetchMoreData = () => {
+        setLoadingNumber(loadingNumber + 12)
     }
-
-    React.useEffect(()=>{
-        MyPaginationAttempt(12, 1)
-    }, [courses])
 
     return(
         <div style={{width:"80%"}}>
-            <div style={{display: 'flex', justifyContent:"space-around", flexDirection:"row", width:"100%", alignItems:"center", background:"#cfd8dc", borderRadius:"10px", marginTop:"45px"}}>
+            <div style={{display: 'flex', justifyContent:"space-around", flexDirection:"row", width:"100%", alignItems:"center", background:"#cfd8dc", borderRadius:"10px", margin:"45px 0"}}>
                 <div style={{width:"40%", display:"flex", justifyContent:"space-between", alignItems:"flex-end"}}>
                     <div>
                         <InputLabel htmlFor="select-multiple">Categories</InputLabel>
@@ -98,24 +96,24 @@ export default function SearchCourses(props){
                         type="search"
                         margin="none"
                     />
-                    <button style={{border:"1px solid black", background:"#534bae", borderRadius:"5px", height:"30px", color:"white", cursor:"pointer"}} onClick={getCourses}>Search for Courses</button>
+                    {loadingSpecifiedCourses ? <CircularProgress/> : <button style={{border:"1px solid black", background:"#534bae", borderRadius:"5px", height:"30px", color:"white", cursor:"pointer"}} onClick={getCourses}>Search for Courses</button>}
                 </div>
             </div>
-
-                <div>
-                    {courses.length ? <div style={{width:"20%",display:"flex", justifyContent:"space-between", margin:"20px 0"}}>
-                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 1)}>1</div>
-                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 2)}>2</div>
-                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 3)}>3</div>
-                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 4)}>4</div>
-                    <div style={{cursor:"pointer", border:"1px solid black", borderRadius:"5px", marginBottom:"25px", boxSizing:"border-box", padding:"5px"}} onClick={()=>MyPaginationAttempt(12, 5)}>5</div>
-                    </div> : null}
-
-                    <div style={{display:"flex", width:"100%", flexDirection:"row", flexWrap :"wrap", justifyContent:"space-between"}}>
-                        {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard openSnackbar={props.openSnackbar} userId={state.userID} key={course.url} info={course} />)}
-                    </div>
-            </div>
             {loadingSpecifiedCourses ? <LinearProgress style={{width:"100%", marginTop:"10px"}}/> : <></>}
+
+                    {courses.length ? 
+                    <InfiniteScroll
+                        next={fetchMoreData}
+                        dataLength={loadingNumber}
+                        loader={<h3>Loading Courses ...</h3>}
+                        hasMore={loadingNumber < courses.length ? true : false}
+                        style={{display:"flex", width:"100%", flexDirection:"row", flexWrap :"wrap", justifyContent:"space-between", overflow:"hidden"}}
+                        >
+                            {courses.slice(0, loadingNumber).map(course => <CourseCard openSnackbar={props.openSnackbar} userId={state.userID} key={course.url} info={course} />)}
+                        </InfiniteScroll>
+
+                    : null}
+                        {/* {courses.length && Paginated.length == 0 ? MyPaginationAttempt(10, 1) : Paginated.map(course => <CourseCard openSnackbar={props.openSnackbar} userId={state.userID} key={course.url} info={course} />)} */}
         </div>
     )
 }
