@@ -324,8 +324,6 @@ const Newsfeed = props => {
         </div>
         
       </div>
-<<<<<<< HEAD
-=======
       <Snackbar
         anchorOrigin={{
         vertical: 'bottom',
@@ -342,7 +340,6 @@ const Newsfeed = props => {
         style={{backgroundColor:"green"}}
       />
       </Snackbar>
->>>>>>> 503ca859565d390b3a4ae3a8821c8a51ac34177f
     </div>
   );
 };
