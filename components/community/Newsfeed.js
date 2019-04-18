@@ -35,7 +35,8 @@ const styles = {
     },
     "@media(max-width: 600px)": {
       float: "left",
-      right: "0"
+      right: "0",
+      width: "100%"
       
     },
   },
@@ -90,9 +91,7 @@ const styles = {
   },
   cards: {
     width: "100%",
-    display: "flex",
-    flexDirection: "column",
-    alignItems: "center"
+  
   },
   addPostContainer: {
     display: "flex",
@@ -110,15 +109,8 @@ const styles = {
     margin: "5px auto 15px auto",
     background: "#e76d89"
   },
-  "@media(max-width: 600px)": {
-    cards: {
-      width: "90%",
-      display: "flex",
-      justifyContent: "center",
-      flexDirection: "column",
-      alignItems: "center"
-    }
-  }
+  
+  
 };
 
 const Newsfeed = props => {
@@ -283,14 +275,18 @@ const Newsfeed = props => {
           <TextField
             name="content"
             id="filled-full-width"
-            label={`${contentLength} / 255`}
+            label={`${contentLength} / 1000`}
             style={{ margin: 10, background: "white" }}
             placeholder="Whats on your mind?"
             multiline
             margin="normal"
             variant="filled"
+            inputProps={{
+              maxLength: 1000
+            }}
             InputLabelProps={{
               shrink: true
+              
             }}
             value={postInfo.content}
             onChange={onChangeHandler}

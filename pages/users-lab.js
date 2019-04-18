@@ -28,7 +28,8 @@ const styles = theme => ({
   followBtn: {
     position: "absolute",
     bottom: "20px",
-    left: "66px"
+    left: "66px",
+    
   },
   homepageWrapper: {
     width: "80%",
@@ -80,7 +81,7 @@ const styles = theme => ({
   },
   otherSidebar: {
     width: "200px",
-    height: "460px",
+    height: "380px",
     display: "flex",
     position: "relative",
     background: "white",
