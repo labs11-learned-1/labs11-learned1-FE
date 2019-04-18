@@ -93,11 +93,11 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center"
   },
-  seeMoreButton:{
-      background: "none",
-      border: "none",
-      color: theme.mixins.deepBlue,
-      cursor: "pointer"
+  seeMoreButton: {
+    background: "none",
+    border: "none",
+    color: theme.mixins.deepBlue,
+    cursor: "pointer"
   }
 });
 
@@ -117,38 +117,87 @@ class Postcard extends React.Component {
 
   render() {
     const { classes } = this.props;
+    console.log("postcard props", this.props);
+
     //see button handles the See More functionality and substringing
+
     const seeButton = () => {
+      //check if review or post
+      //======userReviews=====
+      if (this.props.content.rating) {
+        //
         //check if the content is over 500 character and if it shouldnt show, which is default
-      if (
-        this.props.content.content.length > 500 &&
-        this.state.seeMore === false
-      ) {
-        let content = this.props.content.content.substring(0, 500);
-        return (
-          <div className={classes.postContent}>
-            <p>{content}...</p>
-            <button className={classes.seeMoreButton} onClick={this.seeMore}>See More...</button>
-          </div>
-        );
-        //handle normal ones under 500 characer
-      } else if (this.props.content.content.length < 500) {
-        return (
-          <div className={classes.postContent}>
-            <p>{this.props.content.content}</p>
-          </div>
-        );
-        //handle for when we want it expanded
-      } else if (
-        this.props.content.content.length > 500 &&
-        this.state.seeMore === true
-      ) {
-        return (
-          <div className={classes.postContent}>
-            <p>{this.props.content.content}</p>
-            <button  className={classes.seeMoreButton}  onClick={this.collapse}>Collapse</button>
-          </div>
-        );
+        if (
+          this.props.content.comment.length > 500 &&
+          this.state.seeMore === false
+        ) {
+          let content = this.props.content.comment.substring(0, 500);
+          return (
+            <div className={classes.postContent}>
+              <p>{content}...</p>
+              <button className={classes.seeMoreButton} onClick={this.seeMore}>
+                See More...
+              </button>
+            </div>
+          );
+          //handle normal ones under 500 characer
+        } else if (this.props.content.comment.length < 500) {
+          return (
+            <div className={classes.postContent}>
+              <p>{this.props.content.comment}</p>
+            </div>
+          );
+          //handle for when we want it expanded
+        } else if (
+          this.props.content.comment.length > 500 &&
+          this.state.seeMore === true
+        ) {
+          return (
+            <div className={classes.postContent}>
+              <p>{this.props.content.comment}</p>
+              <button className={classes.seeMoreButton} onClick={this.collapse}>
+                Collapse
+              </button>
+            </div>
+          );
+        }
+        //=====Newsfeed=====
+      } else {
+        //check if the content is over 500 character and if it shouldnt show, which is default
+        if (
+          this.props.content.content.length > 500 &&
+          this.state.seeMore === false
+        ) {
+          let content = this.props.content.content.substring(0, 500);
+          return (
+            <div className={classes.postContent}>
+              <p>{content}...</p>
+              <button className={classes.seeMoreButton} onClick={this.seeMore}>
+                See More...
+              </button>
+            </div>
+          );
+          //handle normal ones under 500 characer
+        } else if (this.props.content.content.length < 500) {
+          return (
+            <div className={classes.postContent}>
+              <p>{this.props.content.content}</p>
+            </div>
+          );
+          //handle for when we want it expanded
+        } else if (
+          this.props.content.content.length > 500 &&
+          this.state.seeMore === true
+        ) {
+          return (
+            <div className={classes.postContent}>
+              <p>{this.props.content.content}</p>
+              <button className={classes.seeMoreButton} onClick={this.collapse}>
+                Collapse
+              </button>
+            </div>
+          );
+        }
       }
     };
 
