@@ -29,16 +29,12 @@ const styles = theme => ({
     position: "absolute",
     bottom: "20px",
     left: "66px",
-<<<<<<< HEAD
-    
-=======
     color: 'white',
     height: '20px',
     border: 'none',
     fontSize: '12px',
     background: '#e76d89',
     borderRadius: '5px'
->>>>>>> 8506ae3c431242372701f4d88e61279cf2a0d638
   },
   homepageWrapper: {
     width: "80%",
