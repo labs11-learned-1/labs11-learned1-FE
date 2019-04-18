@@ -19,7 +19,7 @@ import WebUrl from "./webUrl";
 const useStyles = makeStyles(theme => ({
   userInfo: {
     width: "200px",
-    height: "460px",
+    height: "380px",
     display: "flex",
     position: "relative",
     background: theme.mixins.deepBlue,
@@ -42,7 +42,7 @@ const useStyles = makeStyles(theme => ({
   sidebar: {
     display: "flex",
     width: "200px",
-    height: "400px",
+    height: "320px",
     flexFlow: "column wrap",
     background: "ghostwhite",
     alignItems: "center",

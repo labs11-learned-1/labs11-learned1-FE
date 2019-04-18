@@ -1,4 +1,3 @@
-
 import React from "react";
 import Postcard from "../community/Postcard";
 import { loadDB } from "../../firebaseConfig/firebase";
@@ -8,62 +7,90 @@ import PropTypes from "prop-types";
 import { withStyles } from "@material-ui/core/styles";
 import TextField from "@material-ui/core/TextField";
 import Fab from "@material-ui/core/Fab";
-import RandomUsers from '../LearningLab/randomUsers'
+import RandomUsers from "../LearningLab/randomUsers";
 import InfiniteScroll from "react-infinite-scroll-component";
 import UserProfileInfo from ".././LearningLab/userProfileInfo";
 
 const styles = {
   newsWrap: {
-    margin: "0 10px",
-    display: "flex",
-    width: "592px",
-    flexFlow: "column wrap",
-    alignItems: "center",
-    background: "rgb(230,236,240)",
-    float: 'left',
+    float: "left",
     right: "-20%",
+    width: "592px",
+    background: "ghostwhite",
+    margin: "0 10px",
+    height: "100%",
+    marginBottom: "20px",
     position: "relative",
-
-    '@media(max-width: 840px)': {
-      right: "0"
+    borderRadius: "10px 10px 0 0",
+    '@media(max-width: 1040px)': {
+      right: "-31%"
   },
+    "@media(max-width: 920px)": {
+      margin: "0 auto",
+      float: "left",
+      right: "0"
+      
+    },
+    "@media(max-width: 600px)": {
+      float: "left",
+      right: "0"
+      
+    },
   },
   banners: {
-    position: 'fixed',
+    position: "fixed",
     height: "100%",
-    width: '1024px',
+    width: "1024px",
     margin: "0",
-    '@media(max-width: 840px)': {
+    "@media(max-width: 1040px)": {
+      display: "flex",
+      flexFlow: "column wrap",
+      margin: "0 0 0 10%"
+    },
+    "@media(max-width: 920px)": {
       display: "none"
+    }
   },
-  },
-   recommendUsersCard: {
-    position: 'fixed',
-    left: '70%',
+  recommendUsersCard: {
+    position: "fixed",
+    left: "70%"
   },
   communityContent: {
-    width: "1012px",
-    display: "block",
-    margin: "70px auto 0px auto",
     padding: "12px 14px 15px",
+
+    display: "block",
+    height: "100%",
+    width: "1020px",
+    margin: "70px auto 0 auto",
+    position: "relative",
+    "@media(max-width: 1068px)": {
+      display: "flex",
+      width: "100%",
+      padding: "12px 0 0 0px"
+    },
+    "@media(max-width: 600px)": {
+      display: "flex",
+      width: "100%",
+      padding: "0px"
+    }
   },
   newsFeedTitle: {
-    fontSize: '28px',
-    fontWeight: '600',
-    marginBottom: '5px',
-    padding: '15px 0 6px 0',
-    textAlign: 'center',
-    height: '40px',
-    width: '100%',
+    fontSize: "28px",
+    fontWeight: "600",
+    marginBottom: "5px",
+    padding: "15px 0 6px 0",
+    textAlign: "center",
+    height: "40px",
+    width: "100%",
     background: "#191970",
-    color: 'white',
-    borderRadius: '10px 10px 0 0'
+    color: "white",
+    borderRadius: "10px 10px 0 0"
   },
   cards: {
     width: "100%",
     display: "flex",
     flexDirection: "column",
-    alignItems: "center",
+    alignItems: "center"
   },
   addPostContainer: {
     display: "flex",
@@ -72,11 +99,14 @@ const styles = {
     justifyContent: "space-between",
     background: "ghostwhite",
     height: "20%",
+    "@media(max-width: 1068px)": {
+      height: "9%"
+    },
   },
   postBtn: {
     width: "25%",
     margin: "5px auto 15px auto",
-    background: '#e76d89',
+    background: "#e76d89"
   },
   "@media(max-width: 600px)": {
     cards: {
@@ -99,19 +129,14 @@ const Newsfeed = props => {
   const [hasMore, setHasMore] = React.useState(true);
   const { classes } = props;
 
-  const addPost = async (
-
-    content,
-    userId,
-    displayName,
-    userImage
-  ) => {
+  const addPost = async (content, userId, displayName, userImage) => {
     //load db instance
     let result = await loadDB();
     let db = result.firestore();
     // add post to "posts" collection, creating a unique document/postId with .add()
     db.collection("posts")
-      .add({ // <--- provide input form
+      .add({
+        // <--- provide input form
         content: content, //<--- provide input form
         createdAt: Date.now(),
         userId: userId, //<--- make dynamic with state.userId
@@ -131,9 +156,7 @@ const Newsfeed = props => {
           })
       )
       .catch(err => console.log("error adding post", err)); // addition to "posts" collection failed
-      }
-    
-  
+  };
 
   const getPostsOfFollowing = async () => {
     let result = await loadDB();
@@ -152,8 +175,6 @@ const Newsfeed = props => {
         console.log(err);
       });
 
-    
-
     // console.log("Following array: ", followingArray);
     await followingArray.forEach(user =>
       postsRef
@@ -163,13 +184,13 @@ const Newsfeed = props => {
           querySnapshot.forEach(post => {
             let postsArray = [];
             postsArray.push(post.data());
-            
+
             setNewsFeed(newsfeed => newsfeed.concat(postsArray));
             // setNewsFeed(newsfeed => [...newsfeed, post.data().slice(0, newsfeed.length)])
           });
           // let newArr = postsArray.slice(0, newsfeed.length)
           // console.log("posts array",postsArray)
-          
+
           //console.log("Posts array: ", postsArray)
         })
         .catch(err => {
@@ -180,7 +201,6 @@ const Newsfeed = props => {
   };
 
   const onChangeHandler = e => {
-    
     setPostInfo({ ...postInfo, [e.target.name]: e.target.value });
     console.log("POST INFO", postInfo);
     if (e.target.name === "title") {
@@ -202,11 +222,11 @@ const Newsfeed = props => {
   };
 
   const submitPost = () => {
-    console.log("postInfo",postInfo)
+    console.log("postInfo", postInfo);
     if (postInfo.content.length == 0) {
       console.log("error not all fields filled out");
       alert("Please write something!");
-    } else  {
+    } else {
       console.log("adding post");
       addPost(
         postInfo.content,
@@ -220,23 +240,23 @@ const Newsfeed = props => {
   };
 
   const RenderMorePosts = () => {
-    setTimeout(()=>{
-      setScrollNumber(scrollNumber + 10)
-      if(scrollNumber > newsfeed.length){
-        setHasMore(false)
+    setTimeout(() => {
+      setScrollNumber(scrollNumber + 10);
+      if (scrollNumber > newsfeed.length) {
+        setHasMore(false);
       }
-    }, 500)
-  }
+    }, 500);
+  };
 
   React.useEffect(() => {
-    getPostsOfFollowing(); 
+    getPostsOfFollowing();
   }, []);
 
   React.useEffect(() => {
-    let sorted = newsfeed.sort(function(a, b) { 
-      return ( b.createdAt - a.createdAt  );
-    })
-  }, [newsfeed])
+    let sorted = newsfeed.sort(function(a, b) {
+      return b.createdAt - a.createdAt;
+    });
+  }, [newsfeed]);
 
   return (
     <div className={classes.communityContent}>
@@ -244,7 +264,7 @@ const Newsfeed = props => {
         <UserProfileInfo state={state} />
         <RandomUsers state={state} />
       </div>
-      
+
       <div className={classes.newsWrap}>
         <div className={classes.newsFeedTitle}>News Feed</div>
         <div className={classes.addPostContainer}>
@@ -272,28 +292,25 @@ const Newsfeed = props => {
             Post
           </Fab>
         </div>
-{console.log("NEWSFEED ON STATE ARRAY",newsfeed)}
+        {console.log("NEWSFEED ON STATE ARRAY", newsfeed)}
         <div className={classes.cards}>
-            <InfiniteScroll
-              dataLength={scrollNumber}
-              loader={<h3>Loading Posts ...</h3>}
-              hasMore={hasMore}
-              next={RenderMorePosts}
-              endMessage={
-                <p style={{textAlign: 'center'}}>
-                  <b>No more Posts available. Try following more users!</b>
-                </p>
-              }
-            >
-              {newsfeed.slice(0, scrollNumber).map((post, index) => 
+          <InfiniteScroll
+            dataLength={scrollNumber}
+            loader={<h3>Loading Posts ...</h3>}
+            hasMore={hasMore}
+            next={RenderMorePosts}
+            endMessage={
+              <p style={{ textAlign: "center" }}>
+                <b>No more Posts available. Try following more users!</b>
+              </p>
+            }
+          >
+            {newsfeed.slice(0, scrollNumber).map((post, index) => (
               <Postcard content={post} state={state} key={index} />
-              )}
-            </InfiniteScroll>
-
+            ))}
+          </InfiniteScroll>
         </div>
       </div>
-
-      
     </div>
   );
 };
