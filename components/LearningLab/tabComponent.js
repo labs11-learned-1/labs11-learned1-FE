@@ -66,6 +66,16 @@ const useStyles = makeStyles(theme => ({
   },
   currentCourses: {
     minHeight: "100px"
+  },
+  tabRoot:{
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-around"
+  },
+  flexContainer:{
+    display: "flex",
+    width: "100%",
+    justifyContent: "space-around"
   }
 })); //end styles
 
@@ -81,7 +91,8 @@ console.log("props",props)
   return (
     <div className={classes.tabWrap}>
       <AppBar position="static" style={{backgroundColor: "midnightblue", borderRadius: "10px 10px 0 0", padding: "6px 0 6px 0"}}>
-        <Tabs value={value} onChange={handleChange}>
+        <Tabs value={value} onChange={handleChange} classes={{root: classes.tabRoot,
+        flexContainer: classes.flexContainer}}>
           <Tab label= {props.state.userID !== state.userID ? `${props.state.displayName}'s List` : "My List"} />
           <Tab label={props.state.userID !== state.userID ? `${props.state.displayName}'s Posts` : "My Posts"} />
           <Tab label={props.state.userID !== state.userID ? `${props.state.displayName}'s Reviews` : "My Reviews"} />

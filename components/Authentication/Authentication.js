@@ -123,7 +123,6 @@ const Authentication =  props => {
             .update({
               id: result.user.uid,
               email: result.user.email,
-              image: docSnapshot.data().image,
               displayName: docSnapshot.data().displayName,
               randomAccessor: randomInt
             })
