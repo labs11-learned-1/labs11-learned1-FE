@@ -24,24 +24,31 @@ const styles = {
         boxSizing:"border-box",
         padding:"5%",
         justifyContent:"space-between",
+        justifyContent: 'center',
+        '& h1': {
+            textAlign: 'center'
+        }
     },
     keepTrackContent:{
         display:"flex",
-        width:"60%",
+        width:"100%",
         alignItems:"flex-start",
         color:"grey",
-        justifyContent:"space-between",
+        justifyContent:"center",
     },
     keepTrackImg : {
         height:"100px"
     },
     keepTrackh1:{
-        width:"30%",
+        width:"256px",
+        height: 'auto',
         color: '#888b8d',
         fontFamily: 'Soleil_Light,Helvetica,Arial,sans-serif',
-        fontSize: '32px',
-        lineHeight: 2,
+        fontSize: '2.2rem',
+        lineHeight: '4rem',
         textAlign:"center",
+        marginLeft: '10px',
+        marginRight: '10px'
     },
     section3:{
         display:"flex",
@@ -52,9 +59,10 @@ const styles = {
     },
     Section3Header:{
         fontFamily: 'Soleil_Light,Helvetica,Arial,sans-serif',
-        fontSize: '48px',
+        fontSize: '3rem',
         lineHeight: '64px',
-        fontWeight:"150"
+        fontWeight:"150",
+        textAlign: 'center'
     },
     Section3SubHeader:{
         fontSize: '24px',
@@ -68,8 +76,8 @@ const styles = {
         marginTop:"75px",
         marginBottom: '160px',
         marginRight: 0,
-        maxWidth: '70%',
-        width: '60%',
+        maxWidth: '1200px',
+        width: '1200px',
         display:"flex",
         alignItems:"center",
         justifyContent:"space-between"
@@ -117,7 +125,7 @@ const styles = {
     },
     howToCardContainer:{
         display:"flex",
-        justifyContent:"space-between",
+        justifyContent:"center",
         marginTop:"50px",
     },
     howToCard:{
@@ -126,6 +134,7 @@ const styles = {
         flexDirection:"column",
         alignItems:"center",
         justifyContent:"center",
+        padding: '0 30px 0 30px'
     },
     howToCardHeader:{
         "fontFamily": "Soleil_Bold,Helvetica,Arial,sans-serif",
@@ -144,6 +153,103 @@ const styles = {
         "lineHeight": "32px",
         "marginTop": "16px",
         "textAlign": "center"
+    },
+    Section4Header: {
+        margin:"150px 0 50px 0",
+        paddingTop:"50px", 
+        borderTop:"1px solid black",
+        fontFamily: 'Soleil_Light,Helvetica,Arial,sans-serif',
+        fontSize: '3rem',
+        lineHeight: '64px',
+        fontWeight:"150",
+        textAlign: 'center'
+    },
+    '@media(max-width: 1300px)': {
+        cardContainer: {
+            flexDirection: 'column',   
+            marginBottom: '50px'       
+        },
+        cardContent: {
+            textAlign: 'center',
+            display: 'flex',
+            alignItems: 'center',
+            paddingBottom: '50px',
+            paddingTop: '50px'
+        }
+    },
+    '@media(max-width: 1000px)': {
+        keepTrackh1: {
+            fontSize: '1.8rem'
+        },
+        howToCardHeader: {
+            marginTop: '10px',
+            fontSize: '1.2rem',
+            height: '128px'
+        },
+        howToCardSubHeader: {
+            height: '160px',
+            marginTop: 0
+        }
+    },
+    '@media(max-width: 800px)': {
+        Section3Header:{
+            fontSize: '2rem'
+        },
+        Section4Header:{
+            fontSize: '2rem'
+        },
+        keepTrackh1: {
+            fontSize: '1.4rem'
+        },
+        cardContainer: {
+            marginTop: 0,
+            marginBottom: '30px',
+            '& img': {
+                display: 'none'
+            }
+        },
+    },
+    '@media(max-width: 600px)': {
+        keepTrackContent: {
+            display: 'none'
+        },
+        Section3Header:{
+            fontSize: '1.9rem'
+        },
+        Section4Header:{
+            fontSize: '1.9rem',
+            marginTop: '50px'
+        },
+        cardHeader: {
+            fontSize: '2.2rem'
+        },
+        cardSubHeader: {
+            fontSize: '1.6rem'
+        },
+        cardContainer: {
+            width: '90%',
+            margin: '0 5% 0 5%'
+        },
+        cardContent: {
+            width: '100%'
+        },
+        howToCardContainer: {
+            flexDirection: 'column',
+            justifyContent: 'center',
+        },
+        howToCard: {
+            borderLeft: 'none !important',
+            borderRight: 'none !important',
+            width: '90%',
+            marginBottom: '100px'
+        },
+        howToCardHeader: {
+            height: 'auto'
+        },
+        howToCardSubHeader: {
+            height: 'auto',
+        }
+        
     }
 }
 
@@ -158,11 +264,11 @@ function LandingPage(props){
             <Header />
             <div className={classes.keepTrack}>
                 <img className={classes.keepTrackImg} src="https://42f2671d685f51e10fc6-b9fcecea3e50b3b59bdc28dead054ebc.ssl.cf5.rackcdn.com/illustrations/portfolio_essv.svg" alt="keep track"/>
-                <h1 className={classes.Section3Header}>Keep Track of Your Important Articles/Courses</h1>
+                <h1 className={classes.Section3Header}>Keep Track of Important Articles and Courses</h1>
                 <div className={classes.keepTrackContent}>
-                    <div className={classes.keepTrackh1}>Save your articles with a press of a button</div>
+                    <div className={classes.keepTrackh1}>Save articles and courses with the press of a button</div>
                     <div className={classes.keepTrackh1}>Link your Udemy account with ease</div>
-                    <div className={classes.keepTrackh1}>Save any course or article for later</div>
+                    <div className={classes.keepTrackh1}>All your favorite articles and courses in one place</div>
                 </div>
             </div>
             <div style={{clipPath: 'polygon(100% 16%, 0 16%, 50% 100%)', width:"100%", height:"100px", background:"white", marginTop:"-18px", background:"#F7F7F7",}} />
@@ -217,7 +323,7 @@ function LandingPage(props){
 
             </div>
 
-            <div className={classes.Section3Header} style={{margin:"150px 0 50px 0",paddingTop:"50px", borderTop:"1px solid black"}}>
+            <div className={classes.Section4Header}>
                 Sign Up Today At Zero Cost!
             </div>
             <div className={classes.getStartedBtn}>Sign Up!</div>
