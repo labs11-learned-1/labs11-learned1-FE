@@ -45,8 +45,31 @@ const styles = {
         }
     },
     img : {
-        width:"20%",
+        width: '300px',
+        height: '350px',
         marginLeft: '80px'
+    },
+    '@media(max-width: 1000px)': {
+        img: {
+            display: 'none'
+        },
+        textArea:{
+            width: '400px'
+        },
+        headerText: {
+            width: '100%'
+        }
+    },
+    '@media(max-width: 800px)': {
+        root: {
+            justifyContent:"space-evenly",
+        },
+        headerText: {
+            fontSize: '1.5rem',
+        },
+        headerSignUp: {
+            fontSize: '1rem'
+        }
     },
     '@media(max-width: 600px)': {
         root:{
@@ -56,32 +79,16 @@ const styles = {
         img:{
             display:"none"
         },
+        headerTitle: {
+            fontSize: '2rem'
+        },
+        headerText: {
+            fontSize: '1.3rem'
+        },
         textArea:{
-            color:"white",
-            width:"70%",
+            width: '70%'
         },
-        headerTitle: {
-            fontSize: '2rem'
-        },
-        headerText: {
-            fontSize: '1.5rem'
-        }
     },
-    '@media(max-width: 800px)': {
-        root: {
-            justifyContent:"space-evenly",
-        },
-        headerTitle: {
-            fontSize: '2rem'
-        },
-        headerText: {
-            fontSize: '1.5rem',
-            width: '200px'
-        },
-        headerSignUp: {
-            fontSize: '1rem'
-        }
-    }
 }
 
 function Header(props){
