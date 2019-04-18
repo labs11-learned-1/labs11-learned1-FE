@@ -37,6 +37,8 @@ import Avatar from "@material-ui/core/Avatar";
 import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
 import AddIcon from "@material-ui/icons/Add";
+import Snackbar from '@material-ui/core/Snackbar';
+import SnackbarContent from '@material-ui/core/SnackbarContent';
 
 
 const useStyles = makeStyles(theme => ({
@@ -65,13 +67,11 @@ const useStyles = makeStyles(theme => ({
   },
   reviewListDialog: {
     margin: "0",
-    
-    
-  },
-  reviewListDialogTitle: {
-    margin: "0",
-    
-    
+    "& h2": {
+      backgroundColor: "#3f51b5",
+      color: "white",
+      fontWeight: "bold"
+    }
   },
   textField: {
     width: "100%",
@@ -105,8 +105,8 @@ const useStyles = makeStyles(theme => ({
       marginLeft: "20px"
     }
   },
-  label:{
-    padding: "0 0 0 10px"
+  reviewListTitle:{
+    backgroundColor :"#3f51b5"
   }
 })); //end styles
 
@@ -137,8 +137,18 @@ const UserList = props => {
   const [link, setLink] = React.useState("");
   const [visible, setVisible] = React.useState(false);
   const { state, dispatch } = React.useContext(Store);
+  const [openSnackBar, setOpenSnackBar]= React.useState(false);
   console.log(state);
   console.log("props1:", props);
+
+
+  const handleSnackBarClose=()=>{
+    setOpenSnackBar(false);
+  }
+
+  const handleSnackBarOpen=()=>{
+      setOpenSnackBar(true)
+  }
 
   const listOnState = list;
   //===========FUNCTIONS===========
@@ -318,6 +328,7 @@ const UserList = props => {
     );
     setOpenReview(false);
     setReviewContent({ ...reviewContent, rating: 5, title: "", content: "" });
+    handleSnackBarOpen();
   };
 
   const getReviewList = async (userList, link) => {
@@ -598,11 +609,13 @@ const UserList = props => {
               }))
             : setOpenReview(false);
         }}
-        aria-labelledby="form-dialog-title"
+        aria-labelledby="simple-dialog-title"
+        fullWidth={true}
+        maxWidth={"sm"}
       >
         <DialogTitle
-          className={classes.reviewListDialogTitle}
-          id="form-dialog-title"
+          className={classes.reviewListTitle}
+          id="simple-dialog-title"
         >
           {submitType == "post"
             ? "POST REVIEW"
@@ -618,7 +631,7 @@ const UserList = props => {
             multiline
             rows="10"
             name="content"
-            placeholder="Write your review here..."
+            placeholder="What do you want to say about this content?"
             className={classes.textField}
             margin="normal"
             variant="filled"
@@ -685,6 +698,22 @@ const UserList = props => {
         </DialogTitle>
         {reviewBody}
       </Dialog>
+      <Snackbar
+                anchorOrigin={{
+                vertical: 'bottom',
+                horizontal: 'right',
+                }}
+                open={openSnackBar}
+                autoHideDuration={5000}
+                onClose={handleSnackBarClose}
+            >   
+            <SnackbarContent
+                onClose={handleSnackBarClose}
+                variant="success"
+                message="Success Adding Post"
+                style={{backgroundColor:"green"}}
+            />
+            </Snackbar>
     </div>
   );
 }; //end UserList
