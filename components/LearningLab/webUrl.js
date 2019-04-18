@@ -65,13 +65,10 @@ const WebUrl = props => {
           type: "UPDATE_WEB_URL",
           payload: webUrl
         })
-          .then(() => {
-            handleSnackBarOpen();
-            console.log("updated web url")
-          })
-          .catch(err => {
-            console.log(err);
-          });
+        handleSnackBarOpen();
+        console.log("updated web url")
+           
+          
       })
       .catch(err => {
         console.log(err);
