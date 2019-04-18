@@ -14,7 +14,6 @@ import { faUserSecret } from "@fortawesome/free-solid-svg-icons";
 const useStyles = makeStyles(theme => ({
   randomUsers: {
     width: "200px",
-    height: "460px",
     display: "flex",
     position: "relative",
     background: "ghostwhite",

@@ -501,14 +501,16 @@ const UserList = props => {
                     background: "white",
                     borderRadius: "10px",
                     display: "flex",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    
                   }
                 : {
                     width: "100%",
                     background: "white",
                     borderRadius: "10px",
                     display: "flex",
-                    justifyContent: "center"
+                    justifyContent: "center",
+                    
                   }
             }
             margin="dense"
@@ -524,6 +526,7 @@ const UserList = props => {
             onChange={onChangeHandler}
             onSubmit={clearText}
             onClick={() => setVisible(true)}
+            InputLabelProps={classes.label}
             
           />
           {visible ? (
@@ -569,6 +572,7 @@ const UserList = props => {
         return (
           <MyListCard
             content={item}
+            id={props.state.userID}
             prepareReviewList={prepareReviewList}
             prepareSharePost={prepareSharePost}
             deleteContent={() =>
@@ -586,6 +590,12 @@ const UserList = props => {
   </div>
       {/*  THIS IS THE REVIEW POSTING POPUP COMPONENT */}
       <Dialog
+      fullWidth={true}
+      maxWidth={"md"}
+      classes={
+        {paperWidthMd: "20%",
+      paperFullWidth: "20%"}
+      }
         className={classes.reviewListDialog}
         open={openReview}
         onClose={() => {
@@ -613,13 +623,15 @@ const UserList = props => {
             ? "SHARE POST"
             : "EDIT REVIEW"}
         </DialogTitle>
-        <DialogContent>
+        <DialogContent
+        
+        >
           <TextField
             id="filled-multiline-static"
             multiline
             rows="10"
             name="content"
-            placeholder="Write your review here..."
+            placeholder="What do you want to say about this content?"
             className={classes.textField}
             margin="normal"
             variant="filled"
