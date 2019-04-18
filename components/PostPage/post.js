@@ -456,6 +456,9 @@ const PostInfoPage = props => {
                     margin="normal"
                     variant="filled"
                     onChange={reviewChangeHandler}
+                    inputProps={{
+                        maxLength: 1000
+                      }}
                 />
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
