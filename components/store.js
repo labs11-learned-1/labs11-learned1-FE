@@ -12,7 +12,8 @@ const initialState = {
     firstTimeUser: false,
     followingCount: 1,
     followerCount: 1,
-    bio: ""
+    bio: "",
+    webUrl: ""
 }
 
 function reducer(state, action) {
@@ -20,7 +21,7 @@ function reducer(state, action) {
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
         case 'LOGGED_IN':
-            return { ...state, loggedIn: true, userID: action.payload.id, displayName: action.payload.displayName, userImage: action.payload.image}
+            return { ...state, loggedIn: true, userID: action.payload.id, displayName: action.payload.displayName, userImage: action.payload.image, followingCount: action.payload.followingCount, followerCount: action.payload.followerCount, bio: action.payload.bio,  webUrl: action.payload.webUrl}
         case 'LOGGED_OUT':
             return {...state, loggedIn: false, }
         case 'FORM_TOGGLE':
@@ -42,6 +43,10 @@ function reducer(state, action) {
             return {...state, displayName: action.payload}
         case 'UPDATE_BIO':
             return{...state, bio: action.payload}
+        case 'UPDATE_WEB_URL':
+            return {...state, webUrl: action.payload}
+        case "UPDATE_USER_IMAGE":
+            return{...state, userImage: action.payload}
         default:
             return state;
     }

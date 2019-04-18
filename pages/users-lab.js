@@ -28,7 +28,13 @@ const styles = theme => ({
   followBtn: {
     position: "absolute",
     bottom: "20px",
-    left: "66px"
+    left: "66px",
+    color: 'white',
+    height: '20px',
+    border: 'none',
+    fontSize: '12px',
+    background: '#e76d89',
+    borderRadius: '5px'
   },
   homepageWrapper: {
     width: "80%",
@@ -61,15 +67,26 @@ const styles = theme => ({
     height: "100%",
     marginBottom: "20px",
     position: "relative",
+    borderRadius: "10px 10px 0 0",
+    '@media(max-width: 1040px)': {
+      right: "-31%"
+  },
+    "@media(max-width: 920px)": {
+      margin: "0 auto",
+      float: "left",
+      right: "0"
+      
+    },
     "@media(max-width: 600px)": {
       float: "left",
-      right:"0"
+      right: "0"
       
-    }
+    },
+   
   },
   otherSidebar: {
     width: "200px",
-    height: "460px",
+    height: "320px",
     display: "flex",
     position: "relative",
     background: "white",
@@ -94,6 +111,12 @@ const styles = theme => ({
     width: "1020px",
     margin: "70px auto 0 auto",
     position: "relative",
+    "@media(max-width: 1068px)": {
+      display: "flex",
+      width: "100%",
+      padding: "12px 0 0 0px",
+
+    },
     "@media(max-width: 600px)": {
       display: "flex",
       width: "100%",
@@ -102,7 +125,7 @@ const styles = theme => ({
   },
   userInfo: {
     width: "200px",
-    height: "460px",
+    height: "380px",
     display: "flex",
     position: "relative",
     background: "#534bae",
@@ -115,8 +138,13 @@ const styles = theme => ({
     height: "100%",
     width: '1024px',
     margin: "0",
-    '@media(max-width: 840px)': {
-      display: "none"
+    '@media(max-width: 1040px)': {
+      display: "flex",
+      flexFlow: "column wrap",
+      margin: "0 0 0 10%"
+  },
+  "@media(max-width: 920px)": {
+    display: "none"
   },
   },
 });

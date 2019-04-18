@@ -69,9 +69,10 @@ const styles = {
     margin: "0",
     '@media(max-width: 1040px)': {
       display: "flex",
-      flexFlow: "column wrap"
+      flexFlow: "column wrap",
+      margin: "0 0 0 10%"
   },
-  "@media(max-width: 600px)": {
+  "@media(max-width: 920px)": {
     display: "none"
   },
   },
@@ -95,11 +96,21 @@ const styles = {
     marginBottom: "20px",
     position: "relative",
     borderRadius: "10px 10px 0 0",
+    '@media(max-width: 1040px)': {
+      right: "-31%"
+  },
+    "@media(max-width: 920px)": {
+      margin: "0 auto",
+      float: "left",
+      right: "0"
+      
+    },
     "@media(max-width: 600px)": {
       float: "left",
       right: "0"
       
-    }
+    },
+   
   },
 
   toolbar: {
@@ -127,6 +138,12 @@ const styles = {
     width: "1020px",
     margin: "70px auto 0 auto",
     position: "relative",
+    "@media(max-width: 1068px)": {
+      display: "flex",
+      width: "100%",
+      padding: "12px 0 0 0px",
+
+    },
     "@media(max-width: 600px)": {
       display: "flex",
       width: "100%",
@@ -190,13 +207,14 @@ const LearningLab = props => {
     
       
       <div className={classes.learningLabWrap}>
+      <div className={classes.tabby}>
+          <TabComponent state={state} />
+        </div>
         <div className={classes.banners}>
           <UserProfileInfo state={state} />
           <RandomUsers />
         </div>
-        <div className={classes.tabby}>
-          <TabComponent state={state} />
-        </div>
+        
       </div>
     
   );
