@@ -17,6 +17,12 @@ import {Search} from '@material-ui/icons';
 
 const useStyles = makeStyles(theme => {
     return {
+    loadingSearch: {
+        borderRadius:"0px 10px 10px 0px",   
+        padding: '10px 15px 10px 10px',
+        backgroundColor: theme.mixins.modernPink,
+        height: '30px',
+    },
     browseInput: {
         background: 'white',
         height: '30px',
@@ -33,18 +39,25 @@ const useStyles = makeStyles(theme => {
         color:"white", 
         cursor:"pointer",
         padding: '10px 15px 10px 10px',
-        borderLeft: 'none',
-        height: '30px'
+        height: '30px',
+        '&:hover': {
+            background: theme.mixins.pinkBoot,
+            cursor: 'pointer'
+        }
     },
     browserWrapper: {
         marginBottom: '300px',
         width: '100%'
     },
+    browserHeader: {
+        textAlign: 'center',
+        marginTop:  '100px'
+    },
     browseSelect: {
         height: '100%',
         color: 'white',
         '& svg': {
-            color: 'white'
+            color: 'white',
         }
     },
     browseSelectWrapper: {
@@ -52,6 +65,10 @@ const useStyles = makeStyles(theme => {
         padding: '0 10px 0px 15px',
         backgroundColor: theme.mixins.modernPink,
         borderRadius:"10px 0 0 10px",  
+        '&:hover': {
+            background: theme.mixins.pinkBoot,
+            cursor: 'pointer'
+        }
     },
     searchContainer: {
         borderBottom: `8px solid ${theme.mixins.deepBlue}`,
@@ -64,6 +81,22 @@ const useStyles = makeStyles(theme => {
         background:"#cfd8dc", 
         borderRadius:"10px", 
         margin:"45px 0"
+    },
+    '@media(max-width: 800px)': {
+        browseSelectWrapper: {
+            width: '60px'
+        },
+        browseSelect: {
+            width: '60px'
+        }
+    },
+    '@media(max-width: 400px)': {
+        browseSelectWrapper: {
+            width: '30px',
+        },
+        browseSelect: {
+            width: '30px'
+        },
     }
 }})
 
@@ -130,6 +163,9 @@ export default function SearchCourses(props){
 
     return(
         <div className={classes.browserWrapper}>
+            <div className={classes.browserHeader}>
+                <h1>Browse Courses</h1>
+            </div>
             <div  className={classes.searchContainer}>
                 <div style={{width: '94%', display:"flex", justifyContent:"center", alignItems:"flex-end"}}>
                     <label className={classes.browseSelectWrapper}>
@@ -137,7 +173,7 @@ export default function SearchCourses(props){
                             <MenuItem value='All'>All</MenuItem>
                             {cats.map(name => (
                                 <MenuItem key={name} value={name}>
-                                {name}
+                                    {name}
                                 </MenuItem>
                             ))}
                         </Select>
@@ -146,13 +182,13 @@ export default function SearchCourses(props){
                     <TextField
                         onChange={handleChange}
                         id="standard-search"
-                        placeholder="Search Term"
+                        placeholder="Search"
                         type="search"
                         margin="none"
                         InputProps={{disableUnderline: true}}
                         className={classes.browseInput}
                     />
-                    {loadingSpecifiedCourses ? <CircularProgress/> : <Search className={classes.browseButton} onClick={getCourses}/>}
+                    {loadingSpecifiedCourses ? <div className={classes.loadingSearch}><CircularProgress /></div> : <Search className={classes.browseButton} onClick={getCourses}/>}
                 </div>
             </div>
             {loadingSpecifiedCourses ? <LinearProgress style={{width:"100%", marginTop:"10px"}}/> : <></>}
