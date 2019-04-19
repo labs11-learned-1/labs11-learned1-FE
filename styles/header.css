@@ -1,0 +1,95 @@
+.rootHeader {
+    
+    background: url('https://i.ibb.co/HHf65vV/trianglify-1.png');
+    background-size: cover;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    width: 100%;
+}
+
+
+.textArea {
+    color: white;
+    width: 35%;
+    display: flex;
+    margin-bottom: 40px;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+}
+
+.headerTitle {
+    font-size: 2.7rem;
+    text-align: center;
+}
+
+.headerText {
+    font-size: 1.6rem;
+    text-align: center;
+    margin-bottom: 60px;
+}
+.headerSignUp  {
+    font-size: 1.2rem;
+    background-color: #e76d89;
+    width: 80%;
+    color: white;
+    border-radius: 24px;
+    border: none;
+    padding: 12px 16px;
+}
+
+.headerSignUp:hover {
+    color: white;
+    cursor: pointer;
+    background-color: #0db4b9;
+}
+
+.img {
+    width: 300px;
+    height: 350px;
+    margin-left: 80px;
+}
+
+@media(max-width: 1000px) {
+    .img {
+        display: none;
+    }
+    .textArea {
+        width: 400px;
+    }
+    .headerText {
+        width: 100%;
+    }
+}
+
+@media(max-width: 800px) {
+    .root {
+        justify-content: space-evenly;
+    }
+    .headerText {
+        font-size: 1.5rem;
+    }
+    .headerSignUp {
+        font-size: 1rem;
+    }
+}
+
+@media(max-width: 600px) {
+    .root {
+        flex-direction: column;
+        justify-content: space-evenly;
+    }
+    .img {
+        display: none;
+    }
+    .headerTitle {
+        font-size: 2rem;
+    }
+    .headerText {
+        font-size: 1.3rem;
+    }
+    .textArea {
+        width: 70%;
+    }
+}
