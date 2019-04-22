@@ -154,7 +154,7 @@ const MyListCard = props => {
           }
         />
         <div className={classes.linkStyle}>
-          <Link href={`postPage?content=${props.content.link}`}>
+          <Link href={`/postPage?content=${props.content.link}`}>
             <CardMedia
               className={classes.media}
               image={
@@ -198,7 +198,7 @@ const MyListCard = props => {
         >
           Share Post
         </Button>
-        <Link href={`postPage?content=${props.content.link}`}>
+        <Link href={`/postPage?content=${props.content.link}`}>
           <Button className={classes.reviewsButton} style=
           {props.id === state.userID ? {left:"59%"} : {left: "84%"} }>REVIEWS</Button>
         </Link>

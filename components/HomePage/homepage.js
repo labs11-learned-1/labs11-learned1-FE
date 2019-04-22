@@ -104,7 +104,7 @@ const styles = theme => ({
                 marginTop: '20px'
             }
         }
-    }
+    },
 })
 
 //CHECK

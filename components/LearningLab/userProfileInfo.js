@@ -196,7 +196,7 @@ console.log("PROROPSO", props, "\nSTATTTEEEE", state)
         {props.state.userID === state.userID ? (
 
 
-          myUrl !== "" ? (
+          myUrl && myUrl !== "" ? (
             <div className={classes.link}>
               <WebUrl state={state} />
               <a

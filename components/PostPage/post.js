@@ -13,7 +13,6 @@ import 'react-toastify/dist/ReactToastify.css';
 
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
-import PropTypes from "prop-types";
 import List from "@material-ui/core/List";
 import ListItem from "@material-ui/core/ListItem";
 import ListItemText from "@material-ui/core/ListItemText";
@@ -24,13 +23,16 @@ import TextField from "@material-ui/core/TextField";
 import Button from "@material-ui/core/Button";
 import Card from '@material-ui/core/Card';
 import CardMedia from '@material-ui/core/CardMedia';
-import Paper from '@material-ui/core/Paper';
+
 
 import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faStar } from "@fortawesome/free-solid-svg-icons"
 
+const MAX_REVIEW_TITLE_LENGTH = 200;
+const MAX_REVIEW_CONTENT_LENGTH = 1000;
+
+
 const useStyles = makeStyles(theme => {
-    console.log(theme)
     return {
     postPageWrapper: {
         margin: '0 auto',
@@ -135,6 +137,14 @@ const useStyles = makeStyles(theme => {
             height: '250px'
         }
     },
+    reviewTitleInput: {
+        '& label': {
+            paddingLeft: '12px'
+        },
+        '& input': {
+            paddingLeft: '9px'
+        }
+    },
     '@media(max-width: 400px)': {
         extraInfo: {
             display: 'block'
@@ -154,7 +164,9 @@ const PostInfoPage = props => {
     const [myReview, setMyReview] = useState({title: "", comment: "", rating: 5});
     const [editingMyReview, setEditingMyReview] = useState(true);
     const [baseReview, setBaseReview] = useState(null);
-
+    const [reviewTitleLength, setReviewTitleLength] = useState(0);
+    const [reviewContentLength, setReviewContentLength] = useState(0);
+ 
     const notifyHandler = (type, success) => {
         if(type === 'post') {
             if (success) {
@@ -205,7 +217,7 @@ const PostInfoPage = props => {
     const getPostContent = async () => {
         const urlParams = new URLSearchParams(window.location.search);
         const contentID = urlParams.get("content").split("//").pop().replace(/[/]/g, "-");
-        const content = await getContentById(contentID).then((res) => {
+        await getContentById(contentID).then((res) => {
             setContentInfo({title: res.title, author: res.author, description: res.description, image: res.photoUrl, link: res.link, numRatings: res.numRatings, avgRating: res.avgRating});
         }); 
     }
@@ -216,13 +228,15 @@ const PostInfoPage = props => {
     const getReviewContent = async() => {
         const urlParams = new URLSearchParams(window.location.search);
         const contentID = urlParams.get("content");
-        const content = await getReviewList(contentID).then((res) => {
+        await getReviewList(contentID).then((res) => {
             let reviewArr = [];
             res.map((review) => {
                 if(review.data().userId == state.userID) {
                     setEditingMyReview(false);
                     setMyReview({...review.data(), reviewID: review.id});
                     setBaseReview({title: review.data().title, comment: review.data().comment, rating: review.data().rating});
+                    setReviewContentLength(review.data().comment.length);
+                    setReviewTitleLength(review.data().title.length);
                 } else {
                     reviewArr.push(review.data());
                 }
@@ -235,10 +249,14 @@ const PostInfoPage = props => {
     //Calls the function holding the api call to delete the review in database, and removes local myReview.
     const handleReviewDelete = async() => { 
         await deleteReview(myReview.reviewID).then(() => {
+            console.log(baseReview.rating)
+            addRating(contentInfo.link, null, "delete", baseReview.rating);
+            console.log(baseReview.rating)
             notifyHandler('delete', true);
             setMyReview({title: "", comment: "", rating: 5});
-            addRating(contentInfo.link, null, "delete", baseReview.rating);
             setBaseReview(null);
+            setReviewContentLength(0);
+            setReviewTitleLength(0);
         }).catch(err => {
             notifyHandler('delete', false);
         })
@@ -262,6 +280,8 @@ const PostInfoPage = props => {
     // When an edit is cancelled we reset the values back to the original.
     const handleEditCancel = async() => {
         setEditingMyReview(false);
+        setReviewContentLength(baseReview.comment.length);
+        setReviewTitleLength(baseReview.title.length);
         setMyReview({...myReview, title: baseReview.title , comment: baseReview.comment, rating: baseReview.rating});
     }
 
@@ -272,7 +292,6 @@ const PostInfoPage = props => {
         setEditingMyReview(false);
         await addReview(myReview.rating, myReview.comment, myReview.title, state.userID, contentInfo.link, state.userImage, state.displayName)
         .then((res) => {
-            console.log(res);
             if(res) {
                 notifyHandler('post', true);
                 setMyReview({...myReview, reviewID: res});
@@ -294,6 +313,11 @@ const PostInfoPage = props => {
 
     //Handler used to update myReview depending on content type.
     const reviewChangeHandler = (ev) => {
+        if(ev.target.name === 'title') {
+            setReviewTitleLength(ev.target.value.length)
+        } else {
+            setReviewContentLength(ev.target.value.length)
+        }
         setMyReview({ ...myReview, [ev.target.name]: ev.target.value });
     }
 
@@ -304,15 +328,10 @@ const PostInfoPage = props => {
         getReviewContent();
     }, [window.location.search])
 
-    
-
-    //Conditional rendering variable initialization for following if statement...
-    let addMyListButton;
-
     //Conditional rendering variable initialization for following if statement...
     let myReviewContent;
-    let reviewContentType;
     let postButton;
+    let reviewContentType;
     let ratingButtons = <div className={classes.ratingButtons}>
         <FontAwesomeIcon className={classes.star} icon={faStar} style={{color: (myReview ? (myReview.rating >= 1 ? "yellow" : "white") : null)}}
         onClick={() => {editingMyReview ? setMyReview({ ...myReview, rating: 1 }) : null}}
@@ -382,10 +401,14 @@ const PostInfoPage = props => {
                         id="name"
                         name="title"
                         placeholder="Title"
-                        className={classes.textField}
+                        className={classes.reviewTitleInput}
                         fullWidth
                         value={myReview.title}
                         onChange={reviewChangeHandler}
+                        label={`${reviewTitleLength} / ${MAX_REVIEW_TITLE_LENGTH}`}
+                        inputProps={{
+                            maxLength: MAX_REVIEW_TITLE_LENGTH
+                        }}
                     />
                     <TextField
                         id="filled-multiline-static"
@@ -398,6 +421,10 @@ const PostInfoPage = props => {
                         variant="filled"
                         value={myReview.comment}
                         onChange={reviewChangeHandler}
+                        label={`${reviewContentLength} / ${MAX_REVIEW_CONTENT_LENGTH}`}
+                        inputProps={{
+                            maxLength: MAX_REVIEW_CONTENT_LENGTH
+                        }}
                     />
                 </div>
                 <div className={classes.myReviewButtons}>
@@ -440,9 +467,13 @@ const PostInfoPage = props => {
                     id="name"
                     name="title"
                     placeholder="Title"
-                    className={classes.textField}
+                    className={classes.reviewTitleInput}
                     fullWidth
                     onChange={reviewChangeHandler}
+                    label={`${reviewTitleLength} / ${MAX_REVIEW_TITLE_LENGTH}`}
+                    inputProps={{
+                        maxLength: MAX_REVIEW_TITLE_LENGTH
+                    }}
                 />
                 <TextField
                     id="filled-multiline-static"
@@ -454,9 +485,10 @@ const PostInfoPage = props => {
                     margin="normal"
                     variant="filled"
                     onChange={reviewChangeHandler}
+                    label={`${reviewContentLength} / ${MAX_REVIEW_CONTENT_LENGTH}`}
                     inputProps={{
-                        maxLength: 1000
-                      }}
+                        maxLength: MAX_REVIEW_CONTENT_LENGTH
+                    }}
                 />
             </div>
             <div style={{display: 'flex', justifyContent: 'space-between'}}>
@@ -476,8 +508,6 @@ const PostInfoPage = props => {
     
     
     }
-
-    console.log(contentInfo)
     
     return (
         <div className={classes.postPageWrapper}>
