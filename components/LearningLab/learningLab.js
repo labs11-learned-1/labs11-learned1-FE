@@ -207,13 +207,14 @@ const LearningLab = props => {
     
       
       <div className={classes.learningLabWrap}>
+      <div className={classes.tabby}>
+          <TabComponent state={state} />
+        </div>
         <div className={classes.banners}>
           <UserProfileInfo state={state} />
           <RandomUsers />
         </div>
-        <div className={classes.tabby}>
-          <TabComponent state={state} />
-        </div>
+        
       </div>
     
   );

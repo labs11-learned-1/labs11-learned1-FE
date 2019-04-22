@@ -637,6 +637,9 @@ const UserList = props => {
             variant="filled"
             value={reviewContent.content}
             onChange={reviewChange}
+            inputProps={{
+              maxLength: 1000
+            }}
             
           />
           <div className={classes.reviewButtons}>
