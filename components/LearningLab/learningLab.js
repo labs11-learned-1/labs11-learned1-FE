@@ -96,6 +96,7 @@ const styles = {
     marginBottom: "20px",
     position: "relative",
     borderRadius: "10px 10px 0 0",
+    zIndex: 1,
     '@media(max-width: 1040px)': {
       right: "-31%"
   },

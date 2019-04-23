@@ -157,7 +157,6 @@ export const deleteContent = async (link, userID, list, setList, getContentByUse
             let oldRatingTotal = res.data().avgRating * res.data().numRatings;
             let newNumRatings = res.data().numRatings;
             let newAvgRating;
-            console.log(res.data())
             if(type === 'post') { //FOR WHEN A USER CREATES THEIR REVIEW
                 newNumRatings += 1;
                 newAvgRating = (oldRatingTotal + rating) / newNumRatings;
@@ -165,7 +164,12 @@ export const deleteContent = async (link, userID, list, setList, getContentByUse
                 newAvgRating = (oldRatingTotal - oldRating + rating) / newNumRatings;
             } else { //FOR WHEN A USER DELETES THEIR REVIEW
                 newNumRatings -= 1;
-                newAvgRating = (oldRatingTotal - oldRating) / newNumRatings;
+                //Edge case for when the only review gets deleted (0/0 = NaN)
+                if(newNumRatings > 0) {
+                    newAvgRating = (oldRatingTotal - oldRating) / newNumRatings;
+                } else {
+                    newAvgRating = 0;
+                }
             }
 
             // Commit to Firestore

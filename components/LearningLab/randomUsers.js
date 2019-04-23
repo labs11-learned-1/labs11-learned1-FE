@@ -106,7 +106,7 @@ const RandomUsers = props => {
 
   React.useEffect(() => {
     getRandomUsers();
-  }, [window.location.search]);
+  }, [typeof window !== 'undefined' ? window.location.search : '']);
 
   return (
     <div className={classes.randomUsers}>

@@ -151,8 +151,8 @@ const UserProfileInfo = props => {
 
   React.useEffect(() => {
     getUserInfo();
-  }, [window.location.search]);
-console.log("PROROPSO", props, "\nSTATTTEEEE", state)
+  }, [typeof window !== 'undefined' ? window.location.search : '']);
+
  let myUrl = state.webUrl
  let theirUrl = userInfo.webUrl;
   return (
@@ -196,7 +196,7 @@ console.log("PROROPSO", props, "\nSTATTTEEEE", state)
         {props.state.userID === state.userID ? (
 
 
-          myUrl !== "" ? (
+          myUrl && myUrl !== "" ? (
             <div className={classes.link}>
               <WebUrl state={state} />
               <a
