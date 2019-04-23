@@ -245,7 +245,7 @@ const Settings = props => {
       });
   };
 
-  const getUserInfo = async () => {
+  /* const getUserInfo = async () => {
     let result = await loadDB();
     let db = result.firestore();
 
@@ -260,7 +260,7 @@ const Settings = props => {
       .catch(err => {
         console.log(err);
       });
-  };
+  }; */
 
   const handleInputChanges = ev => {
     setNewDisplay(ev.target.value);
@@ -401,7 +401,7 @@ const Settings = props => {
   }
 
   React.useEffect(() => {
-    getUserInfo();
+    //getUserInfo();
   }, []);
 
   //This might be a popup, otherwise it would be beteer to hide the change button in displayname div.

@@ -170,7 +170,7 @@ const LearningLab = props => {
   const [open, setOpen] = React.useState(false);
 
   //=====END TABS HANDLING STATE=====
-
+console.log("new state from fixing auth", state)
   /* #region udemy-handling */
   const getUdemyByUserId = async () => {
     let arr = [];

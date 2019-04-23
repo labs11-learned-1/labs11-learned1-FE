@@ -5,7 +5,7 @@ import { FontAwesomeIcon } from '@fortawesome/react-fontawesome'
 import { faBars, faSearch, faHome, faBookmark, faStream } from '@fortawesome/free-solid-svg-icons'
 import {LibraryBooks} from '@material-ui/icons';
 
-import { loadDB } from "../../firebaseConfig/firebase";
+import { loadDB, auth } from "../../firebaseConfig/firebase";
 import * as firebase from "firebase";
 
 import { Store } from "../store";
@@ -359,6 +359,12 @@ const GeneralNav = (props) => {
 
     const handleSignOut = async () => {
         let myVal = await loadDB();
+        myVal.auth().signOut().then(() => {
+            dispatch({ 
+                type: 'LOGGED_OUT',
+                user: null })
+        })
+        /* let myVal = await loadDB();
          myVal
            .auth()
            .signOut()
@@ -368,7 +374,7 @@ const GeneralNav = (props) => {
            })
            .catch(e => {
              alert('Error signing out');
-           });
+           }); */
     };
 
     const handleClickOutside = (event) => {

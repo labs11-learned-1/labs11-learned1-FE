@@ -3,7 +3,7 @@ import Link from "next/link";
 import React, {useState} from "react";
 import { Store } from "../store";
 import * as firebase from "firebase";
-import { loadDB } from "../../firebaseConfig/firebase";
+import { loadDB, auth } from "../../firebaseConfig/firebase";
 import BlogCard from './blogcard';
 import { withStyles } from '@material-ui/core/styles';
 import PropTypes from 'prop-types';
@@ -129,7 +129,7 @@ const Home = (props) => {
             //allowing them to reload on click
     }
 
-    const fetchRecommended = async () => {
+    /* const fetchRecommended = async () => {
         // We will have user most recent searches stored in state
         // which was retrieved from user component. using these recent
         // we will randomly select two searched and request from the server
@@ -140,8 +140,7 @@ const Home = (props) => {
             //present user with an error div with a button
             //allowing them to reload on click
         setLoadingCourses(true)
-        let result = await loadDB();
-        let db = result.firestore();
+        
         let docRef = db.collection("user").doc(state.userID)
         docRef.get().then(doc => {
             setUserTags(userTags.slice(0,userTags.length));
@@ -170,7 +169,7 @@ const Home = (props) => {
         .catch(err => {
             console.log("line 56", err)
         })
-    }
+    } */
 
     const fetchSpecifiedCourses = () => {
         
@@ -184,11 +183,24 @@ const Home = (props) => {
         setOpenSnackBar(true)
     }
 
-    React.useEffect(()=>{
-        fetchRecommended()
-    }, [])
+    const authState = async () => {
+        let myVal = await loadDB();
+        myVal.auth().onAuthStateChanged((user) => {
+          if(user) {
+            dispatch({ 
+              type: 'LOGGED_IN',
+              payload: user })
+          }
+        })
+        {console.log('state', state)}
+      }
+      
+      React.useEffect(() => {
+        authState()
+      }, [])
     return (
         <div className={classes.homepageWrapper}>
+            {console.log('state', state)}
             {loadingCourses ? <LinearProgress style={{width:"80%", marginTop:"10px"}}/> : null}
             {/* <div className={classes.popularBlogsWrapper}> */}
                 {/* <h2>Popular Blog Posts</h2> */}

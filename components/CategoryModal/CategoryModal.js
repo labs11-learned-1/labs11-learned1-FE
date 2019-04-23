@@ -13,9 +13,9 @@ import CheckIcon from '@material-ui/icons/Check';
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
-let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
+// let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
 
-let cardSize = width>1700 ?0.5:2;
+// let cardSize = width>1700 ?0.5:2;
 const cardHeight = "500px";
 const cardWidth = "500px";
 const useStyles = makeStyles(theme => ({
@@ -83,9 +83,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 function CategoryModal(props) {
-  
+  const [cardSize, setCardSize] = React.useState(0)
   const classes = useStyles();
   const [r, setR] = React.useState(0);
+
+  const handleCardSize = () => {
+    let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
+    let size = width>1700 ?0.5:2;
+    setCardSize(size)
+  }
   // const cardStyle = {
   //   display: "block",
   //   margin: "0",
@@ -104,7 +110,9 @@ function CategoryModal(props) {
   //   transform: "scale(1.01)",
   //   border: "2px solid #e76d89"
   // };
-
+React.useEffect(()=> {
+  handleCardSize();
+})
   return (
     <div>
       <Dialog
