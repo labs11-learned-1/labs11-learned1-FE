@@ -83,15 +83,15 @@ const useStyles = makeStyles(theme => ({
   }
 }));
 function CategoryModal(props) {
-  const [cardSize, setCardSize] = React.useState(0)
+  const [cardSize, setCardSize] = React.useState(2)
   const classes = useStyles();
   const [r, setR] = React.useState(0);
 
-  const handleCardSize = () => {
-    let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
-    let size = width>1700 ?0.5:2;
-    setCardSize(size)
-  }
+  // const handleCardSize = () => {
+  //   let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
+  //   let size = width>1700 ?0.5:2;
+  //   setCardSize(size)
+  // }
   // const cardStyle = {
   //   display: "block",
   //   margin: "0",
@@ -110,9 +110,9 @@ function CategoryModal(props) {
   //   transform: "scale(1.01)",
   //   border: "2px solid #e76d89"
   // };
-React.useEffect(()=> {
-  handleCardSize();
-})
+// React.useEffect(()=> {
+//   handleCardSize();
+// })
   return (
     <div>
       <Dialog
