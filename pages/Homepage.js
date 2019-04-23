@@ -52,7 +52,7 @@ const Homepage = (props) => {
     }
     else{
       db.collection('user').doc(state.userID).update({
-        tags: firebase.firestore.FieldValue.delete(),
+        tags: [categories[0], categories[1], categories[2]]
       }).then(() => {
         db.collection('user').doc(state.userID).update({
           tags: firebase.firestore.FieldValue.arrayUnion(categories[0], categories[1], categories[2])
@@ -110,7 +110,7 @@ const Homepage = (props) => {
       return (
         <div>
           {state.loggedIn ? <GeneralNav/> : <LandingNav/>}
-          <Home open={open} setOpen={setOpen} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/>
+          <Home open={open} setOpen={setOpen} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories} setOpen={setOpen}/>
           {/* <UdemyCarousel tags={["Music", "marketing", "Music&subcategory=Vocal"]}/> */}
           {state.firstTimeUser ? <CategoryModal open={firstTimeUser} addTagsToUser={addTagsToUser} handleAdd={handleAdd} categories={categories}/> : null}
         </div>

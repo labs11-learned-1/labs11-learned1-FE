@@ -65,9 +65,25 @@ const useStyles = makeStyles(theme => ({
   checkMark:{
     color: "rgba(250,85,250,0.81)", 
     position:"absolute", 
-    zIndex:"999", 
+    zIndex:"100", 
     width:"20%", 
     height:"15%",
+  },
+  exitModal: {
+    position:'absolute',
+    top: '20px',
+    right: '40px',
+    zIndex: '101',
+    padding: '20px 20px',
+    background: theme.mixins.deepBlue,
+    color: 'white',
+    fontWeight: 'bold',
+    textAlign: 'center',
+    border: '5px solid white',
+    fontSize: '1.5rem',
+    '&:hover': {
+      cursor: 'pointer'
+    }
   },
   '@media(max-width: 1700px)':{
     instructions:{
