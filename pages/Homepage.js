@@ -53,9 +53,10 @@ const Homepage = (props) => {
     else{
       db.collection('user').doc(state.userID).update({
         tags: firebase.firestore.FieldValue.delete(),
-        tags: firebase.firestore.FieldValue.arrayUnion(categories[0], categories[1], categories[2])
       }).then(() => {
-        console.log("tags added to db:  ", categories)
+        db.collection('user').doc(state.userID).update({
+          tags: firebase.firestore.FieldValue.arrayUnion(categories[0], categories[1], categories[2])
+        })
         handleClose();
         return dispatch({type:"RETRACT_FIRST_TIME_LOGIN"})
       }).catch(err => {

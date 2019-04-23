@@ -117,18 +117,6 @@ const Home = (props) => {
     const { state, dispatch } = React.useContext(Store);
     const [openSnackBar, setOpenSnackBar]= useState(false);
 
-    const fetchTopBlogs = () => {
-        // We will make a request to our server for the 
-        // top blogs this week or however long(Most likes or something).
-        // Will likely need another call to get a certain amount of sponsored
-        // posts and add them to the topblogs array.
-            //On success:
-            //setTopBlogs(arrayofBlogs)
-            //On failure:
-            //present user with an error div with a button
-            //allowing them to reload on click
-    }
-
     const fetchRecommended = async () => {
         // We will have user most recent searches stored in state
         // which was retrieved from user component. using these recent
