@@ -113,11 +113,24 @@ export default function SearchCourses(props){
         'Lifestyle' ,
         'Marketing' ,
         'Music' ,
-        'Office' ,
-        'Productivity' ,
+        'Office Productivity' ,
         'Personal Development' ,
         'Photography',
         'Teaching & Academics'
+    ];
+    const params = [
+        'Business' ,
+        'Design' ,
+        'Development' ,
+        'Health+%26+Fitness' ,
+        'IT+%26+Software',
+        'Lifestyle' ,
+        'Marketing' ,
+        'Music' ,
+        'Office%20Productivity' ,
+        'Personal%20Development' ,
+        'Photography',
+        'Teaching+%26+Academics'
     ];
     
     const { state, dispatch } = React.useContext(Store);
@@ -137,7 +150,7 @@ export default function SearchCourses(props){
     }
 
     function addCategory(e){
-        console.log("im being called")
+        console.log("im being called CATEGORY", e.target)
         setParameters({...parameters, category : e.target.value})
         console.log(parameters)
     }
@@ -171,8 +184,8 @@ export default function SearchCourses(props){
                     <label className={classes.browseSelectWrapper}>
                         <Select disableUnderline className={classes.browseSelect} input={<Input id="select-multiple" />} value={parameters.category} onChange={addCategory}>
                             <MenuItem value='All'>All</MenuItem>
-                            {cats.map(name => (
-                                <MenuItem key={name} value={name}>
+                            {cats.map((name, index) => (
+                                <MenuItem key={name} value={params[index]}>
                                     {name}
                                 </MenuItem>
                             ))}

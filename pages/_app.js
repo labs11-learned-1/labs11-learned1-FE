@@ -7,6 +7,8 @@ import 'react-toastify/dist/ReactToastify.css';
 import { toast } from 'react-toastify';
 import { createMuiTheme } from '@material-ui/core/styles';
 import { ThemeProvider } from '@material-ui/styles'
+import {LibraryBooks} from '@material-ui/icons';
+// import Document, { Html, Head, Main, NextScript } from 'next/document';
 
 const theme = createMuiTheme({
   mixins: {
@@ -25,9 +27,7 @@ const theme = createMuiTheme({
 class MyApp extends App {
 
   render() {
-  
     const { Component, pageProps } = this.props;
-
     toast.configure()
     return (
       <Container>
