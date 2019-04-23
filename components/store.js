@@ -21,14 +21,17 @@ function reducer(state, action) {
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
         case 'LOGGED_IN':
+            localStorage.setItem('sessionToken', action.payload.id)
             return { ...state, loggedIn: true, userID: action.payload.id, displayName: action.payload.displayName, userImage: action.payload.image, followingCount: action.payload.followingCount, followerCount: action.payload.followerCount, bio: action.payload.bio,  webUrl: action.payload.webUrl}
         case 'LOGGED_OUT':
+        localStorage.removeItem('sessionToken', state.userID)
             return {...state, loggedIn: false, }
         case 'FORM_TOGGLE':
             return {...state, openForm: action.payload}
         case 'SET_POSTS':
             return {...state, newsfeed: action.payload}
         case 'FIRST_TIME_LOGIN':
+        localStorage.setItem('sessionToken', action.payload.id)
             return{
                 ...state, 
                 loggedIn: true, 
@@ -53,6 +56,9 @@ function reducer(state, action) {
 }
 
 export default function StoreProvider(props) {
+
+
+
     const [state, dispatch] = React.useReducer(reducer, initialState);
     const value = { state, dispatch }; //creates an object from above statement that holds both the values
     return <Store.Provider value={value}>{props.children}</Store.Provider>

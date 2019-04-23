@@ -11,7 +11,7 @@ import axios from "axios";
 import CourseCard from './coursecard';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
-import CategoryModal from '../CategoryModal/CategoryModal'
+// import CategoryModal from '../CategoryModal/CategoryModal'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 import LoadingCard from './LoadingCard'
 import SearchCourses from "./SearchCourses";
@@ -19,6 +19,16 @@ import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfiniteScroll from "react-infinite-scroll-component";
+
+
+//window dynamic no ssr handling
+import dynamic from 'next/dynamic'
+const DynamicComponentWithNoSSR = dynamic(
+    () => import('../CategoryModal/CategoryModal'),
+    {
+      ssr: false
+    }
+  )
 
 const styles = {
     recommendedCoursesWrapper:{
@@ -142,7 +152,7 @@ const Home = (props) => {
             {/* </div> */}
             <div className={classes.recommendedCoursesWrapper}>
                 <h2 style={{textAlign:"center"}}>Recommended Courses For You <br /><button onClick={() => props.setOpen(true)}>Change Your Interests</button></h2>
-            {props.open ? <CategoryModal open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories} /> : null }
+            {props.open ? <DynamicComponentWithNoSSR open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories} /> : null }
                 {loadingCourses 
                     ? 
                     <div className={classes.recoCourses}>

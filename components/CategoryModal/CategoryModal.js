@@ -13,9 +13,9 @@ import CheckIcon from '@material-ui/icons/Check';
 function Transition(props) {
   return <Slide direction="up" {...props} />;
 }
-let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
+// let width = window.innerWidth || document.documentElement.clientWidth|| document.body.clientWidth;
 
-let cardSize = width>1700 ?0.5:2;
+let cardSize = 2
 const cardHeight = "500px";
 const cardWidth = "500px";
 const useStyles = makeStyles(theme => ({
