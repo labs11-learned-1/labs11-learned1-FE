@@ -97,6 +97,7 @@ const styles = {
     position: "relative",
     zIndex: "300",
     borderRadius: "10px 10px 0 0",
+    Zindex: "999"
     '@media(max-width: 1040px)': {
       right: "-31%"
   },
