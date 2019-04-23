@@ -1,4 +1,3 @@
-
 import Link from "next/link";
 import React, {useState} from "react";
 import { Store } from "../store";
@@ -20,17 +19,7 @@ import SnackbarContent from '@material-ui/core/SnackbarContent';
 import WarningIcon from '@material-ui/icons/Warning';
 import InfiniteScroll from "react-infinite-scroll-component";
 
-
-//window dynamic no ssr handling
-import dynamic from 'next/dynamic'
-// const DynamicComponentWithNoSSR = dynamic(
-//     () => import('../CategoryModal/CategoryModal'),
-//     {
-//       ssr: false
-//     }
-//   )
-
-const styles = {
+const styles = theme => ({
     recommendedCoursesWrapper:{
         width:"100%",
     },
@@ -115,7 +104,7 @@ const styles = {
             }
         }
     }
-}
+})
 
 //CHECK
 const Home = (props) => {
