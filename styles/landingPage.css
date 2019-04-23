@@ -228,11 +228,15 @@
 }
 
 @media(max-width: 600px) {
+    .keepTrack {
+        padding-top: 40px;
+    }
     .keepTrackContent {
         display: none;
     }
     .Section3Header {
         font-size: 1.9rem;
+        width: 90%;
     }
     .Section4Header {
         font-size: 1.9rem;

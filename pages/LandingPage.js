@@ -47,7 +47,7 @@ function LandingPage(props){
             {/* <SearchCourses /> */}
             <div className="getStartedBtn">Get Started!</div>
 
-            <div style={{display: 'flex', justifyContent: 'center', flexDirection: 'column'}}>
+            <div style={{display: 'flex', alignItems: 'center', flexDirection: 'column'}}>
                 <div className="Section3Header" style={{textAlign:"center", marginTop:"100px"}}>How it works</div>
 
                 <div className="howToCardContainer">
