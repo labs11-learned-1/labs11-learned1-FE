@@ -5,7 +5,7 @@ import { Store } from "../store";
 import PropTypes from "prop-types";
 
 //firebase import
-import { loadDB } from "../../firebaseConfig/firebase.js";
+import { loadDB, auth, provider } from "../../firebaseConfig/firebase.js";
 import * as firebase from "firebase";
 import { useAuthState } from 'react-firebase-hooks/auth';
 
@@ -94,28 +94,19 @@ const Authentication =  props => {
   const { state, dispatch } = React.useContext(Store);
 
   //sign in via google auth.
-  const handleGoogle = async () => {
+  const handleGoogle =  async () => {
     let myVal = await loadDB();
     let db = myVal.firestore();
+  
     let randomInt = await Math.floor(Math.random() * Math.floor(2)); //returns 0 or 1
-   
-    firebase.auth().setPersistence(firebase.auth.Auth.Persistence.SESSION).then(()=> {
-      var provider = new firebase.auth.GoogleAuthProvider();
-      
-    // myVal
-    return firebase.auth()
-    .signInWithPopup(provider)
-    .then(async result => {
-      console.log("result", result)
-      const token = result.credential.accessToken;
-      
-      // console.log("result", result); <--- uncomment to see what else you can grab, such as accessToken
-      // creates a doc with value of userID in user collectionthen puts fields in
+    myVal.auth().signInWithPopup(provider)
+    .then( async (result) => {
       await db
       //user already exists
         .collection("user")
         .doc(result.user.uid)
         .get().then(docSnapshot => {
+          //if user already exists, update user run LOGGED_IN
           if(docSnapshot.data()){
             console.log(docSnapshot.data())
             db.collection("user")
@@ -126,11 +117,15 @@ const Authentication =  props => {
               displayName: docSnapshot.data().displayName,
               randomAccessor: randomInt
             })
-            
+            console.log("RESULT FIRST TIME: ",result)
+            console.log("RESULT.USER FIRST TIME: ", result.user)
+            console.log("docSnapsho.data() in loggedin", docSnapshot.data())
             return dispatch({
               type: "LOGGED_IN",
               payload: docSnapshot.data()
             });
+
+            //else if the y are new user, create new user in db run FIRST_TIME_LOGIN
           }else{
             //create a new user
             db.collection("user")
@@ -149,6 +144,8 @@ const Authentication =  props => {
               randomAccessor: randomInt
             });
             onUserCreated({objectID: result.user.uid, username: result.additionalUserInfo.profile.name})
+            console.log("RESULT FIRST TIME: ",result)
+            console.log("RESULT.USER FIRST TIME: ", result.user)
             return dispatch({
               type: "FIRST_TIME_LOGIN",
               payload: result.user
@@ -159,11 +156,23 @@ const Authentication =  props => {
     .catch(e => {
       console.log("Error logging in", e);
     });
+  }
 
-    }).catch(err => {
-      console.log("auth persistence has experienced an error.", err)
-    })  
-  };
+  const authState = async () => {
+    let myVal = await loadDB();
+    myVal.auth().onAuthStateChanged((user) => {
+      if(user) {
+        dispatch({ 
+          type: 'LOGGED_IN',
+          payload: user })
+      }
+    })
+    {console.log('state', state)}
+  }
+  
+  React.useEffect(() => {
+    authState()
+  }, [])
 
   const { classes } = props;
 

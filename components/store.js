@@ -4,7 +4,6 @@ export const Store = React.createContext(); //creates context object
 
 const initialState = {
     loggedIn: false,
-    userId: "",
     openForm:false,
     userID: "",
     displayName: "",
@@ -13,7 +12,8 @@ const initialState = {
     followingCount: 1,
     followerCount: 1,
     bio: "",
-    webUrl: ""
+    webUrl: "",
+    user: null
 }
 
 function reducer(state, action) {
@@ -21,8 +21,7 @@ function reducer(state, action) {
         case 'CHANGE_MESSAGE':
             return { ...state, message:"CHANGED!!!" }
         case 'LOGGED_IN':
-            localStorage.setItem('sessionToken', action.payload.id)
-            return { ...state, loggedIn: true, userID: action.payload.id, displayName: action.payload.displayName, userImage: action.payload.image, followingCount: action.payload.followingCount, followerCount: action.payload.followerCount, bio: action.payload.bio,  webUrl: action.payload.webUrl}
+            return { ...state, loggedIn: true, user: action.payload.user, userID: action.payload.id, displayName: action.payload.displayName, userImage: action.payload.image, followingCount: action.payload.followingCount, followerCount: action.payload.followerCount, bio: action.payload.bio,  webUrl: action.payload.webUrl}
         case 'LOGGED_OUT':
         localStorage.removeItem('sessionToken', state.userID)
             return {...state, loggedIn: false, }
@@ -35,10 +34,11 @@ function reducer(state, action) {
             return{
                 ...state, 
                 loggedIn: true, 
+                user: action.payload.user,
+                firstTimeUser: true,
                 userID: action.payload.uid, 
                 displayName: action.payload.displayName, 
                 userImage: action.payload.photoURL,
-                firstTimeUser: true,
             }
         case 'RETRACT_FIRST_TIME_LOGIN':
             return {...state, firstTimeUser: false}
