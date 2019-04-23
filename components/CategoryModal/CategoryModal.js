@@ -187,16 +187,16 @@ function CategoryModal(props) {
             <GridListTile
               // cols={cardSize}
               className={
-                props.categories.includes("Health&Fitness")
+                props.categories.includes("Health+%26+Fitness")
                   ? classes.selectedStyle
                   : classes.cardStyle
               }
               onClick={() => {
-                props.handleAdd("Health&Fitness");
+                props.handleAdd("Health+%26+Fitness");
                 setR(r + 1);
               }}
             >
-              <div className={props.categories.includes("Health&Fitness") ? classes.visible : classes.hidden}>
+              <div className={props.categories.includes("Health+%26+Fitness") ? classes.visible : classes.hidden}>
                 <CheckIcon className={classes.checkMark}/>
               </div>
               <img src="https://images.pexels.com/photos/40751/running-runner-long-distance-fitness-40751.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
@@ -206,16 +206,16 @@ function CategoryModal(props) {
             <GridListTile
               // cols={cardSize}
               className={
-                props.categories.includes("IT&Software")
+                props.categories.includes("IT+%26+Software")
                   ? classes.selectedStyle
                   : classes.cardStyle
               }
               onClick={() => {
-                props.handleAdd("IT&Software");
+                props.handleAdd("IT+%26+Software");
                 setR(r + 1);
               }}
             >
-              <div className={props.categories.includes("IT&Software") ? classes.visible : classes.hidden}>
+              <div className={props.categories.includes("IT+%26+Software") ? classes.visible : classes.hidden}>
                 <CheckIcon className={classes.checkMark}/>
               </div>
               <img src="https://images.pexels.com/photos/546819/pexels-photo-546819.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
@@ -276,16 +276,16 @@ function CategoryModal(props) {
             <GridListTile
               // cols={cardSize}
               className={
-                props.categories.includes("PersonalDevelopment")
+                props.categories.includes("Personal%20Development")
                   ? classes.selectedStyle
                   : classes.cardStyle
               }
               onClick={() => {
-                props.handleAdd("PersonalDevelopment");
+                props.handleAdd("Personal%20Development");
                 setR(r + 1);
               }}
             >
-              <div className={props.categories.includes("PersonalDevelopment") ? classes.visible : classes.hidden}>
+              <div className={props.categories.includes("Personal%20Development") ? classes.visible : classes.hidden}>
                 <CheckIcon className={classes.checkMark}/>
               </div>
               <img src="https://images.pexels.com/photos/747964/pexels-photo-747964.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
@@ -314,16 +314,16 @@ function CategoryModal(props) {
             <GridListTile
               // cols={cardSize}
               className={
-                props.categories.includes("Teaching&Academics")
+                props.categories.includes("Teaching+%26+Academics")
                   ? classes.selectedStyle
                   : classes.cardStyle
               }
               onClick={() => {
-                props.handleAdd("Teaching&Academics");
+                props.handleAdd("Teaching+%26+Academics");
                 setR(r + 1);
               }}
             >
-              <div className={props.categories.includes("Teaching&Academics") ? classes.visible : classes.hidden}>
+              <div className={props.categories.includes("Teaching+%26+Academics") ? classes.visible : classes.hidden}>
                 <CheckIcon className={classes.checkMark}/>
               </div>
               <img src="https://images.pexels.com/photos/7075/people-office-group-team.jpg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
