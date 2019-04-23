@@ -23,7 +23,7 @@
      "src": "next.config.js", "use": "@now/next" }
    ],
    "routes":[{
-    "src": "/Homepage", "dest": "/Homepage.js"
+    "src": "/Homepage", "dest": "/_app.js"
    }]
   
 }
