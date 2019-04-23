@@ -97,7 +97,11 @@ const styles = {
     position: "relative",
     zIndex: "300",
     borderRadius: "10px 10px 0 0",
+<<<<<<< HEAD
     Zindex: "999",
+=======
+    zIndex: 1,
+>>>>>>> 988f0496a6097c7aeec80580aa543942995c0250
     '@media(max-width: 1040px)': {
       right: "-31%"
   },
