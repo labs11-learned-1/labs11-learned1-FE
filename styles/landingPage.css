@@ -237,6 +237,7 @@
     .Section4Header {
         font-size: 1.9rem;
         margin-top: 50px;
+        width: 90%;
     }
     .cardHeader {
         font-size: 2.2rem;
@@ -253,13 +254,14 @@
     }
     .howToCardContainer {
         flex-direction: column;
-        justify-content: center;
+        align-items: center;
     }
     .howToCard {
         border-left: none !important;
         border-right: none !important;
-        width: 90%;
         margin-bottom: 100px;
+        width: 90%;
+        padding: 0;
     }
     .howToCardHeader {
         height: auto;

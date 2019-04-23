@@ -166,6 +166,7 @@ const PostInfoPage = props => {
     const [baseReview, setBaseReview] = useState(null);
     const [reviewTitleLength, setReviewTitleLength] = useState(0);
     const [reviewContentLength, setReviewContentLength] = useState(0);
+    const [windowURL, setWindowURL] = useState("");
  
     const notifyHandler = (type, success) => {
         if(type === 'post') {
@@ -322,11 +323,15 @@ const PostInfoPage = props => {
     }
 
     React.useEffect(()=>{
+        
+    }, [])
+
+    React.useEffect(()=>{
         setBaseReview(null);
         setMyReview({title: "", comment: "", rating: 5})
         getPostContent();
         getReviewContent();
-    }, [window.location.search])
+    }, [typeof window !== 'undefined' ? window.location.search : ''])
 
     //Conditional rendering variable initialization for following if statement...
     let myReviewContent;
