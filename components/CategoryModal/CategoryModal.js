@@ -259,18 +259,18 @@ function CategoryModal(props) {
             <GridListTile
               // cols={cardSize}
               className={
-                props.categories.includes("Office") ? classes.selectedStyle : classes.cardStyle
+                props.categories.includes("Office%20Productivity") ? classes.selectedStyle : classes.cardStyle
               }
               onClick={() => {
-                props.handleAdd("Office");
+                props.handleAdd("Office%20Productivity");
                 setR(r + 1);
               }}
             >
-              <div className={props.categories.includes("Office") ? classes.visible : classes.hidden}>
+              <div className={props.categories.includes("Office%20Productivity") ? classes.visible : classes.hidden}>
                 <CheckIcon className={classes.checkMark}/>
               </div>
               <img src="https://images.pexels.com/photos/1432942/pexels-photo-1432942.jpeg?auto=compress&cs=tinysrgb&dpr=2&h=750&w=1260" />
-              <GridListTileBar title="Office" />
+              <GridListTileBar title="Office Productivity" />
             </GridListTile>
 
             <GridListTile

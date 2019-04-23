@@ -160,10 +160,6 @@ const Home = (props) => {
         })
     }
 
-    const fetchSpecifiedCourses = () => {
-        
-    }
-
     const handleSnackBarClose=()=>{
         setOpenSnackBar(false);
     }
@@ -175,6 +171,7 @@ const Home = (props) => {
     React.useEffect(()=>{
         fetchRecommended()
     }, [])
+
     return (
         <div className={classes.homepageWrapper}>
             {loadingCourses ? <LinearProgress style={{width:"80%", marginTop:"10px"}}/> : null}

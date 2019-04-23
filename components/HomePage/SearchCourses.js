@@ -113,8 +113,7 @@ export default function SearchCourses(props){
         'Lifestyle' ,
         'Marketing' ,
         'Music' ,
-        'Office' ,
-        'Productivity' ,
+        'Office Productivity' ,
         'Personal Development' ,
         'Photography',
         'Teaching & Academics'
@@ -128,8 +127,7 @@ export default function SearchCourses(props){
         'Lifestyle' ,
         'Marketing' ,
         'Music' ,
-        'Office' ,
-        'Productivity' ,
+        'Office%20Productivity' ,
         'Personal%20Development' ,
         'Photography',
         'Teaching+%26+Academics'
