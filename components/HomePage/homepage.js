@@ -11,7 +11,7 @@ import axios from "axios";
 import CourseCard from './coursecard';
 import CircularProgress from '@material-ui/core/CircularProgress';
 import LinearProgress from '@material-ui/core/LinearProgress';
-// import CategoryModal from '../CategoryModal/CategoryModal'
+import CategoryModal from '../CategoryModal/CategoryModal'
 //  https://balsamiq.cloud/snv27r3/pqwdr68/r0330
 import LoadingCard from './LoadingCard'
 import SearchCourses from "./SearchCourses";
@@ -23,12 +23,12 @@ import InfiniteScroll from "react-infinite-scroll-component";
 
 //window dynamic no ssr handling
 import dynamic from 'next/dynamic'
-const DynamicComponentWithNoSSR = dynamic(
-    () => import('../CategoryModal/CategoryModal'),
-    {
-      ssr: false
-    }
-  )
+// const DynamicComponentWithNoSSR = dynamic(
+//     () => import('../CategoryModal/CategoryModal'),
+//     {
+//       ssr: false
+//     }
+//   )
 
 const styles = {
     recommendedCoursesWrapper:{
@@ -51,9 +51,68 @@ const styles = {
         flexWrap:"wrap",
         justifyContent:"space-between",
     },
+    changeInterest: {
+        background: theme.mixins.modernPink,
+        borderRadius: '24px',
+        color: 'white',
+        marginLeft: '10px',
+        fontSize: '1.1rem',
+        padding: '10px 15px 10px 15px',
+        margin: 0,
+        border: 'none',
+        '&:hover': {
+            background: theme.mixins.pinkBoot,
+            cursor: 'pointer'
+        }
+    },
+    RecommendHeader: {
+        display: 'flex', 
+        width: '80%',
+        justifyContent: 'space-between',
+        alignItems: 'center',
+        margin: '0 auto',
+        marginTop: '40px',
+        marginBottom: '40px',
+        '& h2': {
+            width: 'auto',
+            margin: '0'
+        }
+    },
+    '@media(max-width: 1050px)': {
+        RecommendHeader: {
+            '& h2': {
+                fontSize: '1.4rem'
+            },
+            '& button': {
+                fontSize: '1rem'
+            }
+        }
+    },
+    '@media(max-width: 800px)': {
+        recoCourses:{
+            width: '95%'
+        },
+        RecommendHeader: {
+            width: '95%',
+            '& h2': {
+                fontSize: '1.2rem'
+            },
+            '& button': {
+                fontSize: '.9rem'
+            }
+        }
+    },
     '@media(max-width: 600px)': {
         recoCourses:{
             width:"100%",
+        },
+        RecommendHeader: {
+            width: '100%',
+            display: 'flex',
+            flexDirection:'column',
+            '& button': {
+                marginTop: '20px'
+            }
         }
     }
 }
@@ -151,8 +210,11 @@ const Home = (props) => {
                 })} */}
             {/* </div> */}
             <div className={classes.recommendedCoursesWrapper}>
-                <h2 style={{textAlign:"center"}}>Recommended Courses For You <br /><button onClick={() => props.setOpen(true)}>Change Your Interests</button></h2>
-            {props.open ? <DynamicComponentWithNoSSR open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories} /> : null }
+                <div className={classes.RecommendHeader}>
+                    <h2>Recommended Courses</h2>
+                    <button className={classes.changeInterest} onClick={() => props.setOpen(true)}>Change Your Interests</button>
+                </div>
+            {props.open ? <CategoryModal open={props.open} addTagsToUser={props.addTagsToUser} handleAdd={props.handleAdd} categories={props.categories} /> : null }
                 {loadingCourses 
                     ? 
                     <div className={classes.recoCourses}>

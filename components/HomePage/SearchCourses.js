@@ -12,11 +12,97 @@ import LinearProgress from '@material-ui/core/LinearProgress';
 import {Store} from '../store';
 import InfiniteScroll from "react-infinite-scroll-component";
 import CircularProgress from '@material-ui/core/CircularProgress';
+import { makeStyles } from "@material-ui/styles";
+import {Search} from '@material-ui/icons';
 
-
+const useStyles = makeStyles(theme => {
+    return {
+    loadingSearch: {
+        borderRadius:"0px 10px 10px 0px",   
+        padding: '10px 15px 10px 10px',
+        backgroundColor: theme.mixins.modernPink,
+        height: '30px',
+    },
+    browseInput: {
+        background: 'white',
+        height: '30px',
+        padding: '10px 15px 10px 10px',
+        width: '60% !important',
+        '& div': {
+            height: '100%',
+            width: '100%',
+        }
+    },
+    browseButton: {
+        background: theme.mixins.modernPink, 
+        borderRadius:"0px 10px 10px 0px",  
+        color:"white", 
+        cursor:"pointer",
+        padding: '10px 15px 10px 10px',
+        height: '30px',
+        '&:hover': {
+            background: theme.mixins.pinkBoot,
+            cursor: 'pointer'
+        }
+    },
+    browserWrapper: {
+        marginBottom: '300px',
+        width: '100%'
+    },
+    browserHeader: {
+        textAlign: 'center',
+        marginTop:  '100px'
+    },
+    browseSelect: {
+        height: '100%',
+        color: 'white',
+        '& svg': {
+            color: 'white',
+        }
+    },
+    browseSelectWrapper: {
+        height: '50px',
+        padding: '0 10px 0px 15px',
+        backgroundColor: theme.mixins.modernPink,
+        borderRadius:"10px 0 0 10px",  
+        '&:hover': {
+            background: theme.mixins.pinkBoot,
+            cursor: 'pointer'
+        }
+    },
+    searchContainer: {
+        borderBottom: `8px solid ${theme.mixins.deepBlue}`,
+        padding: '20px 0 20px 0',
+        display: 'flex', 
+        justifyContent:"space-around", 
+        flexDirection:"row", 
+        width:"100%", 
+        alignItems:"center", 
+        background:"#cfd8dc", 
+        borderRadius:"10px", 
+        margin:"45px 0"
+    },
+    '@media(max-width: 800px)': {
+        browseSelectWrapper: {
+            width: '60px'
+        },
+        browseSelect: {
+            width: '60px'
+        }
+    },
+    '@media(max-width: 400px)': {
+        browseSelectWrapper: {
+            width: '30px',
+        },
+        browseSelect: {
+            width: '30px'
+        },
+    }
+}})
 
 
 export default function SearchCourses(props){
+    const classes = useStyles(props.theme);
     const [courses, setCourses] = React.useState([]);
     const cats = [
         'Business' ,
@@ -33,8 +119,9 @@ export default function SearchCourses(props){
         'Photography',
         'Teaching & Academics'
     ];
+    
     const { state, dispatch } = React.useContext(Store);
-    const [parameters, setParameters] = React.useState({category : "", searchTerm : "", isPaid : ""})
+    const [parameters, setParameters] = React.useState({category : "All", searchTerm : "", isPaid : ""})
     const [Paginated, setPaginated] = React.useState([]);
     const [loadingSpecifiedCourses, setLoadingSpecifiedCourses] = React.useState(false);
     const [loadingNumber, setLoadingNumber] = React.useState(12)
@@ -75,28 +162,33 @@ export default function SearchCourses(props){
     }
 
     return(
-        <div style={{width:"80%"}}>
-            <div style={{display: 'flex', justifyContent:"space-around", flexDirection:"row", width:"100%", alignItems:"center", background:"#cfd8dc", borderRadius:"10px", margin:"45px 0"}}>
-                <div style={{width:"40%", display:"flex", justifyContent:"space-between", alignItems:"flex-end"}}>
-                    <div>
-                        <InputLabel htmlFor="select-multiple">Categories</InputLabel>
-                        <Select input={<Input id="select-multiple" />} value={parameters.category} onChange={addCategory}>
+        <div className={classes.browserWrapper}>
+            <div className={classes.browserHeader}>
+                <h1>Browse Courses</h1>
+            </div>
+            <div  className={classes.searchContainer}>
+                <div style={{width: '94%', display:"flex", justifyContent:"center", alignItems:"flex-end"}}>
+                    <label className={classes.browseSelectWrapper}>
+                        <Select disableUnderline className={classes.browseSelect} input={<Input id="select-multiple" />} value={parameters.category} onChange={addCategory}>
+                            <MenuItem value='All'>All</MenuItem>
                             {cats.map(name => (
                                 <MenuItem key={name} value={name}>
-                                {name}
+                                    {name}
                                 </MenuItem>
                             ))}
                         </Select>
-                    </div>
+                    </label>
 
                     <TextField
                         onChange={handleChange}
                         id="standard-search"
-                        label="Search Term"
+                        placeholder="Search"
                         type="search"
                         margin="none"
+                        InputProps={{disableUnderline: true}}
+                        className={classes.browseInput}
                     />
-                    {loadingSpecifiedCourses ? <CircularProgress/> : <button style={{border:"1px solid black", background:"#534bae", borderRadius:"5px", height:"30px", color:"white", cursor:"pointer"}} onClick={getCourses}>Search for Courses</button>}
+                    {loadingSpecifiedCourses ? <div className={classes.loadingSearch}><CircularProgress /></div> : <Search className={classes.browseButton} onClick={getCourses}/>}
                 </div>
             </div>
             {loadingSpecifiedCourses ? <LinearProgress style={{width:"100%", marginTop:"10px"}}/> : <></>}
