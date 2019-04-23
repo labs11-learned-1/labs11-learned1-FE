@@ -1,0 +1,107 @@
+.nav {
+    width: 100%;
+    border-bottom: 1px solid rgba(0,0,0,.1);
+    box-shadow: 0 5px 6px -6px black;
+    background: ghostwhite;
+}
+
+.toolbar {
+    padding: 0;
+    width: 60%;
+    margin: 0 auto;
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+}
+
+
+.signUpButton {
+    background: #e76d89;
+    border-radius: 24px;
+    color: white;
+    margin-left: 10px;
+    font-size: 1.1rem;
+    padding: 11px 25px 11px 25px;
+    border: none;
+}
+
+.loginButton {
+    background: transparent;
+    border: none;
+    font-size: 1rem;
+    outline: none;
+    padding: 8px 14px;
+    border-radius: 4px;
+    color: #191970;
+}
+
+.loginButton:hover {
+    cursor: pointer;
+    background: lightgray;
+}
+
+.signUpButton:hover {
+    cursor: pointer;
+    background: #f2a1a1;
+}
+
+.landingButtons {
+    display: flex;
+    height: 45px;
+    align-items: center; 
+}
+
+.landingButtons p {
+    margin: 0 8px 0 10px;
+}
+
+.logo {
+    height: 100px;
+    width: 200px;
+    background-image: url('https://i.ibb.co/jMv4F19/medium-res.png');
+    background-size: cover;
+    background-position: center;
+}
+
+.logo:hover {
+    cursor: pointer;
+}
+
+.mobileAuthButton {
+    display: none;
+    background: #e76d89;
+    border-radius: 24px;
+    color: white;
+    font-size: .9rem;
+    border: none;
+    padding: 10px 16px;
+}
+
+.mobileAuthButton:hover {
+    cursor: pointer;
+    background: #f2a1a1;
+}
+
+@media(max-width: 1150px) {
+    .toolbar {
+        margin: 0 6% 0 6%;
+        width: 88%;
+    }
+    
+}
+
+@media(max-width: 500px) {
+    .toolbar {
+        width: 94%;
+        margin: 0 3% 0 3%;
+    }
+    .landingButtons {
+        display: none;
+    }
+    .mobileAuthButton {
+        display: block;
+    }
+    .logo {
+        width: 150px;
+    }
+}

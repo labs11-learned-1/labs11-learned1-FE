@@ -86,7 +86,7 @@ const styles = theme => ({
   },
   otherSidebar: {
     width: "200px",
-    height: "460px",
+    height: "320px",
     display: "flex",
     position: "relative",
     background: "white",
@@ -125,7 +125,7 @@ const styles = theme => ({
   },
   userInfo: {
     width: "200px",
-    height: "460px",
+    height: "380px",
     display: "flex",
     position: "relative",
     background: "#534bae",
