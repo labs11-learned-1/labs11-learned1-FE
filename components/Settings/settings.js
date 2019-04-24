@@ -33,6 +33,17 @@ const styles = theme => ({
     cursor: "pointer",
     
   },
+  chooseFileButton: {
+    fontSize: '.9rem',
+    padding: '5px 10px',
+    color: 'white',
+    borderRadius: '24px',
+    backgroundColor: theme.mixins.modernPink,
+    '&:hover': {
+      cursor: 'pointer',
+      backgroundColor: theme.mixins.pinkBoot,
+    }
+  },
   connections:{
     boxSizing: "border-box",
     width: "100%",
@@ -45,7 +56,7 @@ const styles = theme => ({
     display: "flex",
     justifyContent: "center",
     margin: "0 auto",
-    width: "60%",
+    width: "70%",
     height: "624px",
     marginTop: "80px",
     border: ` 1.5px solid ${theme.mixins.deepBlue}`,
@@ -64,27 +75,39 @@ const styles = theme => ({
   },
   profilePic: {
     borderRadius: "50%",
+    marginBottom: '20px'
   },
   row1: {
     borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
     paddingBottom: '45px',
     display: 'flex',
-    marginLeft: '4%'
+    marginLeft: '20px',
+    marginRight: '20px'
   },
   row2: {
     borderBottom: `1.2px solid ${theme.mixins.trapperGreen}`,
     paddingBottom: '45px',
     display: 'flex',
-    margin: '20px 0 0 4%'
+    margin: '20px 20px 0 20px',
+    flexDirection: 'column',
+    '& div': {
+      marginLeft: '0'
+    },
+    '& button': {
+      marginLeft: '0',
+      width: '150px',
+      
+    }
   },
   name: {
     display: 'flex',
-    flexDirection: 'column'
+    flexDirection: 'column',
+    width: '250px'
   },
   bio: {
     display: 'flex',
     flexDirection: 'column',
-    marginLeft: '5%'
+    maxWidth: '350px'
   },
   connectUdemy: {
     marginLeft: '5%'
@@ -111,7 +134,8 @@ const styles = theme => ({
     width: 200
   },
   button: {
-    margin: theme.spacing.unit
+    margin: theme.spacing.unit,
+    
   },
   input: {
     display: "none"
@@ -120,15 +144,14 @@ const styles = theme => ({
     display: "flex",
     flexDirection: "column",
     alignItems: "center",
-    width: "265px",
-    backgroundColor: `${theme.mixins.deepBlue}`,
+    width: "25%",
+    backgroundColor: theme.mixins.deepBlue,
     boxSizing: "border-box",
     position: "relative"
     
   },
   content: {
-    width: "100%",
-    maxWidth: "760px",
+    width: "75%",
     backgroundColor: "ghostwhite",
   },
   signOutButton: {
@@ -139,8 +162,10 @@ const styles = theme => ({
     color:'white',
     position: "absolute",
     borderRadius: '24px',
-    bottom: "10px"
-
+    bottom: "10px",
+    '&:hover': {
+      background: theme.mixins.pinkBoot
+    }
   },
   button: {
     margin: "0",
@@ -152,17 +177,23 @@ const styles = theme => ({
     marginTop: '8px',
     color: "white",
     fontWeight: "bold",
+    '&:hover': {
+      backgroundColor: theme.mixins.pinkBoot
+    },
   },
   chooseFile: {
-    marginTop: '20px'
+    display: 'none',
+
   },
   saveChanges: {
     backgroundColor: `#E76D89`,
     color: "white",
     margin: '60px 0 0 5%',
-    height: '32px',
     fontSize: '0.875rem',
-    borderRadius: '24px'
+    borderRadius: '24px',
+    '&:hover': {
+      background: theme.mixins.pinkBoot
+    }
   },
   button: {
     margin: "0 10px 0 10px"
@@ -172,6 +203,16 @@ const styles = theme => ({
   },
   udemyInput: {
     width: "50%"
+  },
+  "@media(max-width: 1000px)": {
+    settingsWrapper: {
+      width: '80%',
+    }
+  },
+  "@media(max-width: 800px)": {
+    settingsWrapper: {
+      width: '90%',
+    }
   },
   "@media(max-width: 600px)": {
     sidebar: {
@@ -184,22 +225,28 @@ const styles = theme => ({
       padding: "0 10px 0 10px",
       display: "flex",
       flexDirection: "column",
-      paddingBottom: "20px"
+      paddingBottom: "20px",
+      width: '100%'
     },
     row2: {
       display: 'flex',
-      flexDirection: 'column'
+      flexDirection: 'column',
+      borderBottom:'none'
     },
     bio: {
       marginLeft: '0'
     },
     connectionsTab: {
-      paddingTop: "20px",
+      paddingTop: "30px",
+      paddingBottom: '50px',
       display: "block !important"
     },
     accountTab: {
       borderBottom: "40px solid rgba(0,0,0,.1)",
       display: "block !important"
+    },
+    connectUdemy: {
+      marginLeft: '20px'
     },
   } //end media query
 
@@ -209,7 +256,6 @@ const styles = theme => ({
 const Settings = props => {
   const { state, dispatch } = React.useContext(Store);
 
-  const [imagePopup, setImagePopup] = useState(false);
   const [editDisplay, setEditDisplay] = useState(false);
   const [bioDisplay, setBioDisplay] = useState(false);
   const [activeTab, setActiveTab] = useState("account");
@@ -383,7 +429,6 @@ const Settings = props => {
       .catch(err => alert("Error updating display name"));
   }
 
-  let selectImage;
   let imageStyle = {
     backgroundImage:
       state.userImage != null
@@ -393,12 +438,6 @@ const Settings = props => {
     height: "60px",
     width: "60px"
   };
-
-  if (imagePopup) {
-    selectImage = <div>HELLO</div>;
-  } else {
-    selectImage = null;
-  }
 
   React.useEffect(() => {
     getUserInfo();
@@ -436,10 +475,12 @@ const Settings = props => {
             <div className={classes.row1}>
               <div>
                 <h4 className={classes.profilePicTitle}>Profile Picture</h4>
-                <div className={classes.profilePic} style={imageStyle} onClick={() => setImagePopup(true)} />
+                <div className={classes.profilePic} style={imageStyle}/>
                 {" "}
-                <input className={classes.chooseFile } type="file" accept=".jpg, .jpeg, .png" onChange={HandleProfileImgChange}/>
-                {selectImage}
+                <label for="file-upload" className={classes.chooseFileButton}>
+                    Choose File
+                </label>
+                <input id="file-upload" className={classes.chooseFile} type="file" accept=".jpg, .jpeg, .png" onChange={HandleProfileImgChange}/>
               </div>
             </div>
             
@@ -475,11 +516,12 @@ const Settings = props => {
                     maxLength: 144
                   }}
                 />
-              </div>
               <Button className={classes.saveChanges} onClick={() => handleSaveChanges()} >
                 Save Changes
               </Button>
+              </div>
             </div>
+            
           </div>
 
           <div
