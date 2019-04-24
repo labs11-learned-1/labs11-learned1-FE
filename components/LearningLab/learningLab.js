@@ -124,7 +124,7 @@ const styles = {
   menu: {
     borderRadius: "50%",
     fontWeight: "bold",
-    fontSize: "20px"
+    fontSize: "1.25rem"
   },
   myList: {
     display: "flex",

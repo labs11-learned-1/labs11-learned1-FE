@@ -34,7 +34,7 @@ const styles = {
     display: "flex",
     alignSelf: "center",
     justifyContent: "center",
-    fontSize: "15px",
+    fontSize: "	0.9375rem",
     border: "1px solid #d0d0d0",
     width: "100%",
 

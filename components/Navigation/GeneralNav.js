@@ -70,7 +70,7 @@ const styles = theme => ({
         marginRight: theme.spacing.unit * 2,
     },
     Button: {
-        fontSize: '11px'
+        fontSize: '0.6875rem'
     },
     menuList: {
         display: 'none'
@@ -314,7 +314,6 @@ const styles = theme => ({
 });
 
 const GeneralNav = (props) => {
-    console.log(props)
     const [accountOpen, setAccountOpen] = useState(false);
     const [burgerOpen, setBurgerOpen] = useState(false);
     const {state, dispatch} = useContext(Store);
@@ -504,16 +503,13 @@ const GeneralNav = (props) => {
                                     aria-haspopup="true"
                                     onClick={() => { 
                                         if(!clickAwayDropdownActive) {
-                                            console.log("SET CLICK AWAY TRUE")
                                             setClickAwayDropdownActive(true);   
-                                        } else {
-                                            console.log("DO NOTHING BUTTON")
                                         }
                                         setAccountOpen(!accountOpen);
                                     }}
                                     className={classes.Account}
                                 >
-                                    <Avatar src={state.userImage}/>
+                                    <Avatar src={state.userImage} className="avatar"/>
                                 </Button>
                                
                                     <Popper open={accountOpen} anchorEl={Popper.anchorEl} className={classes.accountPopper} transition disablePortal>
@@ -524,15 +520,10 @@ const GeneralNav = (props) => {
                                             style={{ transformOrigin: placement === 'bottom' ? 'center top' : 'bottom end' }}
                                         >
                                          <ClickAwayListener onClickAway={(ev) => { 
-                                            if(clickAwayDropdownActive && !ev.target.classList.contains('MuiAvatar-img-1g7it8w')) {
-                                                console.log(ev.target.classList)
-                                                console.log("SET CLICKAWAY FALSE")
+                                            if(clickAwayDropdownActive && ev.target.parentNode && !ev.target.parentNode.classList.contains('avatar')) {
                                                 setAccountOpen(false); 
                                                 setClickAwayDropdownActive(false);
-                                            } else {
-                                                console.log("DO NOTHING CLICKAWAY")
-                                            }
-                                            
+                                            }                                           
                                         }}>
                                             <Paper className={classes.accountDropdown}>                                    
                                                 <MenuList>

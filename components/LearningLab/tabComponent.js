@@ -49,7 +49,7 @@ const useStyles = makeStyles(theme => ({
   menu: {
     borderRadius: "50%",
     fontWeight: "bold",
-    fontSize: "20px"
+    fontSize: "1.25rem"
   },
   homepageWrapper: {
     width: "80%",

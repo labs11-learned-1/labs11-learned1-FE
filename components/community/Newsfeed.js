@@ -78,7 +78,7 @@ const styles = {
     }
   },
   newsFeedTitle: {
-    fontSize: "28px",
+    fontSize: "1.75rem",
     fontWeight: "600",
     marginBottom: "5px",
     padding: "15px 0 6px 0",

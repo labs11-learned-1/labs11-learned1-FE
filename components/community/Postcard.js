@@ -27,7 +27,7 @@ const styles = theme => ({
     justifyContent: "space-between"
   },
   display: {
-    fontSize: "15px",
+    fontSize: "0.9375rem",
     display: "flex",
     fontWeight: 700
   },
@@ -39,7 +39,7 @@ const styles = theme => ({
     margin: "15px 15px 0 0"
   },
   postContent: {
-    fontSize: "14px",
+    fontSize: "0.875rem",
     wordBreak: "break-word"
   },
   anchor: {
@@ -77,10 +77,10 @@ const styles = theme => ({
     width: "50%"
   },
   articleTitle: {
-    fontSize: "14px"
+    fontSize: "	0.875rem"
   },
   articleDescription: {
-    fontSize: "12px",
+    fontSize: "0.75rem",
     margin: "0 0 8px 0"
   },
   articleContent: {
