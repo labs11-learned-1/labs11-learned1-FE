@@ -21,24 +21,16 @@ import { onPostsCreated, onPostsDeleted } from "../Algolia/algoliaHandler";
 
 //MATERIAL UI
 import { makeStyles } from "@material-ui/styles";
-import FormControlLabel from "@material-ui/core/FormControlLabel";
-import List from "@material-ui/core/List";
-import ListItem from "@material-ui/core/ListItem";
-import ListItemText from "@material-ui/core/ListItemText";
-import ListItemAvatar from "@material-ui/core/ListItemAvatar";
 import Dialog from "@material-ui/core/Dialog";
 import DialogActions from "@material-ui/core/DialogActions";
 import DialogContent from "@material-ui/core/DialogContent";
 import DialogTitle from "@material-ui/core/DialogTitle";
 import TextField from "@material-ui/core/TextField";
-import Checkbox from "@material-ui/core/Checkbox";
 import Button from "@material-ui/core/Button";
-import Avatar from "@material-ui/core/Avatar";
-import Typography from "@material-ui/core/Typography";
 import Fab from "@material-ui/core/Fab";
-import AddIcon from "@material-ui/icons/Add";
 import Snackbar from '@material-ui/core/Snackbar';
 import SnackbarContent from '@material-ui/core/SnackbarContent';
+import CircularProgress from '@material-ui/core/CircularProgress';
 
 
 const useStyles = makeStyles(theme => ({
@@ -138,6 +130,7 @@ const UserList = props => {
   const [visible, setVisible] = React.useState(false);
   const { state, dispatch } = React.useContext(Store);
   const [openSnackBar, setOpenSnackBar]= React.useState(false);
+  const [B_addingLink, setAddingLink] = React.useState(false);
   console.log(state);
   console.log("props1:", props);
 
@@ -443,6 +436,7 @@ const UserList = props => {
 
   const handleSubmit = async() => {
     // sending link to web scraping backend that returns meta tags
+    setAddingLink(true);
     await axios
       .post("https://getmetatag.herokuapp.com/get-meta", { url: link })
       .then(res => {
@@ -459,6 +453,7 @@ const UserList = props => {
       .catch(err => {
         alert("ERROR");
       });
+    setAddingLink(false);
     setOpen(false);
     
   };
@@ -536,7 +531,7 @@ const UserList = props => {
               onClick={() => handleSubmit(props.state.userID, link)}
               className={classes.saveButton}
             >
-              Save
+              {B_addingLink ? <CircularProgress /> : "Save"}
             </Fab>
           ) : null}{" "}
           <Dialog
@@ -716,7 +711,7 @@ const UserList = props => {
                 message="Success Adding Post"
                 style={{backgroundColor:"green"}}
             />
-            </Snackbar>
+      </Snackbar>
     </div>
   );
 }; //end UserList
