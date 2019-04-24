@@ -161,7 +161,7 @@ const styles = theme => ({
     color: "white",
     margin: '60px 0 0 5%',
     height: '32px',
-    fontSize: '14px',
+    fontSize: '0.875rem',
     borderRadius: '24px'
   },
   button: {

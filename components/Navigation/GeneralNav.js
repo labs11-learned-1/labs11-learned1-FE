@@ -70,7 +70,7 @@ const styles = theme => ({
         marginRight: theme.spacing.unit * 2,
     },
     Button: {
-        fontSize: '11px'
+        fontSize: '0.6875rem'
     },
     menuList: {
         display: 'none'

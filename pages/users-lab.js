@@ -23,7 +23,7 @@ const styles = theme => ({
   menu: {
     borderRadius: "50%",
     fontWeight: "bold",
-    fontSize: "20px"
+    fontSize: "1.25rem"
   },
   followBtn: {
     position: "absolute",
@@ -32,7 +32,7 @@ const styles = theme => ({
     color: 'white',
     height: '20px',
     border: 'none',
-    fontSize: '12px',
+    fontSize: '0.75rem',
     background: '#e76d89',
     borderRadius: '5px'
   },
