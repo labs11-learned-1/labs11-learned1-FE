@@ -431,7 +431,7 @@ const GeneralNav = (props) => {
             </Head>
 
             <Toolbar variant="regular" className={classes.toolbar}>
-                <Link href="/learning-lab">
+                <Link href="/Home">
                     <div className={classes.logo}/>
                 </Link>
                 <div className={classes.iconWrapper}>
@@ -459,7 +459,7 @@ const GeneralNav = (props) => {
                         </div>
                         <div className={classes.largeIcons}>
                             <div className={classes.mainIcons}>
-                                <Link href="/learning-lab">
+                                <Link href="/Home">
                                     <div className={classes.iconContent}>
                                         <div className={classes.extraDivIcon}>
                                             <Tooltip title="Home" placement="bottom" className={classes.tooltip}>
@@ -469,7 +469,7 @@ const GeneralNav = (props) => {
                                         </div>
                                     </div>
                                 </Link>
-                                <Link href="/Homepage" >
+                                <Link href="/Browse" >
                                     <div className={classes.iconContent}>
                                         <div className={classes.extraDivIcon}>
                                             <Tooltip title='Browse' placement="bottom" className={classes.tooltip}>        
@@ -479,7 +479,7 @@ const GeneralNav = (props) => {
                                         </div>
                                     </div>
                                 </Link>
-                                <Link href="/community" >
+                                <Link href="/NewsFeed" >
                                     <div className={classes.iconContent}>
                                         <div className={classes.extraDivIcon}>
                                             <Tooltip title="News Feed" placement="bottom" className={classes.tooltip}>
@@ -530,8 +530,7 @@ const GeneralNav = (props) => {
                                                     <Link href='/settings'>
                                                         <MenuItem>Settings</MenuItem>
                                                     </Link>
-                                                    <MenuItem>Change Interests</MenuItem>
-                                                    <Link href='/Homepage'>
+                                                    <Link href='/Browse'>
                                                         <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
                                                     </Link>
                                                 
@@ -563,19 +562,19 @@ const GeneralNav = (props) => {
                     >
                         <Paper >
                             <MenuList >
-                                <Link href="/Homepage">
+                                <Link href="/Home">
                                     <MenuItem>Home</MenuItem>
                                 </Link>
-                                <Link href="/learning-lab">
-                                    <MenuItem className={classes.menuItem}>My List</MenuItem>
+                                <Link href="/Browse">
+                                    <MenuItem className={classes.menuItem}>Browse</MenuItem>
                                 </Link>
-                                <Link href="/community">
+                                <Link href="/NewsFeed">
                                     <MenuItem>News Feed</MenuItem>
                                 </Link>
                                 <Link href='/settings'>
                                     <MenuItem>Settings</MenuItem>
                                 </Link>
-                                <Link href='/Homepage'>
+                                <Link href='/Browse'>
                                     <MenuItem onClick={handleSignOut}>Sign Out</MenuItem>
                                 </Link>
                             </MenuList>

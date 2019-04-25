@@ -13,6 +13,11 @@ import DialogTitle from "@material-ui/core/DialogTitle";
 import LinearProgress from "@material-ui/core/LinearProgress";
 import Input from "@material-ui/core/Input";
 import HowToLink from "./HowToLink";
+
+//Toastify
+import { toast } from 'react-toastify';
+import 'react-toastify/dist/ReactToastify.css';
+
 //firebase import
 import * as firebase from "firebase";
 import { loadDB } from "../../firebaseConfig/firebase";
@@ -102,7 +107,11 @@ const styles = theme => ({
   name: {
     display: 'flex',
     flexDirection: 'column',
-    width: '250px'
+    width: '250px',
+    '& p': {
+      fontSize: '.7rem',
+      color: 'red'
+    }
   },
   bio: {
     display: 'flex',
@@ -266,15 +275,48 @@ const Settings = props => {
   const [loadingMessage, setLoadingMessage] = useState(
     "This could take up to 15 seconds"
   );
+  const [displayNameWarning, setDisplayNameWarning] = useState(false);
   const [displayName, setDisplayName] = useState("");
   const [bio, setBio] = useState("");
   const [userInfo, setUserInfo] = useState({});
 
   const { classes } = props;
+
+  const notifyHandler = (type, success) => {
+    if(type === 'update') {
+        if (success) {
+            toast.success("Successfuly updated!", {
+                position: toast.POSITION.BOTTOM_RIGHT
+              });
+        } else {
+            toast.error("Error updating...", {
+                position: toast.POSITION.BOTTOM_RIGHT
+            });
+        }
+    } else {
+      if (success) {
+        toast.success("Successfuly linked account!", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        });
+      } else {
+        toast.error("Unable to link account...", {
+          position: toast.POSITION.BOTTOM_RIGHT
+        });
+      }
+    }
+    
+}
+
   //FOR NOW HAS VERY UGLY LOOKING SETUP IN ORDER TO PRESENT THE IDEA OF FUNCTIONALITY
   const handleSaveChanges = async () => {
-    await handleBioUpdate();
-    await updateDisplayName();
+    let bio = await handleBioUpdate();
+    let name = await updateDisplayName();
+    if(bio === undefined && name === undefined) {
+      notifyHandler('update', true);
+    } else {
+      notifyHandler('update', false);
+    }
+    
   };
   const handleSignOut = async () => {
     let myVal = await loadDB();
@@ -313,22 +355,25 @@ const Settings = props => {
   };
 
   const updateDisplayName = async () => {
-    console.log(state.displayName);
     let result = await loadDB();
     let db = result.firestore();
-
-    db.collection("user")
-      .doc(state.userID)
-      .update({
-        displayName: displayName
-      })
-      .then(() => {
-        return dispatch({
-          type: "UPDATE_DISPLAY_NAME",
-          payload: displayName
-        });
-      })
-      .catch(err => alert("Error updating display name"));
+    if(displayName.length > 0) {
+      setDisplayNameWarning(false);
+      return db.collection("user")
+        .doc(state.userID)
+        .update({
+          displayName: displayName
+        })
+        .then(() => {
+          return dispatch({
+            type: "UPDATE_DISPLAY_NAME",
+            payload: displayName
+          });
+        })
+        .catch(err => {return false});
+    } else {
+      setDisplayNameWarning(true);
+    }
   };
 
   const handleBioUpdate = async () => {
@@ -336,7 +381,7 @@ const Settings = props => {
     let result = await loadDB();
     let db = result.firestore();
 
-    db.collection("user")
+    return db.collection("user")
       .doc(state.userID)
       .update({
         bio: bio
@@ -347,25 +392,20 @@ const Settings = props => {
           payload: bio
         });
       })
-      .catch(err => alert("Error updating bio"));
+      .catch(err => {return false});
   };
 
   const handleUpdateDisplayName = e => {
-    console.log(e.target.value);
-
-    setDisplayName(e.target.value);
+      setDisplayName(e.target.value); 
   };
 
   const handleUpdateBio = e => {
-    console.log(e.target.value);
-
     setBio(e.target.value);
   };
 
   const handleLinkSumbit = e => {
     setLoadingStatus(true);
-    console.log("clicked", udemyLink, state.userID);
-    axios
+    return axios
       .post("https://metadatatesting.herokuapp.com/user-udemy", {
         url: udemyLink,
         userId: state.userID
@@ -376,11 +416,12 @@ const Settings = props => {
           setLoadingStatus(false);
           setUdemyModal(false);
         }, 1000);
+        return true;
       })
       .catch(err => {
         console.log("Error adding users udemy stuffage", err);
         setUdemyModal(false);
-        alert("error linking account");
+        return false;
       });
   };
 
@@ -499,6 +540,7 @@ const Settings = props => {
                     maxLength: 20
                   }}
                 />
+                <p style={{display: displayNameWarning ? 'block' : 'none'}}>Please enter your desired name.</p>
               </div>
 
               <div className={classes.bio}>
@@ -579,7 +621,10 @@ const Settings = props => {
                       Cancel
                     </Button>
                     {/* Change this to handle submit */}
-                    <Button color="primary" onClick={() => handleLinkSumbit()}>
+                    <Button color="primary" onClick={async() => {
+                      let link = await handleLinkSumbit()
+                      notifyHandler('link', link);
+                     }}>
                       Link
                     </Button>
                   </DialogActions>

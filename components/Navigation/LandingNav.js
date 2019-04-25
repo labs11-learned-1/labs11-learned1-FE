@@ -13,15 +13,15 @@ const LandingNav = (props) => {
             <div variant="regular" className="toolbar">
                 <div className="logo"/>
                 <div className="landingButtons">
-                    <Link href="/Homepage">
+                    <Link href="/Browse">
                         <button className="loginButton">Login</button>
                     </Link>
                     <p>or</p>
-                    <Link href="/Homepage">
+                    <Link href="/Browse">
                         <button className="signUpButton">Sign Up</button>
                     </Link>   
                 </div>
-                <Link href="/Homepage">
+                <Link href="/Browse">
                         <button className="mobileAuthButton">Login / Signup</button>
                 </Link>
             </div>
