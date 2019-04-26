@@ -1,6 +1,7 @@
 import React from 'react';
 import Header from '../components/LandingPage/Header';
 import LandingNav from '../components/Navigation/LandingNav';
+import Footer from '../components/Footer/Footer';
 import { Store } from "../components/store";
 import '../styles/landingPage.css';
 
@@ -76,7 +77,9 @@ function LandingPage(props){
                 Sign Up Today At Zero Cost!
             </div>
             <div className="getStartedBtn">Sign Up!</div>
+            <Footer/>
         </div>
+
     );
 }
 

@@ -20,7 +20,8 @@ const styles = {
     flexFlow: "column"
   },
   pTag: {
-    textAlign: 'center'
+    textAlign: 'start',
+    paddingLeft: '20px'
   }
 };
 

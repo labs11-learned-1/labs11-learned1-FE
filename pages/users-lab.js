@@ -18,6 +18,7 @@ import UserListCard from "../components/userLabCard";
 import TabComponent from "../components/LearningLab/tabComponent";
 import UserProfileInfo from "../components/LearningLab/userProfileInfo";
 import RandomUsers from "../components/LearningLab/randomUsers";
+import Footer from '../components/Footer/Footer'
 
 const styles = theme => ({
   menu: {
