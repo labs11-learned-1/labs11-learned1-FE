@@ -51,10 +51,13 @@ const useStyles = makeStyles(theme => ({
   saveButton: {
     float: "right",
     position: "relative",
-    top: "-55px",
+    top: "-58px",
     borderRadius: "12px",
     width: "100px",
-    backgroundColor: "#96c1d1"
+    backgroundColor: theme.mixins.modernPink,
+    '&:hover': {
+      backgroundColor: theme.mixins.pinkBoot,
+    }
   },
 
   inline: {
@@ -103,6 +106,12 @@ const useStyles = makeStyles(theme => ({
     },
     "& button": {
       marginLeft: "20px"
+    },
+    '& label': {
+      paddingLeft: '10px'
+    },
+    '& textarea': {
+      paddingLeft: '10px'
     }
   },
   reviewListTitle:{
@@ -499,7 +508,7 @@ const UserList = props => {
                 ? {
                     width: "80%",
                     background: "white",
-                    borderRadius: "10px",
+                    borderRadius: "2px",
                     display: "flex",
                     justifyContent: "center",
                     
@@ -507,9 +516,10 @@ const UserList = props => {
                 : {
                     width: "100%",
                     background: "white",
-                    borderRadius: "10px",
+                    borderRadius: "2px",
                     display: "flex",
                     justifyContent: "center",
+                    
                     
                   }
             }

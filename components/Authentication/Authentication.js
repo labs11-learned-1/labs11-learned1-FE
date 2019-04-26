@@ -70,10 +70,9 @@ const styles = {
     top: "50%",
     left: "50%",
     transform: "translate(-50%, -50%)",
-    maxWidth: "512px",
     margin: "0px auto 28px auto",
-    padding: "62px 99px 48px",
-    width: "314px",
+    padding: "62px 50px 48px",
+    width: "320px",
     boxShadow: "0px 4px 24px rgba(0, 0, 0, 0.1)",
     borderRadius: "2px",
     background: "ghostwhite"
@@ -87,8 +86,22 @@ const styles = {
     width: "100%",
   },
   logo: {
-    display: "flex"
-  }
+    display: "flex",
+    height: '100px',
+    width: '100px',
+  },
+  appName: {
+    fontSize: '2.5rem'
+  },
+  "@media(max-width: 450px)": {
+      verifyPage: {
+        paddingLeft: '0',
+        paddingRight: '0'
+      },
+      googleButton: {
+        width: '250px'
+      }
+  },
 };
 const Authentication =  props => {
   const { state, dispatch } = React.useContext(Store);
@@ -171,9 +184,9 @@ const Authentication =  props => {
     <div className={classes.verifyPage}>
       <div className={classes.contentWrap}>
         <div className={classes.brandingSection}>
-          <div className={classes.logo} />
+          <img className={classes.logo} src='https://i.ibb.co/djvpFmv/mediumsmall-res.png'/>
           <h2 className={classes.appName}>Erudition</h2>
-          <p className={classes.motto}>Remember everything important.</p>
+          <p className={classes.motto}>Make learning social.</p>
         </div>
         <IconButton className={classes.googleButton} onClick={handleGoogle}>
           <SvgIcon

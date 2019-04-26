@@ -323,10 +323,6 @@ const PostInfoPage = props => {
     }
 
     React.useEffect(()=>{
-        
-    }, [])
-
-    React.useEffect(()=>{
         setBaseReview(null);
         setMyReview({title: "", comment: "", rating: 5})
         getPostContent();

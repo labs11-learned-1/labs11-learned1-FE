@@ -26,7 +26,8 @@ reviewContainer:{
   width: "100%"
 },
 pTag: {
-  textAlign: 'center'
+  textAlign: 'start',
+  paddingLeft: '20px'
 }
 })); //end styles
 

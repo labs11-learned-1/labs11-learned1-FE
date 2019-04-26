@@ -91,7 +91,9 @@ const styles = {
   },
   cards: {
     width: "100%",
-  
+    '& h3': {
+      paddingLeft: '30px'
+    }
   },
   addPostContainer: {
     display: "flex",
